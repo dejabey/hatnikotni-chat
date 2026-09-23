@@ -44,8 +44,11 @@ final class HKC_WhatsApp {
 			exit;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
 		$page_id   = isset( $_GET['hkc_page_id'] ) ? absint( $_GET['hkc_page_id'] ) : 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
 		$page_type = isset( $_GET['hkc_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hkc_page_type'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
 		$message   = isset( $_GET['hkc_message'] ) && is_scalar( $_GET['hkc_message'] )
 			? sanitize_text_field( wp_unslash( $_GET['hkc_message'] ) )
 			: (string) HKC_Settings::get( 'default_message', '' );
@@ -65,6 +68,7 @@ final class HKC_WhatsApp {
 			exit;
 		}
 
+		// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Destination is a locally constructed wa.me URL from a normalized phone number.
 		wp_redirect( $url, 302, 'Hatnikotni Chat' );
 		exit;
 	}
@@ -103,12 +107,12 @@ final class HKC_WhatsApp {
 			return;
 		}
 
-		$label         = (string) HKC_Settings::get( 'button_label', 'WhatsApp Kami' );
-		$position      = 'left' === HKC_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
-		$show_desktop  = (bool) HKC_Settings::get( 'show_desktop', true );
-		$show_mobile   = (bool) HKC_Settings::get( 'show_mobile', true );
-		$page_id       = get_queried_object_id();
-		$page_type     = $page_id ? (string) get_post_type( $page_id ) : '';
+		$label        = (string) HKC_Settings::get( 'button_label', 'WhatsApp Kami' );
+		$position     = 'left' === HKC_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
+		$show_desktop = (bool) HKC_Settings::get( 'show_desktop', true );
+		$show_mobile  = (bool) HKC_Settings::get( 'show_mobile', true );
+		$page_id      = get_queried_object_id();
+		$page_type    = $page_id ? (string) get_post_type( $page_id ) : '';
 
 		if ( ! $page_id && is_front_page() ) {
 			$page_type = 'page';
