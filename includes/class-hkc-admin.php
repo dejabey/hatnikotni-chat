@@ -45,7 +45,7 @@ final class HKC_Admin {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'Hatnikotni Chat', 'hatnikotni-chat' ); ?></h1>
-			<?php if ( isset( $_GET['error'] ) ) : ?>
+			<?php if ( isset( $_GET['error'] ) && 'hkc-contacts' === ( $_GET['page'] ?? '' ) ) : ?>
 				<?php
 				$error_messages = array(
 					'missing_name' => __( 'Contact name is required.', 'hatnikotni-chat' ),
@@ -58,9 +58,7 @@ final class HKC_Admin {
 					<div class="notice notice-error"><p><?php echo esc_html( $error_messages[ $error_key ] ); ?></p></div>
 				<?php endif; ?>
 			<?php endif; ?>
-			<?php if ( isset( $_GET['updated'] ) ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Settings saved.', 'hatnikotni-chat' ); ?></p></div>
-			<?php endif; ?>
+			
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="hkc_save_settings">
 				<?php wp_nonce_field( 'hkc_save_settings', 'hkc_nonce' ); ?>
@@ -169,9 +167,12 @@ final class HKC_Admin {
 			<h1 class="wp-heading-inline"><?php echo esc_html__( 'Contacts', 'hatnikotni-chat' ); ?></h1>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&action=new' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Add New', 'hatnikotni-chat' ); ?></a>
 			<hr class="wp-header-end">
+			<?php if ( isset( $_GET['updated'] ) ) : ?>
+				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
+			<?php endif; ?>
 			<?php if ( $editing || $is_new ) : self::render_contact_form( $editing ); endif; ?>
 			<table class="widefat fixed striped">
-				<thead><tr><th>Name</th><th>Phone</th><th>Role</th><th>Status</th><th>Weight</th><th>Actions</th></tr></thead>
+				<thead><tr><th><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Phone', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Actions', 'hatnikotni-chat' ); ?></th></tr></thead>
 				<tbody>
 				<?php if ( empty( $contacts ) ) : ?>
 					<tr><td colspan="6"><?php echo esc_html__( 'No contacts yet.', 'hatnikotni-chat' ); ?></td></tr>
@@ -197,19 +198,19 @@ final class HKC_Admin {
 	private static function render_contact_form( ?array $contact ): void {
 		$contact = $contact ?? array( 'id' => 0, 'name' => '', 'phone' => '', 'role' => '', 'description' => '', 'status' => 1, 'weight' => 1, 'sort_order' => 0 );
 		?>
-		<div style="max-width:760px;margin:20px 0;">
+		<div class="hkc-admin-contact-form">
 			<h2><?php echo $contact['id'] ? esc_html__( 'Edit Contact', 'hatnikotni-chat' ) : esc_html__( 'Add Contact', 'hatnikotni-chat' ); ?></h2>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="hkc_save_contact"><input type="hidden" name="id" value="<?php echo esc_attr( $contact['id'] ); ?>">
 				<?php wp_nonce_field( 'hkc_save_contact', 'hkc_nonce' ); ?>
 				<table class="form-table">
-					<tr><th><label for="hkc-name">Name</label></th><td><input id="hkc-name" name="name" type="text" class="regular-text" maxlength="100" required value="<?php echo esc_attr( $contact['name'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-phone">WhatsApp Number</label></th><td><input id="hkc-phone" name="phone" type="tel" class="regular-text" maxlength="30" required value="<?php echo esc_attr( $contact['phone'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-role">Role</label></th><td><input id="hkc-role" name="role" type="text" class="regular-text" maxlength="100" value="<?php echo esc_attr( $contact['role'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-description">Description</label></th><td><input id="hkc-description" name="description" type="text" class="regular-text" maxlength="255" value="<?php echo esc_attr( $contact['description'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-weight">Weight</label></th><td><input id="hkc-weight" name="weight" type="number" min="1" max="65535" value="<?php echo esc_attr( $contact['weight'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-sort-order">Sort Order</label></th><td><input id="hkc-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>"></td></tr>
-					<tr><th>Status</th><td><label><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> Active</label></td></tr>
+					<tr><th><label for="hkc-name"><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-name" name="name" type="text" class="regular-text" maxlength="100" required value="<?php echo esc_attr( $contact['name'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-phone" name="phone" type="tel" class="regular-text" maxlength="30" required value="<?php echo esc_attr( $contact['phone'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-role"><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-role" name="role" type="text" class="regular-text" maxlength="100" value="<?php echo esc_attr( $contact['role'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-description"><?php echo esc_html__( 'Description', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-description" name="description" type="text" class="regular-text" maxlength="255" value="<?php echo esc_attr( $contact['description'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-weight"><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-weight" name="weight" type="number" min="1" max="65535" value="<?php echo esc_attr( $contact['weight'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-sort-order"><?php echo esc_html__( 'Sort Order', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>"></td></tr>
+					<tr><th><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><td><label><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> <?php echo esc_html__( 'Active', 'hatnikotni-chat' ); ?></label></td></tr>
 				</table>
 				<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ) ); ?>
 			</form>
@@ -218,7 +219,9 @@ final class HKC_Admin {
 	}
 
 	public static function save_contact(): void {
-		if ( ! current_user_can( 'manage_options' ) ) wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
+		}
 		check_admin_referer( 'hkc_save_contact', 'hkc_nonce' );
 
 		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
@@ -245,7 +248,9 @@ final class HKC_Admin {
 
 		if ( $id > 0 ) {
 			$contact = HKC_Contacts::get( $id );
-			if ( $contact ) HKC_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
+			if ( $contact ) {
+				HKC_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
+			}
 		}
 
 		wp_safe_redirect( admin_url( 'admin.php?page=hkc-contacts&updated=1' ) );
