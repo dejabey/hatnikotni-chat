@@ -2,12 +2,17 @@
 <ruleset name="Hatnikotni Chat">
 	<description>WordPress Coding Standards for Hatnikotni Chat.</description>
 
-	<rule ref="WordPress" />
+	<rule ref="WordPress">
+		<!-- The project keeps concise class/method documentation in source where useful. -->
+		<exclude name="Squiz.Commenting.ClassComment.Missing" />
+		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
+		<exclude name="Generic.Commenting.FileComment.MissingPackageTag" />
 
-	<!-- The project uses concise class and method documentation; behavior-specific contracts remain documented in source where needed. -->
-	<exclude name="Squiz.Commenting.ClassComment" />
-	<exclude name="Squiz.Commenting.FunctionComment" />
-	<exclude name="Generic.Commenting.FileComment.MissingPackageTag" />
+		<!-- Custom database tables intentionally use $wpdb directly. -->
+		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+		<exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
+	</rule>
 
 	<file>hatnikotni-chat.php</file>
 	<file>includes</file>
