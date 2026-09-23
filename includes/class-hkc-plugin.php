@@ -30,6 +30,7 @@ final class HKC_Plugin {
 		HKC_WhatsApp::init();
 		HKC_Shortcode::init();
 		HKC_Admin::init();
+		HKC_Analytics_Admin::init();
 
 		if ( ! wp_next_scheduled( 'hkc_daily_cleanup' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hkc_daily_cleanup' );
