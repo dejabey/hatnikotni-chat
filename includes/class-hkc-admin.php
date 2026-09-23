@@ -175,6 +175,7 @@ final class HKC_Admin {
 			<h1 class="wp-heading-inline"><?php echo esc_html__( 'Contacts', 'hatnikotni-chat' ); ?></h1>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&action=new' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Add New', 'hatnikotni-chat' ); ?></a>
 			<hr class="wp-header-end">
+<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
@@ -186,19 +187,21 @@ final class HKC_Admin {
 				<tbody>
 				<?php if ( empty( $contacts ) ) : ?>
 					<tr><td colspan="6"><?php echo esc_html__( 'No contacts yet.', 'hatnikotni-chat' ); ?></td></tr>
-				<?php else : foreach ( $contacts as $contact ) : ?>
-					<tr>
-						<td><strong><?php echo esc_html( $contact['name'] ); ?></strong></td>
-						<td><?php echo esc_html( $contact['phone'] ); ?></td>
-						<td><?php echo esc_html( $contact['role'] ); ?></td>
-						<td><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Active', 'hatnikotni-chat' ) : esc_html__( 'Inactive', 'hatnikotni-chat' ); ?></td>
-						<td><?php echo esc_html( (string) $contact['weight'] ); ?></td>
-						<td>
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a> |
-							<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=hkc_toggle_contact&id=' . (int) $contact['id'] ), 'hkc_toggle_contact_' . (int) $contact['id'] ) ); ?>"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?></a>
-						</td>
-					</tr>
-				<?php endforeach; endif; ?>
+				<?php else : ?>
+					<?php foreach ( $contacts as $contact ) : ?>
+						<tr>
+							<td><strong><?php echo esc_html( $contact['name'] ); ?></strong></td>
+							<td><?php echo esc_html( $contact['phone'] ); ?></td>
+							<td><?php echo esc_html( $contact['role'] ); ?></td>
+							<td><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Active', 'hatnikotni-chat' ) : esc_html__( 'Inactive', 'hatnikotni-chat' ); ?></td>
+							<td><?php echo esc_html( (string) $contact['weight'] ); ?></td>
+							<td>
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a> |
+								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=hkc_toggle_contact&id=' . (int) $contact['id'] ), 'hkc_toggle_contact_' . (int) $contact['id'] ) ); ?>"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?></a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
 				</tbody>
 			</table>
 		</div>
