@@ -17,9 +17,7 @@ final class HKC_WhatsApp {
 	}
 
 	public static function action_url( string $message = '', int $page_id = 0, string $page_type = '' ): string {
-		$args = array(
-			'action' => 'hkc_whatsapp_click',
-		);
+		$args = array( 'action' => 'hkc_whatsapp_click' );
 
 		if ( $page_id > 0 ) {
 			$args['hkc_page_id'] = $page_id;
@@ -50,7 +48,7 @@ final class HKC_WhatsApp {
 		$page_type = isset( $_GET['hkc_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hkc_page_type'] ) ) : '';
 		$message   = isset( $_GET['hkc_message'] ) && is_scalar( $_GET['hkc_message'] )
 			? sanitize_text_field( wp_unslash( $_GET['hkc_message'] ) )
-			: HKC_Settings::get( 'default_message', '' );
+			: (string) HKC_Settings::get( 'default_message', '' );
 
 		HKC_Analytics::record_click(
 			array(
@@ -60,7 +58,12 @@ final class HKC_WhatsApp {
 			)
 		);
 
-		$url = self::build_url( (string) $contact['phone'], (string) $message );
+		$url = self::build_url( (string) $contact['phone'], $message );
+
+		if ( '' === $url ) {
+			wp_safe_redirect( home_url( '/' ) );
+			exit;
+		}
 
 		wp_redirect( $url, 302, 'Hatnikotni Chat' );
 		exit;
@@ -100,17 +103,34 @@ final class HKC_WhatsApp {
 			return;
 		}
 
-		$label    = (string) HKC_Settings::get( 'button_label', 'WhatsApp Kami' );
-		$page_id  = get_queried_object_id();
-		$page_type = $page_id ? (string) get_post_type( $page_id ) : '';
+		$label         = (string) HKC_Settings::get( 'button_label', 'WhatsApp Kami' );
+		$position      = 'left' === HKC_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
+		$show_desktop  = (bool) HKC_Settings::get( 'show_desktop', true );
+		$show_mobile   = (bool) HKC_Settings::get( 'show_mobile', true );
+		$page_id       = get_queried_object_id();
+		$page_type     = $page_id ? (string) get_post_type( $page_id ) : '';
 
-		if ( ! $page_id ) {
-			$page_type = is_front_page() ? 'page' : '';
+		if ( ! $page_id && is_front_page() ) {
+			$page_type = 'page';
+		}
+
+		if ( ! $show_desktop && ! $show_mobile ) {
+			return;
+		}
+
+		$classes = array( 'hkc-button', 'hkc-floating', 'hkc-floating--' . $position );
+
+		if ( ! $show_desktop ) {
+			$classes[] = 'hkc-hide-desktop';
+		}
+
+		if ( ! $show_mobile ) {
+			$classes[] = 'hkc-hide-mobile';
 		}
 
 		$url = self::action_url( '', (int) $page_id, $page_type );
 		?>
-		<a class="hkc-button hkc-floating" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
+		<a class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
 			<svg class="hkc-button__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 				<path d="M20.52 3.48A11.83 11.83 0 0 0 12.08 0C5.54 0 .22 5.31.22 11.86c0 2.09.55 4.13 1.59 5.93L.12 24l6.36-1.67a11.86 11.86 0 0 0 5.6 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.43-8.42Zm-8.44 18.26h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.82 9.82 0 0 1-1.51-5.24C2.2 6.42 6.62 2 12.08 2a9.87 9.87 0 0 1 7.02 2.92 9.85 9.85 0 0 1 2.9 7.01c0 5.46-4.45 9.81-9.92 9.81Zm5.41-7.36c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-1.76-.88-2.91-1.57-4.07-3.55-.31-.53.31-.49.88-1.63.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.88 1.22 3.08.15.2 2.11 3.22 5.11 4.52.71.31 1.27.49 1.7.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z"/>
 			</svg>
