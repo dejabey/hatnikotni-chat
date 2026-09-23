@@ -7,6 +7,7 @@
 - Routing
 - Analytics
 - Campaign attribution
+- WhatsApp action/URL layer
 - Shortcode
 - Admin
 
@@ -17,7 +18,9 @@ Hatnikotni Chat provides two V1 interfaces:
 1. Global floating WhatsApp button
 2. Shortcode: `[hatnikotni_chat]`
 
-Both interfaces use the same routing, campaign attribution, analytics, and WhatsApp URL generation logic.
+Both interfaces use the same routing, campaign attribution, analytics, and WhatsApp URL/action logic.
+
+The frontend action is a normal link to a public WordPress `admin-post.php` action. The handler resolves the contact, records the click locally, then redirects to `https://wa.me/<number>`. No frontend JavaScript or external analytics request is required.
 
 ## Data
 
@@ -46,15 +49,17 @@ V1 routing methods:
 - **random** — selects one active contact uniformly.
 - **round_robin** — selects active contacts in deterministic `sort_order`, then `id` order and stores the last selected contact in a WordPress option.
 
-If no valid active contact can be resolved, routing returns `null`. A routing failure must not prevent the WhatsApp action.
-
-Weighted routing is reserved for future extension.
+If no valid active contact can be resolved, routing returns `null`.
 
 ## Analytics
 
 The primary V1 event is `whatsapp_click`.
 
-Analytics records interaction metadata required for reporting and campaign attribution. It does not store IP addresses, visitor identity, WhatsApp conversations, fingerprints, or full user-agent strings.
+Analytics is first-party and local. The event is recorded immediately before the WhatsApp redirect and means a button click, not confirmation that a WhatsApp message was sent.
+
+Stored fields are limited to contact, page, device and supported UTM attribution. IP addresses, visitor identity, full user-agent, fingerprints, conversation content, browsing history and visitor IDs are not stored.
+
+Analytics failure must never prevent the WhatsApp redirect.
 
 ## Campaign attribution
 
@@ -66,10 +71,19 @@ UTM parameters supported:
 - utm_term
 - utm_content
 
-V1 uses last-touch attribution with a first-party campaign cookie.
+V1 uses last-touch attribution with a first-party `hkc_campaign` cookie for 30 days. A new UTM-bearing visit replaces the previous attribution.
+
+## Shortcode
+
+`[hatnikotni_chat]` accepts optional:
+
+- `label`
+- `message`
+
+The shortcode generates the same public WhatsApp action URL used by the global button.
 
 ## Extension points
 
 WordPress actions/filters are preferred for internal extensibility. The core does not require external services.
 
-Future integrations may include Webhook, WooCommerce, CRM, and WhatsApp Business API support without making them dependencies of the core plugin.
+Future integrations may include Webhook, WooCommerce, CRM, weighted/context routing, and WhatsApp Business API support without making them dependencies of the core plugin.
