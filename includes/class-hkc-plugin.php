@@ -9,6 +9,11 @@ defined( 'ABSPATH' ) || exit;
 
 final class HKC_Plugin {
 
+	/**
+	 * Singleton instance.
+	 *
+	 * @var self|null
+	 */
 	private static ?self $instance = null;
 
 	public static function instance(): self {
