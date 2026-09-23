@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD: `5f96049df206ab959faa4803d14aaaf2baa38353`
+**Current HEAD:** `fe11a00de1a421afdef8b97512a68984c3063753`
 
 ## Current implementation
 
@@ -81,4 +81,4 @@ No runtime acceptance is claimed.
 
 ## Next action
 
-Confirm CI for the current HEAD, then perform a full source audit and address any findings before proceeding to General/Routing admin settings and optional integrations. Runtime acceptance remains pending until staging installation and testing.
+Confirm CI for the current HEAD. Then perform staging installation/runtime validation. Before release, separately validate round-robin under concurrent requests and WordPress cron/retention behavior. Runtime acceptance remains pending until staging installation and testing.
