@@ -10,6 +10,8 @@
  * Text Domain: hatnikotni-chat
  * Requires at least: 6.6
  * Requires PHP: 8.1
+ *
+ * @package Hatnikotni_Chat
  */
 
 defined( 'ABSPATH' ) || exit;
