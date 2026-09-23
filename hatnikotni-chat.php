@@ -25,6 +25,7 @@ require_once HKC_PLUGIN_DIR . 'includes/class-hkc-contacts.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-routing.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-analytics.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-campaign.php';
+require_once HKC_PLUGIN_DIR . 'includes/class-hkc-whatsapp.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-shortcode.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-admin.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-plugin.php';
