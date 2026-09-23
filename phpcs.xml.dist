@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="Hatnikotni Chat">
+	<description>WordPress Coding Standards for Hatnikotni Chat.</description>
+
+	<rule ref="WordPress" />
+
+	<file>hatnikotni-chat.php</file>
+	<file>includes</file>
+	<file>uninstall.php</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+</ruleset>
