@@ -45,25 +45,23 @@ final class HKC_Admin {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'Hatnikotni Chat', 'hatnikotni-chat' ); ?></h1>
-			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
-			<?php if ( isset( $_GET['updated'] ) ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Settings saved.', 'hatnikotni-chat' ); ?></p></div>
-			<?php endif; ?>
-			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
-			<?php if ( isset( $_GET['error'] ) ) : ?>
-				<?php
+			<?php
+			if ( isset( $_GET['updated'] ) ) {
+				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'hatnikotni-chat' ) . '</p></div>';
+			}
+			if ( isset( $_GET['error'] ) ) {
 				$error_messages = array(
 					'missing_name'     => __( 'Contact name is required.', 'hatnikotni-chat' ),
 					'invalid_phone'    => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
 					'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin error key.
 				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
-				if ( isset( $error_messages[ $error_key ] ) ) : ?>
-					<div class="notice notice-error"><p><?php echo esc_html( $error_messages[ $error_key ] ); ?></p></div>
-				<?php endif; ?>
-			<?php endif; ?>
+				if ( isset( $error_messages[ $error_key ] ) ) {
+					echo '<div class="notice notice-error"><p>' . esc_html( $error_messages[ $error_key ] ) . '</p></div>';
+				}
+			}
+			?>
 			
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="hkc_save_settings">
