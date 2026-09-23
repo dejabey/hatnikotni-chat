@@ -51,7 +51,8 @@ final class HKC_Contacts {
 
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
-				'SELECT * FROM ' . self::table_name() . ' WHERE id = %d LIMIT 1',
+				'SELECT * FROM %i WHERE id = %d LIMIT 1',
+				self::table_name(),
 				$id
 			),
 			ARRAY_A
@@ -64,7 +65,10 @@ final class HKC_Contacts {
 		global $wpdb;
 
 		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . self::table_name() . ' WHERE status = 1 ORDER BY sort_order ASC, id ASC',
+			$wpdb->prepare(
+				'SELECT * FROM %i WHERE status = 1 ORDER BY sort_order ASC, id ASC',
+				self::table_name()
+			),
 			ARRAY_A
 		);
 
@@ -75,7 +79,10 @@ final class HKC_Contacts {
 		global $wpdb;
 
 		$rows = $wpdb->get_results(
-			'SELECT * FROM ' . self::table_name() . ' ORDER BY sort_order ASC, id ASC',
+			$wpdb->prepare(
+				'SELECT * FROM %i ORDER BY sort_order ASC, id ASC',
+				self::table_name()
+			),
 			ARRAY_A
 		);
 
@@ -101,7 +108,7 @@ final class HKC_Contacts {
 			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using digits only or a normal phone format.', 'hatnikotni-chat' ) );
 		}
 
-		$now = current_time( 'mysql' );
+		$now   = current_time( 'mysql' );
 		$table = self::table_name();
 
 		if ( $id > 0 ) {
