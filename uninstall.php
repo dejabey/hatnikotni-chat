@@ -17,3 +17,4 @@ $wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
 
 delete_option( 'hkc_settings' );
 delete_option( 'hkc_db_version' );
+delete_option( 'hkc_routing_state' );
