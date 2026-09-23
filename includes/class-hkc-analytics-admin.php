@@ -43,7 +43,10 @@ final class HKC_Analytics_Admin {
 				<select id="hkc-days" name="days">
 					<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
 						<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
-							<?php echo esc_html( sprintf( _n( '%d day', '%d days', $period, 'hatnikotni-chat' ), $period ) ); ?>
+							<?php
+							// Translators: %d is the number of days in the selected analytics period.
+							echo esc_html( sprintf( _n( '%d day', '%d days', $period, 'hatnikotni-chat' ), $period ) );
+							?>
 						</option>
 					<?php endforeach; ?>
 				</select>
