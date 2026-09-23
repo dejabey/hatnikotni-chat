@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  php-syntax:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,3 +24,5 @@ jobs:
         run: |
           set -eu
           find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Run skeleton contract
+        run: bash tests/skeleton-contract.sh
