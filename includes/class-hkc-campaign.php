@@ -11,16 +11,76 @@ final class HKC_Campaign {
 
 	private const COOKIE_NAME = 'hkc_campaign';
 	private const COOKIE_DAYS = 30;
+	private const FIELDS      = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
 
 	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'capture' ), 1 );
 	}
 
 	public static function capture(): void {
-		// UTM capture will be implemented after the attribution contract is finalized.
+		$attribution = array();
+
+		foreach ( self::FIELDS as $field ) {
+			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
+				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
+				if ( '' !== $value ) {
+					$attribution[ $field ] = $value;
+				}
+			}
+		}
+
+		if ( empty( $attribution ) || headers_sent() ) {
+			return;
+		}
+
+		$encoded = wp_json_encode( $attribution );
+		if ( false === $encoded ) {
+			return;
+		}
+
+		$value = base64_encode( $encoded );
+
+		setcookie(
+			self::COOKIE_NAME,
+			$value,
+			array(
+				'expires'  => time() + ( DAY_IN_SECONDS * self::COOKIE_DAYS ),
+				'path'     => COOKIEPATH ?: '/',
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
+
+		$_COOKIE[ self::COOKIE_NAME ] = $value;
 	}
 
 	public static function get_attribution(): array {
-		return array();
+		if ( empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
+			return self::empty_attribution();
+		}
+
+		$encoded = sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NAME ] ) );
+		$decoded = base64_decode( $encoded, true );
+		$data    = is_string( $decoded ) ? json_decode( $decoded, true ) : null;
+
+		if ( ! is_array( $data ) ) {
+			return self::empty_attribution();
+		}
+
+		$attribution = self::empty_attribution();
+
+		foreach ( self::FIELDS as $field ) {
+			if ( isset( $data[ $field ] ) && is_scalar( $data[ $field ] ) ) {
+				$attribution[ $field ] = sanitize_text_field( (string) $data[ $field ] );
+			}
+		}
+
+		return $attribution;
+	}
+
+	private static function empty_attribution(): array {
+		return array_fill_keys( self::FIELDS, null );
 	}
 }
