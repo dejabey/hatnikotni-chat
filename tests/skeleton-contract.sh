@@ -22,3 +22,10 @@ grep -q "dbDelta" includes/class-hkc-analytics.php || fail "Events dbDelta contr
 grep -q "WP_UNINSTALL_PLUGIN" uninstall.php || fail "Uninstall guard missing"
 
 echo "PASS: Hatnikotni Chat skeleton contracts"
+
+grep -q "function save" includes/class-hkc-contacts.php || fail "Contact save contract missing"
+grep -q "function set_status" includes/class-hkc-contacts.php || fail "Contact status contract missing"
+grep -q "admin_post_hkc_save_contact" includes/class-hkc-admin.php || fail "Contact save admin action missing"
+grep -q "check_admin_referer" includes/class-hkc-admin.php || fail "Admin nonce contract missing"
+grep -q "current_user_can( 'manage_options' )" includes/class-hkc-admin.php || fail "Admin capability contract missing"
+grep -q "wp_safe_redirect" includes/class-hkc-admin.php || fail "Safe redirect contract missing"
