@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Parent commit before this handoff update:** 48132e0392c9ad6d02533c088e0a25c82af80988
+**Current HEAD before this handoff update:** c1e7270dd9da82d14d799668780ba0da5741bcfa
 
 ## Current implementation
 
