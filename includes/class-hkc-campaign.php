@@ -19,6 +19,7 @@ final class HKC_Campaign {
 
 	public static function capture(): void {
 		if ( ! HKC_Privacy::has_analytics_consent() ) {
+			self::clear_cookie();
 			return;
 		}
 
@@ -82,6 +83,27 @@ final class HKC_Campaign {
 		}
 
 		return $attribution;
+	}
+
+	private static function clear_cookie(): void {
+		if ( empty( $_COOKIE[ self::COOKIE_NAME ] ) || headers_sent() ) {
+			return;
+		}
+
+		setcookie(
+			self::COOKIE_NAME,
+			'',
+			array(
+				'expires'  => time() - HOUR_IN_SECONDS,
+				'path'     => COOKIEPATH ?: '/',
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
+
+		unset( $_COOKIE[ self::COOKIE_NAME ] );
 	}
 
 	private static function empty_attribution(): array {
