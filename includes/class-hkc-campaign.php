@@ -18,6 +18,10 @@ final class HKC_Campaign {
 	}
 
 	public static function capture(): void {
+		if ( ! HKC_Privacy::has_analytics_consent() ) {
+			return;
+		}
+
 		$attribution = array();
 
 		foreach ( self::FIELDS as $field ) {
@@ -57,7 +61,7 @@ final class HKC_Campaign {
 	}
 
 	public static function get_attribution(): array {
-		if ( empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
+		if ( ! HKC_Privacy::has_analytics_consent() || empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
 			return self::empty_attribution();
 		}
 
