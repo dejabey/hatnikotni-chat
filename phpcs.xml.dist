@@ -4,6 +4,11 @@
 
 	<rule ref="WordPress" />
 
+	<!-- The project uses concise class and method documentation; behavior-specific contracts remain documented in source where needed. -->
+	<exclude name="Squiz.Commenting.ClassComment" />
+	<exclude name="Squiz.Commenting.FunctionComment" />
+	<exclude name="Generic.Commenting.FileComment.MissingPackageTag" />
+
 	<file>hatnikotni-chat.php</file>
 	<file>includes</file>
 	<file>uninstall.php</file>
