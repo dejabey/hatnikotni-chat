@@ -2,12 +2,13 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD:** `a54a70139f45edddc450d96834961733e5d14156`
+**Current HEAD: `5f96049df206ab959faa4803d14aaaf2baa38353`
 
 ## Current implementation
 
 - Standalone WordPress plugin; not deployed to production.
 - Contact CRUD/admin interface implemented with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
+- General admin settings implemented for frontend enablement, default contact/message, button label, position, desktop/mobile visibility and routing method.
 - Routing engine implemented: `direct`, `random`, `round_robin`.
 - Direct requires the configured default contact to exist and be active.
 - Random selects from active contacts.
