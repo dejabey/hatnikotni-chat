@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD:** `97b7ee73708330344f3085e5b86102b58905745b`
+**Current HEAD:** `13b076e449728192efa5fada669a484af2aa566e`
 
 ## Current implementation
 
@@ -13,8 +13,8 @@
 - Random selects from active contacts.
 - Round-robin follows active contacts by `sort_order`, then `id`, and stores `last_contact_id` in `hkc_routing_state`.
 - Weight is stored but intentionally unused by V1 routing.
-- Database upgrade check now runs when the plugin initializes and re-runs schema installers when `HKC_DB_VERSION` changes.
-- Contract checks now cover Contact CRUD, routing methods, active-contact routing, round-robin state, and database upgrades.
+- Database upgrade check runs during plugin initialization and re-runs schema installers when `HKC_DB_VERSION` changes.
+- Contract checks cover Contact CRUD, routing methods, active-contact routing, round-robin state, and database upgrades.
 
 ## Agreed V1
 
@@ -53,7 +53,7 @@
 
 ## Validation state
 
-- Source syntax: PENDING — latest routing/admin/upgrade changes require fresh CI confirmation.
+- Source syntax: PENDING — latest changes require fresh CI confirmation.
 - Automated contracts: PENDING — latest contract changes require fresh CI confirmation.
 - CI/build: PENDING.
 - Staging activation: PENDING.
