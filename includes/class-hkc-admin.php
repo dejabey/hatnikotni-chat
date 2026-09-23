@@ -173,7 +173,9 @@ final class HKC_Admin {
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
-			<?php if ( $editing || $is_new ) : self::render_contact_form( $editing ); endif; ?>
+			<?php if ( $editing || $is_new ) : ?>
+				<?php self::render_contact_form( $editing ); ?>
+			<?php endif; ?>
 			<table class="widefat fixed striped">
 				<thead><tr><th><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Phone', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Actions', 'hatnikotni-chat' ); ?></th></tr></thead>
 				<tbody>
@@ -229,10 +231,10 @@ final class HKC_Admin {
 
 		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$data = array(
-			'name' => isset( $_POST['name'] ) ? wp_unslash( $_POST['name'] ) : '',
-			'phone' => isset( $_POST['phone'] ) ? wp_unslash( $_POST['phone'] ) : '',
-			'role' => isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '',
-			'description' => isset( $_POST['description'] ) ? wp_unslash( $_POST['description'] ) : '',
+			'name' => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
+			'phone' => isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '',
+			'role' => isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '',
+			'description' => isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '',
 			'status' => isset( $_POST['status'] ) ? 1 : 0,
 			'weight' => isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : 1,
 			'sort_order' => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
@@ -245,7 +247,9 @@ final class HKC_Admin {
 	}
 
 	public static function toggle_contact(): void {
-		if ( ! current_user_can( 'manage_options' ) ) wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
+		}
 		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
 		check_admin_referer( 'hkc_toggle_contact_' . $id );
 
