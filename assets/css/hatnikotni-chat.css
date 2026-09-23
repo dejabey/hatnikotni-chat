@@ -1,0 +1,9 @@
+/**
+ * Hatnikotni Chat frontend styles.
+ *
+ * All frontend selectors use the hkc- namespace.
+ */
+
+.hkc-button {
+	box-sizing: border-box;
+}
