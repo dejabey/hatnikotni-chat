@@ -24,6 +24,8 @@ final class HKC_Plugin {
 	}
 
 	public function init(): void {
+		self::maybe_upgrade();
+
 		HKC_Campaign::init();
 		HKC_Shortcode::init();
 		HKC_Admin::init();
@@ -40,5 +42,17 @@ final class HKC_Plugin {
 
 	public static function deactivate(): void {
 		// Deactivation intentionally preserves plugin data.
+	}
+
+	private static function maybe_upgrade(): void {
+		$installed_version = get_option( 'hkc_db_version', '' );
+
+		if ( HKC_DB_VERSION === $installed_version ) {
+			return;
+		}
+
+		HKC_Contacts::install_schema();
+		HKC_Analytics::install_schema();
+		update_option( 'hkc_db_version', HKC_DB_VERSION );
 	}
 }
