@@ -98,7 +98,7 @@ final class HKC_Admin {
 						<td>
 							<select id="hkc-routing-method" name="routing_method">
 								<option value="direct" <?php selected( $settings['routing_method'] ?? 'direct', 'direct' ); ?>><?php echo esc_html__( 'Direct', 'hatnikotni-chat' ); ?></option>
-								<option value="random" <?php selected( $settings['routing_method'] ?? 'direct', 'direct' ); ?>><?php echo esc_html__( 'Random', 'hatnikotni-chat' ); ?></option>
+								<option value="random" <?php selected( $settings['routing_method'] ?? 'direct', 'random' ); ?>><?php echo esc_html__( 'Random', 'hatnikotni-chat' ); ?></option>
 								<option value="round_robin" <?php selected( $settings['routing_method'] ?? 'direct', 'round_robin' ); ?>><?php echo esc_html__( 'Round robin', 'hatnikotni-chat' ); ?></option>
 							</select>
 						</td>
