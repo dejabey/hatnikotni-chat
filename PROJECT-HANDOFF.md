@@ -2,6 +2,8 @@
 
 **Current state document. Updated 2026-09-23.**
 
+**Current HEAD:** `34a463f7217e54e9a862cd14e31284b7c838bef8`
+
 > This file is the single current project-state document. Update it after every material development step.
 
 ## Identity
@@ -218,8 +220,8 @@ Not implemented:
 
 ## Validation state
 
-- Source syntax: PENDING
-- Automated tests/contracts: PENDING
+- Source syntax: PENDING — GitHub Actions run #3 queued for commit `34a463f7217e54e9a862cd14e31284b7c838bef8`
+- Automated tests/contracts: PENDING — skeleton contract included in CI
 - CI/build: PENDING
 - Staging activation: PENDING
 - Frontend functional testing: PENDING
@@ -253,4 +255,4 @@ Every material implementation must be reviewed for:
 
 Run a source-level audit and syntax validation of the skeleton. Correct issues before implementing Contact CRUD.
 
-After the audit, update this file and CHANGELOG with the exact commit and validation status.
+After CI completes, record its result here. Then correct any source issue found before implementing Contact CRUD.
