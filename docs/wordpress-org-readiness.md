@@ -38,8 +38,8 @@ Official requirements are treated as release gates, not as post-submission clean
 - [x] Input sanitization/validation
 - [x] Escaped frontend/admin output
 - [x] Safe redirects for internal fallback redirects
-- [ ] WordPress Coding Standards CI
-- [ ] PHP compatibility matrix CI
+- [x] WordPress Coding Standards CI
+- [x] PHP compatibility matrix CI
 - [ ] Full staging security review
 
 ### Functional validation
