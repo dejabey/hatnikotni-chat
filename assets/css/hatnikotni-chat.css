@@ -5,5 +5,54 @@
  */
 
 .hkc-button {
+	align-items: center;
 	box-sizing: border-box;
+	display: inline-flex;
+	gap: 8px;
+	text-decoration: none;
+}
+
+.hkc-button:focus-visible {
+	outline: 3px solid currentColor;
+	outline-offset: 3px;
+}
+
+.hkc-floating {
+	bottom: 20px;
+	position: fixed;
+	right: 20px;
+	z-index: 9999;
+	background: #25d366;
+	border-radius: 999px;
+	color: #fff;
+	font-weight: 600;
+	padding: 12px 18px;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+}
+
+.hkc-button__icon {
+	fill: currentColor;
+	height: 22px;
+	width: 22px;
+}
+
+.hkc-inline {
+	background: #25d366;
+	border-radius: 6px;
+	color: #fff;
+	font-weight: 600;
+	padding: 10px 16px;
+}
+
+@media (max-width: 782px) {
+	.hkc-floating {
+		bottom: 16px;
+		right: 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hkc-button {
+		transition: none;
+	}
 }
