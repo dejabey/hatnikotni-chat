@@ -45,11 +45,11 @@ final class HKC_WhatsApp {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
-		$page_id   = isset( $_GET['hkc_page_id'] ) ? absint( $_GET['hkc_page_id'] ) : 0;
+		$page_id = isset( $_GET['hkc_page_id'] ) ? absint( $_GET['hkc_page_id'] ) : 0;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
 		$page_type = isset( $_GET['hkc_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hkc_page_type'] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
-		$message   = isset( $_GET['hkc_message'] ) && is_scalar( $_GET['hkc_message'] )
+		$message = isset( $_GET['hkc_message'] ) && is_scalar( $_GET['hkc_message'] )
 			? sanitize_text_field( wp_unslash( $_GET['hkc_message'] ) )
 			: (string) HKC_Settings::get( 'default_message', '' );
 
