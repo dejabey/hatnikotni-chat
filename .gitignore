@@ -1,0 +1,9 @@
+# Development
+.DS_Store
+Thumbs.db
+*.log
+wp-config.php
+wp-content/uploads/
+build/
+dist/
+*.zip
