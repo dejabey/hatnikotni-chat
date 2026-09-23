@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Source audit fixed uninstall cleanup for the round-robin state option and restored contact save error notices.
+
+
 - Added General admin settings for frontend enablement, default contact/message, button label, position, desktop/mobile visibility, and routing method.
 - Added Analytics admin reporting for 7/30/90/180-day periods with device, contact and campaign breakdowns.
 - Added daily 180-day analytics retention cleanup.
