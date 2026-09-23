@@ -24,17 +24,17 @@ final class HKC_Settings {
 				'default_message' => '',
 				'button_label'    => 'WhatsApp Kami',
 				'button_position' => 'right',
-				'show_desktop'   => true,
-				'show_mobile'    => true,
-				'routing_method' => 'direct',
+				'show_desktop'    => true,
+				'show_mobile'     => true,
+				'routing_method'  => 'direct',
 			)
 		);
 	}
 
-	public static function get( string $key, mixed $default = null ): mixed {
+	public static function get( string $key, mixed $fallback = null ): mixed {
 		$settings = get_option( self::OPTION_KEY, array() );
 
-		return array_key_exists( $key, $settings ) ? $settings[ $key ] : $default;
+		return array_key_exists( $key, $settings ) ? $settings[ $key ] : $fallback;
 	}
 
 	public static function all(): array {
