@@ -27,6 +27,7 @@
 - WordPress.org readme.txt and readiness checklist implemented.
 - Composer-based WordPress Coding Standards tooling and CI validation implemented.
 - Contract checks cover the current core, frontend/action, analytics, campaign, privacy and WordPress.org readme paths.
+- CI now validates PHP 8.1, 8.2, 8.3 and 8.4.
 
 ## Privacy decision
 
