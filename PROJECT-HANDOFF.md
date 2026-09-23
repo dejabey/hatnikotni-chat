@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD before this handoff update:** 0a15dca7cb97eec5c68e1cb8bb41c5099bccbb52
+**Current HEAD before this handoff update:** 9200965853d290420ec43f57cc2071c7bf282767
 
 ## Current implementation
 
