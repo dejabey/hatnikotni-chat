@@ -31,6 +31,12 @@ final class HKC_Plugin {
 		HKC_Shortcode::init();
 		HKC_Admin::init();
 
+		if ( ! wp_next_scheduled( 'hkc_daily_cleanup' ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hkc_daily_cleanup' );
+		}
+
+		add_action( 'hkc_daily_cleanup', array( 'HKC_Analytics', 'cleanup' ) );
+
 		do_action( 'hkc_loaded' );
 	}
 
@@ -38,10 +44,16 @@ final class HKC_Plugin {
 		HKC_Settings::install_defaults();
 		HKC_Contacts::install_schema();
 		HKC_Analytics::install_schema();
+
+		if ( ! wp_next_scheduled( 'hkc_daily_cleanup' ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hkc_daily_cleanup' );
+		}
+
 		update_option( 'hkc_db_version', HKC_DB_VERSION );
 	}
 
 	public static function deactivate(): void {
+		wp_clear_scheduled_hook( 'hkc_daily_cleanup' );
 		// Deactivation intentionally preserves plugin data.
 	}
 
