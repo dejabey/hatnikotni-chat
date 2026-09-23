@@ -28,13 +28,25 @@ V1 uses two custom tables:
 
 WordPress database prefix and charset/collation are always obtained from WordPress APIs.
 
+The plugin records its schema version in `hkc_db_version` and checks for schema upgrades during plugin initialization. Deactivation preserves data.
+
+## Contacts
+
+Contacts are persistent entities. Historical contacts are deactivated rather than deleted.
+
+- Phone numbers are stored as digits only.
+- `weight` is stored for future weighted routing but is not used by V1 routing.
+- `sort_order` controls deterministic contact ordering and is not routing priority.
+
 ## Routing
 
 V1 routing methods:
 
-- direct
-- random
-- round_robin
+- **direct** — uses the configured default contact and requires that contact to be active.
+- **random** — selects one active contact uniformly.
+- **round_robin** — selects active contacts in deterministic `sort_order`, then `id` order and stores the last selected contact in a WordPress option.
+
+If no valid active contact can be resolved, routing returns `null`. A routing failure must not prevent the WhatsApp action.
 
 Weighted routing is reserved for future extension.
 
