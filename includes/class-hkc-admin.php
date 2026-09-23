@@ -45,7 +45,10 @@ final class HKC_Admin {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'Hatnikotni Chat', 'hatnikotni-chat' ); ?></h1>
-			<?php if ( isset( $_GET['error'] ) && 'hkc-contacts' === ( $_GET['page'] ?? '' ) ) : ?>
+			<?php if ( isset( $_GET['updated'] ) ) : ?>
+				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Settings saved.', 'hatnikotni-chat' ); ?></p></div>
+			<?php endif; ?>
+			<?php if ( isset( $_GET['error'] ) ) : ?>
 				<?php
 				$error_messages = array(
 					'missing_name' => __( 'Contact name is required.', 'hatnikotni-chat' ),
@@ -198,7 +201,7 @@ final class HKC_Admin {
 	private static function render_contact_form( ?array $contact ): void {
 		$contact = $contact ?? array( 'id' => 0, 'name' => '', 'phone' => '', 'role' => '', 'description' => '', 'status' => 1, 'weight' => 1, 'sort_order' => 0 );
 		?>
-		<div class="hkc-admin-contact-form">
+		<div style="max-width:760px;margin:20px 0;">
 			<h2><?php echo $contact['id'] ? esc_html__( 'Edit Contact', 'hatnikotni-chat' ) : esc_html__( 'Add Contact', 'hatnikotni-chat' ); ?></h2>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="hkc_save_contact"><input type="hidden" name="id" value="<?php echo esc_attr( $contact['id'] ); ?>">
