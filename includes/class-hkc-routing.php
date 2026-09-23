@@ -61,9 +61,9 @@ final class HKC_Routing {
 			return null;
 		}
 
-		$state     = get_option( self::STATE_OPTION, array() );
-		$last_id   = is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0;
-		$next      = $contacts[0];
+		$state   = get_option( self::STATE_OPTION, array() );
+		$last_id = is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0;
+		$next    = $contacts[0];
 
 		if ( $last_id > 0 ) {
 			foreach ( $contacts as $index => $contact ) {
