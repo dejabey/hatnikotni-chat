@@ -66,9 +66,9 @@ final class HKC_Analytics {
 			array(
 				'event_type'   => 'whatsapp_click',
 				'created_at'   => current_time( 'mysql' ),
-				'contact_id'  => $contact_id > 0 ? $contact_id : null,
-				'page_id'     => $page_id > 0 ? $page_id : null,
-				'page_type'   => '' !== $page_type ? $page_type : null,
+				'contact_id'   => $contact_id > 0 ? $contact_id : null,
+				'page_id'      => $page_id > 0 ? $page_id : null,
+				'page_type'    => '' !== $page_type ? $page_type : null,
 				'device'       => $device,
 				'utm_source'   => $attribution['utm_source'],
 				'utm_medium'   => $attribution['utm_medium'],
