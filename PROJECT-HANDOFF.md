@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD:** `04cfc78793519c8b7bb54797c04dc77fde6f12a0`
+**Current HEAD:** `a54a70139f45edddc450d96834961733e5d14156`
 
 ## Current implementation
 
@@ -14,12 +14,14 @@
 - Round-robin follows active contacts by `sort_order`, then `id`, and stores `last_contact_id` in `hkc_routing_state`.
 - Weight is stored but intentionally unused by V1 routing.
 - Database upgrade check runs during plugin initialization and re-runs schema installers when `HKC_DB_VERSION` changes.
-- Shared WhatsApp action layer implemented through public `admin-post.php`.
+- Shared WhatsApp action layer uses public `admin-post.php`.
 - WhatsApp click is recorded locally before redirecting to `wa.me`.
-- UTM last-touch attribution is captured in the first-party `hkc_campaign` cookie for 30 days.
+- UTM last-touch attribution is captured in first-party `hkc_campaign` for 30 days.
 - Global floating button and `[hatnikotni_chat]` shortcode implemented.
-- Frontend uses namespaced CSS and inline SVG; no frontend JS or external analytics request is required.
-- Contract checks cover Contact CRUD, routing, database upgrades, WhatsApp action, campaign attribution and analytics.
+- Button position and desktop/mobile visibility settings are honored.
+- Analytics reporting provides period totals plus device/contact/campaign breakdowns.
+- Analytics events are automatically cleaned after 180 days by daily WP-Cron.
+- Contract checks cover the current core, frontend/action, analytics, campaign and cleanup paths.
 
 ## Agreed V1
 
@@ -42,7 +44,8 @@
 - Primary event: `whatsapp_click`; this records a click, not proof that a message was sent.
 - Store contact/page/device/UTM metadata only; no IP, visitor identity, fingerprint, conversation content, browsing history or visitor ID.
 - Analytics failure must never block WhatsApp.
-- Event retention target: 180 days; cleanup not implemented yet.
+- Event retention: 180 days.
+- Admin reporting: 7/30/90/180-day period with device/contact/campaign breakdown.
 
 ### Campaign
 
@@ -77,4 +80,4 @@ No runtime acceptance is claimed.
 
 ## Next action
 
-Confirm CI for the current HEAD. Then perform a full source audit of the current frontend/action/analytics flow. After that, implement Analytics admin reporting and retention cleanup. Runtime acceptance remains pending until staging installation and testing.
+Confirm CI for the current HEAD, then perform a full source audit and address any findings before proceeding to General/Routing admin settings and optional integrations. Runtime acceptance remains pending until staging installation and testing.
