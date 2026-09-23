@@ -28,6 +28,7 @@ final class HKC_Campaign {
 		foreach ( self::FIELDS as $field ) {
 			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
 				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
+
 				if ( '' !== $value ) {
 					$attribution[ $field ] = $value;
 				}
@@ -39,19 +40,20 @@ final class HKC_Campaign {
 		}
 
 		$encoded = wp_json_encode( $attribution );
+
 		if ( false === $encoded ) {
 			return;
 		}
 
-		$value = base64_encode( $encoded );
+		$value = rawurlencode( $encoded );
 
 		setcookie(
 			self::COOKIE_NAME,
 			$value,
 			array(
 				'expires'  => time() + ( DAY_IN_SECONDS * self::COOKIE_DAYS ),
-				'path'     => COOKIEPATH ?: '/',
-				'domain'   => COOKIE_DOMAIN,
+				'path'     => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
+				'domain'   => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
 				'secure'   => is_ssl(),
 				'httponly' => true,
 				'samesite' => 'Lax',
@@ -67,8 +69,8 @@ final class HKC_Campaign {
 		}
 
 		$encoded = sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NAME ] ) );
-		$decoded = base64_decode( $encoded, true );
-		$data    = is_string( $decoded ) ? json_decode( $decoded, true ) : null;
+		$decoded = rawurldecode( $encoded );
+		$data    = json_decode( $decoded, true );
 
 		if ( ! is_array( $data ) ) {
 			return self::empty_attribution();
@@ -95,8 +97,8 @@ final class HKC_Campaign {
 			'',
 			array(
 				'expires'  => time() - HOUR_IN_SECONDS,
-				'path'     => COOKIEPATH ?: '/',
-				'domain'   => COOKIE_DOMAIN,
+				'path'     => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
+				'domain'   => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
 				'secure'   => is_ssl(),
 				'httponly' => true,
 				'samesite' => 'Lax',
