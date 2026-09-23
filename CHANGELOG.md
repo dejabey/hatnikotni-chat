@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Completed WPCS source cleanup across admin, analytics, contacts, routing, settings, campaign, WhatsApp and plugin bootstrap layers.
+- Hardened custom-table queries with prepared identifiers and sanitized device detection input.
+- Confirmed latest CI validation passes PHP syntax, contract checks and WordPress Coding Standards.
+
 - Audited admin, analytics-admin, WhatsApp, shortcode, routing, contact storage, uninstall and frontend CSS layers for WordPress.org/WPCS readiness.
 - Tightened admin markup/source formatting and restored distinct settings/contact success notices.
 
