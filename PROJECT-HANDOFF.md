@@ -2,257 +2,66 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD:** `34a463f7217e54e9a862cd14e31284b7c838bef8`
+**Current HEAD:** `97b7ee73708330344f3085e5b86102b58905745b`
 
-> This file is the single current project-state document. Update it after every material development step.
+## Current implementation
 
-## Identity
-
-- Product: Hatnikotni Chat
-- Repository: dejabey/hatnikotni-chat
-- Plugin slug: hatnikotni-chat
-- Text domain: hatnikotni-chat
-- PHP prefix: HKC_
-- CSS prefix: hkc-
-- Parent brand: Hatnikotni
-- Primary ecosystem: Jelajah Perlis / perlis.xyz
-
-## Boundary
-
-Hatnikotni Chat is a standalone WordPress plugin.
-
-Core must not depend on:
-
-- Jelajah Perlis
-- UrbanGo
-- WooCommerce
-- WPVibe
-- AI/chatbot plugins
-- external runtime services
-
-The Planner chatbot at rancang.perlis.xyz is a separate project and is outside this plugin.
-
-## Production baseline
-
-perlis.xyz currently uses WP Chat App — Ninja Team for WhatsApp support.
-
-Hatnikotni Chat has NOT been deployed to production.
-
-Migration remains:
-
-development → GitHub → review → release candidate → staging → acceptance testing → activate Hatnikotni Chat → verify → disable WP Chat App → retain rollback safety temporarily.
+- Standalone WordPress plugin; not deployed to production.
+- Contact CRUD/admin interface implemented with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
+- Routing engine implemented: `direct`, `random`, `round_robin`.
+- Direct requires the configured default contact to exist and be active.
+- Random selects from active contacts.
+- Round-robin follows active contacts by `sort_order`, then `id`, and stores `last_contact_id` in `hkc_routing_state`.
+- Weight is stored but intentionally unused by V1 routing.
+- Database upgrade check now runs when the plugin initializes and re-runs schema installers when `HKC_DB_VERSION` changes.
+- Contract checks now cover Contact CRUD, routing methods, active-contact routing, round-robin state, and database upgrades.
 
 ## Agreed V1
 
 ### Frontend
-
 - Global floating WhatsApp button.
-- Shortcode: [hatnikotni_chat].
-- Both use the same routing, campaign, analytics and WhatsApp URL logic.
-- Core button should not require frontend JavaScript where HTML/CSS is sufficient.
-- Prefer inline SVG instead of loading an icon library.
+- Shortcode `[hatnikotni_chat]`.
+- Shared routing, campaign attribution, analytics and WhatsApp URL logic.
+- Prefer HTML/CSS over frontend JS where possible.
+- Prefer inline SVG over an icon library.
 
 ### Contacts
-
-Fields:
-
-- id
-- name
-- phone
-- role
-- description
-- status
-- weight
-- sort_order
-- created_at
-- updated_at
-
-Phone storage is digits-only.
-
-Historical contacts should normally be deactivated rather than deleted.
-
-### Routing
-
-V1:
-
-- direct
-- random
-- round_robin
-
-Weighted routing is reserved for later.
+- Fields: id, name, phone, role, description, status, weight, sort_order, created_at, updated_at.
+- Phone stored as digits only.
+- Historical contacts are normally deactivated, not deleted.
 
 ### Analytics
-
-Primary event: whatsapp_click.
-
-This means a click on the WhatsApp button, not confirmation that a message was sent.
-
-Fields:
-
-- id
-- event_type
-- created_at
-- contact_id
-- page_id
-- page_type
-- device
-- utm_source
-- utm_medium
-- utm_campaign
-- utm_term
-- utm_content
-
-Do not store IP, visitor identity, full user-agent, fingerprint, conversation content, browsing history or visitor ID.
-
-Analytics failure must never prevent the WhatsApp action.
+- Primary event: `whatsapp_click`; this records a click, not proof that a message was sent.
+- Store contact/page/device/UTM metadata only; no IP, visitor identity, fingerprint, conversation content, browsing history or visitor ID.
+- Analytics failure must never block WhatsApp.
 
 ### Campaign
-
-Supported UTM fields:
-
-- utm_source
-- utm_medium
-- utm_campaign
-- utm_term
-- utm_content
-
-V1 uses last-touch attribution through a first-party hkc_campaign cookie with 30-day retention.
-
-New UTM attribution overwrites the previous campaign attribution.
-
-No general visitor tracking is required.
+- UTM: source, medium, campaign, term, content.
+- Last-touch attribution using first-party `hkc_campaign` cookie, 30-day retention.
 
 ### Database
-
-Tables:
-
-- {$wpdb->prefix}hkc_contacts
-- {$wpdb->prefix}hkc_events
-
-Use WordPress DB prefix, charset/collation and dbDelta.
-
-Use WordPress time functions.
-
-No database foreign keys.
-
-Schema is versioned through HKC_DB_VERSION.
-
-Initial event retention target: 180 days. Admin retention controls are not implemented yet.
-
-### Admin
-
-Planned top-level pages:
-
-- General
-- Contacts
-- Routing
-- Analytics
-- Integrations
-
-Campaign is part of Analytics, not a separate top-level page.
+- `{$wpdb->prefix}hkc_contacts`
+- `{$wpdb->prefix}hkc_events`
+- WordPress prefix, charset/collation, `dbDelta()`, WordPress time functions.
+- No DB foreign keys.
+- Event retention target: 180 days.
 
 ### Integrations
-
-Optional/future:
-
-- Webhook
-- WooCommerce
-- CRM
-- weighted/context routing
-- WhatsApp Business API
-
-These must not become core dependencies.
-
-Chatbot remains out of scope unless explicitly reintroduced.
-
-## Architecture baseline
-
-Planned modules:
-
-- HKC_Plugin
-- HKC_Settings
-- HKC_Contacts
-- HKC_Routing
-- HKC_Analytics
-- HKC_Campaign
-- HKC_Shortcode
-- HKC_Admin
-
-Avoid unnecessary repositories, controllers, service containers, event buses or frontend frameworks unless a real requirement justifies them.
-
-## Repository state
-
-Completed:
-
-- private repository created;
-- README;
-- CHANGELOG;
-- architecture document;
-- plugin skeleton;
-- activation/deactivation lifecycle;
-- initial contacts/events schema installers;
-- AI development protocol;
-- current handoff.
-
-Skeleton files currently include:
-
-- hatnikotni-chat.php
-- includes/* core module stubs
-- assets/css/hatnikotni-chat.css
-- uninstall.php
-
-Not implemented:
-
-- Contact CRUD — implemented (initial admin CRUD; runtime validation pending)
-- routing algorithms
-- floating button
-- shortcode rendering
-- WhatsApp URL generation
-- analytics recording/query UI
-- UTM cookie capture
-- retention cleanup
-- webhook
-- WooCommerce integration
-- CI/build workflow
-- automated contract tests
-- staging acceptance
-- production deployment
+- Future/optional: Webhook, WooCommerce, CRM, weighted/context routing, WhatsApp Business API.
+- Core must not depend on them.
+- `rancang.perlis.xyz` chatbot remains outside scope.
 
 ## Validation state
 
-- Source syntax: CONFIRMED — GitHub Actions validation passed on the skeleton before Contact CRUD; new Contact CRUD commit requires fresh CI validation.
-- Automated tests/contracts: PENDING — skeleton contract included in CI
-- CI/build: PENDING
-- Staging activation: PENDING
-- Frontend functional testing: PENDING
-- Mobile/desktop: PENDING
-- Cache compatibility: PENDING
-- WooCommerce compatibility: PENDING
-- Accessibility: PENDING
-- Performance: PENDING
-- Security review: PENDING
-- Production acceptance: PENDING
+- Source syntax: PENDING — latest routing/admin/upgrade changes require fresh CI confirmation.
+- Automated contracts: PENDING — latest contract changes require fresh CI confirmation.
+- CI/build: PENDING.
+- Staging activation: PENDING.
+- Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security: PENDING.
+- Production acceptance: PENDING.
 
 No runtime acceptance is claimed.
 
-## Development rule
+## Next action
 
-Every material implementation must be reviewed for:
-
-- security
-- WordPress compatibility
-- PHP syntax
-- naming/prefix hygiene
-- unused/dead code
-- dependency boundaries
-- accessibility
-- cache behaviour
-- performance
-- migration/uninstall safety
-- documentation continuity
-
-## Current next action
-
-Run CI on the Contact CRUD change, review failures if any, then perform a second source audit before starting the routing engine.
-
-After CI completes, record its result here. Then correct any source issue found before implementing Contact CRUD.
+Confirm CI for the current HEAD. Then perform the routing source audit and proceed to shared WhatsApp URL/action generation. Runtime acceptance remains pending until staging installation and testing.
