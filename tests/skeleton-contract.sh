@@ -41,6 +41,10 @@ grep -q "https://wa.me/" includes/class-hkc-whatsapp.php || fail "WhatsApp URL c
 grep -q "setcookie" includes/class-hkc-campaign.php || fail "Campaign cookie contract missing"
 grep -q "hkc_campaign" includes/class-hkc-campaign.php || fail "Campaign cookie name contract missing"
 grep -q "whatsapp_click" includes/class-hkc-analytics.php || fail "Analytics event contract missing"
+grep -q "get_summary" includes/class-hkc-analytics.php || fail "Analytics summary contract missing"
+grep -q "function cleanup" includes/class-hkc-analytics.php || fail "Analytics cleanup contract missing"
+grep -q "hkc_daily_cleanup" includes/class-hkc-plugin.php || fail "Analytics cleanup schedule contract missing"
+grep -q "hkc-analytics" includes/class-hkc-analytics-admin.php || fail "Analytics admin contract missing"
 grep -q "hkc-inline" includes/class-hkc-shortcode.php || fail "Shortcode rendering contract missing"
 
 echo "PASS: Hatnikotni Chat contracts"
