@@ -169,7 +169,7 @@ final class HKC_Admin {
 		$editing  = $edit_id ? HKC_Contacts::get( $edit_id ) : null;
 		$contacts = HKC_Contacts::get_all();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
-		$is_new   = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
+		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap">
 			<h1 class="wp-heading-inline"><?php echo esc_html__( 'Contacts', 'hatnikotni-chat' ); ?></h1>
