@@ -20,9 +20,18 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
+          tools: composer
+
       - name: Check PHP syntax
         run: |
           set -eu
-          find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+          find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+
       - name: Run skeleton contract
         run: bash tests/skeleton-contract.sh
+
+      - name: Install development dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run WordPress Coding Standards
+        run: vendor/bin/phpcs --standard=phpcs.xml.dist
