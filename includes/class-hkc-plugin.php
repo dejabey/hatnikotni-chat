@@ -27,6 +27,7 @@ final class HKC_Plugin {
 		self::maybe_upgrade();
 
 		HKC_Campaign::init();
+		HKC_WhatsApp::init();
 		HKC_Shortcode::init();
 		HKC_Admin::init();
 
