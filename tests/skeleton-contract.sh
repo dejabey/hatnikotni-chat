@@ -20,6 +20,7 @@ grep -q "get_charset_collate" includes/class-hkc-analytics.php || fail "Events c
 grep -q "dbDelta" includes/class-hkc-contacts.php || fail "Contacts dbDelta contract missing"
 grep -q "dbDelta" includes/class-hkc-analytics.php || fail "Events dbDelta contract missing"
 grep -q "WP_UNINSTALL_PLUGIN" uninstall.php || fail "Uninstall guard missing"
+grep -q "hkc_routing_state" uninstall.php || fail "Routing state uninstall cleanup missing"
 
 grep -q "function save" includes/class-hkc-contacts.php || fail "Contact save contract missing"
 grep -q "function set_status" includes/class-hkc-contacts.php || fail "Contact status contract missing"
@@ -28,6 +29,8 @@ grep -q "check_admin_referer" includes/class-hkc-admin.php || fail "Admin nonce 
 grep -q "current_user_can( 'manage_options' )" includes/class-hkc-admin.php || fail "Admin capability contract missing"
 grep -q "wp_safe_redirect" includes/class-hkc-admin.php || fail "Safe redirect contract missing"
 grep -q "maybe_upgrade" includes/class-hkc-plugin.php || fail "Database upgrade contract missing"
+grep -q "hkc_save_settings" includes/class-hkc-admin.php || fail "Settings save action missing"
+grep -q "routing_method" includes/class-hkc-admin.php || fail "Routing settings contract missing"
 
 grep -q "case 'direct'" includes/class-hkc-routing.php || fail "Direct routing contract missing"
 grep -q "case 'random'" includes/class-hkc-routing.php || fail "Random routing contract missing"
