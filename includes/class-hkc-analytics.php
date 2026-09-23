@@ -64,11 +64,11 @@ final class HKC_Analytics {
 		$inserted = $wpdb->insert(
 			self::table_name(),
 			array(
-				'event_type'    => 'whatsapp_click',
-				'created_at'    => current_time( 'mysql' ),
-				'contact_id'   => $contact_id > 0 ? $contact_id : null,
-				'page_id'      => $page_id > 0 ? $page_id : null,
-				'page_type'    => '' !== $page_type ? $page_type : null,
+				'event_type'   => 'whatsapp_click',
+				'created_at'   => current_time( 'mysql' ),
+				'contact_id'  => $contact_id > 0 ? $contact_id : null,
+				'page_id'     => $page_id > 0 ? $page_id : null,
+				'page_type'   => '' !== $page_type ? $page_type : null,
 				'device'       => $device,
 				'utm_source'   => $attribution['utm_source'],
 				'utm_medium'   => $attribution['utm_medium'],
@@ -85,12 +85,13 @@ final class HKC_Analytics {
 	public static function get_summary( int $days = 30 ): array {
 		global $wpdb;
 
-		$days = min( self::RETENTION_DAYS, max( 1, absint( $days ) ) );
+		$days  = min( self::RETENTION_DAYS, max( 1, absint( $days ) ) );
 		$since = wp_date( 'Y-m-d H:i:s', time() - ( DAY_IN_SECONDS * $days ) );
 
 		$total = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				'SELECT COUNT(*) FROM ' . self::table_name() . ' WHERE event_type = %s AND created_at >= %s',
+				'SELECT COUNT(*) FROM %i WHERE event_type = %s AND created_at >= %s',
+				self::table_name(),
 				'whatsapp_click',
 				$since
 			)
@@ -98,7 +99,8 @@ final class HKC_Analytics {
 
 		$by_device = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT device, COUNT(*) AS total FROM ' . self::table_name() . ' WHERE event_type = %s AND created_at >= %s GROUP BY device ORDER BY total DESC',
+				'SELECT device, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s GROUP BY device ORDER BY total DESC',
+				self::table_name(),
 				'whatsapp_click',
 				$since
 			),
@@ -107,7 +109,8 @@ final class HKC_Analytics {
 
 		$by_contact = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT contact_id, COUNT(*) AS total FROM ' . self::table_name() . ' WHERE event_type = %s AND created_at >= %s GROUP BY contact_id ORDER BY total DESC',
+				'SELECT contact_id, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s GROUP BY contact_id ORDER BY total DESC',
+				self::table_name(),
 				'whatsapp_click',
 				$since
 			),
@@ -116,7 +119,8 @@ final class HKC_Analytics {
 
 		$by_campaign = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT utm_campaign, COUNT(*) AS total FROM ' . self::table_name() . ' WHERE event_type = %s AND created_at >= %s AND utm_campaign IS NOT NULL AND utm_campaign <> %s GROUP BY utm_campaign ORDER BY total DESC',
+				'SELECT utm_campaign, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s AND utm_campaign IS NOT NULL AND utm_campaign <> %s GROUP BY utm_campaign ORDER BY total DESC',
+				self::table_name(),
 				'whatsapp_click',
 				$since,
 				''
@@ -125,11 +129,11 @@ final class HKC_Analytics {
 		);
 
 		return array(
-			'days'         => $days,
-			'total'        => $total,
-			'by_device'    => is_array( $by_device ) ? $by_device : array(),
-			'by_contact'   => is_array( $by_contact ) ? $by_contact : array(),
-			'by_campaign'  => is_array( $by_campaign ) ? $by_campaign : array(),
+			'days'        => $days,
+			'total'       => $total,
+			'by_device'   => is_array( $by_device ) ? $by_device : array(),
+			'by_contact'  => is_array( $by_contact ) ? $by_contact : array(),
+			'by_campaign' => is_array( $by_campaign ) ? $by_campaign : array(),
 		);
 	}
 
@@ -140,7 +144,8 @@ final class HKC_Analytics {
 
 		$result = $wpdb->query(
 			$wpdb->prepare(
-				'DELETE FROM ' . self::table_name() . ' WHERE created_at < %s',
+				'DELETE FROM %i WHERE created_at < %s',
+				self::table_name(),
 				$cutoff
 			)
 		);
@@ -153,9 +158,10 @@ final class HKC_Analytics {
 			return 'desktop';
 		}
 
-		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) && is_string( $_SERVER['HTTP_USER_AGENT'] )
-			? strtolower( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )
-			: '';
+		$user_agent = '';
+		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && is_string( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			$user_agent = strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) );
+		}
 
 		if ( preg_match( '/ipad|tablet|android(?!.*mobile)/i', $user_agent ) ) {
 			return 'tablet';
