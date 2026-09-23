@@ -1,6 +1,6 @@
 <?php
 /**
- * Contact storage and validation.
+ * Contact storage, validation and CRUD.
  *
  * @package Hatnikotni_Chat
  */
@@ -20,7 +20,7 @@ final class HKC_Contacts {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$table = self::table_name();
+		$table           = self::table_name();
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE {$table} (
@@ -44,5 +44,126 @@ final class HKC_Contacts {
 
 	public static function normalize_phone( string $phone ): string {
 		return preg_replace( '/\D+/', '', $phone ) ?? '';
+	}
+
+	public static function get( int $id ): ?array {
+		global $wpdb;
+
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				'SELECT * FROM ' . self::table_name() . ' WHERE id = %d LIMIT 1',
+				$id
+			),
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
+	}
+
+	public static function get_active(): array {
+		global $wpdb;
+
+		$rows = $wpdb->get_results(
+			'SELECT * FROM ' . self::table_name() . ' WHERE status = 1 ORDER BY sort_order ASC, id ASC',
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	public static function get_all(): array {
+		global $wpdb;
+
+		$rows = $wpdb->get_results(
+			'SELECT * FROM ' . self::table_name() . ' ORDER BY sort_order ASC, id ASC',
+			ARRAY_A
+		);
+
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	public static function save( array $data, int $id = 0 ): int|WP_Error {
+		global $wpdb;
+
+		$name        = sanitize_text_field( $data['name'] ?? '' );
+		$phone       = self::normalize_phone( (string) ( $data['phone'] ?? '' ) );
+		$role        = sanitize_text_field( $data['role'] ?? '' );
+		$description = sanitize_text_field( $data['description'] ?? '' );
+		$status      = ! empty( $data['status'] ) ? 1 : 0;
+		$weight      = max( 1, absint( $data['weight'] ?? 1 ) );
+		$sort_order  = absint( $data['sort_order'] ?? 0 );
+
+		if ( '' === $name ) {
+			return new WP_Error( 'missing_name', __( 'Contact name is required.', 'hatnikotni-chat' ) );
+		}
+
+		if ( ! preg_match( '/^[0-9]{8,20}$/', $phone ) ) {
+			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using digits only or a normal phone format.', 'hatnikotni-chat' ) );
+		}
+
+		$now = current_time( 'mysql' );
+		$table = self::table_name();
+
+		if ( $id > 0 ) {
+			$updated = $wpdb->update(
+				$table,
+				array(
+					'name'        => $name,
+					'phone'       => $phone,
+					'role'        => $role,
+					'description' => $description,
+					'status'      => $status,
+					'weight'      => $weight,
+					'sort_order'  => $sort_order,
+					'updated_at'  => $now,
+				),
+				array( 'id' => $id ),
+				array( '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%s' ),
+				array( '%d' )
+			);
+
+			if ( false === $updated ) {
+				return new WP_Error( 'db_update_failed', __( 'The contact could not be updated.', 'hatnikotni-chat' ) );
+			}
+
+			return $id;
+		}
+
+		$inserted = $wpdb->insert(
+			$table,
+			array(
+				'name'        => $name,
+				'phone'       => $phone,
+				'role'        => $role,
+				'description' => $description,
+				'status'      => $status,
+				'weight'      => $weight,
+				'sort_order'  => $sort_order,
+				'created_at'  => $now,
+				'updated_at'  => $now,
+			),
+			array( '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%s', '%s' )
+		);
+
+		if ( false === $inserted ) {
+			return new WP_Error( 'db_insert_failed', __( 'The contact could not be created.', 'hatnikotni-chat' ) );
+		}
+
+		return (int) $wpdb->insert_id;
+	}
+
+	public static function set_status( int $id, bool $active ): bool {
+		global $wpdb;
+
+		return false !== $wpdb->update(
+			self::table_name(),
+			array(
+				'status'     => $active ? 1 : 0,
+				'updated_at' => current_time( 'mysql' ),
+			),
+			array( 'id' => $id ),
+			array( '%d', '%s' ),
+			array( '%d' )
+		);
 	}
 }
