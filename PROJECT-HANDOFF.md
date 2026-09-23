@@ -203,7 +203,7 @@ Skeleton files currently include:
 
 Not implemented:
 
-- Contact CRUD
+- Contact CRUD — implemented (initial admin CRUD; runtime validation pending)
 - routing algorithms
 - floating button
 - shortcode rendering
@@ -220,7 +220,7 @@ Not implemented:
 
 ## Validation state
 
-- Source syntax: PENDING — GitHub Actions run #3 queued for commit `34a463f7217e54e9a862cd14e31284b7c838bef8`
+- Source syntax: CONFIRMED — GitHub Actions validation passed on the skeleton before Contact CRUD; new Contact CRUD commit requires fresh CI validation.
 - Automated tests/contracts: PENDING — skeleton contract included in CI
 - CI/build: PENDING
 - Staging activation: PENDING
@@ -253,6 +253,6 @@ Every material implementation must be reviewed for:
 
 ## Current next action
 
-Run a source-level audit and syntax validation of the skeleton. Correct issues before implementing Contact CRUD.
+Run CI on the Contact CRUD change, review failures if any, then perform a second source audit before starting the routing engine.
 
 After CI completes, record its result here. Then correct any source issue found before implementing Contact CRUD.
