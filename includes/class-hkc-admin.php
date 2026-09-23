@@ -45,17 +45,20 @@ final class HKC_Admin {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'Hatnikotni Chat', 'hatnikotni-chat' ); ?></h1>
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Settings saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
 			<?php if ( isset( $_GET['error'] ) ) : ?>
 				<?php
 				$error_messages = array(
-					'missing_name' => __( 'Contact name is required.', 'hatnikotni-chat' ),
-					'invalid_phone' => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
+					'missing_name'     => __( 'Contact name is required.', 'hatnikotni-chat' ),
+					'invalid_phone'    => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
 					'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin error key.
 				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
 				if ( isset( $error_messages[ $error_key ] ) ) : ?>
 					<div class="notice notice-error"><p><?php echo esc_html( $error_messages[ $error_key ] ); ?></p></div>
@@ -161,9 +164,11 @@ final class HKC_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'hatnikotni-chat' ) );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin edit selector.
 		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		$editing  = $edit_id ? HKC_Contacts::get( $edit_id ) : null;
 		$contacts = HKC_Contacts::get_all();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
 		$is_new   = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap">
@@ -201,7 +206,16 @@ final class HKC_Admin {
 	}
 
 	private static function render_contact_form( ?array $contact ): void {
-		$contact = $contact ?? array( 'id' => 0, 'name' => '', 'phone' => '', 'role' => '', 'description' => '', 'status' => 1, 'weight' => 1, 'sort_order' => 0 );
+		$contact = $contact ?? array(
+			'id'          => 0,
+			'name'        => '',
+			'phone'       => '',
+			'role'        => '',
+			'description' => '',
+			'status'      => 1,
+			'weight'      => 1,
+			'sort_order'  => 0,
+		);
 		?>
 		<div style="max-width:760px;margin:20px 0;">
 			<h2><?php echo $contact['id'] ? esc_html__( 'Edit Contact', 'hatnikotni-chat' ) : esc_html__( 'Add Contact', 'hatnikotni-chat' ); ?></h2>
@@ -229,19 +243,19 @@ final class HKC_Admin {
 		}
 		check_admin_referer( 'hkc_save_contact', 'hkc_nonce' );
 
-		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$id   = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$data = array(
-			'name' => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
-			'phone' => isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '',
-			'role' => isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '',
+			'name'        => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
+			'phone'       => isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '',
+			'role'        => isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '',
 			'description' => isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '',
-			'status' => isset( $_POST['status'] ) ? 1 : 0,
-			'weight' => isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : 1,
-			'sort_order' => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
+			'status'      => isset( $_POST['status'] ) ? 1 : 0,
+			'weight'      => isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : 1,
+			'sort_order'  => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
 		);
 
 		$result = HKC_Contacts::save( $data, $id );
-		$url = is_wp_error( $result ) ? admin_url( 'admin.php?page=hkc-contacts&error=' . rawurlencode( $result->get_error_code() ) ) : admin_url( 'admin.php?page=hkc-contacts&updated=1' );
+		$url    = is_wp_error( $result ) ? admin_url( 'admin.php?page=hkc-contacts&error=' . rawurlencode( $result->get_error_code() ) ) : admin_url( 'admin.php?page=hkc-contacts&updated=1' );
 		wp_safe_redirect( $url );
 		exit;
 	}
@@ -250,6 +264,7 @@ final class HKC_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- ID is protected by the following action nonce.
 		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
 		check_admin_referer( 'hkc_toggle_contact_' . $id );
 
