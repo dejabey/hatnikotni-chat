@@ -45,9 +45,10 @@ final class HKC_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'hatnikotni-chat' ) );
 		}
 
-		$edit_id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
-		$editing = $edit_id ? HKC_Contacts::get( $edit_id ) : null;
+		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+		$editing  = $edit_id ? HKC_Contacts::get( $edit_id ) : null;
 		$contacts = HKC_Contacts::get_all();
+		$is_new   = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap">
 			<h1 class="wp-heading-inline"><?php echo esc_html__( 'Contacts', 'hatnikotni-chat' ); ?></h1>
@@ -58,7 +59,7 @@ final class HKC_Admin {
 
 			<?php self::render_notice(); ?>
 
-			<?php if ( $editing || isset( $_GET['action'] ) && 'new' === $_GET['action'] ) : ?>
+			<?php if ( $editing || $is_new ) : ?>
 				<?php self::render_contact_form( $editing ); ?>
 			<?php endif; ?>
 
@@ -163,8 +164,18 @@ final class HKC_Admin {
 
 		check_admin_referer( 'hkc_save_contact', 'hkc_nonce' );
 
-		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
-		$result = HKC_Contacts::save( wp_unslash( $_POST ), $id );
+		$id   = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$data = array(
+			'name'        => isset( $_POST['name'] ) ? wp_unslash( $_POST['name'] ) : '',
+			'phone'       => isset( $_POST['phone'] ) ? wp_unslash( $_POST['phone'] ) : '',
+			'role'        => isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '',
+			'description' => isset( $_POST['description'] ) ? wp_unslash( $_POST['description'] ) : '',
+			'status'      => isset( $_POST['status'] ) ? 1 : 0,
+			'weight'      => isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : 1,
+			'sort_order'  => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
+		);
+
+		$result = HKC_Contacts::save( $data, $id );
 
 		if ( is_wp_error( $result ) ) {
 			$url = admin_url( 'admin.php?page=hkc&error=' . rawurlencode( $result->get_error_code() ) );
@@ -202,10 +213,10 @@ final class HKC_Admin {
 
 		if ( isset( $_GET['error'] ) ) {
 			$messages = array(
-				'missing_name'      => __( 'Contact name is required.', 'hatnikotni-chat' ),
-				'invalid_phone'     => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
-				'db_update_failed'  => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
-				'db_insert_failed'  => __( 'The contact could not be created.', 'hatnikotni-chat' ),
+				'missing_name'     => __( 'Contact name is required.', 'hatnikotni-chat' ),
+				'invalid_phone'    => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
+				'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
+				'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 			);
 			$key = sanitize_key( wp_unslash( $_GET['error'] ) );
 			if ( isset( $messages[ $key ] ) ) {
