@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-23.**
 
-**Current HEAD before this handoff update:** c1e7270dd9da82d14d799668780ba0da5741bcfa
+**Current HEAD before this handoff update:** 0a15dca7cb97eec5c68e1cb8bb41c5099bccbb52
 
 ## Current implementation
 
@@ -103,10 +103,10 @@ The plugin does not provide its own consent banner.
 
 ## Validation state
 
-- Source syntax: PENDING — latest implementation changes require fresh GitHub Actions confirmation.
-- Automated contracts: PENDING — latest contract changes require fresh GitHub Actions confirmation.
-- WordPress Coding Standards: PENDING — first CI run after tooling changes required.
-- CI/build: PENDING.
+- Source syntax: CONFIRMED on the latest completed validation run.
+- Automated contracts: CONFIRMED on the latest completed validation run.
+- WordPress Coding Standards: FAILED on run 69; source formatting/standards findings remain to be fixed. PHP syntax and contract steps passed.
+- CI/build: PENDING until WPCS is clean.
 - Runtime consent integration: PENDING.
 - Staging activation: PENDING.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security: PENDING.
@@ -116,6 +116,6 @@ No runtime acceptance is claimed.
 
 ## Next action
 
-Confirm the new CI run. If WordPress Coding Standards reports findings, fix them before adding more features. Then complete the remaining WordPress.org preflight and staging runtime validation.
+Fix the WordPress Coding Standards findings from the failed validation run before adding more features. Then re-run CI and complete the remaining WordPress.org preflight and staging runtime validation.
 
 Before release, separately validate round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
