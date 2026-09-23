@@ -72,7 +72,7 @@ final class HKC_Analytics_Admin {
 			return;
 		}
 		?>
-		<table class="widefat striped" class="hkc-analytics-table">
+		<table class="widefat striped hkc-analytics-table">
 			<thead><tr><th scope="col"><?php echo esc_html__( 'Value', 'hatnikotni-chat' ); ?></th><th scope="col"><?php echo esc_html__( 'Clicks', 'hatnikotni-chat' ); ?></th></tr></thead>
 			<tbody>
 			<?php foreach ( $rows as $row ) : ?>
@@ -94,8 +94,8 @@ final class HKC_Analytics_Admin {
 			return;
 		}
 		?>
-		<table class="widefat striped" style="max-width:760px;">
-			<thead><tr><th scope="col"><?php echo esc_html__( 'Contact', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Clicks', 'hatnikotni-chat' ); ?></th></tr></thead>
+		<table class="widefat striped hkc-analytics-table">
+			<thead><tr><th scope="col"><?php echo esc_html__( 'Contact', 'hatnikotni-chat' ); ?></th><th scope="col"><?php echo esc_html__( 'Clicks', 'hatnikotni-chat' ); ?></th></tr></thead>
 			<tbody>
 			<?php foreach ( $rows as $row ) : ?>
 				<?php $contact = HKC_Contacts::get( absint( $row['contact_id'] ) ); ?>
