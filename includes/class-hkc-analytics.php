@@ -49,6 +49,10 @@ final class HKC_Analytics {
 	}
 
 	public static function record_click( array $data = array() ): bool {
+		if ( ! HKC_Privacy::has_analytics_consent() ) {
+			return false;
+		}
+
 		global $wpdb;
 
 		$attribution = HKC_Campaign::get_attribution();
