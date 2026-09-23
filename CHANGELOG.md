@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Audited admin, analytics-admin, WhatsApp, shortcode, routing, contact storage, uninstall and frontend CSS layers for WordPress.org/WPCS readiness.
+- Tightened admin markup/source formatting and restored distinct settings/contact success notices.
+
 - Added consent-aware visitor analytics with a default-deny consent filter.
 - Added WordPress Privacy Policy Guide integration.
 - Made UTM campaign attribution and the hkc_campaign cookie consent-aware, including cookie clearing when consent is absent.
