@@ -5,6 +5,7 @@ All notable changes to Hatnikotni Chat will be documented here.
 ## Unreleased
 
 ### Added
+- Contact CRUD storage and an initial Contacts admin interface with capability and nonce protection.
 - Private GitHub repository and initial project documentation.
 - Plugin skeleton with Hatnikotni naming/prefix conventions.
 - Activation/deactivation lifecycle.
