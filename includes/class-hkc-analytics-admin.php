@@ -47,6 +47,7 @@ final class HKC_Analytics_Admin {
 				<div class="hkc-stat-card hkc-stat-card--accent">
 					<span class="hkc-stat-card__label"><?php echo esc_html__( 'WhatsApp clicks', 'hatnikotni-chat' ); ?></span>
 					<strong class="hkc-stat-card__value"><?php echo esc_html( number_format_i18n( $summary['total'] ) ); ?></strong>
+					<?php // Translators: %d is the number of days in the selected analytics period. ?>
 					<span class="hkc-stat-card__meta"><?php echo esc_html( sprintf( _n( 'Last %d day', 'Last %d days', $days, 'hatnikotni-chat' ), $days ) ); ?></span>
 				</div>
 				<div class="hkc-stat-card">
