@@ -16,6 +16,15 @@ final class HKC_Consent_Test_Harness {
 			return;
 		}
 
+		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
+		add_action( 'admin_post_hkc_consent_test', array( __CLASS__, 'handle' ) );
+	}
+
+	public static function register_menu(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		add_submenu_page(
 			'hkc',
 			__( 'Consent Test', 'hatnikotni-chat' ),
@@ -25,7 +34,6 @@ final class HKC_Consent_Test_Harness {
 			array( __CLASS__, 'render' )
 		);
 
-		add_action( 'admin_post_hkc_consent_test', array( __CLASS__, 'handle' ) );
 	}
 
 	public static function render(): void {
