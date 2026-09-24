@@ -1,0 +1,57 @@
+/**
+ * Hatnikotni Chat admin styles.
+ *
+ * Loaded only on Hatnikotni Chat admin screens.
+ */
+
+.hkc-admin .hkc-admin-intro {
+	max-width: 760px;
+	font-size: 14px;
+}
+
+.hkc-admin .form-table th {
+	width: 210px;
+}
+
+.hkc-admin .form-table input.regular-text,
+.hkc-admin .form-table textarea.large-text,
+.hkc-admin .form-table select {
+	max-width: 560px;
+}
+
+.hkc-admin .form-table .description {
+	max-width: 560px;
+	margin-top: 6px;
+}
+
+.hkc-admin .page-title-action {
+	margin-left: 6px;
+}
+
+.hkc-admin .hkc-admin-section {
+	max-width: 980px;
+	margin: 22px 0;
+	padding: 18px 22px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+}
+
+.hkc-admin .hkc-admin-section > h2 {
+	margin-top: 0;
+}
+
+.hkc-admin .hkc-analytics-table {
+	max-width: 980px;
+}
+
+@media (max-width: 782px) {
+	.hkc-admin .form-table th {
+		width: auto;
+	}
+
+	.hkc-admin .hkc-admin-section {
+		padding: 14px;
+	}
+}
