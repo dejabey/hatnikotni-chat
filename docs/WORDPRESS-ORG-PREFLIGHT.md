@@ -27,6 +27,7 @@
 5. Run the official readme validator against the final stable readme.
 6. Final staging browser tests remain pending because WPVibe runtime quota is exhausted.
 7. Admin UI redesign is implemented in the RC source; visual browser verification on General, Contacts and Analytics remains pending.
+8. Layout spacing and content-width refinement was applied after staging screenshots; the redesign now uses a wider 1320px maximum canvas with tighter, consistent panel spacing.
 
 ## Security findings
 ### Public WhatsApp endpoint
