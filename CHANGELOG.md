@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Confirmed GitHub Actions PHP 8.1–8.4 matrix is fully green for syntax, contracts and WPCS.
+- Staging direct routing verified with international WhatsApp number format; default-deny analytics produced no event without consent.
+- Staging UI refinement planned: modernize Hatnikotni Chat admin submenus with clearer layout and contextual field guidance before release.
+
 - Completed WPCS source cleanup across admin, analytics, contacts, routing, settings, campaign, WhatsApp and plugin bootstrap layers.
 - Hardened custom-table queries with prepared identifiers and sanitized device detection input.
 - Confirmed latest CI validation passes PHP syntax, contract checks and WordPress Coding Standards.
