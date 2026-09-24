@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Enforced strict international digits-only phone input at the server validation layer; formatting characters such as +, spaces and hyphens are rejected rather than silently normalized.
 - Confirmed GitHub Actions PHP 8.1–8.4 matrix is fully green for syntax, contracts and WPCS.
 - Staging direct routing verified with international WhatsApp number format; default-deny analytics produced no event without consent.
 - Added Hatnikotni Chat admin UI refinement: scoped stylesheet, clearer grouping, contextual placeholders/help text and improved table presentation.
