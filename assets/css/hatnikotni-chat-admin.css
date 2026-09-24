@@ -188,11 +188,22 @@
 }
 
 .hkc-admin .form-table .description {
-	max-width: 560px;
-	margin-top: 7px;
+	display: block;
+	clear: both;
+	max-width: 720px;
+	margin: 8px 0 0;
 	line-height: 1.55;
 	color: var(--hkc-admin-muted);
 }
+
+.hkc-admin .hkc-contact-form .form-table input[type="number"] {
+	width: 120px;
+}
+
+.hkc-admin .hkc-contact-form .form-table input[name="sort_order"] {
+	width: 160px;
+}
+
 
 .hkc-admin .hkc-toggle-label {
 	display: inline-flex;
