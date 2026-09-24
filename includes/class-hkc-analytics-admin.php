@@ -34,12 +34,13 @@ final class HKC_Analytics_Admin {
 		$days    = isset( $_GET['days'] ) ? min( 180, max( 1, absint( $_GET['days'] ) ) ) : 30;
 		$summary = HKC_Analytics::get_summary( $days );
 		?>
-		<div class="wrap">
+		<div class="wrap hkc-admin">
 			<h1><?php echo esc_html__( 'WhatsApp Interaction Analytics', 'hatnikotni-chat' ); ?></h1>
+			<p class="hkc-admin-intro"><?php echo esc_html__( 'Review WhatsApp button clicks recorded with visitor consent. A click is an interaction event, not proof that a message was sent.', 'hatnikotni-chat' ); ?></p>
 
 			<form method="get">
 				<input type="hidden" name="page" value="hkc-analytics">
-				<label for="hkc-days"><?php echo esc_html__( 'Period', 'hatnikotni-chat' ); ?></label>
+				<label for="hkc-days"><strong><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></strong></label>
 				<select id="hkc-days" name="days">
 					<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
 						<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
