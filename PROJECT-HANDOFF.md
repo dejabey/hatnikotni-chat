@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-24.**
 
-**Current HEAD:** 27945df06ef32b7914935712d49abeaaef5633ae
+**Current HEAD:** ccbaab3aef9aa4d3341a78d50bb3a458d8a96cb8
 
 ## Current implementation
 
@@ -111,12 +111,13 @@ The plugin does not provide its own consent banner.
 - Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
 - Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
 - Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
+- Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
 
 No runtime acceptance is claimed.
 
 ## Next action
 
-Continue runtime/staging validation. Modernize the Hatnikotni Chat admin submenu UI before release: clearer grouping, compact layout, contextual placeholders/instructions for precision-sensitive fields, and accessible responsive admin styling. Do not deploy to production until staging acceptance is complete. Do not deploy to production until staging acceptance is complete.
+Continue runtime/staging validation. The admin UI refinement is now in source and must be visually verified after the updated build reaches staging. Remaining release gates include consent integration, multi-contact routing, shortcode, cache, WooCommerce, accessibility, performance/security, clean ZIP inspection and production approval. Do not deploy to production until staging acceptance is complete. Do not deploy to production until staging acceptance is complete.
 
 Before release, separately validate round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
