@@ -140,3 +140,5 @@ Production activation remains a separate approval step.
 
 - [x] Admin field guidance is displayed below controls with consistent spacing; numeric routing fields use compact widths.
 - [x] WhatsApp hover/focus states use a darker green interaction state rather than red, with subtle lift/shadow and reduced-motion support.
+
+- [x] Analytics reporting-period filter panel constrained to a compact 640px column so it no longer spans the full dashboard width.
