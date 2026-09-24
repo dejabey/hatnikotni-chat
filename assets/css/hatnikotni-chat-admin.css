@@ -446,8 +446,10 @@
 }
 
 .hkc-admin .hkc-filter-panel {
-	max-width: 980px;
-	padding: 16px 20px;
+	width: 100%;
+	max-width: 640px;
+	box-sizing: border-box;
+	padding: 18px 22px;
 }
 
 .hkc-admin .hkc-filter-form {
