@@ -42,6 +42,24 @@
 	margin-top: 0;
 }
 
+
+.hkc-admin .hkc-contacts-table,
+.hkc-admin .hkc-analytics-table {
+	margin-top: 18px;
+}
+
+.hkc-admin .hkc-contacts-table th,
+.hkc-admin .hkc-contacts-table td,
+.hkc-admin .hkc-analytics-table th,
+.hkc-admin .hkc-analytics-table td {
+	vertical-align: middle;
+}
+
+.hkc-admin .hkc-contacts-table th,
+.hkc-admin .hkc-analytics-table th {
+	font-weight: 600;
+}
+
 .hkc-admin .hkc-analytics-table {
 	max-width: 980px;
 }
