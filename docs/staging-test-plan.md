@@ -137,3 +137,6 @@ Production activation remains a separate approval step.
 - Content canvas widened to 1320px maximum with 1180px working content width.
 - Panel, form-row and dashboard spacing tightened for a more balanced desktop layout.
 - Updated RC still requires browser recheck after installation.
+
+- [x] Admin field guidance is displayed below controls with consistent spacing; numeric routing fields use compact widths.
+- [x] WhatsApp hover/focus states use a darker green interaction state rather than red, with subtle lift/shadow and reduced-motion support.
