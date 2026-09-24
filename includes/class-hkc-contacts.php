@@ -93,7 +93,8 @@ final class HKC_Contacts {
 		global $wpdb;
 
 		$name        = sanitize_text_field( $data['name'] ?? '' );
-		$phone       = self::normalize_phone( (string) ( $data['phone'] ?? '' ) );
+		$raw_phone   = (string) ( $data['phone'] ?? '' );
+		$phone       = self::normalize_phone( $raw_phone );
 		$role        = sanitize_text_field( $data['role'] ?? '' );
 		$description = sanitize_text_field( $data['description'] ?? '' );
 		$status      = ! empty( $data['status'] ) ? 1 : 0;
@@ -104,7 +105,7 @@ final class HKC_Contacts {
 			return new WP_Error( 'missing_name', __( 'Contact name is required.', 'hatnikotni-chat' ) );
 		}
 
-		if ( ! preg_match( '/^[0-9]{8,20}$/', $phone ) ) {
+		if ( ! preg_match( '/^[0-9]{8,20}$/', $raw_phone ) || $phone !== $raw_phone ) {
 			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ) );
 		}
 
