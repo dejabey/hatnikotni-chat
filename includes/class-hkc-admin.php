@@ -15,9 +15,25 @@ final class HKC_Admin {
 		}
 
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'admin_post_hkc_save_contact', array( __CLASS__, 'save_contact' ) );
 		add_action( 'admin_post_hkc_toggle_contact', array( __CLASS__, 'toggle_contact' ) );
 		add_action( 'admin_post_hkc_save_settings', array( __CLASS__, 'save_settings' ) );
+	}
+
+	public static function enqueue_assets( string $hook_suffix ): void {
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( 'toplevel_page_hkc' !== $hook_suffix && ! in_array( $page, array( 'hkc', 'hkc-contacts', 'hkc-analytics' ), true ) ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'hkc-admin',
+			HKC_PLUGIN_URL . 'assets/css/hatnikotni-chat-admin.css',
+			array(),
+			HKC_VERSION
+		);
 	}
 
 	public static function register_menu(): void {
@@ -43,8 +59,9 @@ final class HKC_Admin {
 		$contacts = HKC_Contacts::get_all();
 		$settings = HKC_Settings::all();
 		?>
-		<div class="wrap">
+		<div class="wrap hkc-admin">
 			<h1><?php echo esc_html__( 'Hatnikotni Chat', 'hatnikotni-chat' ); ?></h1>
+			<p class="hkc-admin-intro"><?php echo esc_html__( 'Configure WhatsApp routing and button behaviour. Follow the short guidance under fields where exact formatting matters.', 'hatnikotni-chat' ); ?></p>
 			<?php
 			if ( isset( $_GET['updated'] ) ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'hatnikotni-chat' ) . '</p></div>';
@@ -82,15 +99,16 @@ final class HKC_Admin {
 									</option>
 								<?php endforeach; ?>
 							</select>
+							<p class="description"><?php echo esc_html__( 'Choose an active contact. The contact’s WhatsApp number is managed under Contacts.', 'hatnikotni-chat' ); ?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="hkc-default-message"><?php echo esc_html__( 'Default Message', 'hatnikotni-chat' ); ?></label></th>
-						<td><textarea id="hkc-default-message" name="default_message" rows="4" class="large-text" maxlength="1000"><?php echo esc_textarea( $settings['default_message'] ?? '' ); ?></textarea></td>
+						<td><textarea id="hkc-default-message" name="default_message" rows="4" class="large-text" maxlength="1000" placeholder="<?php echo esc_attr__( 'Example: Hello, I would like to ask about your services.', 'hatnikotni-chat' ); ?>"><?php echo esc_textarea( $settings['default_message'] ?? '' ); ?></textarea><p class="description"><?php echo esc_html__( 'Optional pre-filled message. Keep it short and relevant to a first contact.', 'hatnikotni-chat' ); ?></p></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="hkc-button-label"><?php echo esc_html__( 'Button Label', 'hatnikotni-chat' ); ?></label></th>
-						<td><input id="hkc-button-label" name="button_label" type="text" class="regular-text" maxlength="80" value="<?php echo esc_attr( $settings['button_label'] ?? 'WhatsApp Kami' ); ?>"></td>
+						<td><input id="hkc-button-label" name="button_label" type="text" class="regular-text" maxlength="80" placeholder="<?php echo esc_attr__( 'WhatsApp Kami', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['button_label'] ?? 'WhatsApp Kami' ); ?>"><p class="description"><?php echo esc_html__( 'Text visitors see on the WhatsApp button.', 'hatnikotni-chat' ); ?></p></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="hkc-button-position"><?php echo esc_html__( 'Button Position', 'hatnikotni-chat' ); ?></label></th>
@@ -225,11 +243,11 @@ final class HKC_Admin {
 				<?php wp_nonce_field( 'hkc_save_contact', 'hkc_nonce' ); ?>
 				<table class="form-table">
 					<tr><th><label for="hkc-name"><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-name" name="name" type="text" class="regular-text" maxlength="100" required value="<?php echo esc_attr( $contact['name'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-phone" name="phone" type="tel" class="regular-text" maxlength="30" required value="<?php echo esc_attr( $contact['phone'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-role"><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-role" name="role" type="text" class="regular-text" maxlength="100" value="<?php echo esc_attr( $contact['role'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-description"><?php echo esc_html__( 'Description', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-description" name="description" type="text" class="regular-text" maxlength="255" value="<?php echo esc_attr( $contact['description'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-weight"><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-weight" name="weight" type="number" min="1" max="65535" value="<?php echo esc_attr( $contact['weight'] ); ?>"></td></tr>
-					<tr><th><label for="hkc-sort-order"><?php echo esc_html__( 'Sort Order', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-phone" name="phone" type="tel" class="regular-text" maxlength="20" inputmode="numeric" pattern="[0-9]{8,20}" placeholder="<?php echo esc_attr__( '601155898464', 'hatnikotni-chat' ); ?>" required value="<?php echo esc_attr( $contact['phone'] ); ?>"><p class="description"><?php echo esc_html__( 'Use international digits only: country code + number, without +, spaces or hyphens. Example: 601155898464.', 'hatnikotni-chat' ); ?></p></td></tr>
+					<tr><th><label for="hkc-role"><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-role" name="role" type="text" class="regular-text" maxlength="100" placeholder="<?php echo esc_attr__( 'Sales, Support, Orders', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['role'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-description"><?php echo esc_html__( 'Description', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-description" name="description" type="text" class="regular-text" maxlength="255" placeholder="<?php echo esc_attr__( 'Short internal note about this contact.', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['description'] ); ?>"></td></tr>
+					<tr><th><label for="hkc-weight"><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-weight" name="weight" type="number" min="1" max="65535" value="<?php echo esc_attr( $contact['weight'] ); ?>"><p class="description"><?php echo esc_html__( 'Reserved for future weighted routing. Leave at 1 for V1.', 'hatnikotni-chat' ); ?></p></td></tr>
+					<tr><th><label for="hkc-sort-order"><?php echo esc_html__( 'Sort Order', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>"><p class="description"><?php echo esc_html__( 'Controls contact order in the admin and round-robin sequence. Lower numbers appear first.', 'hatnikotni-chat' ); ?></p></td></tr>
 					<tr><th><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><td><label><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> <?php echo esc_html__( 'Active', 'hatnikotni-chat' ); ?></label></td></tr>
 				</table>
 				<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ) ); ?>
