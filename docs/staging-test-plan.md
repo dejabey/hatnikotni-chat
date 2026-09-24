@@ -22,15 +22,15 @@ Validate the release candidate on a real WordPress staging site before productio
 - [ ] Uninstall removes plugin-owned data only
 
 ## Contacts
-- [ ] Create/edit contact
-- [ ] Phone normalized to digits only
+- [x] Create/edit contact
+- [x] Phone normalized to digits only
 - [ ] Invalid phone rejected
 - [ ] Activate/deactivate
 - [ ] Historical inactive contacts remain usable in analytics
 - [ ] No delete UI
 
 ## Routing
-- [ ] Direct selects active default contact
+- [x] Direct selects active default contact
 - [ ] Invalid/inactive default fails safely
 - [ ] Random selects only active contacts
 - [ ] Round-robin follows sort order and wraps correctly
@@ -39,19 +39,19 @@ Validate the release candidate on a real WordPress staging site before productio
 - [ ] Concurrent requests produce valid routing
 
 ## WhatsApp action
-- [ ] Global button works
+- [x] Global button works
 - [ ] Shortcode works
 - [ ] Both use the same routing/action layer
 - [ ] Default/custom message works
-- [ ] Destination is HTTPS wa.me with normalized phone
-- [ ] Analytics failure never blocks redirect
-- [ ] No frontend JS required for core action
+- [x] Destination is HTTPS wa.me with normalized phone
+- [x] Analytics failure never blocks redirect
+- [x] No frontend JS required for core action
 - [ ] Failure fallback is safe
 
 ## Consent and privacy
 ### Without consent
-- [ ] WhatsApp works
-- [ ] No analytics event
+- [x] WhatsApp works
+- [x] No analytics event
 - [ ] No campaign cookie retained
 - [ ] Existing campaign cookie cleared where possible
 
@@ -112,6 +112,12 @@ Validate the release candidate on a real WordPress staging site before productio
 - [ ] External redirect constrained to intended wa.me destination
 - [ ] No secrets/API keys
 - [ ] No unexpected external HTTP requests
+
+## Admin UI refinement
+- [ ] Modernize Hatnikotni Chat submenu layout
+- [ ] Add concise placeholders/help text to precision-sensitive fields
+- [ ] Improve grouping and visual hierarchy without adding unnecessary JS/dependencies
+- [ ] Preserve WordPress admin accessibility and responsive behavior
 
 ## Migration rehearsal
 - [ ] Keep current WP Chat App intact
