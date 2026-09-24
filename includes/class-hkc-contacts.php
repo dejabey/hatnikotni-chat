@@ -105,7 +105,7 @@ final class HKC_Contacts {
 		}
 
 		if ( ! preg_match( '/^[0-9]{8,20}$/', $phone ) ) {
-			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using digits only or a normal phone format.', 'hatnikotni-chat' ) );
+			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ) );
 		}
 
 		$now   = current_time( 'mysql' );
