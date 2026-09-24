@@ -187,8 +187,9 @@ final class HKC_Admin {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
 		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
-		<div class="wrap">
+		<div class="wrap hkc-admin">
 			<h1 class="wp-heading-inline"><?php echo esc_html__( 'Contacts', 'hatnikotni-chat' ); ?></h1>
+			<p class="hkc-admin-intro"><?php echo esc_html__( 'Add the people or teams who should receive WhatsApp enquiries. Keep phone numbers in international digits-only format.', 'hatnikotni-chat' ); ?></p>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&action=new' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Add New', 'hatnikotni-chat' ); ?></a>
 			<hr class="wp-header-end">
 <?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
@@ -198,7 +199,7 @@ final class HKC_Admin {
 			<?php if ( $editing || $is_new ) : ?>
 				<?php self::render_contact_form( $editing ); ?>
 			<?php endif; ?>
-			<table class="widefat fixed striped">
+			<table class="widefat fixed striped hkc-contacts-table">
 				<thead><tr><th><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Phone', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></th><th><?php echo esc_html__( 'Actions', 'hatnikotni-chat' ); ?></th></tr></thead>
 				<tbody>
 				<?php if ( empty( $contacts ) ) : ?>
