@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-24.**
 
-**Current HEAD:** 61e3af7d379793837734d0650a7728f288c9b90d
+**Current HEAD:** 27945df06ef32b7914935712d49abeaaef5633ae
 
 ## Current implementation
 
