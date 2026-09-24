@@ -13,6 +13,7 @@
 - No external analytics service is required.
 - Analytics is opt-in through hkc_has_analytics_consent.
 - No third-party runtime JavaScript/CSS dependency is bundled or loaded by core.
+- Admin UI uses a scoped Hatnikotni Chat design system with no external fonts, icon libraries or frontend runtime dependencies.
 - Privacy Policy Guide integration is present.
 - Uninstall removes the plugin custom tables and options.
 - Plugin runtime files are organized under the plugin root, includes/, and assets/.
@@ -25,6 +26,7 @@
 4. The Contributors field should use actual WordPress.org usernames; do not invent one.
 5. Run the official readme validator against the final stable readme.
 6. Final staging browser tests remain pending because WPVibe runtime quota is exhausted.
+7. Admin UI redesign is implemented in the RC source; visual browser verification on General, Contacts and Analytics remains pending.
 
 ## Security findings
 ### Public WhatsApp endpoint
