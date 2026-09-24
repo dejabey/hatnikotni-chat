@@ -131,3 +131,9 @@ Validate the release candidate on a real WordPress staging site before productio
 Release candidate proceeds only after critical tests pass, CI is green, privacy/cache/routing behavior is verified, WordPress.org preflight is complete, and a clean ZIP has been inspected.
 
 Production activation remains a separate approval step.
+## Latest admin UI review
+
+- Staging screenshots reviewed for General, Contacts and Analytics.
+- Content canvas widened to 1320px maximum with 1180px working content width.
+- Panel, form-row and dashboard spacing tightened for a more balanced desktop layout.
+- Updated RC still requires browser recheck after installation.
