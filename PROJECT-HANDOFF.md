@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-24.**
 
-**Current HEAD:** be6d15e3bec648000185a8597b2d5a043b29435f
+**Current HEAD:** c7897062ef6f42dce3d6b6ba03ae9503f7164966
 
 ## Current implementation
 
@@ -28,6 +28,7 @@
 - WordPress.org readme.txt and readiness documentation implemented.
 - Composer-based WordPress Coding Standards tooling and CI validation implemented.
 - Contract checks cover the current core, frontend/action, analytics, campaign, privacy and WordPress.org readme paths.
+- Admin UI was modernized through scoped CSS only; no frontend/admin JS or external UI dependency was added.
 
 ## Privacy decision
 
@@ -104,14 +105,14 @@ The plugin does not provide its own consent banner.
 
 ## Validation state
 
-- Source syntax: PASSED on the latest green GitHub Actions matrix run #134 (PHP 8.1, 8.2, 8.3 and 8.4).
-- Automated contracts: PASSED on the latest green GitHub Actions matrix run #134.
-- WordPress Coding Standards: PASSED on the latest green GitHub Actions matrix run #134.
-- CI/build validation: PASSED on run #134 at commit be6d15e3bec648000185a8597b2d5a043b29435f.
+- Previous full CI/build validation: PASSED on run #134 at commit be6d15e3.
+- Previous RC build validation: PASSED on run #137 at commit f9e6865b.
+- UI modernization is now included in release/0.1.0-rc1 at commit c7897062.
+- A new CI run for the UI commit is not yet visible through the GitHub connector; therefore no new pass is claimed yet.
 - Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
 - Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
 - Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
-- Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation. Visual verification on the updated build remains pending.
+- Admin UI visual verification on the updated build: PENDING.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
 - Staging PHP 8.5.10 is recorded from the last staging environment inspection, but is not part of the current CI matrix.
 - No runtime acceptance is claimed for the updated commits until the release candidate is rebuilt and retested.
@@ -127,9 +128,10 @@ The plugin does not provide its own consent banner.
 
 ## Next action
 
-Prepare the current release candidate from HEAD be6d15e3 and move it to staging for the remaining runtime/release gates.
+Validate the current release branch from HEAD c7897062, rebuild the release candidate artifact, inspect the clean ZIP, and move it to staging for the remaining runtime/release gates.
 
 Remaining gates:
+
 - consent integration and consent withdrawal;
 - multi-contact direct/random/round-robin routing;
 - strict phone rejection;
