@@ -41,8 +41,8 @@ final class HKC_Consent_Test_Harness {
 		}
 
 		$actions = array(
-			'no_consent' => __( 'Test without consent', 'hatnikotni-chat' ),
-			'with_consent' => __( 'Test with consent', 'hatnikotni-chat' ),
+			'no_consent'      => __( 'Test without consent', 'hatnikotni-chat' ),
+			'with_consent'    => __( 'Test with consent', 'hatnikotni-chat' ),
 			'with_consent_utm' => __( 'Test consent + UTM', 'hatnikotni-chat' ),
 		);
 
@@ -100,16 +100,16 @@ final class HKC_Consent_Test_Harness {
 			HKC_Campaign::capture();
 		}
 
-		$before   = self::event_count();
-		$recorded = HKC_Analytics::record_click(
+		$before      = self::event_count();
+		$recorded    = HKC_Analytics::record_click(
 			array(
 				'contact_id' => 0,
 				'page_id'    => 0,
 				'page_type'  => 'consent-test',
 			)
 		);
-		$after        = self::event_count();
-		$attribution  = HKC_Campaign::get_attribution();
+		$after       = self::event_count();
+		$attribution = HKC_Campaign::get_attribution();
 
 		wp_die(
 			'<h1>' . esc_html__( 'Consent test result', 'hatnikotni-chat' ) . '</h1>' .
