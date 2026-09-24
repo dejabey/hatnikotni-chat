@@ -1,6 +1,6 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Current state document. Updated 2026-09-23.**
+**Current state document. Updated 2026-09-24.**
 
 **Current HEAD:** 61e3af7d379793837734d0650a7728f288c9b90d
 
@@ -104,19 +104,19 @@ The plugin does not provide its own consent banner.
 
 ## Validation state
 
-- Source syntax: CONFIRMED on the latest completed validation run.
-- Automated contracts: CONFIRMED on the latest completed validation run.
-- WordPress Coding Standards: PASSED on the latest completed validation run.
-- CI/build validation: PASSED on the latest completed validation run (PHP syntax + contracts + WPCS).
-- Runtime consent integration: PENDING.
-- Staging activation: PENDING.
-- Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security: PENDING.
-- Production acceptance: PENDING.
+- Source syntax: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
+- Automated contracts: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
+- WordPress Coding Standards: PASSED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
+- CI/build validation: PASSED on matrix run #104: PHP 8.1, 8.2, 8.3 and 8.4; syntax + contracts + WPCS all green.
+- Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
+- Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
+- Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
+- Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
 
 No runtime acceptance is claimed.
 
 ## Next action
 
-Proceed to runtime/staging validation and complete the remaining WordPress.org preflight. Do not deploy to production until staging acceptance is complete.
+Continue runtime/staging validation. Modernize the Hatnikotni Chat admin submenu UI before release: clearer grouping, compact layout, contextual placeholders/instructions for precision-sensitive fields, and accessible responsive admin styling. Do not deploy to production until staging acceptance is complete. Do not deploy to production until staging acceptance is complete.
 
 Before release, separately validate round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
