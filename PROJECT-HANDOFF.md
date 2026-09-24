@@ -2,7 +2,7 @@
 
 **Current state document. Updated 2026-09-24.**
 
-**Current HEAD:** f26bf023008f8a633ae8e471b4b458e4fd096d1c
+**Current HEAD:** be6d15e3bec648000185a8597b2d5a043b29435f
 
 ## Current implementation
 
@@ -25,10 +25,9 @@
 - Analytics reporting provides period totals plus device/contact/campaign breakdowns.
 - Analytics events are automatically cleaned after 180 days by daily WP-Cron.
 - WordPress Privacy Policy Guide integration implemented.
-- WordPress.org readme.txt and readiness checklist implemented.
+- WordPress.org readme.txt and readiness documentation implemented.
 - Composer-based WordPress Coding Standards tooling and CI validation implemented.
 - Contract checks cover the current core, frontend/action, analytics, campaign, privacy and WordPress.org readme paths.
-- CI validates PHP 8.1, 8.2, 8.3 and 8.4.
 
 ## Privacy decision
 
@@ -105,21 +104,43 @@ The plugin does not provide its own consent banner.
 
 ## Validation state
 
-- Source syntax: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
-- Automated contracts: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
-- WordPress Coding Standards: PASSED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
-- CI/build validation: PASSED on the last confirmed matrix run #115. Newer commits require a fresh CI confirmation.
+- Source syntax: PASSED on the latest green GitHub Actions matrix run #134 (PHP 8.1, 8.2, 8.3 and 8.4).
+- Automated contracts: PASSED on the latest green GitHub Actions matrix run #134.
+- WordPress Coding Standards: PASSED on the latest green GitHub Actions matrix run #134.
+- CI/build validation: PASSED on run #134 at commit be6d15e3bec648000185a8597b2d5a043b29435f.
 - Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
 - Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
 - Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
-- Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation.
+- Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation. Visual verification on the updated build remains pending.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
 - Staging PHP 8.5.10 is recorded from the last staging environment inspection, but is not part of the current CI matrix.
+- No runtime acceptance is claimed for the updated commits until the release candidate is rebuilt and retested.
 
-No runtime acceptance is claimed for the updated commits until the release candidate is rebuilt and retested.
+## Source/release audit state
+
+- Repository tree audited after the latest cleanup.
+- No temporary consent test harness remains in the runtime or WPCS scope.
+- Test infrastructure retained only for the skeleton contract used by CI.
+- Source contains no bundled runtime vendor library or unnecessary frontend JavaScript.
+- readme.txt, uninstall.php, privacy integration, WPCS configuration and WordPress.org readiness documentation are present.
+- Release ZIP must contain only the plugin runtime files and required distribution documentation/assets; development-only repository files must not be copied into the installable plugin package unless deliberately required.
 
 ## Next action
 
-Continue runtime/staging validation. The admin UI refinement is now in source and must be visually verified after the updated build reaches staging. Remaining release gates include consent integration, multi-contact routing, shortcode, cache, WooCommerce, accessibility, performance/security, clean ZIP inspection and production approval. Do not deploy to production until staging acceptance is complete.
+Prepare the current release candidate from HEAD be6d15e3 and move it to staging for the remaining runtime/release gates.
 
-Before release, separately validate strict phone rejection, round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
+Remaining gates:
+- consent integration and consent withdrawal;
+- multi-contact direct/random/round-robin routing;
+- strict phone rejection;
+- shortcode;
+- cache behavior;
+- WooCommerce coexistence;
+- accessibility;
+- performance/security;
+- cron/180-day retention behavior;
+- clean ZIP inspection;
+- final documentation/release metadata;
+- production approval.
+
+Do not deploy to production until staging acceptance is complete.
