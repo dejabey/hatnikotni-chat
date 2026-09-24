@@ -19,7 +19,6 @@
 	<file>hatnikotni-chat.php</file>
 	<file>includes</file>
 	<file>uninstall.php</file>
-	<file>tests</file>
 
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 </ruleset>
