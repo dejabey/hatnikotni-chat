@@ -35,8 +35,8 @@ require_once HKC_PLUGIN_DIR . 'includes/class-hkc-admin.php';
 require_once HKC_PLUGIN_DIR . 'includes/class-hkc-plugin.php';
 
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-\trequire_once HKC_PLUGIN_DIR . 'tests/class-hkc-consent-test-harness.php';
-\tHKC_Consent_Test_Harness::init();
+	require_once HKC_PLUGIN_DIR . 'tests/class-hkc-consent-test-harness.php';
+	HKC_Consent_Test_Harness::init();
 }
 
 register_activation_hook( HKC_PLUGIN_FILE, array( 'HKC_Plugin', 'activate' ) );
