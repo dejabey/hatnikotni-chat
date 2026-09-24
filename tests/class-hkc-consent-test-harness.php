@@ -33,7 +33,6 @@ final class HKC_Consent_Test_Harness {
 			'hkc-consent-test',
 			array( __CLASS__, 'render' )
 		);
-
 	}
 
 	public static function render(): void {
@@ -98,15 +97,16 @@ final class HKC_Consent_Test_Harness {
 			HKC_Campaign::capture();
 		}
 
-		$before = self::event_count();
+		$before   = self::event_count();
 		$recorded = HKC_Analytics::record_click(
 			array(
-				'contact_id' => 1,
-				'page_id'    => get_queried_object_id(),
+				'contact_id' => 0,
+				'page_id'    => 0,
 				'page_type'  => 'consent-test',
 			)
 		);
-		$after = self::event_count();
+		$after        = self::event_count();
+		$attribution = HKC_Campaign::get_attribution();
 
 		wp_die(
 			'<h1>' . esc_html__( 'Consent test result', 'hatnikotni-chat' ) . '</h1>' .
@@ -114,6 +114,7 @@ final class HKC_Consent_Test_Harness {
 			'<p>' . esc_html( sprintf( 'Consent: %s', HKC_Privacy::has_analytics_consent() ? 'true' : 'false' ) ) . '</p>' .
 			'<p>' . esc_html( sprintf( 'record_click(): %s', $recorded ? 'true' : 'false' ) ) . '</p>' .
 			'<p>' . esc_html( sprintf( 'Event count: %d → %d', $before, $after ) ) . '</p>' .
+			'<p>' . esc_html( sprintf( 'UTM campaign: %s', $attribution['utm_campaign'] ?? 'none' ) ) . '</p>' .
 			'<p><a href="' . esc_url( admin_url( 'admin.php?page=hkc-consent-test' ) ) . '">' . esc_html__( 'Back to consent tests', 'hatnikotni-chat' ) . '</a></p>'
 		);
 	}
