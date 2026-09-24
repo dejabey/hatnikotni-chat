@@ -2,12 +2,13 @@
 
 **Current state document. Updated 2026-09-24.**
 
-**Current HEAD:** 736cf69e6341bacbe71788b521d467eec078e83c
+**Current HEAD:** f26bf023008f8a633ae8e471b4b458e4fd096d1c
 
 ## Current implementation
 
 - Standalone WordPress plugin; not deployed to production.
 - Contact CRUD/admin interface implemented with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
+- Contact phone input is strictly validated as 8–20 international digits only; +, spaces and hyphens are rejected.
 - General admin settings implemented for frontend enablement, default contact/message, button label, position, desktop/mobile visibility and routing method.
 - Routing engine implemented: direct, random, round_robin.
 - Direct requires the configured default contact to exist and be active.
@@ -27,7 +28,7 @@
 - WordPress.org readme.txt and readiness checklist implemented.
 - Composer-based WordPress Coding Standards tooling and CI validation implemented.
 - Contract checks cover the current core, frontend/action, analytics, campaign, privacy and WordPress.org readme paths.
-- CI now validates PHP 8.1, 8.2, 8.3 and 8.4.
+- CI validates PHP 8.1, 8.2, 8.3 and 8.4.
 
 ## Privacy decision
 
@@ -104,20 +105,21 @@ The plugin does not provide its own consent banner.
 
 ## Validation state
 
-- Source syntax: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
-- Automated contracts: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
-- WordPress Coding Standards: PASSED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs.
-- CI/build validation: PASSED on matrix run #115: PHP 8.1, 8.2, 8.3 and 8.4; syntax + contracts + WPCS all green.
+- Source syntax: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
+- Automated contracts: CONFIRMED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
+- WordPress Coding Standards: PASSED across PHP 8.1, 8.2, 8.3 and 8.4 matrix jobs on the last confirmed green CI run (#115).
+- CI/build validation: PASSED on the last confirmed matrix run #115. Newer commits require a fresh CI confirmation.
 - Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
 - Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
 - Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
 - Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
+- Staging PHP 8.5.10 is recorded from the last staging environment inspection, but is not part of the current CI matrix.
 
-No runtime acceptance is claimed.
+No runtime acceptance is claimed for the updated commits until the release candidate is rebuilt and retested.
 
 ## Next action
 
 Continue runtime/staging validation. The admin UI refinement is now in source and must be visually verified after the updated build reaches staging. Remaining release gates include consent integration, multi-contact routing, shortcode, cache, WooCommerce, accessibility, performance/security, clean ZIP inspection and production approval. Do not deploy to production until staging acceptance is complete.
 
-Before release, separately validate round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
+Before release, separately validate strict phone rejection, round-robin under concurrent requests, cron/retention behavior, consent withdrawal, cache behavior and the complete release package.
