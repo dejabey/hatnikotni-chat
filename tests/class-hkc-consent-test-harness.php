@@ -75,6 +75,9 @@ final class HKC_Consent_Test_Harness {
 
 		$test = isset( $_GET['test'] ) ? sanitize_key( wp_unslash( $_GET['test'] ) ) : '';
 
+		// Keep each test isolated from campaign state left by a previous test.
+		unset( $_COOKIE['hkc_campaign'] );
+
 		if ( ! in_array( $test, array( 'no_consent', 'with_consent', 'with_consent_utm' ), true ) ) {
 			wp_die( esc_html__( 'Invalid consent test.', 'hatnikotni-chat' ) );
 		}
@@ -106,7 +109,7 @@ final class HKC_Consent_Test_Harness {
 			)
 		);
 		$after        = self::event_count();
-		$attribution = HKC_Campaign::get_attribution();
+		$attribution  = HKC_Campaign::get_attribution();
 
 		wp_die(
 			'<h1>' . esc_html__( 'Consent test result', 'hatnikotni-chat' ) . '</h1>' .
