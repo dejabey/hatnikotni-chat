@@ -53,3 +53,7 @@
 - [ ] Disable old WP Chat App
 - [ ] Monitor after activation
 - [ ] Keep rollback package available
+## Admin UI refinement
+
+- [x] Admin UI layout spacing and content-width refinement applied after staging screenshot review.
+- [ ] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
