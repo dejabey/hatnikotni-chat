@@ -49,3 +49,8 @@ Admin input requires international digits only, 8–20 digits, without plus sign
 
 ## Production gate
 Do not deploy until staging browser/cache/WooCommerce/accessibility checks are complete, consent integration is verified with the site's actual consent mechanism, temporary staging test contacts are removed, the final release artifact is inspected, and backup/rollback is ready.
+## Latest UI refinement
+
+- Admin UI layout spacing and content-width refinement applied after staging screenshot review.
+- General, Contacts and Analytics now use a wider, more consistent content canvas and tighter panel spacing.
+- Browser visual verification remains a staging gate because the source-side change cannot substitute for runtime verification.
