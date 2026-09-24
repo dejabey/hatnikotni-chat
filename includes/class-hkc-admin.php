@@ -69,7 +69,7 @@ final class HKC_Admin {
 			if ( isset( $_GET['error'] ) ) {
 				$error_messages = array(
 					'missing_name'     => __( 'Contact name is required.', 'hatnikotni-chat' ),
-					'invalid_phone'    => __( 'Please enter a valid WhatsApp number.', 'hatnikotni-chat' ),
+					'invalid_phone'    => __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ),
 					'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
