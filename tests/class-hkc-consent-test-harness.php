@@ -41,8 +41,8 @@ final class HKC_Consent_Test_Harness {
 		}
 
 		$actions = array(
-			'no_consent'      => __( 'Test without consent', 'hatnikotni-chat' ),
-			'with_consent'    => __( 'Test with consent', 'hatnikotni-chat' ),
+			'no_consent'        => __( 'Test without consent', 'hatnikotni-chat' ),
+			'with_consent'      => __( 'Test with consent', 'hatnikotni-chat' ),
 			'with_consent_utm' => __( 'Test consent + UTM', 'hatnikotni-chat' ),
 		);
 
