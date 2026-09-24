@@ -38,3 +38,29 @@ jobs:
 
       - name: Run WordPress Coding Standards
         run: vendor/bin/phpcs --standard=phpcs.xml.dist
+
+  build-release:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build production ZIP
+        run: |
+          set -eu
+          rm -rf dist
+          mkdir -p dist/hatnikotni-chat
+          cp hatnikotni-chat.php dist/hatnikotni-chat/
+          cp uninstall.php dist/hatnikotni-chat/
+          cp readme.txt dist/hatnikotni-chat/
+          cp -R includes dist/hatnikotni-chat/
+          cp -R assets dist/hatnikotni-chat/
+          cd dist
+          zip -qr hatnikotni-chat-0.1.0-rc1.zip hatnikotni-chat
+
+      - name: Upload production ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: hatnikotni-chat-0.1.0-rc1
+          path: dist/hatnikotni-chat-0.1.0-rc1.zip
+          if-no-files-found: error
