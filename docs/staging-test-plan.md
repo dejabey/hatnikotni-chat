@@ -142,3 +142,6 @@ Production activation remains a separate approval step.
 - [x] WhatsApp hover/focus states use a darker green interaction state rather than red, with subtle lift/shadow and reduced-motion support.
 
 - [x] Analytics reporting-period filter panel constrained to a compact 640px column so it no longer spans the full dashboard width.
+
+- [x] Analytics desktop layout rebalanced into a summary/filter top section and a wider data grid to reduce unused horizontal space.
+- [ ] Re-run visual browser verification after the updated RC is installed.
