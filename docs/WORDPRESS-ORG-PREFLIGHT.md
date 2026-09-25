@@ -3,7 +3,8 @@
 ## Current RC
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- CI: Run #141 reported passing by project owner
+- Latest CI: Run #179 passed.
+- Latest commit: 6f4c9229d952b447052c9cb24c42be49edd32866
 - PHP matrix: 8.1–8.5
 - Runtime package: production-only files; development tests and Composer tooling are excluded from the release ZIP.
 
@@ -27,7 +28,7 @@
 5. Run the official readme validator against the final stable readme.
 6. Final staging browser tests remain partially pending because WPVibe runtime quota is exhausted; desktop visual verification of General, Contacts and Analytics has been completed from the installed RC screenshots.
 7. Mobile/responsive runtime verification, consent-manager integration, cache behavior, accessibility runtime verification and high-concurrency round-robin stress testing remain pending.
-8. Layout spacing and content-width refinement was applied after staging screenshots; the redesign now uses a wider 1320px maximum canvas with tighter, consistent panel spacing.
+8. Temporary staging contacts HKC Test A and HKC Test B remain present because their removal requires a destructive staging action that has not been completed.
 
 ## Security findings
 ### Public WhatsApp endpoint
@@ -37,7 +38,7 @@ The anonymous GET endpoint is intentional. It accepts page context and an option
 The current round-robin implementation reads and updates one WordPress option. Concurrent requests can theoretically observe the same previous state and select the same next contact. Sequential functional testing passed. High-concurrency stress testing remains pending.
 
 ### Phone validation
-Admin input requires international digits only, 8–20 digits, without plus signs, spaces or hyphens. Stored/trusted phone values are normalized when constructing the wa.me URL.
+Admin input requires international digits only, 8–20 digits, without plus signs, spaces or hyphens. Invalid formatted input is rejected rather than silently converted. Stored/trusted phone values are used to construct the wa.me destination.
 
 ## Privacy findings
 - Default consent is false.
@@ -46,17 +47,20 @@ Admin input requires international digits only, 8–20 digits, without plus sign
 - Analytics excludes IP address, identity fields, full user-agent, fingerprint and browsing history.
 - Retention is 180 days.
 - Campaign cookie retention is 30 days when consent is available.
+- The plugin does not provide its own consent banner and must remain standalone from Ninja GDPR or another specific consent plugin.
 
 ## Production gate
 Do not deploy until staging browser/cache/WooCommerce/accessibility checks are complete, consent integration is verified with the site's actual consent mechanism, temporary staging test contacts are removed, the final release artifact is inspected, and backup/rollback is ready.
-## Latest UI refinement
 
+## UI status
 - Admin UI layout spacing and content-width refinement applied after staging screenshot review.
-- General, Contacts and Analytics now use a wider, more consistent content canvas and tighter panel spacing.
-- Browser visual verification remains a staging gate because the source-side change cannot substitute for runtime verification.
-
-- Analytics admin layout refined: summary cards and reporting filter now share a balanced top section, while data panels use a wider desktop grid.
+- General, Contacts and Analytics use a wider, consistent content canvas and tighter panel spacing.
+- Analytics summary/filter layout was rebalanced and verified visually.
+- UI is frozen unless a real defect is discovered.
 
 ## Latest RC validation
-- Run #176 passed after the final source alignment fix.
-- Desktop staging screenshots were reviewed after the current RC installation; General, Contacts and Analytics are visually acceptable and UI is frozen.
+- Run #179 passed.
+- Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
+- Artifact ID: 10856710948.
+- Artifact SHA-256: 667eb55904731bae7cb0092bd1354a96396b56b3eae6c235c4109daa964b2404.
+- Desktop staging screenshots were reviewed after RC installation; General, Contacts and Analytics are acceptable.
