@@ -3,8 +3,8 @@
 ## Current RC
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- Latest CI: Run #179 passed.
-- Latest commit: 6f4c9229d952b447052c9cb24c42be49edd32866
+- Latest CI: Run #183 passed.
+- Latest commit: 5420c956b7a1f2dd5e6c5c791ce916bca14d85bf
 - PHP matrix: 8.1–8.5
 - Runtime package: production-only files; development tests and Composer tooling are excluded from the release ZIP.
 
@@ -59,8 +59,8 @@ Do not deploy until staging browser/cache/WooCommerce/accessibility checks are c
 - UI is frozen unless a real defect is discovered.
 
 ## Latest RC validation
-- Run #179 passed.
+- Run #183 passed.
 - Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
-- Artifact ID: 10856710948.
-- Artifact SHA-256: 667eb55904731bae7cb0092bd1354a96396b56b3eae6c235c4109daa964b2404.
+- Artifact ID: 10857640335.
+- Artifact SHA-256: bdbf0476374ec9c7d767a6f7a4d072eb6f8714c33e43e9c5fcf7c53299f06b07.
 - Desktop staging screenshots were reviewed after RC installation; General, Contacts and Analytics are acceptable.
