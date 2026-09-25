@@ -36,7 +36,7 @@
 - [x] readme.txt
 - [x] uninstall.php
 - [x] No development tests/vendor files in production ZIP
-- [x] GitHub Actions RC artifact digest recorded in project notes
+- [x] GitHub Actions RC artifact digest recorded
 - [ ] Final WordPress.org readme validation
 - [ ] Final WordPress.org assets/screenshots
 - [ ] Versioned stable SVN tag
@@ -53,13 +53,19 @@
 - [ ] Disable old WP Chat App
 - [ ] Monitor after activation
 - [ ] Keep rollback package available
-## Admin UI refinement
 
+## Admin UI refinement
 - [x] Admin UI layout spacing and content-width refinement applied after staging screenshot review.
-- [ ] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
+- [x] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
 
 ## Latest RC validation
-- Run #176 passed.
+- Run #179 passed.
+- Commit: `6f4c9229d952b447052c9cb24c42be49edd32866`.
+- Branch: `release/0.1.0-rc1`.
 - Latest Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
-- Actions artifact SHA-256 digest: `698799331d8e1a7169ba7fdad224785192bd94e5c940fbfd339f43f4565a30a3`.
-- Desktop visual verification completed after installing the current RC on staging.
+- Artifact ID: `10856710948`.
+- Artifact size: 22,508 bytes.
+- Artifact SHA-256: `667eb55904731bae7cb0092bd1354a96396b56b3eae6c235c4109daa964b2404`.
+- Artifact expires: 2026-12-24.
+- Desktop staging visual verification completed; General, Contacts and Analytics are visually acceptable and UI is frozen.
+- WPVibe runtime quota is currently exhausted, so remaining runtime gates must not be marked complete until independently tested.
