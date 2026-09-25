@@ -23,7 +23,7 @@
 - [x] No-consent analytics suppression
 - [x] WooCommerce present with no detected plugin-level dependency
 - [ ] Actual consent-manager integration
-- [ ] Desktop browser verification
+- [x] Desktop browser verification
 - [ ] Mobile browser verification
 - [ ] Cache behavior verification
 - [ ] Accessibility runtime verification
@@ -36,7 +36,7 @@
 - [x] readme.txt
 - [x] uninstall.php
 - [x] No development tests/vendor files in production ZIP
-- [ ] Final artifact hash recorded
+- [x] GitHub Actions RC artifact digest recorded in project notes
 - [ ] Final WordPress.org readme validation
 - [ ] Final WordPress.org assets/screenshots
 - [ ] Versioned stable SVN tag
@@ -57,3 +57,9 @@
 
 - [x] Admin UI layout spacing and content-width refinement applied after staging screenshot review.
 - [ ] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
+
+## Latest RC validation
+- Run #176 passed.
+- Latest Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
+- Actions artifact SHA-256 digest: `698799331d8e1a7169ba7fdad224785192bd94e5c940fbfd339f43f4565a30a3`.
+- Desktop visual verification completed after installing the current RC on staging.
