@@ -59,13 +59,13 @@
 - [x] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
 
 ## Latest RC validation
-- Run #179 passed.
-- Commit: `6f4c9229d952b447052c9cb24c42be49edd32866`.
+- Run #183 passed.
+- Commit: `5420c956b7a1f2dd5e6c5c791ce916bca14d85bf`.
 - Branch: `release/0.1.0-rc1`.
 - Latest Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
-- Artifact ID: `10856710948`.
+- Artifact ID: `10857640335`.
 - Artifact size: 22,508 bytes.
-- Artifact SHA-256: `667eb55904731bae7cb0092bd1354a96396b56b3eae6c235c4109daa964b2404`.
+- Artifact SHA-256: `bdbf0476374ec9c7d767a6f7a4d072eb6f8714c33e43e9c5fcf7c53299f06b07`.
 - Artifact expires: 2026-12-24.
 - Desktop staging visual verification completed; General, Contacts and Analytics are visually acceptable and UI is frozen.
 - WPVibe runtime quota is currently exhausted, so remaining runtime gates must not be marked complete until independently tested.
