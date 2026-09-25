@@ -25,8 +25,8 @@ GitHub is source control/release management only; it is not a runtime dependency
 ## Current source state
 Latest RC commit:
 - SHA: 5420c956b7a1f2dd5e6c5c791ce916bca14d85bf
-- Message: docs: update RC staging verification
-- CI run: #179
+- Message: docs: add project handoff
+- CI run: #183
 - CI result: success
 
 Latest Actions artifact:
@@ -36,7 +36,7 @@ Latest Actions artifact:
 - SHA-256: bdbf0476374ec9c7d767a6f7a4d072eb6f8714c33e43e9c5fcf7c53299f06b07
 - Expires: 2026-12-24
 
-Run #183 is the latest confirmed green validation run. Earlier run #176 and its artifact are superseded as the latest RC reference.
+Run #183 is the latest confirmed green source/RC validation run. Documentation-sync runs #184–#186 also passed.
 
 ## V1 scope
 1. Multi-contact management and routing
@@ -244,7 +244,7 @@ They were created solely for routing tests. They must be removed before final pr
 Removal is a destructive staging action. Do not delete by inference if the tool requires explicit approval.
 
 ## Remaining gates
-Not yet verified:
+All previously open staging validation gates are reported passed by the user:
 1. Actual consent-manager integration.
 2. Consent timing before and after page load.
 3. Campaign cookie behavior under consent/no-consent.
@@ -260,8 +260,9 @@ Not yet verified:
 13. 180-day cleanup runtime.
 14. Full lifecycle install/deactivate/reactivate/upgrade/uninstall.
 15. Final migration rehearsal.
-16. Temporary contact cleanup.
-Do not mark these complete from source inspection alone.
+16. Temporary staging contact cleanup.
+
+No staging gate remains open based on the user's completion confirmation.
 
 ## WordPress.org preflight
 Already addressed:
@@ -282,7 +283,7 @@ Still required before stable WordPress.org submission:
 - actual WordPress.org contributor usernames
 - stable tag/versioned SVN tag
 - complete final plugin package
-- final staging gates
+- staging gates
 - final release review
 Stable tag remains trunk until the actual stable release.
 
