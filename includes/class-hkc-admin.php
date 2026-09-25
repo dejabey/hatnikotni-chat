@@ -84,7 +84,7 @@ final class HKC_Admin {
 					'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
-				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
+				$error_key      = sanitize_key( wp_unslash( $_GET['error'] ) );
 				if ( isset( $error_messages[ $error_key ] ) ) {
 					echo '<div class="notice notice-error"><p>' . esc_html( $error_messages[ $error_key ] ) . '</p></div>';
 				}
