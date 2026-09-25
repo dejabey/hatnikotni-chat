@@ -59,23 +59,23 @@ final class HKC_Analytics_Admin {
 				</section>
 
 				<section class="hkc-panel hkc-filter-panel">
-				<form method="get" class="hkc-filter-form">
-					<input type="hidden" name="page" value="hkc-analytics">
-					<div>
-						<label for="hkc-days"><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></label>
-						<select id="hkc-days" name="days">
-							<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
-								<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
-									<?php
-									// Translators: %d is the number of days in the selected analytics period.
-									echo esc_html( sprintf( _n( '%d day', '%d days', $period, 'hatnikotni-chat' ), $period ) );
-									?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<?php submit_button( __( 'Apply', 'hatnikotni-chat' ), 'secondary', '', false ); ?>
-				</form>
+					<form method="get" class="hkc-filter-form">
+						<input type="hidden" name="page" value="hkc-analytics">
+						<div>
+							<label for="hkc-days"><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></label>
+							<select id="hkc-days" name="days">
+								<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
+									<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
+										<?php
+										// Translators: %d is the number of days in the selected analytics period.
+										echo esc_html( sprintf( _n( '%d day', '%d days', $period, 'hatnikotni-chat' ), $period ) );
+										?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<?php submit_button( __( 'Apply', 'hatnikotni-chat' ), 'secondary', '', false ); ?>
+					</form>
 				</section>
 			</div>
 
