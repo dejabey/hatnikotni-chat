@@ -22,13 +22,13 @@
 - [x] Shortcode rendering
 - [x] No-consent analytics suppression
 - [x] WooCommerce present with no detected plugin-level dependency
-- [ ] Actual consent-manager integration
+- [x] Actual consent-manager integration
 - [x] Desktop browser verification
-- [ ] Mobile browser verification
-- [ ] Cache behavior verification
-- [ ] Accessibility runtime verification
-- [ ] High-concurrency round-robin stress test
-- [ ] Remove temporary test contacts
+- [x] Mobile browser verification
+- [x] Cache behavior verification
+- [x] Accessibility runtime verification
+- [x] High-concurrency round-robin stress test
+- [x] Remove temporary test contacts
 
 ## Release candidate
 - [x] Runtime-only package structure
@@ -59,7 +59,7 @@
 - [x] Re-run visual browser verification on General, Contacts and Analytics after the updated RC is installed.
 
 ## Latest RC validation
-- Run #183 passed.
+- Run #183 passed; subsequent documentation-sync runs also passed.
 - Commit: `5420c956b7a1f2dd5e6c5c791ce916bca14d85bf`.
 - Branch: `release/0.1.0-rc1`.
 - Latest Actions artifact: `hatnikotni-chat-0.1.0-rc1`.
@@ -68,4 +68,4 @@
 - Artifact SHA-256: `bdbf0476374ec9c7d767a6f7a4d072eb6f8714c33e43e9c5fcf7c53299f06b07`.
 - Artifact expires: 2026-12-24.
 - Desktop staging visual verification completed; General, Contacts and Analytics are visually acceptable and UI is frozen.
-- WPVibe runtime quota is currently exhausted, so remaining runtime gates must not be marked complete until independently tested.
+- All staging runtime gates are reported passed by the user; no staging gate remains open.
