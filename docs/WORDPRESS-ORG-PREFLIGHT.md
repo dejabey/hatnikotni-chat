@@ -25,8 +25,8 @@
 3. The readme lists four screenshots; matching lowercase screenshot assets must exist in the top-level WordPress.org SVN assets directory before submission.
 4. The Contributors field should use actual WordPress.org usernames; do not invent one.
 5. Run the official readme validator against the final stable readme.
-6. Final staging browser tests remain pending because WPVibe runtime quota is exhausted.
-7. Admin UI redesign is implemented in the RC source; visual browser verification on General, Contacts and Analytics remains pending.
+6. Final staging browser tests remain partially pending because WPVibe runtime quota is exhausted; desktop visual verification of General, Contacts and Analytics has been completed from the installed RC screenshots.
+7. Mobile/responsive runtime verification, consent-manager integration, cache behavior, accessibility runtime verification and high-concurrency round-robin stress testing remain pending.
 8. Layout spacing and content-width refinement was applied after staging screenshots; the redesign now uses a wider 1320px maximum canvas with tighter, consistent panel spacing.
 
 ## Security findings
@@ -56,3 +56,7 @@ Do not deploy until staging browser/cache/WooCommerce/accessibility checks are c
 - Browser visual verification remains a staging gate because the source-side change cannot substitute for runtime verification.
 
 - Analytics admin layout refined: summary cards and reporting filter now share a balanced top section, while data panels use a wider desktop grid.
+
+## Latest RC validation
+- Run #176 passed after the final source alignment fix.
+- Desktop staging screenshots were reviewed after the current RC installation; General, Contacts and Analytics are visually acceptable and UI is frozen.
