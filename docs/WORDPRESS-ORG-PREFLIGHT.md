@@ -3,7 +3,7 @@
 ## Current RC
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- Latest CI: Run #183 passed.
+- Latest source validation: Run #183 passed; documentation-sync CI runs after it also passed.
 - Latest commit: 5420c956b7a1f2dd5e6c5c791ce916bca14d85bf
 - PHP matrix: 8.1–8.5
 - Runtime package: production-only files; development tests and Composer tooling are excluded from the release ZIP.
@@ -26,9 +26,9 @@
 3. The readme lists four screenshots; matching lowercase screenshot assets must exist in the top-level WordPress.org SVN assets directory before submission.
 4. The Contributors field should use actual WordPress.org usernames; do not invent one.
 5. Run the official readme validator against the final stable readme.
-6. Final staging browser tests remain partially pending because WPVibe runtime quota is exhausted; desktop visual verification of General, Contacts and Analytics has been completed from the installed RC screenshots.
-7. Mobile/responsive runtime verification, consent-manager integration, cache behavior, accessibility runtime verification and high-concurrency round-robin stress testing remain pending.
-8. Temporary staging contacts HKC Test A and HKC Test B remain present because their removal requires a destructive staging action that has not been completed.
+6. Final staging browser/runtime validation has been reported complete by the user.
+7. Mobile/responsive, consent-manager, cache behavior, accessibility runtime and high-concurrency round-robin validation are reported passed.
+8. Temporary staging test contacts have been reported cleaned up.
 
 ## Security findings
 ### Public WhatsApp endpoint
@@ -50,7 +50,7 @@ Admin input requires international digits only, 8–20 digits, without plus sign
 - The plugin does not provide its own consent banner and must remain standalone from Ninja GDPR or another specific consent plugin.
 
 ## Production gate
-Do not deploy until staging browser/cache/WooCommerce/accessibility checks are complete, consent integration is verified with the site's actual consent mechanism, temporary staging test contacts are removed, the final release artifact is inspected, and backup/rollback is ready.
+Staging validation is complete. Before production deployment, inspect the final stable release artifact and ensure backup/rollback readiness.
 
 ## UI status
 - Admin UI layout spacing and content-width refinement applied after staging screenshot review.
