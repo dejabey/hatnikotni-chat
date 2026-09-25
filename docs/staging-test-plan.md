@@ -114,10 +114,11 @@ Validate the release candidate on a real WordPress staging site before productio
 - [ ] No unexpected external HTTP requests
 
 ## Admin UI refinement
-- [ ] Modernize Hatnikotni Chat submenu layout
-- [ ] Add concise placeholders/help text to precision-sensitive fields
-- [ ] Improve grouping and visual hierarchy without adding unnecessary JS/dependencies
-- [ ] Preserve WordPress admin accessibility and responsive behavior
+- [x] Modernize Hatnikotni Chat submenu layout
+- [x] Add concise placeholders/help text to precision-sensitive fields
+- [x] Improve grouping and visual hierarchy without adding unnecessary JS/dependencies
+- [x] Preserve WordPress admin accessibility and responsive behavior
+- [x] Desktop visual verification completed for General, Contacts and Analytics
 
 ## Migration rehearsal
 - [ ] Keep current WP Chat App intact
@@ -144,4 +145,4 @@ Production activation remains a separate approval step.
 - [x] Analytics reporting-period filter panel constrained to a compact 640px column so it no longer spans the full dashboard width.
 
 - [x] Analytics desktop layout rebalanced into a summary/filter top section and a wider data grid to reduce unused horizontal space.
-- [ ] Re-run visual browser verification after the updated RC is installed.
+- [x] Re-run visual browser verification after the updated RC is installed.
