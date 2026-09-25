@@ -4,18 +4,21 @@
 Validate the release candidate on a real WordPress staging site before production migration.
 
 ## Test environment
-- WordPress compatible with production
-- PHP production version
+- Site: https://staging.perlis.xyz
+- WordPress: 7.1.2
+- PHP: 8.5.10
 - HTTPS enabled
-- Production-equivalent cache/CDN
-- WooCommerce enabled if production uses it
-- Consent mechanism enabled if production uses one
+- WooCommerce: 11.1.2
+- Active theme: UrbanGo Child 1.0.1
+- Hatnikotni Chat: 0.1.0
+- WPVibe plugin: 1.18.0
+- WPVibe runtime quota is currently exhausted.
 
 ## Installation and lifecycle
+- [x] Activation
+- [x] Database tables created
+- [x] Default settings created
 - [ ] Fresh installation
-- [ ] Activation
-- [ ] Database tables created
-- [ ] Default settings created
 - [ ] Deactivation
 - [ ] Reactivation preserves data
 - [ ] Upgrade preserves data
@@ -23,26 +26,26 @@ Validate the release candidate on a real WordPress staging site before productio
 
 ## Contacts
 - [x] Create/edit contact
-- [x] Phone normalized to digits only
-- [ ] Invalid phone rejected
+- [x] International phone format stored correctly
+- [ ] Invalid formatted phone rejected in runtime
 - [ ] Activate/deactivate
 - [ ] Historical inactive contacts remain usable in analytics
-- [ ] No delete UI
+- [x] No delete UI
 
 ## Routing
 - [x] Direct selects active default contact
 - [ ] Invalid/inactive default fails safely
-- [ ] Random selects only active contacts
-- [ ] Round-robin follows sort order and wraps correctly
+- [x] Random selects only active contacts
+- [x] Round-robin follows sort order and wraps correctly
 - [ ] Inactive contacts are skipped
-- [ ] Round-robin state persists
+- [ ] Round-robin state persists across all lifecycle scenarios
 - [ ] Concurrent requests produce valid routing
 
 ## WhatsApp action
 - [x] Global button works
-- [ ] Shortcode works
-- [ ] Both use the same routing/action layer
-- [ ] Default/custom message works
+- [x] Shortcode renders
+- [x] Both use the same routing/action layer
+- [ ] Default/custom message runtime verification
 - [x] Destination is HTTPS wa.me with normalized phone
 - [x] Analytics failure never blocks redirect
 - [x] No frontend JS required for core action
@@ -82,7 +85,7 @@ Validate the release candidate on a real WordPress staging site before productio
 - [ ] Enable/disable setting
 - [ ] Desktop/mobile visibility
 - [ ] Left/right position
-- [ ] Shortcode rendering
+- [x] Shortcode rendering
 - [ ] Keyboard focus
 - [ ] Accessible label
 - [ ] Reduced motion
@@ -107,42 +110,57 @@ Validate the release candidate on a real WordPress staging site before productio
 ## Performance and security
 - [ ] No PHP notices/warnings/fatals
 - [ ] No repeated unnecessary schema work
-- [ ] Nonce/capability checks enforced
-- [ ] Inputs sanitized and outputs escaped
-- [ ] External redirect constrained to intended wa.me destination
-- [ ] No secrets/API keys
+- [x] Nonce/capability checks enforced
+- [x] Inputs sanitized and outputs escaped
+- [x] External redirect constrained to intended wa.me destination
+- [x] No secrets/API keys
 - [ ] No unexpected external HTTP requests
 
-## Admin UI refinement
+## Admin UI
 - [x] Modernize Hatnikotni Chat submenu layout
 - [x] Add concise placeholders/help text to precision-sensitive fields
 - [x] Improve grouping and visual hierarchy without adding unnecessary JS/dependencies
-- [x] Preserve WordPress admin accessibility and responsive behavior
+- [x] Preserve WordPress admin accessibility and responsive behavior at source level
 - [x] Desktop visual verification completed for General, Contacts and Analytics
+- [x] UI frozen after screenshot review
 
 ## Migration rehearsal
-- [ ] Keep current WP Chat App intact
-- [ ] Activate Hatnikotni Chat on staging
-- [ ] Verify contacts/routing
+- [x] Keep current WP Chat App intact
+- [x] Hatnikotni Chat active on staging
+- [x] Verify contacts/routing
 - [ ] Disable WP Chat App
-- [ ] Re-test all critical paths
+- [ ] Re-test all critical paths after disabling old plugin
 - [ ] Re-enable WP Chat App and verify rollback
 
 ## Release gate
 Release candidate proceeds only after critical tests pass, CI is green, privacy/cache/routing behavior is verified, WordPress.org preflight is complete, and a clean ZIP has been inspected.
 
 Production activation remains a separate approval step.
-## Latest admin UI review
 
-- Staging screenshots reviewed for General, Contacts and Analytics.
-- Content canvas widened to 1320px maximum with 1180px working content width.
-- Panel, form-row and dashboard spacing tightened for a more balanced desktop layout.
-- Updated RC still requires browser recheck after installation.
+## Known staging data
+- Original production-style test contact: id 1, PakYa, phone 601155898464.
+- Temporary test contacts remain:
+  - id 2 — HKC Test A — 601100000001
+  - id 3 — HKC Test B — 601100000002
+- Do not delete them by inference; remove them only through an authorized/destructive staging action.
 
-- [x] Admin field guidance is displayed below controls with consistent spacing; numeric routing fields use compact widths.
-- [x] WhatsApp hover/focus states use a darker green interaction state rather than red, with subtle lift/shadow and reduced-motion support.
+## Verified runtime results
+- Global floating button rendered correctly.
+- Public action endpoint redirected to WhatsApp with phone 601155898464.
+- Shortcode test page rendered the expected hkc-inline button and was moved to Trash after testing.
+- No-consent analytics produced zero event rows.
+- Random routing exercised across three active contacts.
+- Round-robin produced the expected sequential cycle PakYa → HKC Test A → HKC Test B → repeat.
+- Routing was restored to direct after the routing tests.
+- Desktop admin screenshots for General, Contacts and Analytics were reviewed and accepted; UI is frozen.
+- Lighthouse mobile performance/accessibility measurements were collected, but those results are site-wide/UrbanGo observations and are not treated as Hatnikotni Chat defects.
 
-- [x] Analytics reporting-period filter panel constrained to a compact 640px column so it no longer spans the full dashboard width.
-
-- [x] Analytics desktop layout rebalanced into a summary/filter top section and a wider data grid to reduce unused horizontal space.
-- [x] Re-run visual browser verification after the updated RC is installed.
+## Remaining runtime gates
+These are intentionally not marked complete:
+1. Actual consent signal from the site's real consent mechanism.
+2. Mobile/responsive browser verification.
+3. Cache/CDN behavior.
+4. Accessibility runtime verification.
+5. High-concurrency round-robin stress.
+6. Temporary contact cleanup.
+7. Full lifecycle tests and final migration rehearsal.
