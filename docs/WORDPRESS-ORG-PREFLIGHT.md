@@ -54,3 +54,5 @@ Do not deploy until staging browser/cache/WooCommerce/accessibility checks are c
 - Admin UI layout spacing and content-width refinement applied after staging screenshot review.
 - General, Contacts and Analytics now use a wider, more consistent content canvas and tighter panel spacing.
 - Browser visual verification remains a staging gate because the source-side change cannot substitute for runtime verification.
+
+- Analytics admin layout refined: summary cards and reporting filter now share a balanced top section, while data panels use a wider desktop grid.
