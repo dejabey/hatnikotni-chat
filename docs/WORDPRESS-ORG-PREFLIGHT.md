@@ -3,7 +3,8 @@
 ## Current state
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- Latest validation: Run #194 — success
+- Latest validation: Run #200 — success
+- Latest docs commit: 91e3ce925854036be3c294590ac3c47bc8b80a4e
 - Release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
 - Stable Git tag: 0.1.0
 - Contributor: zaryl
@@ -20,11 +21,11 @@
 - Uninstall cleanup
 - Runtime-only package
 - Staging validation reported complete by user
+- Official WordPress.org Readme Validator run completed; no validation error was shown, only the informational no-donate-link note
 
 ## Remaining
-1. Run official readme validator against final readme.
-2. Submit complete stable package.
-3. Await WordPress.org review.
+1. Submit complete stable package.
+2. Await WordPress.org review.
 
 The four screenshot files supplied for the readme are prepared. WordPress.org SVN asset placement happens with the directory release workflow after approval.
 
