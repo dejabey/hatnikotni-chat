@@ -4,6 +4,7 @@
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
 - Latest validation before submission: Run #200 — success
+- Latest post-submission documentation validation: Run #206 — success
 - Release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
 - Stable Git tag: 0.1.0
 - Contributor: zaryl
@@ -32,7 +33,8 @@
 1. Await manual WordPress.org review.
 2. If approved, complete directory/SVN release and asset placement steps.
 
-The four screenshot files supplied for the readme are prepared. WordPress.org SVN asset placement happens with the directory release workflow after approval.
+## Post-approval release plan
+See docs/RELEASE-CHECKLIST.md for the detailed SVN runbook covering trunk, approved readme/runtime files, screenshot assets, tags/0.1.0, directory verification and recording the final SVN release information.
 
 ## Production gate
 Production remains untouched. Do not migrate until the stable release is finalized and the user explicitly approves production migration.
