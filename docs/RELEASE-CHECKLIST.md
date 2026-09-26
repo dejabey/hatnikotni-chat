@@ -25,18 +25,18 @@
 - [ ] Keep rollback package available
 
 ## Latest validation
-- Run #194 passed.
+- Run #200 passed.
+- Latest validation commit: 91e3ce925854036be3c294590ac3c47bc8b80a4e.
 - Release commit: 3120a5e69d102a43713435b3dcf689d66decbfda.
 - Branch: release/0.1.0-rc1.
 - Plugin version: 0.1.0.
 - WordPress.org contributor: zaryl.
 - Tested up to: 7.1.
 - Stable tag: 0.1.0.
+- Official WordPress.org Readme Validator run completed; no validation error was shown, only the informational note that no donate link was found.
 - Production remains untouched.
 
 ## Next
-1. Finalize WordPress.org screenshot assets.
-2. Create/publish stable tag 0.1.0.
-3. Submit complete stable package to WordPress.org.
-4. Await review/approval.
-5. Only after explicit production approval, perform production migration.
+1. Submit complete stable package to WordPress.org.
+2. Await review/approval.
+3. Only after explicit production approval, perform production migration.
