@@ -22,12 +22,11 @@
 - Staging validation reported complete by user
 
 ## Remaining
-1. Finalize four WordPress.org screenshot assets matching readme entries.
-2. Place screenshots in the top-level WordPress.org SVN assets directory.
-3. Create/publish versioned stable tag 0.1.0.
-4. Run official readme validator against final readme.
-5. Submit complete stable package.
-6. Await WordPress.org review.
+1. Run official readme validator against final readme.
+2. Submit complete stable package.
+3. Await WordPress.org review.
+
+The four screenshot files supplied for the readme are prepared. WordPress.org SVN asset placement happens with the directory release workflow after approval.
 
 ## Production gate
 Production remains untouched. Do not migrate until the stable release is finalized and the user explicitly approves production migration.
