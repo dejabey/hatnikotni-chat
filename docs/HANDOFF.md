@@ -3,20 +3,25 @@
 ## Current release state
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- Latest release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
-- Latest CI: Run #200 — success.
-- Latest docs commit: 91e3ce925854036be3c294590ac3c47bc8b80a4e.
+- Release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
+- Latest CI before submission: Run #200 — success.
 - Stable Git tag: 0.1.0 → 3120a5e69d102a43713435b3dcf689d66decbfda
 - WordPress.org contributor: zaryl
 - Tested up to: 7.1
 - Stable tag in readme: 0.1.0
 - Official WordPress.org Readme Validator run completed; no validation error was shown, only the informational no-donate-link note.
+- Plugin Check completed with 0 Errors and 39 warnings.
 - All previously open staging gates are reported passed by the user.
+- WordPress.org submission completed on September 26, 2026.
+- Assigned WordPress.org slug: hatnikotni-chat.
+- Automated Plugin Scanning: Pass.
+- Current WordPress.org review status: Awaiting Review.
 - Production remains untouched.
 
 ## Remaining release work
-1. WordPress.org submission/review.
-2. Production migration only after explicit approval.
+1. Await manual WordPress.org review/approval.
+2. After approval, complete the WordPress.org directory/SVN release steps.
+3. Production migration only after explicit approval.
 
 ## Project constraints
 - Standalone plugin; no hard dependency on Ninja GDPR, WooCommerce, UrbanGo, WPVibe or AI plugins.
