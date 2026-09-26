@@ -8,8 +8,8 @@
 - [x] No development tests/vendor files in production ZIP
 - [x] GitHub Actions validation
 - [x] Final WordPress.org readme metadata
-- [ ] Final WordPress.org assets/screenshots
-- [ ] Versioned stable Git/SVN tag 0.1.0
+- [x] Final WordPress.org screenshot set prepared
+- [x] Versioned stable Git tag 0.1.0
 
 ## Staging
 - [x] All staging validation gates reported passed by user
