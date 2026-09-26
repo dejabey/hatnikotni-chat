@@ -3,8 +3,9 @@
 ## Current release state
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
-- Latest commit: c1c17734250be276355241e2b3788181d405c568
-- Latest CI: Run #190 — success
+- Latest release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
+- Latest CI: Run #194 — success
+- Stable Git tag: 0.1.0 → 3120a5e69d102a43713435b3dcf689d66decbfda
 - WordPress.org contributor: zaryl
 - Tested up to: 7.1
 - Stable tag in readme: 0.1.0
