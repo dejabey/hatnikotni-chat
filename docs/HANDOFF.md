@@ -4,18 +4,19 @@
 - Version: 0.1.0
 - Branch: release/0.1.0-rc1
 - Latest release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
-- Latest CI: Run #194 — success
+- Latest CI: Run #200 — success.
+- Latest docs commit: 91e3ce925854036be3c294590ac3c47bc8b80a4e.
 - Stable Git tag: 0.1.0 → 3120a5e69d102a43713435b3dcf689d66decbfda
 - WordPress.org contributor: zaryl
 - Tested up to: 7.1
 - Stable tag in readme: 0.1.0
+- Official WordPress.org Readme Validator run completed; no validation error was shown, only the informational no-donate-link note.
 - All previously open staging gates are reported passed by the user.
 - Production remains untouched.
 
 ## Remaining release work
-1. Official readme validation.
-4. WordPress.org submission/review.
-5. Production migration only after explicit approval.
+1. WordPress.org submission/review.
+2. Production migration only after explicit approval.
 
 ## Project constraints
 - Standalone plugin; no hard dependency on Ninja GDPR, WooCommerce, UrbanGo, WPVibe or AI plugins.
