@@ -13,9 +13,7 @@
 - Production remains untouched.
 
 ## Remaining release work
-1. Final WordPress.org screenshot assets.
-2. Stable Git/SVN tag 0.1.0.
-3. Official readme validation.
+1. Official readme validation.
 4. WordPress.org submission/review.
 5. Production migration only after explicit approval.
 
