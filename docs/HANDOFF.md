@@ -5,6 +5,7 @@
 - Branch: release/0.1.0-rc1
 - Release commit: 3120a5e69d102a43713435b3dcf689d66decbfda
 - Latest CI before submission: Run #200 — success.
+- Latest post-submission documentation CI: Run #206 — success.
 - Stable Git tag: 0.1.0 → 3120a5e69d102a43713435b3dcf689d66decbfda
 - WordPress.org contributor: zaryl
 - Tested up to: 7.1
@@ -36,7 +37,10 @@
 - UI is frozen unless a concrete defect appears.
 
 ## Production migration
-Do not change production yet. After stable release preparation and explicit approval: backup, install stable package, configure contact, verify button/shortcode/redirect/consent/analytics, disable WP Chat App, retest, monitor and retain rollback package.
+Do not change production yet. The detailed production migration runbook is in docs/RELEASE-CHECKLIST.md. It covers backup, stable package installation, production contact/settings, frontend and WhatsApp verification, consent/analytics verification, disabling WP Chat App only after successful checks, post-activation monitoring and rollback readiness.
+
+## WordPress.org post-approval
+The detailed WordPress.org post-approval runbook is in docs/RELEASE-CHECKLIST.md. It covers SVN availability, trunk content, readme/runtime files, screenshot assets, tags/0.1.0, directory verification and documentation of the final SVN release.
 
 ## Continuation
 Read this file, docs/RELEASE-CHECKLIST.md, docs/WORDPRESS-ORG-PREFLIGHT.md and docs/staging-test-plan.md before continuing. Verify current branch, tag and CI state first.
