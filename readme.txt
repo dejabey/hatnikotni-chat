@@ -1,7 +1,9 @@
 === Hatnikotni Chat ===
+Contributors: zaryl
 Requires at least: 6.6
+Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: trunk
+Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,12 +88,14 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
-= Development =
+= 0.1.0 =
+* Initial stable release.
 * Added consent-aware analytics and campaign attribution.
 * Added WordPress Privacy Policy Guide integration.
-* Added WordPress.org readiness documentation and readme.
+* Added direct, random and round-robin contact routing.
+* Added contact management and WhatsApp button/shortcode support.
 
 == Upgrade Notice ==
 
-= Development =
-Development build. Complete staging and release validation is still required before production use.
+= 0.1.0 =
+Initial stable release.
