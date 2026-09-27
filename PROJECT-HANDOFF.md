@@ -3,7 +3,8 @@
 **Current state document. Updated 2026-09-27.**
 
 **Review remediation branch:** `wordpress-org-compliance`  
-**Base:** current `main` HEAD at the start of this remediation  
+**Current remediation HEAD:** `6576c71d22fe1ca95a3c487e7ca5c2fbdcabe0e8`
+**Base:** `main` HEAD `06c443a3ddf1e1d6f64c0f16f4ede18d97d60fcd`  
 **Release target:** 0.1.1  
 **Database schema target:** 1.1.0
 
@@ -83,7 +84,7 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 ## Validation state
 
 ### Source / CI
-- **PENDING:** fresh GitHub Actions run for the remediation branch.
+- **PENDING:** fresh GitHub Actions run for the remediation branch after the final documentation commit.
 - Previous green run #134 applies to the earlier `HKC` namespace and therefore is not sufficient acceptance for this branch.
 - **PENDING:** final WPCS and contract checks after namespace migration.
 - **PENDING:** clean ZIP/source audit after CI.
@@ -99,6 +100,7 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 
 ### Repository / WordPress.org
 - **DONE:** source namespace remediation.
+- **DONE:** class filenames aligned with `HATNCH_*` classes for WPCS.
 - **DONE:** documentation update.
 - **PENDING:** public Plugin URI. The repository must be publicly reachable before the WordPress.org reply.
 - **PENDING:** final release packaging and submission response.
