@@ -1,9 +1,8 @@
 <?php
 /**
  * Plugin Name: Hatnikotni Chat
- * Plugin URI: https://github.com/dejabey/hatnikotni-chat
  * Description: Lightweight WhatsApp contact routing and consent-aware first-party interaction analytics for WordPress.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author: Hatnikotni
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -16,25 +15,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HKC_VERSION', '0.1.0' );
-define( 'HKC_DB_VERSION', '1.0.0' );
-define( 'HKC_PLUGIN_FILE', __FILE__ );
-define( 'HKC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'HKC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'HATC_VERSION', '0.1.1' );
+define( 'HATC_DB_VERSION', '1.0.0' );
+define( 'HATC_PLUGIN_FILE', __FILE__ );
+define( 'HATC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'HATC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-settings.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-contacts.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-routing.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-analytics.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-analytics-admin.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-campaign.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-privacy.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-whatsapp.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-shortcode.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-admin.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-plugin.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-settings.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-contacts.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-routing.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-analytics.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-analytics-admin.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-campaign.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-privacy.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-whatsapp.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-shortcode.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-admin.php';
+require_once HATC_PLUGIN_DIR . 'includes/class-hatc-plugin.php';
 
-register_activation_hook( HKC_PLUGIN_FILE, array( 'HKC_Plugin', 'activate' ) );
-register_deactivation_hook( HKC_PLUGIN_FILE, array( 'HKC_Plugin', 'deactivate' ) );
+register_activation_hook( HATC_PLUGIN_FILE, array( 'HATC_Plugin', 'activate' ) );
+register_deactivation_hook( HATC_PLUGIN_FILE, array( 'HATC_Plugin', 'deactivate' ) );
 
-HKC_Plugin::instance();
+HATC_Plugin::instance();
