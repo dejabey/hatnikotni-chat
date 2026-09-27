@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Admin {
+final class HATNCH_Admin {
 
 	public static function init(): void {
 		if ( ! is_admin() ) {
@@ -16,9 +16,9 @@ final class HKC_Admin {
 
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
-		add_action( 'admin_post_hkc_save_contact', array( __CLASS__, 'save_contact' ) );
-		add_action( 'admin_post_hkc_toggle_contact', array( __CLASS__, 'toggle_contact' ) );
-		add_action( 'admin_post_hkc_save_settings', array( __CLASS__, 'save_settings' ) );
+		add_action( 'admin_post_hatnch_save_contact', array( __CLASS__, 'save_contact' ) );
+		add_action( 'admin_post_hatnch_toggle_contact', array( __CLASS__, 'toggle_contact' ) );
+		add_action( 'admin_post_hatnch_save_settings', array( __CLASS__, 'save_settings' ) );
 	}
 
 	public static function enqueue_assets( string $hook_suffix ): void {
@@ -30,9 +30,9 @@ final class HKC_Admin {
 
 		wp_enqueue_style(
 			'hkc-admin',
-			HKC_PLUGIN_URL . 'assets/css/hatnikotni-chat-admin.css',
+			HATNCH_PLUGIN_URL . 'assets/css/hatnikotni-chat-admin.css',
 			array(),
-			HKC_VERSION
+			HATNCH_VERSION
 		);
 	}
 
@@ -56,8 +56,8 @@ final class HKC_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'hatnikotni-chat' ) );
 		}
 
-		$contacts = HKC_Contacts::get_all();
-		$settings = HKC_Settings::all();
+		$contacts = HATNCH_Contacts::get_all();
+		$settings = HATNCH_Settings::all();
 		?>
 		<div class="wrap hkc-admin">
 			<header class="hkc-page-header">
@@ -92,8 +92,8 @@ final class HKC_Admin {
 			?>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="hkc-settings-form">
-				<input type="hidden" name="action" value="hkc_save_settings">
-				<?php wp_nonce_field( 'hkc_save_settings', 'hkc_nonce' ); ?>
+				<input type="hidden" name="action" value="hatnch_save_settings">
+				<?php wp_nonce_field( 'hatnch_save_settings', 'hatnch_nonce' ); ?>
 
 				<section class="hkc-panel">
 					<div class="hkc-panel__header">
@@ -201,10 +201,10 @@ final class HKC_Admin {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
 
-		check_admin_referer( 'hkc_save_settings', 'hkc_nonce' );
+		check_admin_referer( 'hatnch_save_settings', 'hatnch_nonce' );
 
 		$contact_id = isset( $_POST['default_contact'] ) ? absint( $_POST['default_contact'] ) : 0;
-		$contact    = $contact_id > 0 ? HKC_Contacts::get( $contact_id ) : null;
+		$contact    = $contact_id > 0 ? HATNCH_Contacts::get( $contact_id ) : null;
 		$method     = isset( $_POST['routing_method'] ) ? sanitize_key( wp_unslash( $_POST['routing_method'] ) ) : 'direct';
 
 		if ( ! in_array( $method, array( 'direct', 'random', 'round_robin' ), true ) ) {
@@ -222,7 +222,7 @@ final class HKC_Admin {
 			'routing_method'  => $method,
 		);
 
-		update_option( 'hkc_settings', $settings, false );
+		update_option( 'hatnch_settings', $settings, false );
 
 		wp_safe_redirect( admin_url( 'admin.php?page=hkc&updated=1' ) );
 		exit;
@@ -235,8 +235,8 @@ final class HKC_Admin {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin edit selector.
 		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
-		$editing  = $edit_id ? HKC_Contacts::get( $edit_id ) : null;
-		$contacts = HKC_Contacts::get_all();
+		$editing  = $edit_id ? HATNCH_Contacts::get( $edit_id ) : null;
+		$contacts = HATNCH_Contacts::get_all();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
 		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
@@ -303,7 +303,7 @@ final class HKC_Admin {
 										<td>
 											<div class="hkc-actions">
 												<a href="<?php echo esc_url( admin_url( 'admin.php?page=hkc-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a>
-												<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=hkc_toggle_contact&id=' . (int) $contact['id'] ), 'hkc_toggle_contact_' . (int) $contact['id'] ) ); ?>">
+												<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=hatnch_toggle_contact&id=' . (int) $contact['id'] ), 'hatnch_toggle_contact_' . (int) $contact['id'] ) ); ?>">
 													<?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?>
 												</a>
 											</div>
@@ -339,9 +339,9 @@ final class HKC_Admin {
 				</div>
 			</div>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="hkc_save_contact">
+				<input type="hidden" name="action" value="hatnch_save_contact">
 				<input type="hidden" name="id" value="<?php echo esc_attr( $contact['id'] ); ?>">
-				<?php wp_nonce_field( 'hkc_save_contact', 'hkc_nonce' ); ?>
+				<?php wp_nonce_field( 'hatnch_save_contact', 'hatnch_nonce' ); ?>
 				<table class="form-table" role="presentation">
 					<tr><th scope="row"><label for="hkc-name"><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-name" name="name" type="text" class="regular-text" maxlength="100" required value="<?php echo esc_attr( $contact['name'] ); ?>"></td></tr>
 					<tr><th scope="row"><label for="hkc-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?></label></th><td><input id="hkc-phone" name="phone" type="tel" class="regular-text" maxlength="20" inputmode="numeric" pattern="[0-9]{8,20}" placeholder="<?php echo esc_attr__( '601155898464', 'hatnikotni-chat' ); ?>" required value="<?php echo esc_attr( $contact['phone'] ); ?>"><p class="description"><?php echo esc_html__( 'Use international digits only: country code + number, without +, spaces or hyphens. Example: 601155898464.', 'hatnikotni-chat' ); ?></p></td></tr>
@@ -364,7 +364,7 @@ final class HKC_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
-		check_admin_referer( 'hkc_save_contact', 'hkc_nonce' );
+		check_admin_referer( 'hatnch_save_contact', 'hatnch_nonce' );
 
 		$id   = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$data = array(
@@ -377,7 +377,7 @@ final class HKC_Admin {
 			'sort_order'  => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
 		);
 
-		$result = HKC_Contacts::save( $data, $id );
+		$result = HATNCH_Contacts::save( $data, $id );
 		$url    = is_wp_error( $result ) ? admin_url( 'admin.php?page=hkc-contacts&error=' . rawurlencode( $result->get_error_code() ) ) : admin_url( 'admin.php?page=hkc-contacts&updated=1' );
 		wp_safe_redirect( $url );
 		exit;
@@ -389,12 +389,12 @@ final class HKC_Admin {
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- ID is protected by the following action nonce.
 		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-		check_admin_referer( 'hkc_toggle_contact_' . $id );
+		check_admin_referer( 'hatnch_toggle_contact_' . $id );
 
 		if ( $id > 0 ) {
-			$contact = HKC_Contacts::get( $id );
+			$contact = HATNCH_Contacts::get( $id );
 			if ( $contact ) {
-				HKC_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
+				HATNCH_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
 			}
 		}
 
