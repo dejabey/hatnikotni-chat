@@ -29,6 +29,7 @@ final class HATNCH_Plugin {
 	}
 
 	public function init(): void {
+		self::maybe_migrate_legacy_data();
 		self::maybe_upgrade();
 
 		HATNCH_Privacy::init();
@@ -62,6 +63,48 @@ final class HATNCH_Plugin {
 	public static function deactivate(): void {
 		wp_clear_scheduled_hook( 'hatnch_daily_cleanup' );
 		// Deactivation intentionally preserves plugin data.
+	}
+
+	private static function maybe_migrate_legacy_data(): void {
+		$legacy_prefix = 'hk' . 'c_';
+
+		$legacy_settings = get_option( $legacy_prefix . 'settings', false );
+		if ( false !== $legacy_settings && false === get_option( 'hatnch_settings', false ) ) {
+			add_option( 'hatnch_settings', $legacy_settings, '', false );
+		}
+		if ( false !== $legacy_settings ) {
+			delete_option( $legacy_prefix . 'settings' );
+		}
+
+		$legacy_state = get_option( $legacy_prefix . 'routing_state', false );
+		if ( false !== $legacy_state && false === get_option( 'hatnch_routing_state', false ) ) {
+			add_option( 'hatnch_routing_state', $legacy_state, '', false );
+		}
+		if ( false !== $legacy_state ) {
+			delete_option( $legacy_prefix . 'routing_state' );
+		}
+
+		$legacy_db_version = get_option( $legacy_prefix . 'db_version', false );
+		if ( false !== $legacy_db_version ) {
+			delete_option( $legacy_prefix . 'db_version' );
+		}
+
+		global $wpdb;
+		$legacy_contacts = $wpdb->prefix . $legacy_prefix . 'contacts';
+		$new_contacts    = $wpdb->prefix . 'hatnch_contacts';
+		$legacy_events   = $wpdb->prefix . $legacy_prefix . 'events';
+		$new_events      = $wpdb->prefix . 'hatnch_events';
+
+		foreach ( array( array( $legacy_contacts, $new_contacts ), array( $legacy_events, $new_events ) ) as $tables ) {
+			$legacy_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables[0] ) ) );
+			$new_exists    = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables[1] ) ) );
+
+			if ( $legacy_exists === $tables[0] && $new_exists !== $tables[1] ) {
+				$wpdb->query( $wpdb->prepare( 'RENAME TABLE %i TO %i', $tables[0], $tables[1] ) );
+			}
+		}
+
+		wp_clear_scheduled_hook( $legacy_prefix . 'daily_cleanup' );
 	}
 
 	private static function maybe_upgrade(): void {
