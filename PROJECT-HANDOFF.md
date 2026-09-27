@@ -3,7 +3,7 @@
 **Current state document. Updated 2026-09-27.**
 
 **Review remediation branch:** `wordpress-org-compliance`  
-**Current remediation HEAD:** `6c9f2e4ca1a773b453d464a75881ee7ec19de7c1`
+**Current remediation HEAD:** `8408fbe2dca66a8d7d0fdefda1ac9486b73e14d9`
 **Base:** `main` HEAD `06c443a3ddf1e1d6f64c0f16f4ede18d97d60fcd`  
 **Release target:** 0.1.1  
 **Database schema target:** 1.1.0
@@ -84,10 +84,10 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 ## Validation state
 
 ### Source / CI
-- **PENDING:** fresh GitHub Actions run for the remediation branch after the final documentation commit.
-- Previous green run #134 applies to the earlier `HKC` namespace and therefore is not sufficient acceptance for this branch.
-- **PENDING:** final WPCS and contract checks after namespace migration.
-- **PENDING:** clean ZIP/source audit after CI.
+- **CONFIRMED:** GitHub Actions run #294 for commit `8408fbe2dca66a8d7d0fdefda1ac9486b73e14d9` passed on PHP 8.1, 8.2, 8.3 and 8.4.
+- **CONFIRMED:** PHP syntax checks, skeleton contract checks and WordPress Coding Standards passed across the full matrix.
+- Previous green run #134 applies to the earlier `HKC` namespace and is retained only as historical evidence.
+- **PENDING:** clean ZIP/source audit after the final handoff update.
 
 ### Runtime
 - Existing staging results remain historical evidence only.
@@ -107,13 +107,11 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 
 ## Required next actions
 
-1. Run the complete GitHub Actions matrix on this branch.
-2. Inspect CI output and fix any namespace/WPCS/contract failures.
-3. Re-fetch the changed source and perform a second collision audit for `HKC`, `hkc`, and other unprefixed plugin-owned declarations.
-4. Inspect the generated/clean ZIP contents.
-5. Perform staging migration and functional tests.
-6. Make the GitHub repository public, or provide another stable public Plugin URI that resolves to the plugin project.
-7. Only after all gates pass, merge/release and reply to the same WordPress.org review email.
+1. Re-run the full source collision audit after the final documentation update.
+2. Inspect the generated/clean ZIP contents.
+3. Perform staging migration and functional tests.
+4. Make the GitHub repository public, or provide another stable public Plugin URI that resolves to the plugin project.
+5. Only after all gates pass, merge/release and reply to the same WordPress.org review email.
 
 **Do not reply to WordPress.org yet.**
 
