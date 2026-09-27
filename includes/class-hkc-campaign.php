@@ -7,9 +7,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HATC_Campaign {
+final class HATNCH_Campaign {
 
-	private const COOKIE_NAME = 'hatc_campaign';
+	private const COOKIE_NAME = 'hatnch_campaign';
 	private const COOKIE_DAYS = 30;
 	private const FIELDS      = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
 
@@ -18,7 +18,7 @@ final class HATC_Campaign {
 	}
 
 	public static function capture(): void {
-		if ( ! HATC_Privacy::has_analytics_consent() ) {
+		if ( ! HATNCH_Privacy::has_analytics_consent() ) {
 			self::clear_cookie();
 			return;
 		}
@@ -64,7 +64,7 @@ final class HATC_Campaign {
 	}
 
 	public static function get_attribution(): array {
-		if ( ! HATC_Privacy::has_analytics_consent() || empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
+		if ( ! HATNCH_Privacy::has_analytics_consent() || empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
 			return self::empty_attribution();
 		}
 
