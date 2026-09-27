@@ -7,12 +7,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Contacts {
+final class HATC_Contacts {
 
 	public static function table_name(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'hkc_contacts';
+		return $wpdb->prefix . 'hatc_contacts';
 	}
 
 	public static function install_schema(): void {
