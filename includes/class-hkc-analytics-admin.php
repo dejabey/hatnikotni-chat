@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HATC_Analytics_Admin {
+final class HATNCH_Analytics_Admin {
 
 	public static function init(): void {
 		if ( is_admin() ) {
@@ -21,7 +21,7 @@ final class HATC_Analytics_Admin {
 			__( 'Analytics', 'hatnikotni-chat' ),
 			__( 'Analytics', 'hatnikotni-chat' ),
 			'manage_options',
-			'hatc-analytics',
+			'hatnch-analytics',
 			array( __CLASS__, 'render' )
 		);
 	}
@@ -32,38 +32,38 @@ final class HATC_Analytics_Admin {
 		}
 
 		$days    = isset( $_GET['days'] ) ? min( 180, max( 1, absint( $_GET['days'] ) ) ) : 30;
-		$summary = HATC_Analytics::get_summary( $days );
+		$summary = HATNCH_Analytics::get_summary( $days );
 		?>
-		<div class="wrap hatc-admin">
-			<header class="hatc-page-header">
+		<div class="wrap hatnch-admin">
+			<header class="hatnch-page-header">
 				<div>
-					<p class="hatc-eyebrow"><?php echo esc_html__( 'Performance overview', 'hatnikotni-chat' ); ?></p>
+					<p class="hatnch-eyebrow"><?php echo esc_html__( 'Performance overview', 'hatnikotni-chat' ); ?></p>
 					<h1><?php echo esc_html__( 'WhatsApp Interaction Analytics', 'hatnikotni-chat' ); ?></h1>
-					<p class="hatc-admin-intro"><?php echo esc_html__( 'Review WhatsApp button interactions recorded with visitor consent. A click is an interaction event, not proof that a message was sent.', 'hatnikotni-chat' ); ?></p>
+					<p class="hatnch-admin-intro"><?php echo esc_html__( 'Review WhatsApp button interactions recorded with visitor consent. A click is an interaction event, not proof that a message was sent.', 'hatnikotni-chat' ); ?></p>
 				</div>
 			</header>
 
-			<div class="hatc-analytics-top">
-				<section class="hatc-stat-grid" aria-label="<?php echo esc_attr__( 'Analytics summary', 'hatnikotni-chat' ); ?>">
-					<div class="hatc-stat-card hatc-stat-card--accent">
-						<span class="hatc-stat-card__label"><?php echo esc_html__( 'WhatsApp clicks', 'hatnikotni-chat' ); ?></span>
-						<strong class="hatc-stat-card__value"><?php echo esc_html( number_format_i18n( $summary['total'] ) ); ?></strong>
+			<div class="hatnch-analytics-top">
+				<section class="hatnch-stat-grid" aria-label="<?php echo esc_attr__( 'Analytics summary', 'hatnikotni-chat' ); ?>">
+					<div class="hatnch-stat-card hatnch-stat-card--accent">
+						<span class="hatnch-stat-card__label"><?php echo esc_html__( 'WhatsApp clicks', 'hatnikotni-chat' ); ?></span>
+						<strong class="hatnch-stat-card__value"><?php echo esc_html( number_format_i18n( $summary['total'] ) ); ?></strong>
 						<?php // Translators: %d is the number of days in the selected analytics period. ?>
-						<span class="hatc-stat-card__meta"><?php echo esc_html( sprintf( _n( 'Last %d day', 'Last %d days', $days, 'hatnikotni-chat' ), $days ) ); ?></span>
+						<span class="hatnch-stat-card__meta"><?php echo esc_html( sprintf( _n( 'Last %d day', 'Last %d days', $days, 'hatnikotni-chat' ), $days ) ); ?></span>
 					</div>
-					<div class="hatc-stat-card">
-						<span class="hatc-stat-card__label"><?php echo esc_html__( 'Retention', 'hatnikotni-chat' ); ?></span>
-						<strong class="hatc-stat-card__value"><?php echo esc_html__( '180 days', 'hatnikotni-chat' ); ?></strong>
-						<span class="hatc-stat-card__meta"><?php echo esc_html__( 'Local database events', 'hatnikotni-chat' ); ?></span>
+					<div class="hatnch-stat-card">
+						<span class="hatnch-stat-card__label"><?php echo esc_html__( 'Retention', 'hatnikotni-chat' ); ?></span>
+						<strong class="hatnch-stat-card__value"><?php echo esc_html__( '180 days', 'hatnikotni-chat' ); ?></strong>
+						<span class="hatnch-stat-card__meta"><?php echo esc_html__( 'Local database events', 'hatnikotni-chat' ); ?></span>
 					</div>
 				</section>
 
-				<section class="hatc-panel hatc-filter-panel">
-					<form method="get" class="hatc-filter-form">
-						<input type="hidden" name="page" value="hatc-analytics">
+				<section class="hatnch-panel hatnch-filter-panel">
+					<form method="get" class="hatnch-filter-form">
+						<input type="hidden" name="page" value="hatnch-analytics">
 						<div>
-							<label for="hatc-days"><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></label>
-							<select id="hatc-days" name="days">
+							<label for="hatnch-days"><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></label>
+							<select id="hatnch-days" name="days">
 								<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
 									<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
 										<?php
@@ -79,9 +79,9 @@ final class HATC_Analytics_Admin {
 				</section>
 			</div>
 
-			<div class="hatc-data-grid">
-				<section class="hatc-panel hatc-panel--table">
-					<div class="hatc-panel__header">
+			<div class="hatnch-data-grid">
+				<section class="hatnch-panel hatnch-panel--table">
+					<div class="hatnch-panel__header">
 						<div>
 							<h2><?php echo esc_html__( 'By Device', 'hatnikotni-chat' ); ?></h2>
 							<p><?php echo esc_html__( 'Broad device categories only.', 'hatnikotni-chat' ); ?></p>
@@ -90,8 +90,8 @@ final class HATC_Analytics_Admin {
 					<?php self::render_table( $summary['by_device'], 'device' ); ?>
 				</section>
 
-				<section class="hatc-panel hatc-panel--table">
-					<div class="hatc-panel__header">
+				<section class="hatnch-panel hatnch-panel--table">
+					<div class="hatnch-panel__header">
 						<div>
 							<h2><?php echo esc_html__( 'By Contact', 'hatnikotni-chat' ); ?></h2>
 							<p><?php echo esc_html__( 'Clicks attributed to each contact.', 'hatnikotni-chat' ); ?></p>
@@ -100,8 +100,8 @@ final class HATC_Analytics_Admin {
 					<?php self::render_contact_table( $summary['by_contact'] ); ?>
 				</section>
 
-				<section class="hatc-panel hatc-panel--table hatc-data-grid__wide">
-					<div class="hatc-panel__header">
+				<section class="hatnch-panel hatnch-panel--table hatnch-data-grid__wide">
+					<div class="hatnch-panel__header">
 						<div>
 							<h2><?php echo esc_html__( 'By Campaign', 'hatnikotni-chat' ); ?></h2>
 							<p><?php echo esc_html__( 'Last-touch UTM campaign attribution when consent is available.', 'hatnikotni-chat' ); ?></p>
@@ -111,19 +111,19 @@ final class HATC_Analytics_Admin {
 				</section>
 			</div>
 
-			<p class="hatc-admin-note"><?php echo esc_html__( 'A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent.', 'hatnikotni-chat' ); ?></p>
+			<p class="hatnch-admin-note"><?php echo esc_html__( 'A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent.', 'hatnikotni-chat' ); ?></p>
 		</div>
 		<?php
 	}
 
 	private static function render_table( array $rows, string $key ): void {
 		if ( empty( $rows ) ) {
-			echo '<p class="hatc-empty-state">' . esc_html__( 'No data for this period.', 'hatnikotni-chat' ) . '</p>';
+			echo '<p class="hatnch-empty-state">' . esc_html__( 'No data for this period.', 'hatnikotni-chat' ) . '</p>';
 			return;
 		}
 		?>
-		<div class="hatc-table-wrap">
-			<table class="widefat striped hatc-analytics-table">
+		<div class="hatnch-table-wrap">
+			<table class="widefat striped hatnch-analytics-table">
 				<thead>
 					<tr>
 						<th scope="col"><?php echo esc_html__( 'Value', 'hatnikotni-chat' ); ?></th>
@@ -145,12 +145,12 @@ final class HATC_Analytics_Admin {
 
 	private static function render_contact_table( array $rows ): void {
 		if ( empty( $rows ) ) {
-			echo '<p class="hatc-empty-state">' . esc_html__( 'No data for this period.', 'hatnikotni-chat' ) . '</p>';
+			echo '<p class="hatnch-empty-state">' . esc_html__( 'No data for this period.', 'hatnikotni-chat' ) . '</p>';
 			return;
 		}
 		?>
-		<div class="hatc-table-wrap">
-			<table class="widefat striped hatc-analytics-table">
+		<div class="hatnch-table-wrap">
+			<table class="widefat striped hatnch-analytics-table">
 				<thead>
 					<tr>
 						<th scope="col"><?php echo esc_html__( 'Contact', 'hatnikotni-chat' ); ?></th>
@@ -159,7 +159,7 @@ final class HATC_Analytics_Admin {
 				</thead>
 				<tbody>
 				<?php foreach ( $rows as $row ) : ?>
-					<?php $contact = HATC_Contacts::get( absint( $row['contact_id'] ) ); ?>
+					<?php $contact = HATNCH_Contacts::get( absint( $row['contact_id'] ) ); ?>
 					<tr>
 						<td><?php echo esc_html( $contact['name'] ?? __( 'Unknown / removed', 'hatnikotni-chat' ) ); ?></td>
 						<td><strong><?php echo esc_html( number_format_i18n( (int) $row['total'] ) ); ?></strong></td>
