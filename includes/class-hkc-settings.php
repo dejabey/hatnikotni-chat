@@ -7,9 +7,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Settings {
+final class HATNCH_Settings {
 
-	private const OPTION_KEY = 'hkc_settings';
+	private const OPTION_KEY = 'hatnch_settings';
 
 	public static function install_defaults(): void {
 		if ( false !== get_option( self::OPTION_KEY, false ) ) {
