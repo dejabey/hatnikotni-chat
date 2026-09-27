@@ -4,23 +4,23 @@
  * Loaded only on Hatnikotni Chat admin screens.
  */
 
-.hatc-admin {
-	--hatc-admin-border: #e2e8f0;
-	--hatc-admin-border-strong: #cbd5e1;
-	--hatc-admin-muted: #64748b;
-	--hatc-admin-text: #0f172a;
-	--hatc-admin-accent: #0f766e;
-	--hatc-admin-accent-dark: #115e59;
-	--hatc-admin-surface: #ffffff;
-	--hatc-admin-surface-soft: #f8fafc;
-	--hatc-admin-radius: 14px;
+.hatnch-admin {
+	--hatnch-admin-border: #e2e8f0;
+	--hatnch-admin-border-strong: #cbd5e1;
+	--hatnch-admin-muted: #64748b;
+	--hatnch-admin-text: #0f172a;
+	--hatnch-admin-accent: #0f766e;
+	--hatnch-admin-accent-dark: #115e59;
+	--hatnch-admin-surface: #ffffff;
+	--hatnch-admin-surface-soft: #f8fafc;
+	--hatnch-admin-radius: 14px;
 	width: calc(100% - 20px);
 	max-width: 1320px;
 	margin-right: 20px;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-page-header {
+.hatnch-admin .hatnch-page-header {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -28,18 +28,18 @@
 	margin: 28px 0 22px;
 }
 
-.hatc-admin .hatc-page-header h1 {
+.hatnch-admin .hatnch-page-header h1 {
 	margin: 0;
 	font-size: clamp(26px, 3vw, 34px);
 	font-weight: 650;
 	line-height: 1.15;
 	letter-spacing: -.025em;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-eyebrow {
+.hatnch-admin .hatnch-eyebrow {
 	margin: 0 0 7px;
-	color: var(--hatc-admin-accent);
+	color: var(--hatnch-admin-accent);
 	font-size: 12px;
 	font-weight: 700;
 	letter-spacing: .08em;
@@ -47,21 +47,21 @@
 	text-transform: uppercase;
 }
 
-.hatc-admin .hatc-admin-intro {
+.hatnch-admin .hatnch-admin-intro {
 	max-width: 820px;
 	margin: 9px 0 0;
 	font-size: 14px;
 	line-height: 1.65;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 }
 
-.hatc-admin .hatc-page-header__status {
+.hatnch-admin .hatnch-page-header__status {
 	flex: 0 0 auto;
 	padding-top: 4px;
 }
 
-.hatc-admin .hatc-status-badge,
-.hatc-admin .hatc-count-badge {
+.hatnch-admin .hatnch-status-badge,
+.hatnch-admin .hatnch-count-badge {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -74,7 +74,7 @@
 	white-space: nowrap;
 }
 
-.hatc-admin .hatc-status-badge::before {
+.hatnch-admin .hatnch-status-badge::before {
 	width: 6px;
 	height: 6px;
 	margin-right: 7px;
@@ -83,35 +83,35 @@
 	content: "";
 }
 
-.hatc-admin .hatc-status-badge.is-active {
+.hatnch-admin .hatnch-status-badge.is-active {
 	background: #ecfdf5;
 	color: #047857;
 }
 
-.hatc-admin .hatc-status-badge.is-inactive {
+.hatnch-admin .hatnch-status-badge.is-inactive {
 	background: #f1f5f9;
 	color: #64748b;
 }
 
-.hatc-admin .hatc-count-badge {
+.hatnch-admin .hatnch-count-badge {
 	background: #f1f5f9;
 	color: #475569;
 }
 
-.hatc-admin .hatc-panel,
-.hatc-admin .hatc-stat-card {
-	background: var(--hatc-admin-surface);
-	border: 1px solid var(--hatc-admin-border);
-	border-radius: var(--hatc-admin-radius);
+.hatnch-admin .hatnch-panel,
+.hatnch-admin .hatnch-stat-card {
+	background: var(--hatnch-admin-surface);
+	border: 1px solid var(--hatnch-admin-border);
+	border-radius: var(--hatnch-admin-radius);
 	box-shadow: 0 5px 20px rgba(15, 23, 42, .045);
 }
 
-.hatc-admin .hatc-panel {
+.hatnch-admin .hatnch-panel {
 	margin: 0 0 16px;
 	padding: 24px 26px;
 }
 
-.hatc-admin .hatc-panel__header {
+.hatnch-admin .hatnch-panel__header {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -119,139 +119,139 @@
 	margin-bottom: 16px;
 }
 
-.hatc-admin .hatc-panel__header h2 {
+.hatnch-admin .hatnch-panel__header h2 {
 	margin: 0;
 	font-size: 16px;
 	font-weight: 650;
 	line-height: 1.35;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-panel__header p {
+.hatnch-admin .hatnch-panel__header p {
 	max-width: 720px;
 	margin: 5px 0 0;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 	font-size: 13px;
 	line-height: 1.55;
 }
 
-.hatc-admin .hatc-settings-form {
+.hatnch-admin .hatnch-settings-form {
 	max-width: 1180px;
 }
 
-.hatc-admin .form-table {
+.hatnch-admin .form-table {
 	width: 100%;
 	margin: 0;
 }
 
-.hatc-admin .form-table th {
+.hatnch-admin .form-table th {
 	width: 220px;
 	padding: 15px 32px 15px 0;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 	font-weight: 600;
 }
 
-.hatc-admin .form-table td {
+.hatnch-admin .form-table td {
 	padding: 15px 0;
 }
 
-.hatc-admin .form-table tr + tr th,
-.hatc-admin .form-table tr + tr td {
+.hatnch-admin .form-table tr + tr th,
+.hatnch-admin .form-table tr + tr td {
 	border-top: 1px solid #f1f5f9;
 }
 
-.hatc-admin .form-table input.regular-text,
-.hatc-admin .form-table textarea.large-text,
-.hatc-admin .form-table select,
-.hatc-admin .form-table input[type="number"],
-.hatc-admin .hatc-filter-form select {
+.hatnch-admin .form-table input.regular-text,
+.hatnch-admin .form-table textarea.large-text,
+.hatnch-admin .form-table select,
+.hatnch-admin .form-table input[type="number"],
+.hatnch-admin .hatnch-filter-form select {
 	max-width: 560px;
-	border-color: var(--hatc-admin-border-strong);
+	border-color: var(--hatnch-admin-border-strong);
 	border-radius: 9px;
 	box-shadow: none;
 }
 
-.hatc-admin .form-table input.regular-text,
-.hatc-admin .form-table input[type="number"],
-.hatc-admin .form-table select,
-.hatc-admin .hatc-filter-form select {
+.hatnch-admin .form-table input.regular-text,
+.hatnch-admin .form-table input[type="number"],
+.hatnch-admin .form-table select,
+.hatnch-admin .hatnch-filter-form select {
 	min-height: 40px;
 }
 
-.hatc-admin .form-table input.regular-text:focus,
-.hatc-admin .form-table textarea.large-text:focus,
-.hatc-admin .form-table select:focus,
-.hatc-admin .form-table input[type="number"]:focus,
-.hatc-admin .hatc-filter-form select:focus {
-	border-color: var(--hatc-admin-accent);
-	box-shadow: 0 0 0 1px var(--hatc-admin-accent);
+.hatnch-admin .form-table input.regular-text:focus,
+.hatnch-admin .form-table textarea.large-text:focus,
+.hatnch-admin .form-table select:focus,
+.hatnch-admin .form-table input[type="number"]:focus,
+.hatnch-admin .hatnch-filter-form select:focus {
+	border-color: var(--hatnch-admin-accent);
+	box-shadow: 0 0 0 1px var(--hatnch-admin-accent);
 }
 
-.hatc-admin .form-table .description {
+.hatnch-admin .form-table .description {
 	display: block;
 	clear: both;
 	max-width: 720px;
 	margin: 8px 0 0;
 	line-height: 1.55;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 }
 
-.hatc-admin .hatc-contact-form .form-table input[type="number"] {
+.hatnch-admin .hatnch-contact-form .form-table input[type="number"] {
 	width: 120px;
 }
 
-.hatc-admin .hatc-contact-form .form-table input[name="sort_order"] {
+.hatnch-admin .hatnch-contact-form .form-table input[name="sort_order"] {
 	width: 160px;
 }
 
 
-.hatc-admin .hatc-toggle-label {
+.hatnch-admin .hatnch-toggle-label {
 	display: inline-flex;
 	align-items: center;
 	gap: 7px;
 	min-height: 32px;
 }
 
-.hatc-admin .hatc-option-list {
+.hatnch-admin .hatnch-option-list {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 12px 24px;
 }
 
-.hatc-admin input[type="checkbox"] {
-	accent-color: var(--hatc-admin-accent);
+.hatnch-admin input[type="checkbox"] {
+	accent-color: var(--hatnch-admin-accent);
 }
 
-.hatc-admin .button {
+.hatnch-admin .button {
 	border-radius: 9px;
 	box-shadow: none;
 }
 
-.hatc-admin .button-primary {
-	border-color: var(--hatc-admin-accent);
-	background: var(--hatc-admin-accent);
+.hatnch-admin .button-primary {
+	border-color: var(--hatnch-admin-accent);
+	background: var(--hatnch-admin-accent);
 }
 
-.hatc-admin .button-primary:hover,
-.hatc-admin .button-primary:focus {
-	border-color: var(--hatc-admin-accent-dark);
-	background: var(--hatc-admin-accent-dark);
+.hatnch-admin .button-primary:hover,
+.hatnch-admin .button-primary:focus {
+	border-color: var(--hatnch-admin-accent-dark);
+	background: var(--hatnch-admin-accent-dark);
 }
 
-.hatc-admin .button-secondary {
-	border-color: var(--hatc-admin-border-strong);
+.hatnch-admin .button-secondary {
+	border-color: var(--hatnch-admin-border-strong);
 	background: #fff;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .button-secondary:hover,
-.hatc-admin .button-secondary:focus {
+.hatnch-admin .button-secondary:hover,
+.hatnch-admin .button-secondary:focus {
 	border-color: #94a3b8;
-	background: var(--hatc-admin-surface-soft);
-	color: var(--hatc-admin-text);
+	background: var(--hatnch-admin-surface-soft);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-button {
+.hatnch-admin .hatnch-button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -267,62 +267,62 @@
 	cursor: pointer;
 }
 
-.hatc-admin .hatc-button--secondary {
-	border-color: var(--hatc-admin-accent);
-	background: var(--hatc-admin-accent);
+.hatnch-admin .hatnch-button--secondary {
+	border-color: var(--hatnch-admin-accent);
+	background: var(--hatnch-admin-accent);
 	color: #fff;
 }
 
-.hatc-admin .hatc-button--secondary:hover,
-.hatc-admin .hatc-button--secondary:focus {
-	border-color: var(--hatc-admin-accent-dark);
-	background: var(--hatc-admin-accent-dark);
+.hatnch-admin .hatnch-button--secondary:hover,
+.hatnch-admin .hatnch-button--secondary:focus {
+	border-color: var(--hatnch-admin-accent-dark);
+	background: var(--hatnch-admin-accent-dark);
 	color: #fff;
 }
 
-.hatc-admin .hatc-button--ghost {
-	border-color: var(--hatc-admin-border-strong);
+.hatnch-admin .hatnch-button--ghost {
+	border-color: var(--hatnch-admin-border-strong);
 	background: #fff;
 	color: #475569;
 }
 
-.hatc-admin .hatc-button--ghost:hover,
-.hatc-admin .hatc-button--ghost:focus {
+.hatnch-admin .hatnch-button--ghost:hover,
+.hatnch-admin .hatnch-button--ghost:focus {
 	border-color: #94a3b8;
-	background: var(--hatc-admin-surface-soft);
-	color: var(--hatc-admin-text);
+	background: var(--hatnch-admin-surface-soft);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-button:focus-visible,
-.hatc-admin a:focus-visible,
-.hatc-admin button:focus-visible,
-.hatc-admin input:focus-visible,
-.hatc-admin select:focus-visible,
-.hatc-admin textarea:focus-visible {
-	outline: 2px solid var(--hatc-admin-accent);
+.hatnch-admin .hatnch-button:focus-visible,
+.hatnch-admin a:focus-visible,
+.hatnch-admin button:focus-visible,
+.hatnch-admin input:focus-visible,
+.hatnch-admin select:focus-visible,
+.hatnch-admin textarea:focus-visible {
+	outline: 2px solid var(--hatnch-admin-accent);
 	outline-offset: 2px;
 }
 
-.hatc-admin .hatc-form-actions {
+.hatnch-admin .hatnch-form-actions {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	margin-top: 20px;
 }
 
-.hatc-admin .hatc-form-actions p.submit {
+.hatnch-admin .hatnch-form-actions p.submit {
 	margin: 0;
 	padding: 0;
 }
 
-.hatc-admin .hatc-table-wrap {
+.hatnch-admin .hatnch-table-wrap {
 	width: 100%;
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
 }
 
-.hatc-admin .hatc-contacts-table,
-.hatc-admin .hatc-analytics-table {
+.hatnch-admin .hatnch-contacts-table,
+.hatnch-admin .hatnch-analytics-table {
 	width: 100%;
 	margin: 0;
 	border: 0;
@@ -331,82 +331,82 @@
 	box-shadow: none;
 }
 
-.hatc-admin .hatc-contacts-table th,
-.hatc-admin .hatc-analytics-table th {
-	background: var(--hatc-admin-surface-soft);
+.hatnch-admin .hatnch-contacts-table th,
+.hatnch-admin .hatnch-analytics-table th {
+	background: var(--hatnch-admin-surface-soft);
 	font-weight: 650;
 	color: #475569;
 }
 
-.hatc-admin .hatc-contacts-table th,
-.hatc-admin .hatc-contacts-table td,
-.hatc-admin .hatc-analytics-table th,
-.hatc-admin .hatc-analytics-table td {
+.hatnch-admin .hatnch-contacts-table th,
+.hatnch-admin .hatnch-contacts-table td,
+.hatnch-admin .hatnch-analytics-table th,
+.hatnch-admin .hatnch-analytics-table td {
 	vertical-align: middle;
 	padding: 13px 14px;
 	border-bottom: 1px solid #eef2f7;
 }
 
-.hatc-admin .hatc-contacts-table th:first-child,
-.hatc-admin .hatc-contacts-table td:first-child,
-.hatc-admin .hatc-analytics-table th:first-child,
-.hatc-admin .hatc-analytics-table td:first-child {
+.hatnch-admin .hatnch-contacts-table th:first-child,
+.hatnch-admin .hatnch-contacts-table td:first-child,
+.hatnch-admin .hatnch-analytics-table th:first-child,
+.hatnch-admin .hatnch-analytics-table td:first-child {
 	padding-left: 4px;
 }
 
-.hatc-admin .hatc-contacts-table th:last-child,
-.hatc-admin .hatc-contacts-table td:last-child,
-.hatc-admin .hatc-analytics-table th:last-child,
-.hatc-admin .hatc-analytics-table td:last-child {
+.hatnch-admin .hatnch-contacts-table th:last-child,
+.hatnch-admin .hatnch-contacts-table td:last-child,
+.hatnch-admin .hatnch-analytics-table th:last-child,
+.hatnch-admin .hatnch-analytics-table td:last-child {
 	padding-right: 4px;
 }
 
-.hatc-admin .hatc-contacts-table tbody tr:last-child td,
-.hatc-admin .hatc-analytics-table tbody tr:last-child td {
+.hatnch-admin .hatnch-contacts-table tbody tr:last-child td,
+.hatnch-admin .hatnch-analytics-table tbody tr:last-child td {
 	border-bottom: 0;
 }
 
-.hatc-admin .hatc-contacts-table tbody tr:hover td,
-.hatc-admin .hatc-analytics-table tbody tr:hover td {
+.hatnch-admin .hatnch-contacts-table tbody tr:hover td,
+.hatnch-admin .hatnch-analytics-table tbody tr:hover td {
 	background: #fbfdfe;
 }
 
-.hatc-admin .hatc-contacts-table a,
-.hatc-admin .hatc-analytics-table a {
+.hatnch-admin .hatnch-contacts-table a,
+.hatnch-admin .hatnch-analytics-table a {
 	font-weight: 600;
 }
 
-.hatc-admin .hatc-table-meta {
+.hatnch-admin .hatnch-table-meta {
 	display: block;
 	max-width: 280px;
 	margin-top: 3px;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 	font-size: 12px;
 	line-height: 1.45;
 }
 
-.hatc-admin .hatc-mono {
+.hatnch-admin .hatnch-mono {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 	font-size: 12px;
 }
 
-.hatc-admin .hatc-actions {
+.hatnch-admin .hatnch-actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px 12px;
 }
 
-.hatc-admin .hatc-actions a {
+.hatnch-admin .hatnch-actions a {
 	white-space: nowrap;
 }
 
-.hatc-admin .hatc-empty-state {
+.hatnch-admin .hatnch-empty-state {
 	margin: 0;
 	padding: 18px 0 4px;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 }
 
-.hatc-admin .hatc-analytics-top {
+.hatnch-admin .hatnch-analytics-top {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 340px;
 	gap: 16px;
@@ -414,45 +414,45 @@
 	margin-bottom: 18px;
 }
 
-.hatc-admin .hatc-stat-grid {
+.hatnch-admin .hatnch-stat-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 14px;
 	margin: 0;
 }
 
-.hatc-admin .hatc-stat-card {
+.hatnch-admin .hatnch-stat-card {
 	padding: 22px 24px;
 }
 
-.hatc-admin .hatc-stat-card--accent {
+.hatnch-admin .hatnch-stat-card--accent {
 	border-color: rgba(15, 118, 110, .25);
 	background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%);
 }
 
-.hatc-admin .hatc-stat-card__label,
-.hatc-admin .hatc-stat-card__meta {
+.hatnch-admin .hatnch-stat-card__label,
+.hatnch-admin .hatnch-stat-card__meta {
 	display: block;
-	color: var(--hatc-admin-muted);
+	color: var(--hatnch-admin-muted);
 	font-size: 12px;
 	line-height: 1.4;
 }
 
-.hatc-admin .hatc-stat-card__label {
+.hatnch-admin .hatnch-stat-card__label {
 	font-weight: 650;
 }
 
-.hatc-admin .hatc-stat-card__value {
+.hatnch-admin .hatnch-stat-card__value {
 	display: block;
 	margin: 9px 0 3px;
 	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.1;
 	letter-spacing: -.02em;
-	color: var(--hatc-admin-text);
+	color: var(--hatnch-admin-text);
 }
 
-.hatc-admin .hatc-filter-panel {
+.hatnch-admin .hatnch-filter-panel {
 	width: 100%;
 	max-width: none;
 	box-sizing: border-box;
@@ -461,143 +461,143 @@
 	align-self: stretch;
 }
 
-.hatc-admin .hatc-filter-form {
+.hatnch-admin .hatnch-filter-form {
 	display: flex;
 	align-items: flex-end;
 	gap: 12px;
 	margin: 0;
 }
 
-.hatc-admin .hatc-filter-form > div {
+.hatnch-admin .hatnch-filter-form > div {
 	display: grid;
 	gap: 6px;
 }
 
-.hatc-admin .hatc-filter-form label {
+.hatnch-admin .hatnch-filter-form label {
 	font-size: 12px;
 	font-weight: 650;
 	color: #475569;
 }
 
-.hatc-admin .hatc-filter-form .button {
+.hatnch-admin .hatnch-filter-form .button {
 	margin: 0;
 }
 
-.hatc-admin .hatc-data-grid {
+.hatnch-admin .hatnch-data-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 18px;
 	max-width: 1180px;
 }
 
-.hatc-admin .hatc-data-grid .hatc-panel {
+.hatnch-admin .hatnch-data-grid .hatnch-panel {
 	margin: 0;
 }
 
-.hatc-admin .hatc-data-grid__wide {
+.hatnch-admin .hatnch-data-grid__wide {
 	grid-column: 1 / -1;
 }
 
-.hatc-admin .hatc-admin-note {
+.hatnch-admin .hatnch-admin-note {
 	max-width: 1180px;
 	margin: 16px 0;
 	padding: 13px 16px;
 	border-left: 3px solid #94a3b8;
-	background: var(--hatc-admin-surface-soft);
+	background: var(--hatnch-admin-surface-soft);
 	color: #475569;
 	border-radius: 0 9px 9px 0;
 	font-size: 13px;
 	line-height: 1.55;
 }
 
-.hatc-admin .notice {
+.hatnch-admin .notice {
 	max-width: 980px;
 	border-radius: 9px;
 }
 
 @media (max-width: 782px) {
-	.hatc-admin {
+	.hatnch-admin {
 		margin-right: 10px;
 	}
 
-	.hatc-admin .hatc-page-header {
+	.hatnch-admin .hatnch-page-header {
 		display: block;
 		margin-top: 20px;
 	}
 
-	.hatc-admin .hatc-page-header__status {
+	.hatnch-admin .hatnch-page-header__status {
 		margin-top: 12px;
 	}
 
-	.hatc-admin .hatc-panel {
+	.hatnch-admin .hatnch-panel {
 		padding: 17px 14px;
 	}
 
-	.hatc-admin .hatc-form-actions {
+	.hatnch-admin .hatnch-form-actions {
 		flex-wrap: wrap;
 	}
 
-	.hatc-admin .form-table th,
-	.hatc-admin .form-table td {
+	.hatnch-admin .form-table th,
+	.hatnch-admin .form-table td {
 		display: block;
 		width: auto;
 		padding-right: 0;
 	}
 
-	.hatc-admin .form-table th {
+	.hatnch-admin .form-table th {
 		padding-bottom: 7px;
 	}
 
-	.hatc-admin .form-table td {
+	.hatnch-admin .form-table td {
 		padding-top: 0;
 	}
 
-	.hatc-admin .form-table tr + tr th {
+	.hatnch-admin .form-table tr + tr th {
 		border-top: 0;
 		padding-top: 18px;
 	}
 
-	.hatc-admin .form-table tr + tr td {
+	.hatnch-admin .form-table tr + tr td {
 		border-top: 0;
 	}
 
-	.hatc-admin .hatc-analytics-top {
+	.hatnch-admin .hatnch-analytics-top {
 		grid-template-columns: 1fr;
 	}
 
-	.hatc-admin .hatc-stat-grid,
-	.hatc-admin .hatc-data-grid {
+	.hatnch-admin .hatnch-stat-grid,
+	.hatnch-admin .hatnch-data-grid {
 		grid-template-columns: 1fr;
 	}
 
-	.hatc-admin .hatc-data-grid__wide {
+	.hatnch-admin .hatnch-data-grid__wide {
 		grid-column: auto;
 	}
 
-	.hatc-admin .hatc-filter-panel {
+	.hatnch-admin .hatnch-filter-panel {
 		width: 100%;
 	}
 
-	.hatc-admin .hatc-filter-form {
+	.hatnch-admin .hatnch-filter-form {
 		align-items: stretch;
 		flex-direction: column;
 	}
 
-	.hatc-admin .hatc-filter-form select,
-	.hatc-admin .hatc-filter-form .button {
+	.hatnch-admin .hatnch-filter-form select,
+	.hatnch-admin .hatnch-filter-form .button {
 		width: 100%;
 		max-width: none;
 	}
 
-	.hatc-admin .hatc-contacts-table {
+	.hatnch-admin .hatnch-contacts-table {
 		min-width: 760px;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hatc-admin *,
-	.hatc-admin *::before,
-	.hatc-admin *::after {
+	.hatnch-admin *,
+	.hatnch-admin *::before,
+	.hatnch-admin *::after {
 		scroll-behavior: auto !important;
 		transition: none !important;
 		animation: none !important;
