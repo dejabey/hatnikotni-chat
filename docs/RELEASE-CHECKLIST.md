@@ -81,3 +81,16 @@
 1. Await manual WordPress.org review/approval.
 2. After approval, complete the WordPress.org directory/SVN release steps.
 3. Only after explicit production approval, perform production migration.
+
+
+## 0.1.1 Review Fixes
+
+- [ ] Audit all declarations, globals, stored data, WordPress hooks/actions/filters and CSS identifiers for prefix compliance.
+- [ ] Use HATC_ / hatc_ / hatc- as the plugin prefix family.
+- [ ] Remove the invalid/private Plugin URI.
+- [ ] Keep the approved-requested slug `hatnikotni-chat` unchanged.
+- [ ] Update release metadata to 0.1.1.
+- [ ] Run syntax, contract tests, WPCS and Plugin Check.
+- [ ] Run full staging regression tests.
+- [ ] Double/triple check release ZIP contents.
+- [ ] Upload corrected 0.1.1 package and reply to the existing WordPress.org review thread.
