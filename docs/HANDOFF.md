@@ -49,3 +49,8 @@ Read this file, docs/RELEASE-CHECKLIST.md, docs/WORDPRESS-ORG-PREFLIGHT.md and d
 ## WordPress.org Review — 0.1.1
 
 The 0.1.0 submission was pended for prefix compliance and an invalid/private Plugin URI. Version 0.1.1 addresses the reported technical issues by using the HATNCH_ / hatnch_ / hatnch- prefix family and removing the Plugin URI. The plugin slug remains hatnikotni-chat. Full regression testing, Plugin Check, and release verification are required before resubmission.
+
+
+## 0.1.1 RC verification
+
+GitHub Actions Run #269 passed on PHP 8.1–8.5 and build-release. The corrected package was inspected locally: syntax passes, old HKC prefixes are absent from runtime files, and module filenames now match HATNCH classes. Manual staging upload remains the final runtime gate because WPVibe cannot install the locally materialized RC artifact.
