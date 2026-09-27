@@ -1,3 +1,8 @@
+## Unreleased / WordPress.org review remediation — 2026-09-27
+- Reworked globally accessible Hatnikotni Chat declarations, WordPress hooks/actions, options, database tables, constants and client-side storage identifiers from the rejected 3-character `HKC` prefix to the distinct `HATNCH` prefix.
+- Updated the Plugin URI to the project domain instead of the private GitHub repository URL.
+- Added regression contracts for the WordPress.org prefix and URI review findings.
+
 # Changelog
 
 ## Unreleased
@@ -16,7 +21,7 @@
 
 - Added consent-aware visitor analytics with a default-deny consent filter.
 - Added WordPress Privacy Policy Guide integration.
-- Made UTM campaign attribution and the hkc_campaign cookie consent-aware, including cookie clearing when consent is absent.
+- Made UTM campaign attribution and the hatnch_campaign cookie consent-aware, including cookie clearing when consent is absent.
 - Added WordPress.org readme and readiness checklist.
 - Added Composer-based WordPress Coding Standards tooling and CI validation.
 - Added source contracts for privacy, consent and WordPress.org readme requirements.

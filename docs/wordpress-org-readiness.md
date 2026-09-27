@@ -8,6 +8,13 @@ Official requirements are treated as release gates, not as post-submission clean
 
 ## Release gates
 
+### WordPress.org review remediation
+
+- [x] Replace the 3-character `HKC` global/declaration/storage prefix with the distinct `HATNCH` prefix (4+ characters).
+- [x] Replace plugin URI that pointed to a private/non-public GitHub repository with the project domain URI.
+- [x] Add regression contracts for the prefix and plugin URI review findings.
+
+
 ### Licensing and packaging
 
 - [x] GPL-2.0-or-later plugin license

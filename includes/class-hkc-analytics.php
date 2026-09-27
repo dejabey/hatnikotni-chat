@@ -7,14 +7,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Analytics {
+final class HATNCH_Analytics {
 
 	private const RETENTION_DAYS = 180;
 
 	public static function table_name(): string {
 		global $wpdb;
 
-		return $wpdb->prefix . 'hkc_events';
+		return $wpdb->prefix . 'hatnch_events';
 	}
 
 	public static function install_schema(): void {
@@ -49,13 +49,13 @@ final class HKC_Analytics {
 	}
 
 	public static function record_click( array $data = array() ): bool {
-		if ( ! HKC_Privacy::has_analytics_consent() ) {
+		if ( ! HATNCH_Privacy::has_analytics_consent() ) {
 			return false;
 		}
 
 		global $wpdb;
 
-		$attribution = HKC_Campaign::get_attribution();
+		$attribution = HATNCH_Campaign::get_attribution();
 		$page_id     = absint( $data['page_id'] ?? 0 );
 		$page_type   = isset( $data['page_type'] ) ? sanitize_key( $data['page_type'] ) : '';
 		$device      = self::detect_device();
