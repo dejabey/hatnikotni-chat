@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Privacy {
+final class HATNCH_Privacy {
 
 	public static function init(): void {
 		add_action( 'admin_init', array( __CLASS__, 'add_privacy_policy_content' ) );
@@ -21,7 +21,7 @@ final class HKC_Privacy {
 	 * Consent-management plugins or site code can integrate through the filter.
 	 */
 	public static function has_analytics_consent(): bool {
-		return (bool) apply_filters( 'hkc_has_analytics_consent', false );
+		return (bool) apply_filters( 'hatnch_has_analytics_consent', false );
 	}
 
 	/**
@@ -43,7 +43,7 @@ final class HKC_Privacy {
 		) . '</p>';
 
 		$policy .= '<p>' . esc_html__(
-			'Analytics events are stored in the site WordPress database and are automatically deleted after 180 days. With analytics consent, the plugin may use the first-party hkc_campaign cookie for up to 30 days to retain the latest supported UTM campaign attribution.',
+			'Analytics events are stored in the site WordPress database and are automatically deleted after 180 days. With analytics consent, the plugin may use the first-party hatnch_campaign cookie for up to 30 days to retain the latest supported UTM campaign attribution.',
 			'hatnikotni-chat'
 		) . '</p>';
 
@@ -53,7 +53,7 @@ final class HKC_Privacy {
 		) . '</p>';
 
 		$policy .= '<p class="privacy-policy-tutorial">' . esc_html__(
-			'Site administrators should document the consent mechanism used by their site and ensure that the hkc_has_analytics_consent filter reflects an explicit visitor choice before analytics is enabled.',
+			'Site administrators should document the consent mechanism used by their site and ensure that the hatnch_has_analytics_consent filter reflects an explicit visitor choice before analytics is enabled.',
 			'hatnikotni-chat'
 		) . '</p>';
 
