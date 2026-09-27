@@ -3,7 +3,7 @@
 **Current state document. Updated 2026-09-27.**
 
 **Review remediation branch:** `wordpress-org-compliance`  
-**Current remediation HEAD:** `6576c71d22fe1ca95a3c487e7ca5c2fbdcabe0e8`
+**Current remediation HEAD:** `6c9f2e4ca1a773b453d464a75881ee7ec19de7c1`
 **Base:** `main` HEAD `06c443a3ddf1e1d6f64c0f16f4ede18d97d60fcd`  
 **Release target:** 0.1.1  
 **Database schema target:** 1.1.0
