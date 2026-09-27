@@ -41,3 +41,8 @@ Production remains untouched. Do not migrate until the stable release is finaliz
 
 ## UI
 Admin UI is frozen after staging verification. Do not redesign unless a concrete defect is discovered.
+
+
+## Review Round 1 — 0.1.1
+
+The initial 0.1.0 submission was pended for two concrete technical issues: plugin prefix compliance and an invalid Plugin URI. The correction release changes the internal prefix family to HATC_ / hatc_ / hatc-, removes the Plugin URI, keeps the slug `hatnikotni-chat`, and must be fully tested before upload.
