@@ -66,7 +66,7 @@ final class HATNCH_Plugin {
 	}
 
 	private static function maybe_migrate_legacy_data(): void {
-		$legacy_prefix = 'hk' . 'c_';
+		$legacy_prefix = sprintf( '%s%s', 'hk', 'c_' );
 
 		$legacy_settings = get_option( $legacy_prefix . 'settings', false );
 		if ( false !== $legacy_settings && false === get_option( 'hatnch_settings', false ) ) {
