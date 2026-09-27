@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- WordPress.org review remediation: migrated global declarations, hooks, admin page slugs, storage keys, table names, cookies and CSS handles/classes from the legacy three-character `hkc` prefix to the unique `hatnch` prefix.
+- Added a legacy-storage migration for existing plugin settings, routing state and custom tables.
+- Bumped plugin version to 0.1.1 and database schema version to 1.1.0.
+
 - Enforced strict international digits-only phone input at the server validation layer; formatting characters such as +, spaces and hyphens are rejected rather than silently normalized.
 - Confirmed GitHub Actions PHP 8.1–8.4 matrix is fully green for syntax, contracts and WPCS.
 - Staging direct routing verified with international WhatsApp number format; default-deny analytics produced no event without consent.
@@ -16,7 +20,7 @@
 
 - Added consent-aware visitor analytics with a default-deny consent filter.
 - Added WordPress Privacy Policy Guide integration.
-- Made UTM campaign attribution and the hkc_campaign cookie consent-aware, including cookie clearing when consent is absent.
+- Made UTM campaign attribution and the hatnch_campaign cookie consent-aware, including cookie clearing when consent is absent.
 - Added WordPress.org readme and readiness checklist.
 - Added Composer-based WordPress Coding Standards tooling and CI validation.
 - Added source contracts for privacy, consent and WordPress.org readme requirements.
