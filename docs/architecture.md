@@ -29,14 +29,14 @@ Analytics is opt-in at the visitor level.
 
 The plugin exposes the filter:
 
-hatc_has_analytics_consent
+hatnch_has_analytics_consent
 
 The default value is false. A site or consent-management integration must return true only after an explicit visitor consent signal has been granted.
 
 When consent is absent:
 
 - WhatsApp click events are not recorded.
-- The hatc_campaign cookie is not set or read for attribution.
+- The hatnch_campaign cookie is not set or read for attribution.
 - The WhatsApp button and routing continue to work normally.
 
 The plugin does not ship a consent banner. This avoids taking over the site's consent UI and allows the site owner to use its existing consent-management mechanism.
@@ -47,12 +47,12 @@ The plugin adds suggested privacy-policy content using WordPress wp_add_privacy_
 
 V1 uses two custom tables:
 
-- {$wpdb->prefix}hatc_contacts
-- {$wpdb->prefix}hatc_events
+- {$wpdb->prefix}hatnch_contacts
+- {$wpdb->prefix}hatnch_events
 
 WordPress database prefix and charset/collation are always obtained from WordPress APIs.
 
-The plugin records its schema version in hatc_db_version and checks for schema upgrades during plugin initialization. Deactivation preserves data.
+The plugin records its schema version in hatnch_db_version and checks for schema upgrades during plugin initialization. Deactivation preserves data.
 
 ## Contacts
 
@@ -94,7 +94,7 @@ UTM parameters supported:
 - utm_term
 - utm_content
 
-V1 uses last-touch attribution with a first-party hatc_campaign cookie for 30 days, only after analytics consent is available. A new UTM-bearing visit replaces the previous attribution.
+V1 uses last-touch attribution with a first-party hatnch_campaign cookie for 30 days, only after analytics consent is available. A new UTM-bearing visit replaces the previous attribution.
 
 ## Shortcode
 
