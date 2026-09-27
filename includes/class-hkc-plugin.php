@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HATC_Plugin {
+final class HATNCH_Plugin {
 
 	/**
 	 * Singleton instance.
@@ -31,48 +31,48 @@ final class HATC_Plugin {
 	public function init(): void {
 		self::maybe_upgrade();
 
-		HATC_Privacy::init();
-		HATC_Campaign::init();
-		HATC_WhatsApp::init();
-		HATC_Shortcode::init();
-		HATC_Admin::init();
-		HATC_Analytics_Admin::init();
+		HATNCH_Privacy::init();
+		HATNCH_Campaign::init();
+		HATNCH_WhatsApp::init();
+		HATNCH_Shortcode::init();
+		HATNCH_Admin::init();
+		HATNCH_Analytics_Admin::init();
 
-		if ( ! wp_next_scheduled( 'hatc_daily_cleanup' ) ) {
-			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hatc_daily_cleanup' );
+		if ( ! wp_next_scheduled( 'hatnch_daily_cleanup' ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hatnch_daily_cleanup' );
 		}
 
-		add_action( 'hatc_daily_cleanup', array( 'HATC_Analytics', 'cleanup' ) );
+		add_action( 'hatnch_daily_cleanup', array( 'HATNCH_Analytics', 'cleanup' ) );
 
-		do_action( 'hatc_loaded' );
+		do_action( 'hatnch_loaded' );
 	}
 
 	public static function activate(): void {
-		HATC_Settings::install_defaults();
-		HATC_Contacts::install_schema();
-		HATC_Analytics::install_schema();
+		HATNCH_Settings::install_defaults();
+		HATNCH_Contacts::install_schema();
+		HATNCH_Analytics::install_schema();
 
-		if ( ! wp_next_scheduled( 'hatc_daily_cleanup' ) ) {
-			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hatc_daily_cleanup' );
+		if ( ! wp_next_scheduled( 'hatnch_daily_cleanup' ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'hatnch_daily_cleanup' );
 		}
 
-		update_option( 'hatc_db_version', HATC_DB_VERSION );
+		update_option( 'hatnch_db_version', HATNCH_DB_VERSION );
 	}
 
 	public static function deactivate(): void {
-		wp_clear_scheduled_hook( 'hatc_daily_cleanup' );
+		wp_clear_scheduled_hook( 'hatnch_daily_cleanup' );
 		// Deactivation intentionally preserves plugin data.
 	}
 
 	private static function maybe_upgrade(): void {
-		$installed_version = get_option( 'hatc_db_version', '' );
+		$installed_version = get_option( 'hatnch_db_version', '' );
 
-		if ( HATC_DB_VERSION === $installed_version ) {
+		if ( HATNCH_DB_VERSION === $installed_version ) {
 			return;
 		}
 
-		HATC_Contacts::install_schema();
-		HATC_Analytics::install_schema();
-		update_option( 'hatc_db_version', HATC_DB_VERSION );
+		HATNCH_Contacts::install_schema();
+		HATNCH_Analytics::install_schema();
+		update_option( 'hatnch_db_version', HATNCH_DB_VERSION );
 	}
 }
