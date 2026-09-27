@@ -7,12 +7,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Routing {
+final class HATC_Routing {
 
-	private const STATE_OPTION = 'hkc_routing_state';
+	private const STATE_OPTION = 'hatc_routing_state';
 
 	public function resolve(): ?array {
-		$method = HKC_Settings::get( 'routing_method', 'direct' );
+		$method = HATC_Settings::get( 'routing_method', 'direct' );
 
 		switch ( $method ) {
 			case 'random':
@@ -29,23 +29,23 @@ final class HKC_Routing {
 				break;
 		}
 
-		return apply_filters( 'hkc_resolved_contact', $contact, $method );
+		return apply_filters( 'hatc_resolved_contact', $contact, $method );
 	}
 
 	private function resolve_direct(): ?array {
-		$contact_id = absint( HKC_Settings::get( 'default_contact', 0 ) );
+		$contact_id = absint( HATC_Settings::get( 'default_contact', 0 ) );
 
 		if ( $contact_id < 1 ) {
 			return null;
 		}
 
-		$contact = HKC_Contacts::get( $contact_id );
+		$contact = HATC_Contacts::get( $contact_id );
 
 		return $contact && 1 === (int) $contact['status'] ? $contact : null;
 	}
 
 	private function resolve_random(): ?array {
-		$contacts = HKC_Contacts::get_active();
+		$contacts = HATC_Contacts::get_active();
 
 		if ( empty( $contacts ) ) {
 			return null;
@@ -55,7 +55,7 @@ final class HKC_Routing {
 	}
 
 	private function resolve_round_robin(): ?array {
-		$contacts = HKC_Contacts::get_active();
+		$contacts = HATC_Contacts::get_active();
 
 		if ( empty( $contacts ) ) {
 			return null;
