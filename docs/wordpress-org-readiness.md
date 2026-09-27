@@ -79,3 +79,8 @@ Before submission, verify the current WordPress.org Plugin Handbook and Plugin D
 - plugin icon/screenshots/assets
 - final privacy documentation
 - support/contact details
+
+
+## 0.1.1 review correction
+
+The first WordPress.org review pended the submission for prefix compliance and an invalid Plugin URI. These have been corrected. The slug remains `hatnikotni-chat`. Full validation and staging regression testing are required before resubmission.
