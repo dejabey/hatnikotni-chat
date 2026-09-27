@@ -1,146 +1,120 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Current state document. Updated 2026-09-24.**
+**Current state document. Updated 2026-09-27.**
 
-**Current HEAD:** be6d15e3bec648000185a8597b2d5a043b29435f
+**Review remediation branch:** `wordpress-org-compliance`  
+**Base:** current `main` HEAD at the start of this remediation  
+**Release target:** 0.1.1  
+**Database schema target:** 1.1.0
+
+## WordPress.org review status
+
+The 27 Sep 2026 WordPress.org pre-review identified two concrete blockers:
+
+1. Global declarations and stored identifiers used the three-character `HKC/hkc` prefix.
+2. The Plugin URI pointed to a GitHub repository that was private/returned 404 to the reviewer.
+
+The review specifically requires a distinct prefix of at least four characters for globally accessible declarations and stored data. The remediation uses **`HATNCH_` / `hatnch_`** throughout the runtime namespace. The review also says the Plugin URI must resolve publicly.
+
+Reference: WordPress.org review ID `AUTOPREREVIEW COM hatnikotni-chat/zaryl/27Sep26/T1 27Sep26/4.3 (P0TDX376260HGN)`.
+
+## Remediation completed in source
+
+- PHP classes migrated from `HKC_*` to `HATNCH_*`.
+- Constants migrated to `HATNCH_*`.
+- Custom actions, filters, cron hooks and lifecycle hooks migrated to `hatnch_*`.
+- Admin page/menu slugs migrated from `hkc*` to `hatnch*`.
+- Options migrated to `hatnch_settings`, `hatnch_routing_state` and `hatnch_db_version`.
+- Custom tables migrated to `{$wpdb->prefix}hatnch_contacts` and `{$wpdb->prefix}hatnch_events`.
+- Campaign cookie migrated to `hatnch_campaign`.
+- WordPress script/style handles migrated to the `hatnch` namespace.
+- Frontend/admin CSS classes and IDs migrated to the `hatnch` namespace.
+- Existing shortcode `[hatnikotni_chat]` is intentionally retained because it is already a unique, descriptive public interface and does not use the legacy three-character prefix.
+- Legacy settings, routing state and custom tables are migrated during plugin initialization before normal schema upgrade handling.
+- Legacy cron cleanup hook is cleared during migration.
+- Plugin version bumped to 0.1.1; DB version bumped to 1.1.0.
+- Readme, changelog, readiness documentation and this handoff updated.
+
+## Data migration behavior
+
+On upgrade from a legacy build:
+
+- Existing `hkc` settings are copied to `hatnch_settings` if the new option does not already exist.
+- Existing routing state is copied to `hatnch_routing_state`.
+- Legacy custom contact/event tables are renamed to their `hatnch` equivalents when the destination table does not already exist.
+- Legacy DB-version option is removed.
+- Legacy daily cleanup cron hook is cleared.
+- Normal schema installation then verifies the new tables.
+- New installations create only the `hatnch` storage names.
+
+The migration is deliberately one-way. No new runtime dependency on the old namespace remains.
 
 ## Current implementation
 
 - Standalone WordPress plugin; not deployed to production.
-- Contact CRUD/admin interface implemented with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
-- Contact phone input is strictly validated as 8–20 international digits only; +, spaces and hyphens are rejected.
-- General admin settings implemented for frontend enablement, default contact/message, button label, position, desktop/mobile visibility and routing method.
-- Routing engine implemented: direct, random, round_robin.
-- Direct requires the configured default contact to exist and be active.
-- Random selects from active contacts.
-- Round-robin follows active contacts by sort_order, then id, and stores last_contact_id in hkc_routing_state.
-- Weight is stored but intentionally unused by V1 routing.
-- Database upgrade check runs during plugin initialization and re-runs schema installers when HKC_DB_VERSION changes.
-- Shared WhatsApp action layer uses public admin-post.php.
-- WhatsApp click is recorded locally before redirecting to wa.me, but only when analytics consent is available.
-- UTM last-touch attribution uses the first-party hkc_campaign cookie for 30 days only when analytics consent is available.
-- Existing campaign cookie is cleared when analytics consent is absent.
-- Global floating button and [hatnikotni_chat] shortcode implemented.
-- Button position and desktop/mobile visibility settings are honored.
-- Analytics reporting provides period totals plus device/contact/campaign breakdowns.
-- Analytics events are automatically cleaned after 180 days by daily WP-Cron.
-- WordPress Privacy Policy Guide integration implemented.
-- WordPress.org readme.txt and readiness documentation implemented.
-- Composer-based WordPress Coding Standards tooling and CI validation implemented.
-- Contract checks cover the current core, frontend/action, analytics, campaign, privacy and WordPress.org readme paths.
+- Contact CRUD/admin interface with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
+- Phone input is strictly 8–20 international digits only; +, spaces and hyphens are rejected.
+- General settings for frontend enablement, default contact/message, button label, position, desktop/mobile visibility and routing.
+- Routing: direct, random and round-robin.
+- Direct requires an active configured default contact.
+- Random selects only active contacts.
+- Round-robin follows active contacts by sort order/id and stores last contact state.
+- Shared WhatsApp action endpoint through `admin-post.php`.
+- Click analytics is consent-gated and does not block WhatsApp routing.
+- UTM last-touch attribution is consent-gated and retained for 30 days.
+- Analytics retention is 180 days with daily WP-Cron cleanup.
+- WordPress Privacy Policy Guide integration.
+- Global floating button and `[hatnikotni_chat]` shortcode.
+- No bundled runtime third-party library and no required frontend JavaScript.
 
-## Privacy decision
+## Privacy model
 
-Analytics is retained in core but is now consent-aware.
+Analytics defaults to false through `hatnch_has_analytics_consent`.
 
-The plugin exposes hkc_has_analytics_consent with a default value of false. A site or consent-management integration must return true only after an explicit visitor consent signal.
+Without consent:
 
-When consent is absent:
+- no analytics event;
+- no campaign attribution cookie;
+- existing campaign cookie is cleared where possible;
+- WhatsApp routing remains functional.
 
-- No WhatsApp click analytics event is recorded.
-- No campaign attribution cookie is retained.
-- Any existing hkc_campaign cookie is cleared when possible.
-- WhatsApp routing and the contact button continue to work.
-
-The plugin does not provide its own consent banner.
-
-## Agreed V1
-
-### Frontend
-
-- Global floating WhatsApp button.
-- Shortcode [hatnikotni_chat].
-- Shared routing, campaign attribution, analytics and WhatsApp URL logic.
-- Prefer HTML/CSS over frontend JS where possible.
-- Prefer inline SVG over an icon library.
-
-### Contacts
-
-- Fields: id, name, phone, role, description, status, weight, sort_order, created_at, updated_at.
-- Phone stored as digits only.
-- Historical contacts are normally deactivated, not deleted.
-
-### Analytics
-
-- Primary event: whatsapp_click; this records a click, not proof that a message was sent.
-- Store contact/page/device/UTM metadata only; no IP, visitor identity, fingerprint, conversation content, browsing history or visitor ID.
-- Analytics failure must never block WhatsApp.
-- Event retention: 180 days.
-- Admin reporting: 7/30/90/180-day period with device/contact/campaign breakdown.
-- Visitor analytics requires explicit consent through hkc_has_analytics_consent.
-
-### Campaign
-
-- UTM: source, medium, campaign, term, content.
-- Last-touch attribution using first-party hkc_campaign cookie, 30-day retention.
-- Attribution cookie requires analytics consent.
-- A new UTM-bearing visit replaces previous attribution.
-
-### Database
-
-- {$wpdb->prefix}hkc_contacts
-- {$wpdb->prefix}hkc_events
-- WordPress prefix, charset/collation, dbDelta(), WordPress time functions.
-- No DB foreign keys.
-- Schema version stored in hkc_db_version.
-
-### WordPress.org
-
-- GPL-2.0-or-later.
-- Human-readable source.
-- No runtime third-party library dependency.
-- WordPress-native APIs/libraries.
-- Privacy Policy Guide integration.
-- Consent-aware analytics.
-- readme.txt present.
-- CI includes WordPress Coding Standards.
-- Final SVN assets, stable release packaging and submission remain pending.
-
-### Integrations
-
-- Future/optional: Webhook, WooCommerce, CRM, weighted/context routing, WhatsApp Business API.
-- Core must not depend on them.
-- rancang.perlis.xyz chatbot remains outside scope.
+With consent, the plugin stores only the documented contact/page/device/UTM event data locally.
 
 ## Validation state
 
-- Source syntax: PASSED on the latest green GitHub Actions matrix run #134 (PHP 8.1, 8.2, 8.3 and 8.4).
-- Automated contracts: PASSED on the latest green GitHub Actions matrix run #134.
-- WordPress Coding Standards: PASSED on the latest green GitHub Actions matrix run #134.
-- CI/build validation: PASSED on run #134 at commit be6d15e3bec648000185a8597b2d5a043b29435f.
-- Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
-- Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
-- Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
-- Admin submenu UI refinement is implemented in source: scoped admin stylesheet, clearer introductory guidance, contextual placeholders/help text and improved table presentation. Visual verification on the updated build remains pending.
-- Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
-- Staging PHP 8.5.10 is recorded from the last staging environment inspection, but is not part of the current CI matrix.
-- No runtime acceptance is claimed for the updated commits until the release candidate is rebuilt and retested.
+### Source / CI
+- **PENDING:** fresh GitHub Actions run for the remediation branch.
+- Previous green run #134 applies to the earlier `HKC` namespace and therefore is not sufficient acceptance for this branch.
+- **PENDING:** final WPCS and contract checks after namespace migration.
+- **PENDING:** clean ZIP/source audit after CI.
 
-## Source/release audit state
+### Runtime
+- Existing staging results remain historical evidence only.
+- **PENDING:** runtime migration rehearsal.
+- **PENDING:** direct/random/round-robin routing after migration.
+- **PENDING:** shortcode and frontend/admin UI after migration.
+- **PENDING:** consent integration and withdrawal.
+- **PENDING:** cache/CDN, WooCommerce, accessibility, performance and security checks.
+- **PENDING:** uninstall verification for the new storage names.
 
-- Repository tree audited after the latest cleanup.
-- No temporary consent test harness remains in the runtime or WPCS scope.
-- Test infrastructure retained only for the skeleton contract used by CI.
-- Source contains no bundled runtime vendor library or unnecessary frontend JavaScript.
-- readme.txt, uninstall.php, privacy integration, WPCS configuration and WordPress.org readiness documentation are present.
-- Release ZIP must contain only the plugin runtime files and required distribution documentation/assets; development-only repository files must not be copied into the installable plugin package unless deliberately required.
+### Repository / WordPress.org
+- **DONE:** source namespace remediation.
+- **DONE:** documentation update.
+- **PENDING:** public Plugin URI. The repository must be publicly reachable before the WordPress.org reply.
+- **PENDING:** final release packaging and submission response.
 
-## Next action
+## Required next actions
 
-Prepare the current release candidate from HEAD be6d15e3 and move it to staging for the remaining runtime/release gates.
+1. Run the complete GitHub Actions matrix on this branch.
+2. Inspect CI output and fix any namespace/WPCS/contract failures.
+3. Re-fetch the changed source and perform a second collision audit for `HKC`, `hkc`, and other unprefixed plugin-owned declarations.
+4. Inspect the generated/clean ZIP contents.
+5. Perform staging migration and functional tests.
+6. Make the GitHub repository public, or provide another stable public Plugin URI that resolves to the plugin project.
+7. Only after all gates pass, merge/release and reply to the same WordPress.org review email.
 
-Remaining gates:
-- consent integration and consent withdrawal;
-- multi-contact direct/random/round-robin routing;
-- strict phone rejection;
-- shortcode;
-- cache behavior;
-- WooCommerce coexistence;
-- accessibility;
-- performance/security;
-- cron/180-day retention behavior;
-- clean ZIP inspection;
-- final documentation/release metadata;
-- production approval.
+**Do not reply to WordPress.org yet.**
 
-Do not deploy to production until staging acceptance is complete.
+## Source of truth
+
+This handoff must be updated whenever the current commit, CI status, runtime status, migration behavior, release metadata or WordPress.org status changes.
