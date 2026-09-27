@@ -22,7 +22,7 @@
 
 - Added consent-aware visitor analytics with a default-deny consent filter.
 - Added WordPress Privacy Policy Guide integration.
-- Made UTM campaign attribution and the hatc_campaign cookie consent-aware, including cookie clearing when consent is absent.
+- Made UTM campaign attribution and the hatnch_campaign cookie consent-aware, including cookie clearing when consent is absent.
 - Added WordPress.org readme and readiness checklist.
 - Added Composer-based WordPress Coding Standards tooling and CI validation.
 - Added source contracts for privacy, consent and WordPress.org readme requirements.
