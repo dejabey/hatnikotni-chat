@@ -7,28 +7,28 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_WhatsApp {
+final class HATNCH_WhatsApp {
 
 	public static function init(): void {
-		add_action( 'admin_post_nopriv_hkc_whatsapp_click', array( __CLASS__, 'handle_click' ) );
-		add_action( 'admin_post_hkc_whatsapp_click', array( __CLASS__, 'handle_click' ) );
+		add_action( 'admin_post_nopriv_hatnch_whatsapp_click', array( __CLASS__, 'handle_click' ) );
+		add_action( 'admin_post_hatnch_whatsapp_click', array( __CLASS__, 'handle_click' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'render_floating_button' ) );
 	}
 
 	public static function action_url( string $message = '', int $page_id = 0, string $page_type = '' ): string {
-		$args = array( 'action' => 'hkc_whatsapp_click' );
+		$args = array( 'action' => 'hatnch_whatsapp_click' );
 
 		if ( $page_id > 0 ) {
-			$args['hkc_page_id'] = $page_id;
+			$args['hatnch_page_id'] = $page_id;
 		}
 
 		if ( '' !== $page_type ) {
-			$args['hkc_page_type'] = sanitize_key( $page_type );
+			$args['hatnch_page_type'] = sanitize_key( $page_type );
 		}
 
 		if ( '' !== $message ) {
-			$args['hkc_message'] = $message;
+			$args['hatnch_message'] = $message;
 		}
 
 		return add_query_arg( $args, admin_url( 'admin-post.php' ) );
@@ -37,7 +37,7 @@ final class HKC_WhatsApp {
 	public static function handle_click(): void {
 		nocache_headers();
 
-		$contact = ( new HKC_Routing() )->resolve();
+		$contact = ( new HATNCH_Routing() )->resolve();
 
 		if ( ! is_array( $contact ) || empty( $contact['phone'] ) ) {
 			wp_safe_redirect( home_url( '/' ) );
@@ -45,15 +45,15 @@ final class HKC_WhatsApp {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
-		$page_id = isset( $_GET['hkc_page_id'] ) ? absint( $_GET['hkc_page_id'] ) : 0;
+		$page_id = isset( $_GET['hatnch_page_id'] ) ? absint( $_GET['hatnch_page_id'] ) : 0;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
-		$page_type = isset( $_GET['hkc_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hkc_page_type'] ) ) : '';
+		$page_type = isset( $_GET['hatnch_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_page_type'] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
-		$message = isset( $_GET['hkc_message'] ) && is_scalar( $_GET['hkc_message'] )
-			? sanitize_text_field( wp_unslash( $_GET['hkc_message'] ) )
-			: (string) HKC_Settings::get( 'default_message', '' );
+		$message = isset( $_GET['hatnch_message'] ) && is_scalar( $_GET['hatnch_message'] )
+			? sanitize_text_field( wp_unslash( $_GET['hatnch_message'] ) )
+			: (string) HATNCH_Settings::get( 'default_message', '' );
 
-		HKC_Analytics::record_click(
+		HATNCH_Analytics::record_click(
 			array(
 				'contact_id' => (int) $contact['id'],
 				'page_id'    => $page_id,
@@ -74,7 +74,7 @@ final class HKC_WhatsApp {
 	}
 
 	public static function build_url( string $phone, string $message = '' ): string {
-		$phone = HKC_Contacts::normalize_phone( $phone );
+		$phone = HATNCH_Contacts::normalize_phone( $phone );
 
 		if ( '' === $phone ) {
 			return '';
@@ -96,9 +96,9 @@ final class HKC_WhatsApp {
 
 		wp_enqueue_style(
 			'hkc-frontend',
-			HKC_PLUGIN_URL . 'assets/css/hatnikotni-chat.css',
+			HATNCH_PLUGIN_URL . 'assets/css/hatnikotni-chat.css',
 			array(),
-			HKC_VERSION
+			HATNCH_VERSION
 		);
 	}
 
@@ -107,10 +107,10 @@ final class HKC_WhatsApp {
 			return;
 		}
 
-		$label        = (string) HKC_Settings::get( 'button_label', 'WhatsApp Kami' );
-		$position     = 'left' === HKC_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
-		$show_desktop = (bool) HKC_Settings::get( 'show_desktop', true );
-		$show_mobile  = (bool) HKC_Settings::get( 'show_mobile', true );
+		$label        = (string) HATNCH_Settings::get( 'button_label', 'WhatsApp Kami' );
+		$position     = 'left' === HATNCH_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
+		$show_desktop = (bool) HATNCH_Settings::get( 'show_desktop', true );
+		$show_mobile  = (bool) HATNCH_Settings::get( 'show_mobile', true );
 		$page_id      = get_queried_object_id();
 		$page_type    = $page_id ? (string) get_post_type( $page_id ) : '';
 
@@ -144,6 +144,6 @@ final class HKC_WhatsApp {
 	}
 
 	private static function frontend_enabled(): bool {
-		return (bool) HKC_Settings::get( 'enabled', true );
+		return (bool) HATNCH_Settings::get( 'enabled', true );
 	}
 }
