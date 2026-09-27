@@ -1,3 +1,9 @@
+
+## 0.1.1
+
+- Updated internal prefix family for WordPress.org naming-collision requirements.
+- Removed the invalid/private Plugin URI from the plugin header.
+
 # Changelog
 
 ## Unreleased
@@ -16,7 +22,7 @@
 
 - Added consent-aware visitor analytics with a default-deny consent filter.
 - Added WordPress Privacy Policy Guide integration.
-- Made UTM campaign attribution and the hkc_campaign cookie consent-aware, including cookie clearing when consent is absent.
+- Made UTM campaign attribution and the hatc_campaign cookie consent-aware, including cookie clearing when consent is absent.
 - Added WordPress.org readme and readiness checklist.
 - Added Composer-based WordPress Coding Standards tooling and CI validation.
 - Added source contracts for privacy, consent and WordPress.org readme requirements.
