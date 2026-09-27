@@ -16,25 +16,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HKC_VERSION', '0.1.0' );
-define( 'HKC_DB_VERSION', '1.0.0' );
-define( 'HKC_PLUGIN_FILE', __FILE__ );
-define( 'HKC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'HKC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'HATNCH_VERSION', '0.1.0' );
+define( 'HATNCH_DB_VERSION', '1.0.0' );
+define( 'HATNCH_PLUGIN_FILE', __FILE__ );
+define( 'HATNCH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'HATNCH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-settings.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-contacts.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-routing.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-analytics.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-analytics-admin.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-campaign.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-privacy.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-whatsapp.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-shortcode.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-admin.php';
-require_once HKC_PLUGIN_DIR . 'includes/class-hkc-plugin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-settings.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-contacts.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-routing.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-analytics.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-analytics-admin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-campaign.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-privacy.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-whatsapp.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-shortcode.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-admin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hkc-plugin.php';
 
-register_activation_hook( HKC_PLUGIN_FILE, array( 'HKC_Plugin', 'activate' ) );
-register_deactivation_hook( HKC_PLUGIN_FILE, array( 'HKC_Plugin', 'deactivate' ) );
+register_activation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'activate' ) );
+register_deactivation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'deactivate' ) );
 
-HKC_Plugin::instance();
+HATNCH_Plugin::instance();
