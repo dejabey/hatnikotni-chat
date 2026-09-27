@@ -91,7 +91,8 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 
 ### Runtime
 - Existing staging results remain historical evidence only.
-- **PENDING:** runtime migration rehearsal.
+- **CONFIRMED PRE-MIGRATION:** staging.perlis.xyz currently has Hatnikotni Chat 0.1.0 active and the legacy `hkc_db_version`, `hkc_routing_state` and `hkc_settings` options present.
+- **PENDING:** install the 0.1.1 remediation build on staging and run the actual upgrade migration rehearsal.
 - **PENDING:** direct/random/round-robin routing after migration.
 - **PENDING:** shortcode and frontend/admin UI after migration.
 - **PENDING:** consent integration and withdrawal.
@@ -108,9 +109,9 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 ## Required next actions
 
 1. Re-run the full source collision audit after the final documentation update.
-2. Inspect the generated/clean ZIP contents.
-3. Perform staging migration and functional tests.
-4. Make the GitHub repository public, or provide another stable public Plugin URI that resolves to the plugin project.
+2. Inspect the clean plugin package contents.
+3. Install the 0.1.1 remediation build on staging and perform the migration/functional tests.
+4. Verify the public Plugin URI from an unauthenticated browser context.
 5. Only after all gates pass, merge/release and reply to the same WordPress.org review email.
 
 **Do not reply to WordPress.org yet.**
