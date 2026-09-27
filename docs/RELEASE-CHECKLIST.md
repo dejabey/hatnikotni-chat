@@ -86,7 +86,7 @@
 ## 0.1.1 Review Fixes
 
 - [ ] Audit all declarations, globals, stored data, WordPress hooks/actions/filters and CSS identifiers for prefix compliance.
-- [ ] Use HATC_ / hatc_ / hatc- as the plugin prefix family.
+- [ ] Use HATNCH_ / hatnch_ / hatnch- as the plugin prefix family.
 - [ ] Remove the invalid/private Plugin URI.
 - [ ] Keep the approved-requested slug `hatnikotni-chat` unchanged.
 - [ ] Update release metadata to 0.1.1.
