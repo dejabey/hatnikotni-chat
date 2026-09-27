@@ -1,10 +1,10 @@
 /**
  * Hatnikotni Chat frontend styles.
  *
- * All frontend selectors use the hatc- namespace.
+ * All frontend selectors use the hatnch- namespace.
  */
 
-.hatc-button {
+.hatnch-button {
 	align-items: center;
 	box-sizing: border-box;
 	display: inline-flex;
@@ -12,12 +12,12 @@
 	text-decoration: none;
 }
 
-.hatc-button:focus-visible {
+.hatnch-button:focus-visible {
 	outline: 3px solid currentColor;
 	outline-offset: 3px;
 }
 
-.hatc-floating {
+.hatnch-floating {
 	bottom: 20px;
 	position: fixed;
 	z-index: 9999;
@@ -30,34 +30,34 @@
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
-.hatc-floating:hover,
-.hatc-floating:focus-visible {
+.hatnch-floating:hover,
+.hatnch-floating:focus-visible {
 	background: #128c4a;
 	box-shadow: 0 7px 22px rgba(15, 23, 42, .22);
 	color: #fff;
 	transform: translateY(-1px);
 }
 
-.hatc-floating:active {
+.hatnch-floating:active {
 	box-shadow: 0 4px 12px rgba(15, 23, 42, .18);
 	transform: translateY(0);
 }
 
-.hatc-floating--right {
+.hatnch-floating--right {
 	right: 20px;
 }
 
-.hatc-floating--left {
+.hatnch-floating--left {
 	left: 20px;
 }
 
-.hatc-button__icon {
+.hatnch-button__icon {
 	fill: currentColor;
 	height: 22px;
 	width: 22px;
 }
 
-.hatc-inline {
+.hatnch-inline {
 	background: #25d366;
 	border-radius: 6px;
 	color: #fff;
@@ -66,47 +66,47 @@
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
-.hatc-inline:hover,
-.hatc-inline:focus-visible {
+.hatnch-inline:hover,
+.hatnch-inline:focus-visible {
 	background: #128c4a;
 	box-shadow: 0 5px 14px rgba(15, 23, 42, .16);
 	color: #fff;
 	transform: translateY(-1px);
 }
 
-.hatc-inline:active {
+.hatnch-inline:active {
 	box-shadow: none;
 	transform: translateY(0);
 }
 
 @media (max-width: 782px) {
-	.hatc-floating {
+	.hatnch-floating {
 		bottom: 16px;
 	}
 
-	.hatc-floating--right {
+	.hatnch-floating--right {
 		right: 16px;
 	}
 
-	.hatc-floating--left {
+	.hatnch-floating--left {
 		left: 16px;
 	}
 }
 
 @media (min-width: 783px) {
-	.hatc-hide-desktop {
+	.hatnch-hide-desktop {
 		display: none;
 	}
 }
 
 @media (max-width: 782px) {
-	.hatc-hide-mobile {
+	.hatnch-hide-mobile {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hatc-button {
+	.hatnch-button {
 		transition: none;
 	}
 }
