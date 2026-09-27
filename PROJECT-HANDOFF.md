@@ -13,12 +13,12 @@
 - Routing engine implemented: direct, random, round_robin.
 - Direct requires the configured default contact to exist and be active.
 - Random selects from active contacts.
-- Round-robin follows active contacts by sort_order, then id, and stores last_contact_id in hkc_routing_state.
+- Round-robin follows active contacts by sort_order, then id, and stores last_contact_id in hatc_routing_state.
 - Weight is stored but intentionally unused by V1 routing.
-- Database upgrade check runs during plugin initialization and re-runs schema installers when HKC_DB_VERSION changes.
+- Database upgrade check runs during plugin initialization and re-runs schema installers when HATC_DB_VERSION changes.
 - Shared WhatsApp action layer uses public admin-post.php.
 - WhatsApp click is recorded locally before redirecting to wa.me, but only when analytics consent is available.
-- UTM last-touch attribution uses the first-party hkc_campaign cookie for 30 days only when analytics consent is available.
+- UTM last-touch attribution uses the first-party hatc_campaign cookie for 30 days only when analytics consent is available.
 - Existing campaign cookie is cleared when analytics consent is absent.
 - Global floating button and [hatnikotni_chat] shortcode implemented.
 - Button position and desktop/mobile visibility settings are honored.
@@ -34,13 +34,13 @@
 
 Analytics is retained in core but is now consent-aware.
 
-The plugin exposes hkc_has_analytics_consent with a default value of false. A site or consent-management integration must return true only after an explicit visitor consent signal.
+The plugin exposes hatc_has_analytics_consent with a default value of false. A site or consent-management integration must return true only after an explicit visitor consent signal.
 
 When consent is absent:
 
 - No WhatsApp click analytics event is recorded.
 - No campaign attribution cookie is retained.
-- Any existing hkc_campaign cookie is cleared when possible.
+- Any existing hatc_campaign cookie is cleared when possible.
 - WhatsApp routing and the contact button continue to work.
 
 The plugin does not provide its own consent banner.
@@ -68,22 +68,22 @@ The plugin does not provide its own consent banner.
 - Analytics failure must never block WhatsApp.
 - Event retention: 180 days.
 - Admin reporting: 7/30/90/180-day period with device/contact/campaign breakdown.
-- Visitor analytics requires explicit consent through hkc_has_analytics_consent.
+- Visitor analytics requires explicit consent through hatc_has_analytics_consent.
 
 ### Campaign
 
 - UTM: source, medium, campaign, term, content.
-- Last-touch attribution using first-party hkc_campaign cookie, 30-day retention.
+- Last-touch attribution using first-party hatc_campaign cookie, 30-day retention.
 - Attribution cookie requires analytics consent.
 - A new UTM-bearing visit replaces previous attribution.
 
 ### Database
 
-- {$wpdb->prefix}hkc_contacts
-- {$wpdb->prefix}hkc_events
+- {$wpdb->prefix}hatc_contacts
+- {$wpdb->prefix}hatc_events
 - WordPress prefix, charset/collation, dbDelta(), WordPress time functions.
 - No DB foreign keys.
-- Schema version stored in hkc_db_version.
+- Schema version stored in hatc_db_version.
 
 ### WordPress.org
 
@@ -110,7 +110,7 @@ The plugin does not provide its own consent banner.
 - UI modernization is now included in release/0.1.0-rc1 at commit c7897062.
 - A new CI run for the UI commit is not yet visible through the GitHub connector; therefore no new pass is claimed yet.
 - Runtime direct routing: PASSED on staging; contact id 1 resolves to international WhatsApp number 601155898464 and the action redirects to WhatsApp.
-- Runtime analytics without consent: PASSED; the WhatsApp action works and no hkc_events row is created by default-deny consent.
+- Runtime analytics without consent: PASSED; the WhatsApp action works and no hatc_events row is created by default-deny consent.
 - Runtime consent integration with an external consent signal: PENDING; with the default filter false, consent-enabled analytics still requires a staging consent hook.
 - Admin UI visual verification on the updated build: PENDING.
 - Frontend/mobile/desktop/cache/WooCommerce/accessibility/performance/security and production acceptance: PENDING.
@@ -146,3 +146,8 @@ Remaining gates:
 - production approval.
 
 Do not deploy to production until staging acceptance is complete.
+
+
+## Current review state — 0.1.1
+
+WordPress.org pended 0.1.0 with two concrete technical findings: prefix compliance and an invalid Plugin URI. The correction work uses HATC_ / hatc_ / hatc- and removes Plugin URI. Next gate: CI, Plugin Check, staging regression, release 0.1.1, upload, then reply to the existing review thread.
