@@ -6,6 +6,16 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 
 Official requirements are treated as release gates, not as post-submission cleanup.
 
+## WordPress.org review remediation
+
+- [x] Replace legacy three-character `HKC/hkc` declarations with unique `HATNCH_/hatnch_` namespace.
+- [x] Prefix custom hooks, options, cron events, admin page slugs, storage tables, cookies and asset handles/classes.
+- [x] Add migration for existing plugin settings, routing state and custom tables.
+- [x] Retain the unique public shortcode `[hatnikotni_chat]`.
+- [ ] Make Plugin URI publicly reachable; current GitHub repository is private.
+- [ ] Re-run full CI and contract/WPCS checks after remediation.
+- [ ] Re-run staging and clean ZIP validation.
+
 ## Release gates
 
 ### Licensing and packaging
