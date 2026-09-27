@@ -84,10 +84,10 @@ With consent, the plugin stores only the documented contact/page/device/UTM even
 ## Validation state
 
 ### Source / CI
-- **CONFIRMED:** GitHub Actions run #294 for commit `8408fbe2dca66a8d7d0fdefda1ac9486b73e14d9` passed on PHP 8.1, 8.2, 8.3 and 8.4.
+- **CONFIRMED:** GitHub Actions run #296 for commit `db3147d7b2bd8c6aa2db794a22931f4a06240e38` passed on PHP 8.1, 8.2, 8.3 and 8.4.
 - **CONFIRMED:** PHP syntax checks, skeleton contract checks and WordPress Coding Standards passed across the full matrix.
 - Previous green run #134 applies to the earlier `HKC` namespace and is retained only as historical evidence.
-- **PENDING:** clean ZIP/source audit after the final handoff update.
+- **PENDING:** clean release-package audit and staging installation of 0.1.1.
 
 ### Runtime
 - Existing staging results remain historical evidence only.
