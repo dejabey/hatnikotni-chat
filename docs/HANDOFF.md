@@ -44,3 +44,8 @@ The detailed WordPress.org post-approval runbook is in docs/RELEASE-CHECKLIST.md
 
 ## Continuation
 Read this file, docs/RELEASE-CHECKLIST.md, docs/WORDPRESS-ORG-PREFLIGHT.md and docs/staging-test-plan.md before continuing. Verify current branch, tag and CI state first.
+
+
+## WordPress.org Review — 0.1.1
+
+The 0.1.0 submission was pended for prefix compliance and an invalid/private Plugin URI. Version 0.1.1 addresses the reported technical issues by using the HATC_ / hatc_ / hatc- prefix family and removing the Plugin URI. The plugin slug remains hatnikotni-chat. Full regression testing, Plugin Check, and release verification are required before resubmission.
