@@ -48,4 +48,4 @@ Read this file, docs/RELEASE-CHECKLIST.md, docs/WORDPRESS-ORG-PREFLIGHT.md and d
 
 ## WordPress.org Review — 0.1.1
 
-The 0.1.0 submission was pended for prefix compliance and an invalid/private Plugin URI. Version 0.1.1 addresses the reported technical issues by using the HATC_ / hatc_ / hatc- prefix family and removing the Plugin URI. The plugin slug remains hatnikotni-chat. Full regression testing, Plugin Check, and release verification are required before resubmission.
+The 0.1.0 submission was pended for prefix compliance and an invalid/private Plugin URI. Version 0.1.1 addresses the reported technical issues by using the HATNCH_ / hatnch_ / hatnch- prefix family and removing the Plugin URI. The plugin slug remains hatnikotni-chat. Full regression testing, Plugin Check, and release verification are required before resubmission.
