@@ -4,23 +4,23 @@
  * Loaded only on Hatnikotni Chat admin screens.
  */
 
-.hkc-admin {
-	--hkc-admin-border: #e2e8f0;
-	--hkc-admin-border-strong: #cbd5e1;
-	--hkc-admin-muted: #64748b;
-	--hkc-admin-text: #0f172a;
-	--hkc-admin-accent: #0f766e;
-	--hkc-admin-accent-dark: #115e59;
-	--hkc-admin-surface: #ffffff;
-	--hkc-admin-surface-soft: #f8fafc;
-	--hkc-admin-radius: 14px;
+.hatc-admin {
+	--hatc-admin-border: #e2e8f0;
+	--hatc-admin-border-strong: #cbd5e1;
+	--hatc-admin-muted: #64748b;
+	--hatc-admin-text: #0f172a;
+	--hatc-admin-accent: #0f766e;
+	--hatc-admin-accent-dark: #115e59;
+	--hatc-admin-surface: #ffffff;
+	--hatc-admin-surface-soft: #f8fafc;
+	--hatc-admin-radius: 14px;
 	width: calc(100% - 20px);
 	max-width: 1320px;
 	margin-right: 20px;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-page-header {
+.hatc-admin .hatc-page-header {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -28,18 +28,18 @@
 	margin: 28px 0 22px;
 }
 
-.hkc-admin .hkc-page-header h1 {
+.hatc-admin .hatc-page-header h1 {
 	margin: 0;
 	font-size: clamp(26px, 3vw, 34px);
 	font-weight: 650;
 	line-height: 1.15;
 	letter-spacing: -.025em;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-eyebrow {
+.hatc-admin .hatc-eyebrow {
 	margin: 0 0 7px;
-	color: var(--hkc-admin-accent);
+	color: var(--hatc-admin-accent);
 	font-size: 12px;
 	font-weight: 700;
 	letter-spacing: .08em;
@@ -47,21 +47,21 @@
 	text-transform: uppercase;
 }
 
-.hkc-admin .hkc-admin-intro {
+.hatc-admin .hatc-admin-intro {
 	max-width: 820px;
 	margin: 9px 0 0;
 	font-size: 14px;
 	line-height: 1.65;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 }
 
-.hkc-admin .hkc-page-header__status {
+.hatc-admin .hatc-page-header__status {
 	flex: 0 0 auto;
 	padding-top: 4px;
 }
 
-.hkc-admin .hkc-status-badge,
-.hkc-admin .hkc-count-badge {
+.hatc-admin .hatc-status-badge,
+.hatc-admin .hatc-count-badge {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -74,7 +74,7 @@
 	white-space: nowrap;
 }
 
-.hkc-admin .hkc-status-badge::before {
+.hatc-admin .hatc-status-badge::before {
 	width: 6px;
 	height: 6px;
 	margin-right: 7px;
@@ -83,35 +83,35 @@
 	content: "";
 }
 
-.hkc-admin .hkc-status-badge.is-active {
+.hatc-admin .hatc-status-badge.is-active {
 	background: #ecfdf5;
 	color: #047857;
 }
 
-.hkc-admin .hkc-status-badge.is-inactive {
+.hatc-admin .hatc-status-badge.is-inactive {
 	background: #f1f5f9;
 	color: #64748b;
 }
 
-.hkc-admin .hkc-count-badge {
+.hatc-admin .hatc-count-badge {
 	background: #f1f5f9;
 	color: #475569;
 }
 
-.hkc-admin .hkc-panel,
-.hkc-admin .hkc-stat-card {
-	background: var(--hkc-admin-surface);
-	border: 1px solid var(--hkc-admin-border);
-	border-radius: var(--hkc-admin-radius);
+.hatc-admin .hatc-panel,
+.hatc-admin .hatc-stat-card {
+	background: var(--hatc-admin-surface);
+	border: 1px solid var(--hatc-admin-border);
+	border-radius: var(--hatc-admin-radius);
 	box-shadow: 0 5px 20px rgba(15, 23, 42, .045);
 }
 
-.hkc-admin .hkc-panel {
+.hatc-admin .hatc-panel {
 	margin: 0 0 16px;
 	padding: 24px 26px;
 }
 
-.hkc-admin .hkc-panel__header {
+.hatc-admin .hatc-panel__header {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -119,139 +119,139 @@
 	margin-bottom: 16px;
 }
 
-.hkc-admin .hkc-panel__header h2 {
+.hatc-admin .hatc-panel__header h2 {
 	margin: 0;
 	font-size: 16px;
 	font-weight: 650;
 	line-height: 1.35;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-panel__header p {
+.hatc-admin .hatc-panel__header p {
 	max-width: 720px;
 	margin: 5px 0 0;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 	font-size: 13px;
 	line-height: 1.55;
 }
 
-.hkc-admin .hkc-settings-form {
+.hatc-admin .hatc-settings-form {
 	max-width: 1180px;
 }
 
-.hkc-admin .form-table {
+.hatc-admin .form-table {
 	width: 100%;
 	margin: 0;
 }
 
-.hkc-admin .form-table th {
+.hatc-admin .form-table th {
 	width: 220px;
 	padding: 15px 32px 15px 0;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 	font-weight: 600;
 }
 
-.hkc-admin .form-table td {
+.hatc-admin .form-table td {
 	padding: 15px 0;
 }
 
-.hkc-admin .form-table tr + tr th,
-.hkc-admin .form-table tr + tr td {
+.hatc-admin .form-table tr + tr th,
+.hatc-admin .form-table tr + tr td {
 	border-top: 1px solid #f1f5f9;
 }
 
-.hkc-admin .form-table input.regular-text,
-.hkc-admin .form-table textarea.large-text,
-.hkc-admin .form-table select,
-.hkc-admin .form-table input[type="number"],
-.hkc-admin .hkc-filter-form select {
+.hatc-admin .form-table input.regular-text,
+.hatc-admin .form-table textarea.large-text,
+.hatc-admin .form-table select,
+.hatc-admin .form-table input[type="number"],
+.hatc-admin .hatc-filter-form select {
 	max-width: 560px;
-	border-color: var(--hkc-admin-border-strong);
+	border-color: var(--hatc-admin-border-strong);
 	border-radius: 9px;
 	box-shadow: none;
 }
 
-.hkc-admin .form-table input.regular-text,
-.hkc-admin .form-table input[type="number"],
-.hkc-admin .form-table select,
-.hkc-admin .hkc-filter-form select {
+.hatc-admin .form-table input.regular-text,
+.hatc-admin .form-table input[type="number"],
+.hatc-admin .form-table select,
+.hatc-admin .hatc-filter-form select {
 	min-height: 40px;
 }
 
-.hkc-admin .form-table input.regular-text:focus,
-.hkc-admin .form-table textarea.large-text:focus,
-.hkc-admin .form-table select:focus,
-.hkc-admin .form-table input[type="number"]:focus,
-.hkc-admin .hkc-filter-form select:focus {
-	border-color: var(--hkc-admin-accent);
-	box-shadow: 0 0 0 1px var(--hkc-admin-accent);
+.hatc-admin .form-table input.regular-text:focus,
+.hatc-admin .form-table textarea.large-text:focus,
+.hatc-admin .form-table select:focus,
+.hatc-admin .form-table input[type="number"]:focus,
+.hatc-admin .hatc-filter-form select:focus {
+	border-color: var(--hatc-admin-accent);
+	box-shadow: 0 0 0 1px var(--hatc-admin-accent);
 }
 
-.hkc-admin .form-table .description {
+.hatc-admin .form-table .description {
 	display: block;
 	clear: both;
 	max-width: 720px;
 	margin: 8px 0 0;
 	line-height: 1.55;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 }
 
-.hkc-admin .hkc-contact-form .form-table input[type="number"] {
+.hatc-admin .hatc-contact-form .form-table input[type="number"] {
 	width: 120px;
 }
 
-.hkc-admin .hkc-contact-form .form-table input[name="sort_order"] {
+.hatc-admin .hatc-contact-form .form-table input[name="sort_order"] {
 	width: 160px;
 }
 
 
-.hkc-admin .hkc-toggle-label {
+.hatc-admin .hatc-toggle-label {
 	display: inline-flex;
 	align-items: center;
 	gap: 7px;
 	min-height: 32px;
 }
 
-.hkc-admin .hkc-option-list {
+.hatc-admin .hatc-option-list {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 12px 24px;
 }
 
-.hkc-admin input[type="checkbox"] {
-	accent-color: var(--hkc-admin-accent);
+.hatc-admin input[type="checkbox"] {
+	accent-color: var(--hatc-admin-accent);
 }
 
-.hkc-admin .button {
+.hatc-admin .button {
 	border-radius: 9px;
 	box-shadow: none;
 }
 
-.hkc-admin .button-primary {
-	border-color: var(--hkc-admin-accent);
-	background: var(--hkc-admin-accent);
+.hatc-admin .button-primary {
+	border-color: var(--hatc-admin-accent);
+	background: var(--hatc-admin-accent);
 }
 
-.hkc-admin .button-primary:hover,
-.hkc-admin .button-primary:focus {
-	border-color: var(--hkc-admin-accent-dark);
-	background: var(--hkc-admin-accent-dark);
+.hatc-admin .button-primary:hover,
+.hatc-admin .button-primary:focus {
+	border-color: var(--hatc-admin-accent-dark);
+	background: var(--hatc-admin-accent-dark);
 }
 
-.hkc-admin .button-secondary {
-	border-color: var(--hkc-admin-border-strong);
+.hatc-admin .button-secondary {
+	border-color: var(--hatc-admin-border-strong);
 	background: #fff;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .button-secondary:hover,
-.hkc-admin .button-secondary:focus {
+.hatc-admin .button-secondary:hover,
+.hatc-admin .button-secondary:focus {
 	border-color: #94a3b8;
-	background: var(--hkc-admin-surface-soft);
-	color: var(--hkc-admin-text);
+	background: var(--hatc-admin-surface-soft);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-button {
+.hatc-admin .hatc-button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -267,62 +267,62 @@
 	cursor: pointer;
 }
 
-.hkc-admin .hkc-button--secondary {
-	border-color: var(--hkc-admin-accent);
-	background: var(--hkc-admin-accent);
+.hatc-admin .hatc-button--secondary {
+	border-color: var(--hatc-admin-accent);
+	background: var(--hatc-admin-accent);
 	color: #fff;
 }
 
-.hkc-admin .hkc-button--secondary:hover,
-.hkc-admin .hkc-button--secondary:focus {
-	border-color: var(--hkc-admin-accent-dark);
-	background: var(--hkc-admin-accent-dark);
+.hatc-admin .hatc-button--secondary:hover,
+.hatc-admin .hatc-button--secondary:focus {
+	border-color: var(--hatc-admin-accent-dark);
+	background: var(--hatc-admin-accent-dark);
 	color: #fff;
 }
 
-.hkc-admin .hkc-button--ghost {
-	border-color: var(--hkc-admin-border-strong);
+.hatc-admin .hatc-button--ghost {
+	border-color: var(--hatc-admin-border-strong);
 	background: #fff;
 	color: #475569;
 }
 
-.hkc-admin .hkc-button--ghost:hover,
-.hkc-admin .hkc-button--ghost:focus {
+.hatc-admin .hatc-button--ghost:hover,
+.hatc-admin .hatc-button--ghost:focus {
 	border-color: #94a3b8;
-	background: var(--hkc-admin-surface-soft);
-	color: var(--hkc-admin-text);
+	background: var(--hatc-admin-surface-soft);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-button:focus-visible,
-.hkc-admin a:focus-visible,
-.hkc-admin button:focus-visible,
-.hkc-admin input:focus-visible,
-.hkc-admin select:focus-visible,
-.hkc-admin textarea:focus-visible {
-	outline: 2px solid var(--hkc-admin-accent);
+.hatc-admin .hatc-button:focus-visible,
+.hatc-admin a:focus-visible,
+.hatc-admin button:focus-visible,
+.hatc-admin input:focus-visible,
+.hatc-admin select:focus-visible,
+.hatc-admin textarea:focus-visible {
+	outline: 2px solid var(--hatc-admin-accent);
 	outline-offset: 2px;
 }
 
-.hkc-admin .hkc-form-actions {
+.hatc-admin .hatc-form-actions {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	margin-top: 20px;
 }
 
-.hkc-admin .hkc-form-actions p.submit {
+.hatc-admin .hatc-form-actions p.submit {
 	margin: 0;
 	padding: 0;
 }
 
-.hkc-admin .hkc-table-wrap {
+.hatc-admin .hatc-table-wrap {
 	width: 100%;
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
 }
 
-.hkc-admin .hkc-contacts-table,
-.hkc-admin .hkc-analytics-table {
+.hatc-admin .hatc-contacts-table,
+.hatc-admin .hatc-analytics-table {
 	width: 100%;
 	margin: 0;
 	border: 0;
@@ -331,82 +331,82 @@
 	box-shadow: none;
 }
 
-.hkc-admin .hkc-contacts-table th,
-.hkc-admin .hkc-analytics-table th {
-	background: var(--hkc-admin-surface-soft);
+.hatc-admin .hatc-contacts-table th,
+.hatc-admin .hatc-analytics-table th {
+	background: var(--hatc-admin-surface-soft);
 	font-weight: 650;
 	color: #475569;
 }
 
-.hkc-admin .hkc-contacts-table th,
-.hkc-admin .hkc-contacts-table td,
-.hkc-admin .hkc-analytics-table th,
-.hkc-admin .hkc-analytics-table td {
+.hatc-admin .hatc-contacts-table th,
+.hatc-admin .hatc-contacts-table td,
+.hatc-admin .hatc-analytics-table th,
+.hatc-admin .hatc-analytics-table td {
 	vertical-align: middle;
 	padding: 13px 14px;
 	border-bottom: 1px solid #eef2f7;
 }
 
-.hkc-admin .hkc-contacts-table th:first-child,
-.hkc-admin .hkc-contacts-table td:first-child,
-.hkc-admin .hkc-analytics-table th:first-child,
-.hkc-admin .hkc-analytics-table td:first-child {
+.hatc-admin .hatc-contacts-table th:first-child,
+.hatc-admin .hatc-contacts-table td:first-child,
+.hatc-admin .hatc-analytics-table th:first-child,
+.hatc-admin .hatc-analytics-table td:first-child {
 	padding-left: 4px;
 }
 
-.hkc-admin .hkc-contacts-table th:last-child,
-.hkc-admin .hkc-contacts-table td:last-child,
-.hkc-admin .hkc-analytics-table th:last-child,
-.hkc-admin .hkc-analytics-table td:last-child {
+.hatc-admin .hatc-contacts-table th:last-child,
+.hatc-admin .hatc-contacts-table td:last-child,
+.hatc-admin .hatc-analytics-table th:last-child,
+.hatc-admin .hatc-analytics-table td:last-child {
 	padding-right: 4px;
 }
 
-.hkc-admin .hkc-contacts-table tbody tr:last-child td,
-.hkc-admin .hkc-analytics-table tbody tr:last-child td {
+.hatc-admin .hatc-contacts-table tbody tr:last-child td,
+.hatc-admin .hatc-analytics-table tbody tr:last-child td {
 	border-bottom: 0;
 }
 
-.hkc-admin .hkc-contacts-table tbody tr:hover td,
-.hkc-admin .hkc-analytics-table tbody tr:hover td {
+.hatc-admin .hatc-contacts-table tbody tr:hover td,
+.hatc-admin .hatc-analytics-table tbody tr:hover td {
 	background: #fbfdfe;
 }
 
-.hkc-admin .hkc-contacts-table a,
-.hkc-admin .hkc-analytics-table a {
+.hatc-admin .hatc-contacts-table a,
+.hatc-admin .hatc-analytics-table a {
 	font-weight: 600;
 }
 
-.hkc-admin .hkc-table-meta {
+.hatc-admin .hatc-table-meta {
 	display: block;
 	max-width: 280px;
 	margin-top: 3px;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 	font-size: 12px;
 	line-height: 1.45;
 }
 
-.hkc-admin .hkc-mono {
+.hatc-admin .hatc-mono {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 	font-size: 12px;
 }
 
-.hkc-admin .hkc-actions {
+.hatc-admin .hatc-actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px 12px;
 }
 
-.hkc-admin .hkc-actions a {
+.hatc-admin .hatc-actions a {
 	white-space: nowrap;
 }
 
-.hkc-admin .hkc-empty-state {
+.hatc-admin .hatc-empty-state {
 	margin: 0;
 	padding: 18px 0 4px;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 }
 
-.hkc-admin .hkc-analytics-top {
+.hatc-admin .hatc-analytics-top {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 340px;
 	gap: 16px;
@@ -414,45 +414,45 @@
 	margin-bottom: 18px;
 }
 
-.hkc-admin .hkc-stat-grid {
+.hatc-admin .hatc-stat-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 14px;
 	margin: 0;
 }
 
-.hkc-admin .hkc-stat-card {
+.hatc-admin .hatc-stat-card {
 	padding: 22px 24px;
 }
 
-.hkc-admin .hkc-stat-card--accent {
+.hatc-admin .hatc-stat-card--accent {
 	border-color: rgba(15, 118, 110, .25);
 	background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%);
 }
 
-.hkc-admin .hkc-stat-card__label,
-.hkc-admin .hkc-stat-card__meta {
+.hatc-admin .hatc-stat-card__label,
+.hatc-admin .hatc-stat-card__meta {
 	display: block;
-	color: var(--hkc-admin-muted);
+	color: var(--hatc-admin-muted);
 	font-size: 12px;
 	line-height: 1.4;
 }
 
-.hkc-admin .hkc-stat-card__label {
+.hatc-admin .hatc-stat-card__label {
 	font-weight: 650;
 }
 
-.hkc-admin .hkc-stat-card__value {
+.hatc-admin .hatc-stat-card__value {
 	display: block;
 	margin: 9px 0 3px;
 	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.1;
 	letter-spacing: -.02em;
-	color: var(--hkc-admin-text);
+	color: var(--hatc-admin-text);
 }
 
-.hkc-admin .hkc-filter-panel {
+.hatc-admin .hatc-filter-panel {
 	width: 100%;
 	max-width: none;
 	box-sizing: border-box;
@@ -461,143 +461,143 @@
 	align-self: stretch;
 }
 
-.hkc-admin .hkc-filter-form {
+.hatc-admin .hatc-filter-form {
 	display: flex;
 	align-items: flex-end;
 	gap: 12px;
 	margin: 0;
 }
 
-.hkc-admin .hkc-filter-form > div {
+.hatc-admin .hatc-filter-form > div {
 	display: grid;
 	gap: 6px;
 }
 
-.hkc-admin .hkc-filter-form label {
+.hatc-admin .hatc-filter-form label {
 	font-size: 12px;
 	font-weight: 650;
 	color: #475569;
 }
 
-.hkc-admin .hkc-filter-form .button {
+.hatc-admin .hatc-filter-form .button {
 	margin: 0;
 }
 
-.hkc-admin .hkc-data-grid {
+.hatc-admin .hatc-data-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 18px;
 	max-width: 1180px;
 }
 
-.hkc-admin .hkc-data-grid .hkc-panel {
+.hatc-admin .hatc-data-grid .hatc-panel {
 	margin: 0;
 }
 
-.hkc-admin .hkc-data-grid__wide {
+.hatc-admin .hatc-data-grid__wide {
 	grid-column: 1 / -1;
 }
 
-.hkc-admin .hkc-admin-note {
+.hatc-admin .hatc-admin-note {
 	max-width: 1180px;
 	margin: 16px 0;
 	padding: 13px 16px;
 	border-left: 3px solid #94a3b8;
-	background: var(--hkc-admin-surface-soft);
+	background: var(--hatc-admin-surface-soft);
 	color: #475569;
 	border-radius: 0 9px 9px 0;
 	font-size: 13px;
 	line-height: 1.55;
 }
 
-.hkc-admin .notice {
+.hatc-admin .notice {
 	max-width: 980px;
 	border-radius: 9px;
 }
 
 @media (max-width: 782px) {
-	.hkc-admin {
+	.hatc-admin {
 		margin-right: 10px;
 	}
 
-	.hkc-admin .hkc-page-header {
+	.hatc-admin .hatc-page-header {
 		display: block;
 		margin-top: 20px;
 	}
 
-	.hkc-admin .hkc-page-header__status {
+	.hatc-admin .hatc-page-header__status {
 		margin-top: 12px;
 	}
 
-	.hkc-admin .hkc-panel {
+	.hatc-admin .hatc-panel {
 		padding: 17px 14px;
 	}
 
-	.hkc-admin .hkc-form-actions {
+	.hatc-admin .hatc-form-actions {
 		flex-wrap: wrap;
 	}
 
-	.hkc-admin .form-table th,
-	.hkc-admin .form-table td {
+	.hatc-admin .form-table th,
+	.hatc-admin .form-table td {
 		display: block;
 		width: auto;
 		padding-right: 0;
 	}
 
-	.hkc-admin .form-table th {
+	.hatc-admin .form-table th {
 		padding-bottom: 7px;
 	}
 
-	.hkc-admin .form-table td {
+	.hatc-admin .form-table td {
 		padding-top: 0;
 	}
 
-	.hkc-admin .form-table tr + tr th {
+	.hatc-admin .form-table tr + tr th {
 		border-top: 0;
 		padding-top: 18px;
 	}
 
-	.hkc-admin .form-table tr + tr td {
+	.hatc-admin .form-table tr + tr td {
 		border-top: 0;
 	}
 
-	.hkc-admin .hkc-analytics-top {
+	.hatc-admin .hatc-analytics-top {
 		grid-template-columns: 1fr;
 	}
 
-	.hkc-admin .hkc-stat-grid,
-	.hkc-admin .hkc-data-grid {
+	.hatc-admin .hatc-stat-grid,
+	.hatc-admin .hatc-data-grid {
 		grid-template-columns: 1fr;
 	}
 
-	.hkc-admin .hkc-data-grid__wide {
+	.hatc-admin .hatc-data-grid__wide {
 		grid-column: auto;
 	}
 
-	.hkc-admin .hkc-filter-panel {
+	.hatc-admin .hatc-filter-panel {
 		width: 100%;
 	}
 
-	.hkc-admin .hkc-filter-form {
+	.hatc-admin .hatc-filter-form {
 		align-items: stretch;
 		flex-direction: column;
 	}
 
-	.hkc-admin .hkc-filter-form select,
-	.hkc-admin .hkc-filter-form .button {
+	.hatc-admin .hatc-filter-form select,
+	.hatc-admin .hatc-filter-form .button {
 		width: 100%;
 		max-width: none;
 	}
 
-	.hkc-admin .hkc-contacts-table {
+	.hatc-admin .hatc-contacts-table {
 		min-width: 760px;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hkc-admin *,
-	.hkc-admin *::before,
-	.hkc-admin *::after {
+	.hatc-admin *,
+	.hatc-admin *::before,
+	.hatc-admin *::after {
 		scroll-behavior: auto !important;
 		transition: none !important;
 		animation: none !important;
