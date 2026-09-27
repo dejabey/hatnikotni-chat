@@ -29,7 +29,7 @@ The plugin does not require an external analytics service.
 
 Hatnikotni Chat is designed so visitor analytics is opt-in.
 
-Analytics and campaign attribution remain disabled unless the site provides an explicit visitor consent signal through the hkc_has_analytics_consent filter. The plugin does not provide its own consent banner.
+Analytics and campaign attribution remain disabled unless the site provides an explicit visitor consent signal through the hatnch_has_analytics_consent filter. The plugin does not provide its own consent banner.
 
 When consent is granted, the plugin may store:
 
@@ -40,7 +40,7 @@ When consent is granted, the plugin may store:
 
 The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content.
 
-Analytics events are stored in the site's WordPress database and retained for 180 days. The hkc_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available.
+Analytics events are stored in the site's WordPress database and retained for 180 days. The hatnch_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available.
 
 When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp. WhatsApp's own privacy policy and terms apply to that interaction.
 
@@ -52,14 +52,14 @@ The plugin also provides suggested privacy-policy text through WordPress's Priva
 2. Open Hatnikotni Chat in wp-admin.
 3. Add at least one active contact.
 4. Configure the default contact, message, button and routing settings.
-5. Configure the site's consent mechanism to return true through the hkc_has_analytics_consent filter if visitor analytics is desired.
+5. Configure the site's consent mechanism to return true through the hatnch_has_analytics_consent filter if visitor analytics is desired.
 6. Test the WhatsApp button and routing on staging before production use.
 
 == Frequently Asked Questions ==
 
 = Does analytics run automatically? =
 
-No. Visitor analytics is disabled unless the site provides an explicit consent signal through the hkc_has_analytics_consent filter.
+No. Visitor analytics is disabled unless the site provides an explicit consent signal through the hatnch_has_analytics_consent filter.
 
 = Does the plugin send analytics to an external service? =
 
@@ -86,7 +86,10 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
-= Development =
+= 0.1.1 =
+* Migrated plugin declarations and stored data to the unique `hatnch` namespace for WordPress.org compatibility.
+* Added migration handling for existing settings, routing state and custom tables.
+* Added explicit WordPress.org prefix compliance documentation.
 * Added consent-aware analytics and campaign attribution.
 * Added WordPress Privacy Policy Guide integration.
 * Added WordPress.org readiness documentation and readme.
