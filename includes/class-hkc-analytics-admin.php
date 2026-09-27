@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Analytics_Admin {
+final class HATNCH_Analytics_Admin {
 
 	public static function init(): void {
 		if ( is_admin() ) {
@@ -32,7 +32,7 @@ final class HKC_Analytics_Admin {
 		}
 
 		$days    = isset( $_GET['days'] ) ? min( 180, max( 1, absint( $_GET['days'] ) ) ) : 30;
-		$summary = HKC_Analytics::get_summary( $days );
+		$summary = HATNCH_Analytics::get_summary( $days );
 		?>
 		<div class="wrap hkc-admin">
 			<header class="hkc-page-header">
@@ -159,7 +159,7 @@ final class HKC_Analytics_Admin {
 				</thead>
 				<tbody>
 				<?php foreach ( $rows as $row ) : ?>
-					<?php $contact = HKC_Contacts::get( absint( $row['contact_id'] ) ); ?>
+					<?php $contact = HATNCH_Contacts::get( absint( $row['contact_id'] ) ); ?>
 					<tr>
 						<td><?php echo esc_html( $contact['name'] ?? __( 'Unknown / removed', 'hatnikotni-chat' ) ); ?></td>
 						<td><strong><?php echo esc_html( number_format_i18n( (int) $row['total'] ) ); ?></strong></td>
