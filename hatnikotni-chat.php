@@ -15,25 +15,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HATC_VERSION', '0.1.1' );
-define( 'HATC_DB_VERSION', '1.0.0' );
-define( 'HATC_PLUGIN_FILE', __FILE__ );
-define( 'HATC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'HATC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'HATNCH_VERSION', '0.1.1' );
+define( 'HATNCH_DB_VERSION', '1.0.0' );
+define( 'HATNCH_PLUGIN_FILE', __FILE__ );
+define( 'HATNCH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'HATNCH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-settings.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-contacts.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-routing.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-analytics.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-analytics-admin.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-campaign.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-privacy.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-whatsapp.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-shortcode.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-admin.php';
-require_once HATC_PLUGIN_DIR . 'includes/class-hatc-plugin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-settings.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-contacts.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-routing.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-analytics.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-analytics-admin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-campaign.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-privacy.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-whatsapp.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-shortcode.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-admin.php';
+require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-plugin.php';
 
-register_activation_hook( HATC_PLUGIN_FILE, array( 'HATC_Plugin', 'activate' ) );
-register_deactivation_hook( HATC_PLUGIN_FILE, array( 'HATC_Plugin', 'deactivate' ) );
+register_activation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'activate' ) );
+register_deactivation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'deactivate' ) );
 
-HATC_Plugin::instance();
+HATNCH_Plugin::instance();
