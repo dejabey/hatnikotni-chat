@@ -11,6 +11,15 @@ Validate the release candidate on a real WordPress staging site before productio
 - WooCommerce enabled if production uses it
 - Consent mechanism enabled if production uses one
 
+## WordPress.org namespace migration
+- [ ] Upgrade from the legacy build with existing settings and contacts.
+- [ ] Confirm settings migrate to `hatnch_settings` without loss.
+- [ ] Confirm contacts table migrates to `hatnch_contacts`.
+- [ ] Confirm analytics table migrates to `hatnch_events`.
+- [ ] Confirm round-robin state migrates to `hatnch_routing_state`.
+- [ ] Confirm legacy cron hook is cleared and the new cleanup hook is scheduled.
+- [ ] Confirm no legacy `hkc` options/tables/cookies remain in active runtime paths.
+
 ## Installation and lifecycle
 - [ ] Fresh installation
 - [ ] Activation
