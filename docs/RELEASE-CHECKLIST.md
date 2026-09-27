@@ -94,3 +94,12 @@
 - [ ] Run full staging regression tests.
 - [ ] Double/triple check release ZIP contents.
 - [ ] Upload corrected 0.1.1 package and reply to the existing WordPress.org review thread.
+
+
+## 0.1.1 RC Verification Status
+
+- GitHub Actions Run #269: success across PHP 8.1–8.5 and build-release.
+- RC package: `hatnikotni-chat-0.1.1.zip`.
+- SHA-256: `80846c87dd5f4b0fd66684b32c4e3785bc3327962546d6373b44878f3419742c`.
+- Local package inspection: PHP syntax pass, old HKC prefix scan pass, 11 renamed module files present, runtime package contains only required plugin files.
+- Staging runtime installation of this RC could not be automated because WPVibe cannot install the locally materialized artifact; manual staging upload is required before final resubmission.
