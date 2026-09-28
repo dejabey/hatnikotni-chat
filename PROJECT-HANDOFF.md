@@ -1,121 +1,60 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Current state document. Updated 2026-09-27.**
+**Updated:** 2026-09-28  
+**Branch:** wordpress-org-compliance  
+**Base branch:** main  
+**Current feature version:** 0.1.2 (unreleased)  
+**Database schema:** 1.1.0  
+**WordPress.org review remediation:** in progress; do not reply to reviewer until current package and staging validation pass.
 
-**Review remediation branch:** `wordpress-org-compliance`  
-**Current remediation HEAD:** `8408fbe2dca66a8d7d0fdefda1ac9486b73e14d9`
-**Base:** `main` HEAD `06c443a3ddf1e1d6f64c0f16f4ede18d97d60fcd`  
-**Release target:** 0.1.1  
-**Database schema target:** 1.1.0
+## Current objective
 
-## WordPress.org review status
+Remediate WordPress.org review feedback, maintain a clean production package, and validate Hatnikotni Chat on staging. The reviewer identified the old three-character prefix and inaccessible Plugin URI. The runtime namespace has been migrated to HATNCH_/hatnch_, and the GitHub repository is now public.
 
-The 27 Sep 2026 WordPress.org pre-review identified two concrete blockers:
+## Recent feature work: native analytics privacy choices
 
-1. Global declarations and stored identifiers used the three-character `HKC/hkc` prefix.
-2. The Plugin URI pointed to a GitHub repository that was private/returned 404 to the reviewer.
+Implemented on wordpress-org-compliance:
+- Expandable Privacy choices control beside the floating WhatsApp button.
+- Short explanation plus expandable details about what analytics records.
+- Explicit Allow analytics and Reject analytics buttons.
+- Link to the WordPress Privacy Policy page when configured.
+- A first-party hatnch_analytics_consent cookie storing yes/no for up to 180 days.
+- Native consent is false by default. Analytics and campaign attribution stay disabled unless consent is explicitly allowed or a deliberate site integration overrides the filter.
+- WhatsApp routing is not blocked by the visitor's analytics choice.
+- Added a frontend JavaScript asset, scoped CSS, source contract checks, updated readme/changelog and updated architecture/readiness/staging documentation.
+- Version advanced to 0.1.2; DB schema remains 1.1.0.
 
-The review specifically requires a distinct prefix of at least four characters for globally accessible declarations and stored data. The remediation uses **`HATNCH_` / `hatnch_`** throughout the runtime namespace. The review also says the Plugin URI must resolve publicly.
-
-Reference: WordPress.org review ID `AUTOPREREVIEW COM hatnikotni-chat/zaryl/27Sep26/T1 27Sep26/4.3 (P0TDX376260HGN)`.
-
-## Remediation completed in source
-
-- PHP classes migrated from `HKC_*` to `HATNCH_*`.
-- Constants migrated to `HATNCH_*`.
-- Custom actions, filters, cron hooks and lifecycle hooks migrated to `hatnch_*`.
-- Admin page/menu slugs migrated from `hkc*` to `hatnch*`.
-- Options migrated to `hatnch_settings`, `hatnch_routing_state` and `hatnch_db_version`.
-- Custom tables migrated to `{$wpdb->prefix}hatnch_contacts` and `{$wpdb->prefix}hatnch_events`.
-- Campaign cookie migrated to `hatnch_campaign`.
-- WordPress script/style handles migrated to the `hatnch` namespace.
-- Frontend/admin CSS classes and IDs migrated to the `hatnch` namespace.
-- Existing shortcode `[hatnikotni_chat]` is intentionally retained because it is already a unique, descriptive public interface and does not use the legacy three-character prefix.
-- Legacy settings, routing state and custom tables are migrated during plugin initialization before normal schema upgrade handling.
-- Legacy cron cleanup hook is cleared during migration.
-- Plugin version bumped to 0.1.1; DB version bumped to 1.1.0.
-- Readme, changelog, readiness documentation and this handoff updated.
-
-## Data migration behavior
-
-On upgrade from a legacy build:
-
-- Existing `hkc` settings are copied to `hatnch_settings` if the new option does not already exist.
-- Existing routing state is copied to `hatnch_routing_state`.
-- Legacy custom contact/event tables are renamed to their `hatnch` equivalents when the destination table does not already exist.
-- Legacy DB-version option is removed.
-- Legacy daily cleanup cron hook is cleared.
-- Normal schema installation then verifies the new tables.
-- New installations create only the `hatnch` storage names.
-
-The migration is deliberately one-way. No new runtime dependency on the old namespace remains.
+Important implementation note: consent is cookie-based and takes effect on the next HTTP request. This is sufficient for the WhatsApp action because the browser sends the cookie to admin-post.php. Staging must verify allow/reject/choice changes, campaign-cookie clearing, custom cookie paths and cached pages. No real runtime test of the new UI has yet been completed.
 
 ## Current implementation
 
 - Standalone WordPress plugin; not deployed to production.
-- Contact CRUD/admin interface with capability checks, nonces, validation, explicit input allowlisting, safe redirects, and no delete UI.
-- Phone input is strictly 8–20 international digits only; +, spaces and hyphens are rejected.
-- General settings for frontend enablement, default contact/message, button label, position, desktop/mobile visibility and routing.
-- Routing: direct, random and round-robin.
-- Direct requires an active configured default contact.
-- Random selects only active contacts.
-- Round-robin follows active contacts by sort order/id and stores last contact state.
-- Shared WhatsApp action endpoint through `admin-post.php`.
-- Click analytics is consent-gated and does not block WhatsApp routing.
-- UTM last-touch attribution is consent-gated and retained for 30 days.
-- Analytics retention is 180 days with daily WP-Cron cleanup.
-- WordPress Privacy Policy Guide integration.
-- Global floating button and `[hatnikotni_chat]` shortcode.
-- No bundled runtime third-party library and no required frontend JavaScript.
+- Contact CRUD/admin interface with capability checks, nonces, validation, safe redirects and no delete UI.
+- Direct, random and round-robin routing.
+- Shared WhatsApp action endpoint through admin-post.php.
+- First-party click analytics and UTM attribution with consent gates.
+- Analytics retention: 180 days; campaign attribution cookie: up to 30 days.
+- Global floating button and shortcode [hatnikotni_chat].
+- No bundled runtime third-party library or external analytics service.
+- Clean package workflow builds a ZIP containing only the plugin root file, uninstall.php, readme.txt, assets and includes.
 
-## Privacy model
+## Staging evidence before this feature
 
-Analytics defaults to false through `hatnch_has_analytics_consent`.
-
-Without consent:
-
-- no analytics event;
-- no campaign attribution cookie;
-- existing campaign cookie is cleared where possible;
-- WhatsApp routing remains functional.
-
-With consent, the plugin stores only the documented contact/page/device/UTM event data locally.
-
-## Validation state
-
-### Source / CI
-- **CONFIRMED:** GitHub Actions run #296 for commit `db3147d7b2bd8c6aa2db794a22931f4a06240e38` passed on PHP 8.1, 8.2, 8.3 and 8.4.
-- **CONFIRMED:** PHP syntax checks, skeleton contract checks and WordPress Coding Standards passed across the full matrix.
-- Previous green run #134 applies to the earlier `HKC` namespace and is retained only as historical evidence.
-- **PENDING:** clean release-package audit and staging installation of 0.1.1.
-
-### Runtime
-- Existing staging results remain historical evidence only.
-- **CONFIRMED PRE-MIGRATION:** staging.perlis.xyz currently has Hatnikotni Chat 0.1.0 active and the legacy `hkc_db_version`, `hkc_routing_state` and `hkc_settings` options present.
-- **PENDING:** install the 0.1.1 remediation build on staging and run the actual upgrade migration rehearsal.
-- **PENDING:** direct/random/round-robin routing after migration.
-- **PENDING:** shortcode and frontend/admin UI after migration.
-- **PENDING:** consent integration and withdrawal.
-- **PENDING:** cache/CDN, WooCommerce, accessibility, performance and security checks.
-- **PENDING:** uninstall verification for the new storage names.
-
-### Repository / WordPress.org
-- **DONE:** source namespace remediation.
-- **DONE:** class filenames aligned with `HATNCH_*` classes for WPCS.
-- **DONE:** documentation update.
-- **PENDING:** public Plugin URI. The repository must be publicly reachable before the WordPress.org reply.
-- **PENDING:** final release packaging and submission response.
+On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. Migration preserved three contacts, updated the schema option to 1.1.0 and created hatnch-prefixed tables. Round-robin was tested manually and the user confirmed the sequence followed the configured contact order. These are 0.1.1 results, not validation of the new 0.1.2 consent UI.
 
 ## Required next actions
 
-1. Re-run the full source collision audit after the final documentation update.
-2. Inspect the clean plugin package contents.
-3. Install the 0.1.1 remediation build on staging and perform the migration/functional tests.
-4. Verify the public Plugin URI from an unauthenticated browser context.
-5. Only after all gates pass, merge/release and reply to the same WordPress.org review email.
-
-**Do not reply to WordPress.org yet.**
+1. Fetch the current branch head and confirm all commits are on wordpress-org-compliance.
+2. Run GitHub Actions for PHP 8.1–8.4, contract checks and WPCS; fix failures before committing more changes.
+3. Audit the 0.1.2 artifact structure and verify the JavaScript asset is included.
+4. Install 0.1.2 on staging without touching production.
+5. Test missing consent, allow, reject, change choice, campaign cookie deletion, WhatsApp redirect and routing.
+6. Verify keyboard accessibility, mobile layout, page caching and WordPress Privacy Policy URL.
+7. Update this handoff with actual CI/run/artifact/staging evidence.
+8. Only after the release gates pass, prepare the corrected package and reply in the existing WordPress.org review email thread.
 
 ## Source of truth
 
-This handoff must be updated whenever the current commit, CI status, runtime status, migration behavior, release metadata or WordPress.org status changes.
+Repository: https://github.com/dejabey/hatnikotni-chat  
+Review branch: wordpress-org-compliance  
+Plugin URI: https://github.com/dejabey/hatnikotni-chat
