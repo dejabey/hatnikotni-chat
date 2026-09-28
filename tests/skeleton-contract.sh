@@ -17,7 +17,7 @@ grep -q "hatnch-privacy-consent-input" includes/class-hatnch-whatsapp.php || fai
 grep -q "role=\"switch\"" includes/class-hatnch-whatsapp.php || fail "Accessible switch role missing"
 grep -q "'Details'" includes/class-hatnch-whatsapp.php || fail "English source label missing"
 grep -q "'Privacy'" includes/class-hatnch-whatsapp.php || fail "English source privacy label missing"
-grep -q "__( 'Contact Us', 'hatnikotni-chat' )" includes/class-hatnch-whatsapp.php || fail "Default button label must follow WordPress locale"
+grep -Fq "__( 'Contact Us', 'hatnikotni-chat' )" includes/class-hatnch-whatsapp.php || fail "Default button label must follow WordPress locale"
 grep -q "'Reject'" includes/class-hatnch-whatsapp.php || fail "English source reject label missing"
 grep -q "'Accept'" includes/class-hatnch-whatsapp.php || fail "English source accept label missing"
 grep -q "get_privacy_policy_url" includes/class-hatnch-whatsapp.php || fail "Privacy policy link missing"
