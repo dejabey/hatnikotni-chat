@@ -6,6 +6,7 @@ for file in hatnikotni-chat.php uninstall.php includes/*.php; do
   php -l "$file" >/dev/null || fail "PHP syntax error: $file"
 done
 grep -q "Text Domain: hatnikotni-chat" hatnikotni-chat.php || fail "Text domain mismatch"
+grep -q "Plugin URI: https://github.com/dejabey/hatnikotni-chat" hatnikotni-chat.php || fail "Public Plugin URI missing"
 grep -q "HATNCH_VERSION" hatnikotni-chat.php || fail "Version constant missing"
 grep -q "class-hatnch-privacy.php" hatnikotni-chat.php || fail "Privacy module load missing"
 grep -q "hatnch_has_analytics_consent" includes/class-hatnch-privacy.php || fail "Analytics consent filter missing"
@@ -16,6 +17,7 @@ grep -q "hatnch-privacy-consent-input" includes/class-hatnch-whatsapp.php || fai
 grep -q "role=\"switch\"" includes/class-hatnch-whatsapp.php || fail "Accessible switch role missing"
 grep -q "'Details'" includes/class-hatnch-whatsapp.php || fail "English source label missing"
 grep -q "'Privacy'" includes/class-hatnch-whatsapp.php || fail "English source privacy label missing"
+grep -q "__('Contact Us', 'hatnikotni-chat')" includes/class-hatnch-whatsapp.php || fail "Default button label must follow WordPress locale"
 grep -q "'Reject'" includes/class-hatnch-whatsapp.php || fail "English source reject label missing"
 grep -q "'Accept'" includes/class-hatnch-whatsapp.php || fail "English source accept label missing"
 grep -q "get_privacy_policy_url" includes/class-hatnch-whatsapp.php || fail "Privacy policy link missing"
