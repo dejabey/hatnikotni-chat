@@ -44,7 +44,7 @@ Analytics events are stored in the site's WordPress database and retained for 18
 
 When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp. WhatsApp's own privacy policy and terms apply to that interaction.
 
-The plugin also provides suggested privacy-policy text through WordPress's Privacy Policy Guide. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported.
+The plugin also provides suggested privacy-policy text through WordPress's Privacy Policy Guide. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported.
 
 == Installation ==
 
@@ -93,6 +93,10 @@ No. WooCommerce is a future optional integration and is not required by the core
 * Made English the source language for frontend privacy controls and JavaScript status messages.
 * Added a Malay translation source and bundled text-domain loading for local installations.
 * Preserved the Contact Us fatal-error fix and compact privacy panel.
+
+= 0.1.7 =
+* Restored English as the source language for frontend privacy controls and status messages.
+* Added Malay translation files and included compiled translations in the production package.
 
 = 0.1.6 =
 * Fixed the fatal class-name typo in the WhatsApp click handler.
