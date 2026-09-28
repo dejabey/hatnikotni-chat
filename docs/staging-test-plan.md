@@ -9,7 +9,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Direct routing.
 - [ ] Random routing.
 - [ ] Round-robin order across active contacts.
-- [ ] WhatsApp redirect and optional pre-filled message.
+- [ ] WhatsApp redirect and optional pre-filled message; confirm no critical error and the browser reaches wa.me.
 - [ ] Shortcode output and routing.
 - [ ] Desktop/mobile visibility and left/right positioning.
 - [ ] Disabled state hides the floating widget.
@@ -20,7 +20,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Privacy choices control expands/collapses and has correct aria-expanded state.
 - [ ] Analytics consent switch starts off when there is no saved consent and reflects a previously saved allow choice.
 - [ ] Switch is keyboard accessible and its accessible label/checked state are correct.
-- [ ] Baca lagi expands/collapses the data-use explanation with keyboard and pointer.
+- [ ] Butiran expands/collapses the data-use explanation with keyboard and pointer.
 - [ ] Privacy Policy link points to the configured WordPress Privacy Policy page.
 - [ ] Switching to Accept writes hatnch_analytics_consent=yes for 180 days.
 - [ ] After accepting, a WhatsApp click records one event on the next request.
