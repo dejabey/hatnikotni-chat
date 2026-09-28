@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.1.4 — Unreleased
+## 0.1.5 — Unreleased
+
+- Localized visible consent-panel labels and status messages in Malay.
+- Shortened the floating privacy control label to “Privasi”.
+- Reduced panel width, padding and spacing while keeping the expanded explanation readable.
+
+## 0.1.4 — Previous development build
 
 - Replaced separate Allow/Reject buttons with an accessible, compact analytics consent switch.
 - Added a Read more disclosure beside the Analytics heading.
