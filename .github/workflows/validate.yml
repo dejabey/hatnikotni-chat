@@ -7,6 +7,7 @@ on:
       - 'dev/**'
       - 'feature/**'
       - 'release/**'
+      - 'wordpress-org-compliance'
   pull_request:
 
 permissions:
@@ -38,3 +39,31 @@ jobs:
 
       - name: Run WordPress Coding Standards
         run: vendor/bin/phpcs --standard=phpcs.xml.dist
+
+  package:
+    name: Build production package
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build clean WordPress plugin ZIP
+        run: |
+          set -eu
+          rm -rf dist
+          mkdir -p dist
+          git archive --format=zip --prefix=hatnikotni-chat/ HEAD \
+            hatnikotni-chat.php \
+            uninstall.php \
+            readme.txt \
+            assets \
+            includes \
+            -o dist/hatnikotni-chat-0.1.1.zip
+          unzip -l dist/hatnikotni-chat-0.1.1.zip
+
+      - name: Upload production package
+        uses: actions/upload-artifact@v4
+        with:
+          name: hatnikotni-chat-0.1.1
+          path: dist/hatnikotni-chat-0.1.1.zip
+          if-no-files-found: error
