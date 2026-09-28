@@ -89,6 +89,11 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
+= 0.1.3 =
+* Refined the native privacy panel with shorter copy, tighter spacing and responsive sizing.
+* Kept explicit Allow analytics and Reject analytics choices and the expandable data-use explanation.
+* Kept WhatsApp routing available regardless of analytics choice.
+
 = 0.1.2 =
 * Added native visitor analytics privacy choices with explicit allow/reject actions.
 * Kept WhatsApp routing available regardless of analytics choice.
