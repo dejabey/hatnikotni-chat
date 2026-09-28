@@ -18,11 +18,13 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 - [ ] With no consent cookie, click analytics does not record an event.
 - [ ] Privacy choices control expands/collapses and has correct aria-expanded state.
-- [ ] Data-use details can be expanded with keyboard and pointer.
+- [ ] Analytics consent switch starts off when there is no saved consent and reflects a previously saved allow choice.
+- [ ] Switch is keyboard accessible and its accessible label/checked state are correct.
+- [ ] Read more expands/collapses the data-use explanation with keyboard and pointer.
 - [ ] Privacy Policy link points to the configured WordPress Privacy Policy page.
-- [ ] Allow analytics writes hatnch_analytics_consent=yes for 180 days.
-- [ ] After allowing, a WhatsApp click records one event on the next request.
-- [ ] Reject analytics writes hatnch_analytics_consent=no.
+- [ ] Switching to Accept writes hatnch_analytics_consent=yes for 180 days.
+- [ ] After accepting, a WhatsApp click records one event on the next request.
+- [ ] Switching to Reject writes hatnch_analytics_consent=no.
 - [ ] After rejecting, WhatsApp still redirects and no new analytics event is recorded.
 - [ ] Rejecting expires the campaign cookie and the next request also clears it server-side where possible.
 - [ ] Visitor can change from reject to allow and from allow to reject.
