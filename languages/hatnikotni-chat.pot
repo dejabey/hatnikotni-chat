@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hatnikotni Chat 0.1.7\\n"
+"Report-Msgid-Bugs-To: https://github.com/dejabey/hatnikotni-chat/issues\\n"
+"POT-Creation-Date: 2026-09-28 00:00+0000\\n"
+"MIME-Version: 1.0\\n"
+"Content-Type: text/plain; charset=UTF-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+"X-Domain: hatnikotni-chat\\n"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy and analytics choices"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Details"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way."
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Reject"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Allow analytics"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Accept"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics accepted."
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics rejected. WhatsApp remains available."
+msgstr ""
