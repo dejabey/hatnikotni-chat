@@ -25,18 +25,14 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer
-
       - name: Check PHP syntax
         run: |
           set -eu
           find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
-
       - name: Run skeleton contract
         run: bash tests/skeleton-contract.sh
-
       - name: Install development dependencies
         run: composer install --no-interaction --prefer-dist
-
       - name: Run WordPress Coding Standards
         run: vendor/bin/phpcs --standard=phpcs.xml.dist
 
@@ -46,7 +42,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Build clean WordPress plugin ZIP
         run: |
           set -eu
@@ -58,12 +53,11 @@ jobs:
             readme.txt \
             assets \
             includes \
-            -o dist/hatnikotni-chat-0.1.1.zip
-          unzip -l dist/hatnikotni-chat-0.1.1.zip
-
+            -o dist/hatnikotni-chat-0.1.2.zip
+          unzip -l dist/hatnikotni-chat-0.1.2.zip
       - name: Upload production package
         uses: actions/upload-artifact@v4
         with:
-          name: hatnikotni-chat-0.1.1
-          path: dist/hatnikotni-chat-0.1.1.zip
+          name: hatnikotni-chat-0.1.2
+          path: dist/hatnikotni-chat-0.1.2.zip
           if-no-files-found: error
