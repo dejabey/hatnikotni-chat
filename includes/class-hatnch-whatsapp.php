@@ -113,10 +113,10 @@ final class HATNCH_WhatsApp {
 			'hatnch-privacy',
 			'hatnchPrivacyConfig',
 			array(
-				'cookiePath'       => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
-				'cookieDomain'     => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
-				'consentAccepted'  => __( 'Analytics accepted.', 'hatnikotni-chat' ),
-				'consentRejected'  => __( 'Analytics rejected. WhatsApp remains available.', 'hatnikotni-chat' ),
+				'cookiePath'      => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
+				'cookieDomain'    => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
+				'consentAccepted' => __( 'Analytics accepted.', 'hatnikotni-chat' ),
+				'consentRejected' => __( 'Analytics rejected. WhatsApp remains available.', 'hatnikotni-chat' ),
 			)
 		);
 	}
@@ -126,7 +126,7 @@ final class HATNCH_WhatsApp {
 			return;
 		}
 
-		$label        = (string) HATNCH_Settings::get( 'button_label', 'Contact Us' );
+		$label = (string) HATNCH_Settings::get( 'button_label', 'Contact Us' );
 		if ( 'Contact Us' === $label ) {
 			$label = __( 'Contact Us', 'hatnikotni-chat' );
 		}
