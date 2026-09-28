@@ -23,7 +23,7 @@ final class HATNCH_Shortcode {
 			'hatnikotni_chat'
 		);
 
-		$label     = sanitize_text_field( (string) $atts['label'] );
+		$label = sanitize_text_field( (string) $atts['label'] );
 		if ( 'Contact Us' === $label ) {
 			$label = __( 'Contact Us', 'hatnikotni-chat' );
 		}
