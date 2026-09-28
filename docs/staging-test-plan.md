@@ -31,6 +31,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Browser with JavaScript disabled can still use WhatsApp; analytics remains disabled unless an explicit site integration supplies consent.
 - [ ] Check cookie path/domain behavior when WordPress is installed in a subdirectory or uses a custom COOKIEPATH/COOKIE_DOMAIN.
 - [ ] No console errors, PHP notices or layout overlap on desktop/mobile.
+- [ ] Compact privacy panel remains readable on narrow mobile screens and does not cover the WhatsApp action.
 - [ ] Keyboard focus is visible; Escape closes the panel and returns focus to its toggle.
 
 ## Cache/CDN
