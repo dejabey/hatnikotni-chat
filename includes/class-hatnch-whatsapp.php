@@ -158,7 +158,7 @@ final class HATNCH_WhatsApp {
 			$classes[] = 'hatnch-hide-mobile';
 		}
 
-		$url               = self::action_url( '', (int) $page_id, $page_type );
+		$url                = self::action_url( '', (int) $page_id, $page_type );
 		$privacy_policy_url = get_privacy_policy_url();
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
