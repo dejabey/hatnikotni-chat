@@ -29,6 +29,8 @@ jobs:
         run: |
           set -eu
           find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: Check frontend JavaScript syntax
+        run: node --check assets/js/hatnikotni-chat-privacy.js
       - name: Run skeleton contract
         run: bash tests/skeleton-contract.sh
       - name: Install development dependencies
