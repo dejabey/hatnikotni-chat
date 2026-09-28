@@ -23,7 +23,7 @@ Implemented on wordpress-org-compliance:
 - Native consent is false by default. Analytics and campaign attribution stay disabled unless consent is explicitly allowed or a deliberate site integration overrides the filter.
 - WhatsApp routing is not blocked by the visitor's analytics choice.
 - Added a frontend JavaScript asset, scoped CSS, source contract checks, updated readme/changelog and updated architecture/readiness/staging documentation.
-- Version advanced to 0.1.6 for the compact consent-toggle refinement so browser asset caches refresh; DB schema remains 1.1.0.
+- Version 0.1.6 fixed the Contact Us handler and compacted the privacy UI. Version 0.1.7 establishes English as the source language, adds Malay translation files, and compiles the .mo file into the release ZIP; DB schema remains 1.1.0.
 
 Important implementation note: consent is cookie-based and takes effect on the next HTTP request. This is sufficient for the WhatsApp action because the browser sends the cookie to admin-post.php. Staging must verify allow/reject/choice changes, campaign-cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the hatnch_events table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. The 0.1.5 staging test revealed a critical error when clicking Contact Us. Root cause found in source: the handler called the misspelled class HATNCH_Analitik::record_click(), while the actual class is HATNCH_Analytics. Version 0.1.6 fixes this and adds a regression contract test. Version 0.1.7 restores English source strings for the frontend privacy controls and JavaScript status messages, adds a Malay translation source, and loads the text domain on init. Re-run CI and verify Contact Us on staging before any production release.
 
@@ -37,7 +37,7 @@ Important implementation note: consent is cookie-based and takes effect on the n
 - Analytics retention: 180 days; campaign attribution cookie: up to 30 days.
 - Global floating button and shortcode [hatnikotni_chat].
 - No bundled runtime third-party library or external analytics service.
-- Clean package workflow builds a ZIP containing only the plugin root file, uninstall.php, readme.txt, assets and includes.
+- Clean package workflow builds a ZIP containing only the plugin root file, uninstall.php, readme.txt, assets, includes and languages (with compiled Malay .mo generated during packaging).
 
 ## Staging evidence before this feature
 
