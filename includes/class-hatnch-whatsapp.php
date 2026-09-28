@@ -126,7 +126,7 @@ final class HATNCH_WhatsApp {
 			return;
 		}
 
-		$label        = (string) HATNCH_Settings::get( 'button_label', 'WhatsApp Kami' );
+		$label        = (string) HATNCH_Settings::get( 'button_label', 'Contact Us' );
 		$position     = 'left' === HATNCH_Settings::get( 'button_position', 'right' ) ? 'left' : 'right';
 		$show_desktop = (bool) HATNCH_Settings::get( 'show_desktop', true );
 		$show_mobile  = (bool) HATNCH_Settings::get( 'show_mobile', true );
