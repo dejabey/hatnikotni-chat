@@ -5,6 +5,7 @@
 - Refined the native privacy panel with shorter copy, tighter spacing, smaller controls and responsive sizing.
 - Updated the privacy panel's introductory and expandable copy for easier scanning.
 - Added a staging check for compact layout and WhatsApp-button overlap.
+- Updated the clean-package workflow to derive ZIP and artifact names from the plugin header version.
 
 ## 0.1.2 — Previous development build
 
