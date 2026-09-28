@@ -68,7 +68,7 @@
 				if (consent.checked) {
 					writeConsent('yes');
 					if (status) {
-						status.textContent = 'Analytics accepted. Your choice is saved on this browser.';
+						status.textContent = 'Analitik diterima.';
 					}
 					return;
 				}
@@ -76,7 +76,7 @@
 				writeConsent('no');
 				clearCampaignCookie();
 				if (status) {
-					status.textContent = 'Analytics rejected. WhatsApp remains available.';
+					status.textContent = 'Analitik ditolak. WhatsApp tetap tersedia.';
 				}
 			});
 
