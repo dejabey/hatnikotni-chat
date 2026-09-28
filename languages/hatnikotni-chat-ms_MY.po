@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hatnikotni Chat 0.1.7\\n"
+"Language: ms_MY\\n"
+"Language-Team: Malay\\n"
+"Content-Type: text/plain; charset=UTF-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n"
+"X-Domain: hatnikotni-chat\\n"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy"
+msgstr "Privasi"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy and analytics choices"
+msgstr "Pilihan privasi dan analitik"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics"
+msgstr "Analitik"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Details"
+msgstr "Butiran"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way."
+msgstr "Jika diterima, analitik merekod klik WhatsApp, halaman, jenis peranti dan tag kempen—bukan mesej atau alamat IP. WhatsApp tetap boleh digunakan."
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Reject"
+msgstr "Tolak"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Allow analytics"
+msgstr "Benarkan analitik"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Accept"
+msgstr "Terima"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Privacy Policy"
+msgstr "Dasar Privasi"
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics accepted."
+msgstr "Analitik diterima."
+
+#: includes/class-hatnch-whatsapp.php
+msgid "Analytics rejected. WhatsApp remains available."
+msgstr "Analitik ditolak. WhatsApp tetap tersedia."
