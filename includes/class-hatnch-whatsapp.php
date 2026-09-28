@@ -161,15 +161,20 @@ final class HATNCH_WhatsApp {
 			</a>
 			<button class="hatnch-privacy-toggle" type="button" aria-expanded="false" aria-controls="hatnch-privacy-panel"><?php echo esc_html__( 'Privacy choices', 'hatnikotni-chat' ); ?></button>
 			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Privacy & analytics choices', 'hatnikotni-chat' ); ?>">
-				<h2><?php echo esc_html__( 'Privacy and analytics', 'hatnikotni-chat' ); ?></h2>
-				<p><?php echo esc_html__( 'Optional analytics measure WhatsApp button use. WhatsApp works either way.', 'hatnikotni-chat' ); ?></p>
-				<details class="hatnch-privacy-details">
-					<summary><?php echo esc_html__( 'What is recorded?', 'hatnikotni-chat' ); ?></summary>
-					<p><?php echo esc_html__( 'With your permission, we record the selected contact, page, device type and campaign tags—not WhatsApp messages or your IP address.', 'hatnikotni-chat' ); ?></p>
-				</details>
-				<div class="hatnch-privacy-actions">
-					<button type="button" class="hatnch-privacy-allow"><?php echo esc_html__( 'Allow analytics', 'hatnikotni-chat' ); ?></button>
-					<button type="button" class="hatnch-privacy-reject"><?php echo esc_html__( 'Reject analytics', 'hatnikotni-chat' ); ?></button>
+				<div class="hatnch-privacy-heading">
+					<h2><?php echo esc_html__( 'Analytics', 'hatnikotni-chat' ); ?></h2>
+					<details class="hatnch-privacy-details">
+						<summary><?php echo esc_html__( 'Read more', 'hatnikotni-chat' ); ?></summary>
+						<p><?php echo esc_html__( 'Optional analytics measure WhatsApp button use. With your permission, we record the selected contact, page, device type and campaign tags—not WhatsApp messages or your IP address. WhatsApp works either way.', 'hatnikotni-chat' ); ?></p>
+					</details>
+				</div>
+				<div class="hatnch-privacy-consent">
+					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Reject', 'hatnikotni-chat' ); ?></span>
+					<label class="hatnch-privacy-switch">
+						<input type="checkbox" class="hatnch-privacy-consent-input" role="switch" aria-label="<?php echo esc_attr__( 'Allow analytics', 'hatnikotni-chat' ); ?>">
+						<span class="hatnch-privacy-switch-track" aria-hidden="true"></span>
+					</label>
+					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Accept', 'hatnikotni-chat' ); ?></span>
 				</div>
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
 				<?php if ( $privacy_policy_url ) : ?>
