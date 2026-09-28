@@ -55,10 +55,17 @@ jobs:
           VERSION="$(sed -n 's/^ \* Version: \([0-9][0-9A-Za-z.+-]*\)$/\1/p' hatnikotni-chat.php | head -n 1)"
           test -n "$VERSION"
           ZIP_PATH="dist/hatnikotni-chat-${VERSION}.zip"
-          git archive --format=tar HEAD hatnikotni-chat.php uninstall.php readme.txt assets includes languages | tar -x -C dist/package
-          msgfmt --check --check-format -o dist/package/languages/hatnikotni-chat-ms_MY.mo dist/package/languages/hatnikotni-chat-ms_MY.po
-          (cd dist/package && zip -qr "../hatnikotni-chat-${VERSION}.zip" .)
+          mkdir -p dist/package/hatnikotni-chat
+          git archive --format=tar HEAD hatnikotni-chat.php uninstall.php readme.txt assets includes languages | tar -x -C dist/package/hatnikotni-chat
+          msgfmt --check --check-format -o dist/package/hatnikotni-chat/languages/hatnikotni-chat-ms_MY.mo dist/package/hatnikotni-chat/languages/hatnikotni-chat-ms_MY.po
+          (cd dist/package && zip -qr "../hatnikotni-chat-${VERSION}.zip" hatnikotni-chat)
           unzip -l "$ZIP_PATH"
+          unzip -Z1 "$ZIP_PATH" | grep -qx 'hatnikotni-chat/hatnikotni-chat.php'
+          unzip -Z1 "$ZIP_PATH" | grep -qx 'hatnikotni-chat/readme.txt'
+          if unzip -Z1 "$ZIP_PATH" | grep -qx 'hatnikotni-chat-0.1.8/hatnikotni-chat.php'; then
+            echo "Version-specific plugin folder is forbidden" >&2
+            exit 1
+          fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Upload production package
         uses: actions/upload-artifact@v4
