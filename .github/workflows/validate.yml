@@ -43,21 +43,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build clean WordPress plugin ZIP
+        id: package
         run: |
           set -eu
           rm -rf dist
           mkdir -p dist
+          VERSION="$(sed -n 's/^ \* Version: \([0-9][0-9A-Za-z.+-]*\)$/\1/p' hatnikotni-chat.php | head -n 1)"
+          test -n "$VERSION"
+          ZIP_PATH="dist/hatnikotni-chat-${VERSION}.zip"
           git archive --format=zip --prefix=hatnikotni-chat/ HEAD \
             hatnikotni-chat.php \
             uninstall.php \
             readme.txt \
             assets \
             includes \
-            -o dist/hatnikotni-chat-0.1.2.zip
-          unzip -l dist/hatnikotni-chat-0.1.2.zip
+            -o "$ZIP_PATH"
+          unzip -l "$ZIP_PATH"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Upload production package
         uses: actions/upload-artifact@v4
         with:
-          name: hatnikotni-chat-0.1.2
-          path: dist/hatnikotni-chat-0.1.2.zip
+          name: hatnikotni-chat-${{ steps.package.outputs.version }}
+          path: dist/hatnikotni-chat-${{ steps.package.outputs.version }}.zip
           if-no-files-found: error
