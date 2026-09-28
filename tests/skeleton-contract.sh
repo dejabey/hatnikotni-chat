@@ -62,6 +62,7 @@ grep -q "function cleanup" includes/class-hatnch-analytics.php || fail "Analytic
 grep -q "hatnch_daily_cleanup" includes/class-hatnch-plugin.php || fail "Analytics cleanup schedule contract missing"
 grep -q "hatnch-analytics" includes/class-hatnch-analytics-admin.php || fail "Analytics admin contract missing"
 grep -q "hatnch-inline" includes/class-hatnch-shortcode.php || fail "Shortcode rendering contract missing"
+if grep -R -q "WhatsApp Kami\|Baca lagi\|Dasar Privasi" includes assets/js; then fail "Malay UI strings must come from translation files, not source code"; fi
 grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missing"
 grep -q "Stable tag:" readme.txt || fail "WordPress.org stable tag missing"
 
