@@ -53,7 +53,7 @@ final class HATNCH_WhatsApp {
 			? sanitize_text_field( wp_unslash( $_GET['hatnch_message'] ) )
 			: (string) HATNCH_Settings::get( 'default_message', '' );
 
-		HATNCH_Analitik::record_click(
+		HATNCH_Analytics::record_click(
 			array(
 				'contact_id' => (int) $contact['id'],
 				'page_id'    => $page_id,
@@ -164,7 +164,7 @@ final class HATNCH_WhatsApp {
 				<div class="hatnch-privacy-heading">
 					<h2><?php echo esc_html__( 'Analitik', 'hatnikotni-chat' ); ?></h2>
 					<details class="hatnch-privacy-details">
-						<summary><?php echo esc_html__( 'Baca lagi', 'hatnikotni-chat' ); ?></summary>
+						<summary><?php echo esc_html__( 'Butiran', 'hatnikotni-chat' ); ?></summary>
 						<p><?php echo esc_html__( 'Jika diterima, kami merekod klik WhatsApp, halaman, jenis peranti dan tag kempen—bukan mesej atau alamat IP. WhatsApp tetap boleh digunakan.', 'hatnikotni-chat' ); ?></p>
 					</details>
 				</div>
