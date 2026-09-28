@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.1.6 — Unreleased
+## 0.1.7 — Unreleased
+
+- Set English as the source language for frontend privacy controls.
+- Localized JavaScript consent status messages through PHP's translation system.
+- Added Malay translation source and text-domain loading for bundled translations.
+- Updated tests and package workflow to validate/include translation assets.
+
+## 0.1.6 — Previous development build
 
 - Fixed the fatal class-name typo in the WhatsApp click handler (`HATNCH_Analitik` → `HATNCH_Analytics`).
 - Added a contract test to prevent regression of the analytics handler call.
