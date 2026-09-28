@@ -160,12 +160,12 @@ final class HATNCH_WhatsApp {
 				<span class="hatnch-button__label"><?php echo esc_html( $label ); ?></span>
 			</a>
 			<button class="hatnch-privacy-toggle" type="button" aria-expanded="false" aria-controls="hatnch-privacy-panel"><?php echo esc_html__( 'Privacy choices', 'hatnikotni-chat' ); ?></button>
-			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>">
+			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Privacy & analytics choices', 'hatnikotni-chat' ); ?>">
 				<h2><?php echo esc_html__( 'Privacy and analytics', 'hatnikotni-chat' ); ?></h2>
-				<p><?php echo esc_html__( 'Allow optional analytics to help the site understand WhatsApp button usage. Your choice does not affect your ability to contact us on WhatsApp.', 'hatnikotni-chat' ); ?></p>
+				<p><?php echo esc_html__( 'Optional analytics measure WhatsApp button use. WhatsApp works either way.', 'hatnikotni-chat' ); ?></p>
 				<details class="hatnch-privacy-details">
-					<summary><?php echo esc_html__( 'What does analytics record?', 'hatnikotni-chat' ); ?></summary>
-					<p><?php echo esc_html__( 'If allowed, analytics records the selected contact, page, broad device category and supported campaign parameters. It does not record your WhatsApp messages or intentionally store your IP address.', 'hatnikotni-chat' ); ?></p>
+					<summary><?php echo esc_html__( 'What is recorded?', 'hatnikotni-chat' ); ?></summary>
+					<p><?php echo esc_html__( 'With your permission, we record the selected contact, page, device type and campaign tags—not WhatsApp messages or your IP address.', 'hatnikotni-chat' ); ?></p>
 				</details>
 				<div class="hatnch-privacy-actions">
 					<button type="button" class="hatnch-privacy-allow"><?php echo esc_html__( 'Allow analytics', 'hatnikotni-chat' ); ?></button>
