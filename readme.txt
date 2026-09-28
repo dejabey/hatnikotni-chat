@@ -89,6 +89,10 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
+= 0.1.8 =
+* Fixed production ZIP structure so the archive contains the stable `hatnikotni-chat/` plugin directory.
+* Added a packaging contract check to prevent version-specific install folders and accidental duplicate installations.
+
 = 0.1.7 =
 * Set English as the source language for plugin interface strings.
 * Added Malay translations for the interface and consent status messages.
@@ -130,6 +134,9 @@ No. WooCommerce is a future optional integration and is not required by the core
 * Added WordPress.org readiness documentation and readme.
 
 == Upgrade Notice ==
+
+= 0.1.8 =
+Fixes the ZIP directory structure so WordPress can identify the package as an update to the existing Hatnikotni Chat plugin. Back up first and test on staging.
 
 = 0.1.6 =
 Fixes the Contact Us critical error and further compacts the privacy controls. Validate the WhatsApp redirect and both consent states on staging before production use.
