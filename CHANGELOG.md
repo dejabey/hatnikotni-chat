@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.1.5 — Unreleased
+## 0.1.6 — Unreleased
+
+- Fixed the fatal class-name typo in the WhatsApp click handler (`HATNCH_Analitik` → `HATNCH_Analytics`).
+- Added a contract test to prevent regression of the analytics handler call.
+- Reduced privacy panel width to 250px maximum and tightened typography/padding.
+- Made the “Privasi” control quieter and renamed the disclosure to “Butiran”.
+
+## 0.1.5 — Previous development build
 
 - Localized visible consent-panel labels and status messages in Malay.
 - Shortened the floating privacy control label to “Privasi”.
