@@ -3,7 +3,7 @@
 **Updated:** 2026-09-28  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
-**Current feature version:** 0.1.6 (unreleased)  
+**Current feature version:** 0.1.7 (unreleased)  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until current package and staging validation pass.
 
@@ -19,13 +19,13 @@ Implemented on wordpress-org-compliance:
 - Explicit Allow analytics and Reject analytics buttons.
 - Link to the WordPress Privacy Policy page when configured.
 - A first-party hatnch_analytics_consent cookie storing yes/no for up to 180 days.
-- Compact Malay UI labels: “Privasi”, “Analitik”, “Butiran”, “Tolak”, “Terima” and “Dasar Privasi”.
+- English is the source language for frontend privacy controls. Malay equivalents are provided in languages/hatnikotni-chat-ms_MY.po and compiled to .mo in the package workflow. Strings are gettext-wrapped under the hatnikotni-chat text domain.
 - Native consent is false by default. Analytics and campaign attribution stay disabled unless consent is explicitly allowed or a deliberate site integration overrides the filter.
 - WhatsApp routing is not blocked by the visitor's analytics choice.
 - Added a frontend JavaScript asset, scoped CSS, source contract checks, updated readme/changelog and updated architecture/readiness/staging documentation.
 - Version advanced to 0.1.6 for the compact consent-toggle refinement so browser asset caches refresh; DB schema remains 1.1.0.
 
-Important implementation note: consent is cookie-based and takes effect on the next HTTP request. This is sufficient for the WhatsApp action because the browser sends the cookie to admin-post.php. Staging must verify allow/reject/choice changes, campaign-cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the hatnch_events table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. The 0.1.5 staging test revealed a critical error when clicking Contact Us. Root cause found in source: the handler called the misspelled class HATNCH_Analitik::record_click(), while the actual class is HATNCH_Analytics. Version 0.1.6 fixes this, adds a regression contract test, and further reduces the privacy panel/control footprint. Re-run CI and verify Contact Us on staging before any production release.
+Important implementation note: consent is cookie-based and takes effect on the next HTTP request. This is sufficient for the WhatsApp action because the browser sends the cookie to admin-post.php. Staging must verify allow/reject/choice changes, campaign-cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the hatnch_events table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. The 0.1.5 staging test revealed a critical error when clicking Contact Us. Root cause found in source: the handler called the misspelled class HATNCH_Analitik::record_click(), while the actual class is HATNCH_Analytics. Version 0.1.6 fixes this and adds a regression contract test. Version 0.1.7 restores English source strings for the frontend privacy controls and JavaScript status messages, adds a Malay translation source, and loads the text domain on init. Re-run CI and verify Contact Us on staging before any production release.
 
 ## Current implementation
 
@@ -46,7 +46,7 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 ## Required next actions
 
 1. Fetch the current branch head and confirm all commits are on wordpress-org-compliance.
-2. CI and clean-package audit must pass for the current 0.1.6 version before staging installation.
+2. CI and clean-package audit must pass for the current 0.1.7 version before staging installation.
 3. Install 0.1.6 on staging without touching production. Use the latest successful workflow ZIP; upload/replace the existing plugin through wp-admin, and do not uninstall it because that can trigger data cleanup.
 4. Test missing consent, allow, reject, changing choices, campaign-cookie deletion, WhatsApp redirect and routing.
 5. Verify keyboard accessibility, mobile layout, page caching and the WordPress Privacy Policy URL.
