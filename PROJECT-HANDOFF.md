@@ -3,7 +3,7 @@
 **Updated:** 2026-09-28  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
-**Current feature version:** 0.1.7 (unreleased)  
+**Current feature version:** 0.1.8 (unreleased; ZIP folder structure fixed)  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until current package and staging validation pass.
 
@@ -47,7 +47,7 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 1. Fetch the current branch head and confirm all commits are on wordpress-org-compliance.
 2. CI and clean-package audit must pass for the current 0.1.7 version before staging installation.
-3. Install 0.1.7 on staging without touching production. Use the latest successful workflow ZIP; upload/replace the existing plugin through wp-admin, and do not uninstall it because that can trigger data cleanup.
+3. Install 0.1.8 on staging without touching production. Verify the ZIP contains `hatnikotni-chat/hatnikotni-chat.php` and does not create a version-specific plugin folder. Use the latest successful workflow ZIP; upload/replace the existing plugin through wp-admin, and do not uninstall it because that can trigger data cleanup.
 4. Test missing consent, allow, reject, changing choices, campaign-cookie deletion, WhatsApp redirect and routing.
 5. Verify keyboard accessibility, mobile layout, page caching and the WordPress Privacy Policy URL.
 6. Record actual staging evidence in this handoff.
