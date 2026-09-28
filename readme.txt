@@ -89,6 +89,11 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
+= 0.1.5 =
+* Localized the consent panel labels and status messages in Malay.
+* Shortened the floating privacy control label to “Privasi”.
+* Reduced panel width and spacing while preserving readable consent details.
+
 = 0.1.4 =
 * Replaced separate analytics action buttons with a compact, accessible Reject/Accept toggle.
 * Added a Read more disclosure beside the Analytics heading.
