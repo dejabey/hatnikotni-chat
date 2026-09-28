@@ -2,90 +2,72 @@
 
 ## Current target
 
-Hatnikotni Chat is being developed for eventual submission to the WordPress.org Plugin Directory.
-
-Official requirements are treated as release gates, not as post-submission cleanup.
+Hatnikotni Chat is being developed for eventual submission to the WordPress.org Plugin Directory. Official requirements are treated as release gates, not as post-submission cleanup.
 
 ## WordPress.org review remediation
 
-- [x] Replace legacy three-character `HKC/hkc` declarations with unique `HATNCH_/hatnch_` namespace.
+- [x] Replace legacy three-character declarations with unique HATNCH_/hatnch_ namespace.
 - [x] Prefix custom hooks, options, cron events, admin page slugs, storage tables, cookies and asset handles/classes.
-- [x] Add migration for existing plugin settings, routing state and custom tables.
-- [x] Retain the unique public shortcode `[hatnikotni_chat]`.
-- [ ] Make Plugin URI publicly reachable; current GitHub repository is private.
-- [ ] Re-run full CI and contract/WPCS checks after remediation.
-- [ ] Re-run staging and clean ZIP validation.
+- [x] Add migration for existing settings, routing state and custom tables.
+- [x] Retain the unique public shortcode [hatnikotni_chat].
+- [x] Make Plugin URI repository publicly reachable.
+- [x] Add clean production package workflow.
+- [ ] Run full CI after the native consent UI changes.
+- [ ] Audit the newly built 0.1.2 ZIP.
+- [ ] Run staging tests for native consent and withdrawal.
 
 ## Release gates
 
 ### Licensing and packaging
-
 - [x] GPL-2.0-or-later plugin license
 - [x] No bundled runtime third-party libraries
 - [x] WordPress-native APIs and libraries
-- [x] Main plugin file at repository root
-- [x] Optional uninstall.php at repository root
+- [x] Main plugin file and optional uninstall.php at repository root
 - [x] WordPress.org readme.txt
 - [ ] Final WordPress.org SVN assets
 - [ ] Final stable release package
 
 ### Privacy
-
-- [x] Analytics does not run without visitor consent
-- [x] Campaign cookie is consent-aware
-- [x] No IP storage
-- [x] No visitor identity or fingerprinting
+- [x] Analytics disabled when no explicit allow choice exists
+- [x] Native expandable privacy choices control beside the floating button
+- [x] Explicit allow and reject actions
+- [x] WhatsApp action remains functional regardless of analytics choice
+- [x] Campaign cookie and attribution are consent-aware
+- [x] No IP storage, visitor identity or fingerprinting
 - [x] No external analytics service
 - [x] 180-day event retention
 - [x] WordPress Privacy Policy Guide integration
-- [ ] Runtime validation with the site's actual consent mechanism
+- [ ] Runtime validation of allow, reject, choice change and campaign-cookie withdrawal
 
 ### Code quality and security
-
 - [x] Direct-access guards
 - [x] Capability checks for admin actions
 - [x] Nonces for admin state-changing actions
-- [x] Input sanitization/validation
-- [x] Escaped frontend/admin output
-- [x] Safe redirects for internal fallback redirects
-- [x] WordPress Coding Standards CI
-- [x] PHP compatibility matrix CI
+- [x] Input sanitization/validation and escaped frontend/admin output
+- [ ] Re-run WordPress Coding Standards on current branch
 - [ ] Full staging security review
 
 ### Functional validation
-
-- [ ] Fresh plugin installation
-- [ ] Activation/deactivation
-- [ ] Database creation and upgrade
-- [ ] Direct routing
-- [ ] Random routing
-- [ ] Round-robin routing under concurrent requests
+- [x] Round-robin routing verified on staging for 0.1.1
+- [ ] Fresh install and upgrade test for 0.1.2
+- [ ] Activation/deactivation and database upgrade
+- [ ] Direct and random routing
 - [ ] WhatsApp redirect
 - [ ] Consent absent: no analytics/campaign cookie
-- [ ] Consent present: analytics/campaign attribution
+- [ ] Explicit allow: analytics and campaign attribution
+- [ ] Explicit reject: no analytics and campaign cookie removed
+- [ ] Change allow/reject choice after initial selection
 - [ ] Analytics retention cleanup
-- [ ] Desktop/mobile visibility
-- [ ] Shortcode
-- [ ] Cache compatibility
-- [ ] Accessibility
-- [ ] WooCommerce compatibility
-- [ ] Performance
-- [ ] Production rollback procedure
+- [ ] Desktop/mobile visibility and shortcode
+- [ ] Cache compatibility, accessibility, WooCommerce and performance
+- [ ] Uninstall verification
 
 ## Repository flow
 
 Development -> GitHub -> source audit -> CI -> release candidate -> staging -> full validation -> stable release -> WordPress.org SVN.
 
-GitHub remains the development source. WordPress.org SVN is the distribution/release channel.
+GitHub is the development source. WordPress.org SVN is the distribution/release channel.
 
 ## Submission preparation
 
-Before submission, verify the current WordPress.org Plugin Handbook and Plugin Directory guidelines again, then prepare:
-
-- stable plugin version
-- matching plugin header and readme.txt version
-- complete ZIP
-- WordPress.org SVN trunk/tag structure
-- plugin icon/screenshots/assets
-- final privacy documentation
-- support/contact details
+Before submission, verify the current Plugin Handbook and Plugin Directory guidelines, then prepare a stable version, matching plugin header/readme, inspected ZIP, SVN trunk/tag, assets, privacy documentation and support details.
