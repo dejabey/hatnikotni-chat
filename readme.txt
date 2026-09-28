@@ -89,6 +89,11 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
+= 0.1.6 =
+* Fixed the fatal class-name typo in the WhatsApp click handler.
+* Reduced the privacy panel to 250px maximum width and tightened typography/padding.
+* Made the “Privasi” control quieter and renamed the disclosure to “Butiran”.
+
 = 0.1.5 =
 * Localized the consent panel labels and status messages in Malay.
 * Shortened the floating privacy control label to “Privasi”.
@@ -120,5 +125,5 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Upgrade Notice ==
 
-= 0.1.4 =
-Replaces separate consent buttons with a compact toggle. Validate both toggle states on staging before production use.
+= 0.1.6 =
+Fixes the Contact Us critical error and further compacts the privacy controls. Validate the WhatsApp redirect and both consent states on staging before production use.
