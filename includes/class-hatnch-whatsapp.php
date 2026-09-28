@@ -115,6 +115,8 @@ final class HATNCH_WhatsApp {
 			array(
 				'cookiePath'   => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
 				'cookieDomain' => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
+				'consentAccepted' => __( 'Analytics accepted.', 'hatnikotni-chat' ),
+				'consentRejected' => __( 'Analytics rejected. WhatsApp remains available.', 'hatnikotni-chat' ),
 			)
 		);
 	}
@@ -159,26 +161,26 @@ final class HATNCH_WhatsApp {
 				</svg>
 				<span class="hatnch-button__label"><?php echo esc_html( $label ); ?></span>
 			</a>
-			<button class="hatnch-privacy-toggle" type="button" aria-expanded="false" aria-controls="hatnch-privacy-panel"><?php echo esc_html__( 'Privasi', 'hatnikotni-chat' ); ?></button>
-			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Pilihan privasi dan analitik', 'hatnikotni-chat' ); ?>">
+			<button class="hatnch-privacy-toggle" type="button" aria-expanded="false" aria-controls="hatnch-privacy-panel"><?php echo esc_html__( 'Privacy', 'hatnikotni-chat' ); ?></button>
+			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>">
 				<div class="hatnch-privacy-heading">
-					<h2><?php echo esc_html__( 'Analitik', 'hatnikotni-chat' ); ?></h2>
+					<h2><?php echo esc_html__( 'Analytics', 'hatnikotni-chat' ); ?></h2>
 					<details class="hatnch-privacy-details">
-						<summary><?php echo esc_html__( 'Butiran', 'hatnikotni-chat' ); ?></summary>
-						<p><?php echo esc_html__( 'Jika diterima, kami merekod klik WhatsApp, halaman, jenis peranti dan tag kempen—bukan mesej atau alamat IP. WhatsApp tetap boleh digunakan.', 'hatnikotni-chat' ); ?></p>
+						<summary><?php echo esc_html__( 'Details', 'hatnikotni-chat' ); ?></summary>
+						<p><?php echo esc_html__( 'If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way.', 'hatnikotni-chat' ); ?></p>
 					</details>
 				</div>
 				<div class="hatnch-privacy-consent">
-					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Tolak', 'hatnikotni-chat' ); ?></span>
+					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Reject', 'hatnikotni-chat' ); ?></span>
 					<label class="hatnch-privacy-switch">
-						<input type="checkbox" class="hatnch-privacy-consent-input" role="switch" aria-label="<?php echo esc_attr__( 'Benarkan analitik', 'hatnikotni-chat' ); ?>">
+						<input type="checkbox" class="hatnch-privacy-consent-input" role="switch" aria-label="<?php echo esc_attr__( 'Allow analytics', 'hatnikotni-chat' ); ?>">
 						<span class="hatnch-privacy-switch-track" aria-hidden="true"></span>
 					</label>
-					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Terima', 'hatnikotni-chat' ); ?></span>
+					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Accept', 'hatnikotni-chat' ); ?></span>
 				</div>
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
 				<?php if ( $privacy_policy_url ) : ?>
-					<a class="hatnch-privacy-policy-link" href="<?php echo esc_url( $privacy_policy_url ); ?>"><?php echo esc_html__( 'Dasar Privasi', 'hatnikotni-chat' ); ?></a>
+					<a class="hatnch-privacy-policy-link" href="<?php echo esc_url( $privacy_policy_url ); ?>"><?php echo esc_html__( 'Privacy Policy', 'hatnikotni-chat' ); ?></a>
 				<?php endif; ?>
 			</section>
 		</div>
