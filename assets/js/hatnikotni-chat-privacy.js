@@ -19,7 +19,13 @@
 	}
 
 	function clearCampaignCookie() {
-		var cookie = 'hatnch_campaign=; Max-Age=0; Path=/; SameSite=Lax';
+		var config = window.hatnchPrivacyConfig || {};
+		var path = config.cookiePath || '/';
+		var domain = config.cookieDomain || '';
+		var cookie = 'hatnch_campaign=; Max-Age=0; Path=' + path + '; SameSite=Lax';
+		if (domain) {
+			cookie += '; Domain=' + domain;
+		}
 		if (window.location.protocol === 'https:') {
 			cookie += '; Secure';
 		}
