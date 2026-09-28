@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-fail() {
-  echo "FAIL: $1" >&2
-  exit 1
-}
-
+fail() { echo "FAIL: $1" >&2; exit 1; }
 for file in hatnikotni-chat.php uninstall.php includes/*.php; do
   [ -f "$file" ] || fail "Missing expected PHP file: $file"
   php -l "$file" >/dev/null || fail "PHP syntax error: $file"
 done
-
 grep -q "Text Domain: hatnikotni-chat" hatnikotni-chat.php || fail "Text domain mismatch"
 grep -q "HATNCH_VERSION" hatnikotni-chat.php || fail "Version constant missing"
 grep -q "class-hatnch-privacy.php" hatnikotni-chat.php || fail "Privacy module load missing"
 grep -q "hatnch_has_analytics_consent" includes/class-hatnch-privacy.php || fail "Analytics consent filter missing"
+grep -q "hatnch_analytics_consent" includes/class-hatnch-privacy.php || fail "Native consent cookie missing"
 grep -q "wp_add_privacy_policy_content" includes/class-hatnch-privacy.php || fail "Privacy policy integration missing"
+grep -q "hatnch-privacy-toggle" includes/class-hatnch-whatsapp.php || fail "Privacy choices control missing"
+grep -q "hatnch-privacy-allow" includes/class-hatnch-whatsapp.php || fail "Allow analytics control missing"
+grep -q "hatnch-privacy-reject" includes/class-hatnch-whatsapp.php || fail "Reject analytics control missing"
+grep -q "get_privacy_policy_url" includes/class-hatnch-whatsapp.php || fail "Privacy policy link missing"
+grep -q "hatnikotni-chat-privacy.js" includes/class-hatnch-whatsapp.php || fail "Privacy script enqueue missing"
+grep -q "writeConsent('yes')" assets/js/hatnikotni-chat-privacy.js || fail "Explicit consent write missing"
+grep -q "writeConsent('no')" assets/js/hatnikotni-chat-privacy.js || fail "Consent rejection write missing"
 grep -q "\$wpdb->prefix . 'hatnch_contacts'" includes/class-hatnch-contacts.php || fail "Contacts table prefix contract missing"
 grep -q "\$wpdb->prefix . 'hatnch_events'" includes/class-hatnch-analytics.php || fail "Events table prefix contract missing"
 grep -q "get_charset_collate" includes/class-hatnch-contacts.php || fail "Contacts charset contract missing"
@@ -24,7 +26,6 @@ grep -q "dbDelta" includes/class-hatnch-contacts.php || fail "Contacts dbDelta c
 grep -q "dbDelta" includes/class-hatnch-analytics.php || fail "Events dbDelta contract missing"
 grep -q "WP_UNINSTALL_PLUGIN" uninstall.php || fail "Uninstall guard missing"
 grep -q "hatnch_routing_state" uninstall.php || fail "Routing state uninstall cleanup missing"
-
 grep -q "function save" includes/class-hatnch-contacts.php || fail "Contact save contract missing"
 grep -q "function set_status" includes/class-hatnch-contacts.php || fail "Contact status contract missing"
 grep -q "admin_post_hatnch_save_contact" includes/class-hatnch-admin.php || fail "Contact save admin action missing"
@@ -34,13 +35,11 @@ grep -q "wp_safe_redirect" includes/class-hatnch-admin.php || fail "Safe redirec
 grep -q "maybe_upgrade" includes/class-hatnch-plugin.php || fail "Database upgrade contract missing"
 grep -q "hatnch_save_settings" includes/class-hatnch-admin.php || fail "Settings save action missing"
 grep -q "routing_method" includes/class-hatnch-admin.php || fail "Routing settings contract missing"
-
 grep -q "case 'direct'" includes/class-hatnch-routing.php || fail "Direct routing contract missing"
 grep -q "case 'random'" includes/class-hatnch-routing.php || fail "Random routing contract missing"
 grep -q "case 'round_robin'" includes/class-hatnch-routing.php || fail "Round-robin routing contract missing"
 grep -q "get_active" includes/class-hatnch-routing.php || fail "Active-contact routing contract missing"
 grep -q "hatnch_routing_state" includes/class-hatnch-routing.php || fail "Round-robin state contract missing"
-
 grep -q "admin_post_nopriv_hatnch_whatsapp_click" includes/class-hatnch-whatsapp.php || fail "Public WhatsApp action contract missing"
 grep -q "record_click" includes/class-hatnch-whatsapp.php || fail "Analytics action contract missing"
 grep -q "https://wa.me/" includes/class-hatnch-whatsapp.php || fail "WhatsApp URL contract missing"
@@ -56,5 +55,4 @@ grep -q "hatnch-analytics" includes/class-hatnch-analytics-admin.php || fail "An
 grep -q "hatnch-inline" includes/class-hatnch-shortcode.php || fail "Shortcode rendering contract missing"
 grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missing"
 grep -q "Stable tag:" readme.txt || fail "WordPress.org stable tag missing"
-
 echo "PASS: Hatnikotni Chat contracts"
