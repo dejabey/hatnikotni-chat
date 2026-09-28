@@ -16,7 +16,7 @@ final class HATNCH_Shortcode {
 	public static function render( array $atts = array() ): string {
 		$atts = shortcode_atts(
 			array(
-				'label'   => HATNCH_Settings::get( 'button_label', 'WhatsApp Kami' ),
+				'label'   => HATNCH_Settings::get( 'button_label', 'Contact Us' ),
 				'message' => HATNCH_Settings::get( 'default_message', '' ),
 			),
 			$atts,
@@ -24,6 +24,9 @@ final class HATNCH_Shortcode {
 		);
 
 		$label     = sanitize_text_field( (string) $atts['label'] );
+		if ( 'Contact Us' === $label ) {
+			$label = __( 'Contact Us', 'hatnikotni-chat' );
+		}
 		$message   = sanitize_text_field( (string) $atts['message'] );
 		$page_id   = get_queried_object_id();
 		$page_type = $page_id ? (string) get_post_type( $page_id ) : '';
