@@ -52,7 +52,7 @@ jobs:
           set -eu
           rm -rf dist
           mkdir -p dist/package
-          VERSION="$(sed -n 's/^ \\* Version: \\([0-9][0-9A-Za-z.+-]*\\)$/\\1/p' hatnikotni-chat.php | head -n 1)"
+          VERSION="$(sed -n 's/^ \* Version: \([0-9][0-9A-Za-z.+-]*\)$/\1/p' hatnikotni-chat.php | head -n 1)"
           test -n "$VERSION"
           ZIP_PATH="dist/hatnikotni-chat-${VERSION}.zip"
           git archive --format=tar HEAD hatnikotni-chat.php uninstall.php readme.txt assets includes languages | tar -x -C dist/package
