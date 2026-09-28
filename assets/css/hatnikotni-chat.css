@@ -79,7 +79,6 @@
 }
 
 .hatnch-privacy-toggle:focus-visible,
-.hatnch-privacy-panel button:focus-visible,
 .hatnch-privacy-panel a:focus-visible,
 .hatnch-privacy-details summary:focus-visible {
 	outline: 2px solid #2271b1;
@@ -119,45 +118,112 @@
 	margin: 0 0 7px;
 }
 
+.hatnch-privacy-heading {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.hatnch-privacy-panel .hatnch-privacy-heading h2 {
+	margin: 0;
+}
+
 .hatnch-privacy-details {
-	font-size: 12px;
-	margin: 0 0 8px;
+	flex: 0 0 auto;
+	font-size: 11px;
 }
 
 .hatnch-privacy-details summary {
 	cursor: pointer;
 	font-weight: 600;
+	text-decoration: underline;
 }
 
 .hatnch-privacy-details p {
-	margin: 6px 0 0;
+	margin: 8px 0 0;
 }
 
-.hatnch-privacy-actions {
+.hatnch-privacy-consent {
+	align-items: center;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	margin-bottom: 6px;
+	gap: 10px;
+	justify-content: center;
+	padding: 2px 0;
 }
 
-.hatnch-privacy-panel button {
-	border: 1px solid #c8d0db;
-	border-radius: 6px;
+.hatnch-privacy-choice-label {
+	color: #243044;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.hatnch-privacy-switch {
+	display: inline-flex;
+	flex: 0 0 auto;
+	position: relative;
+	width: 42px;
+	height: 24px;
+}
+
+.hatnch-privacy-switch input {
+	height: 1px;
+	op: 0;
+	left: 0;
+	op: 0;
+	op: 0;
+	op: 0;
+	margin: 0;
+	op: 0;
+	width: 1px;
+	position: absolute;
+	op: 0;
+	left: 0;
+	op: 0;
+	opacity: 0;
+}
+
+.hatnch-privacy-switch-track {
+	background: #687386;
+	border: 1px solid #687386;
+	border-radius: 999px;
+	box-sizing: border-box;
 	cursor: pointer;
-	font: inherit;
-	font-size: 11px;
-	padding: 7px 8px;
+	inset: 0;
+	position: absolute;
+	transition: background-color .15s ease, border-color .15s ease;
 }
 
-.hatnch-privacy-panel .hatnch-privacy-allow {
+.hatnch-privacy-switch-track::before {
+	background: #fff;
+	border-radius: 50%;
+	content: "";
+	height: 18px;
+	left: 2px;
+	position: absolute;
+	top: 2px;
+	transition: transform .15s ease;
+	width: 18px;
+}
+
+.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track {
 	background: #176b3a;
 	border-color: #176b3a;
-	color: #fff;
 }
 
-.hatnch-privacy-panel .hatnch-privacy-reject {
-	background: #fff;
-	color: #243044;
+.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track::before {
+	transform: translateX(18px);
+}
+
+.hatnch-privacy-switch input:focus-visible + .hatnch-privacy-switch-track {
+	outline: 2px solid #2271b1;
+	outline-offset: 3px;
+}
+
+.hatnch-privacy-switch input:disabled + .hatnch-privacy-switch-track {
+	cursor: not-allowed;
+	opacity: .6;
 }
 
 .hatnch-privacy-status {
