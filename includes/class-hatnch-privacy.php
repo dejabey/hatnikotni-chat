@@ -9,6 +9,8 @@ defined( 'ABSPATH' ) || exit;
 
 final class HATNCH_Privacy {
 
+	private const CONSENT_COOKIE = 'hatnch_analytics_consent';
+
 	public static function init(): void {
 		add_action( 'admin_init', array( __CLASS__, 'add_privacy_policy_content' ) );
 	}
@@ -16,12 +18,16 @@ final class HATNCH_Privacy {
 	/**
 	 * Determine whether visitor analytics consent has been granted.
 	 *
-	 * Hatnikotni Chat does not provide its own consent banner. The default is
-	 * deliberately false so analytics and campaign cookies are opt-in.
-	 * Consent-management plugins or site code can integrate through the filter.
+	 * The native frontend panel stores an explicit yes/no choice in a
+	 * first-party cookie. The default remains false when no choice exists.
+	 * Integrations may override the resulting value with this filter.
 	 */
 	public static function has_analytics_consent(): bool {
-		return (bool) apply_filters( 'hatnch_has_analytics_consent', false );
+		$consent = isset( $_COOKIE[ self::CONSENT_COOKIE ] )
+			&& is_string( $_COOKIE[ self::CONSENT_COOKIE ] )
+			&& 'yes' === sanitize_key( wp_unslash( $_COOKIE[ self::CONSENT_COOKIE ] ) );
+
+		return (bool) apply_filters( 'hatnch_has_analytics_consent', $consent );
 	}
 
 	/**
@@ -33,7 +39,7 @@ final class HATNCH_Privacy {
 		}
 
 		$policy = '<p>' . esc_html__(
-			'Hatnikotni Chat can provide a WhatsApp contact button, contact routing and optional first-party interaction analytics. When visitor analytics consent is not available, the plugin does not record WhatsApp click analytics and does not set its campaign attribution cookie.',
+			'Hatnikotni Chat provides a WhatsApp contact button and optional first-party interaction analytics. Analytics is disabled until a visitor explicitly allows it using the plugin privacy choices. Visitors can change their choice at any time using the privacy choices control.',
 			'hatnikotni-chat'
 		) . '</p>';
 
@@ -49,11 +55,6 @@ final class HATNCH_Privacy {
 
 		$policy .= '<p>' . esc_html__(
 			'Analytics data is not sent by Hatnikotni Chat to an external analytics service. When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp and that service receives information according to its own privacy policy and terms.',
-			'hatnikotni-chat'
-		) . '</p>';
-
-		$policy .= '<p class="privacy-policy-tutorial">' . esc_html__(
-			'Site administrators should document the consent mechanism used by their site and ensure that the hatnch_has_analytics_consent filter reflects an explicit visitor choice before analytics is enabled.',
 			'hatnikotni-chat'
 		) . '</p>';
 
