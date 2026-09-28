@@ -89,6 +89,11 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Changelog ==
 
+= 0.1.4 =
+* Replaced separate analytics action buttons with a compact, accessible Reject/Accept toggle.
+* Added a Read more disclosure beside the Analytics heading.
+* Preserved explicit consent, saved preference, and WhatsApp availability regardless of analytics choice.
+
 = 0.1.3 =
 * Refined the native privacy panel with shorter copy, tighter spacing and responsive sizing.
 * Kept explicit Allow analytics and Reject analytics choices and the expandable data-use explanation.
@@ -110,5 +115,5 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Upgrade Notice ==
 
-= 0.1.2 =
-Adds a native privacy choices panel. Validate the consent flow on staging before production use.
+= 0.1.4 =
+Replaces separate consent buttons with a compact toggle. Validate both toggle states on staging before production use.
