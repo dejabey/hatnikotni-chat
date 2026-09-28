@@ -9,7 +9,7 @@ Lightweight WhatsApp contact routing with explicit visitor analytics choices and
 
 == Description ==
 
-Hatnikotni Chat provides a lightweight WhatsApp contact layer for WordPress sites.
+Hatnikotni Chat provides a lightweight WhatsApp contact layer for WordPress sites. Its focus is contact routing (direct, random and round-robin), consent-gated first-party click analytics, and UTM campaign attribution without an external analytics service.
 
 Features include:
 
@@ -90,13 +90,10 @@ No. WooCommerce is a future optional integration and is not required by the core
 == Changelog ==
 
 = 0.1.7 =
-* Made English the source language for frontend privacy controls and JavaScript status messages.
-* Added a Malay translation source and bundled text-domain loading for local installations.
+* Set English as the source language for plugin interface strings.
+* Added Malay translations for the interface and consent status messages.
+* Added text-domain loading and compiled translations in the production package.
 * Preserved the Contact Us fatal-error fix and compact privacy panel.
-
-= 0.1.7 =
-* Restored English as the source language for frontend privacy controls and status messages.
-* Added Malay translation files and included compiled translations in the production package.
 
 = 0.1.6 =
 * Fixed the fatal class-name typo in the WhatsApp click handler.
