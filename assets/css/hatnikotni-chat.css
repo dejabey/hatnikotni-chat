@@ -17,16 +17,33 @@
 	outline-offset: 3px;
 }
 
-.hatnch-floating {
+.hatnch-widget {
 	bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 8px;
 	position: fixed;
 	z-index: 9999;
+	max-width: min(360px, calc(100vw - 32px));
+}
+
+.hatnch-widget--right {
+	right: 20px;
+}
+
+.hatnch-widget--left {
+	left: 20px;
+	align-items: flex-start;
+}
+
+.hatnch-floating {
 	background: #25d366;
 	border-radius: 999px;
+	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
 	color: #fff;
 	font-weight: 600;
 	padding: 12px 18px;
-	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
@@ -43,18 +60,111 @@
 	transform: translateY(0);
 }
 
-.hatnch-floating--right {
-	right: 20px;
-}
-
-.hatnch-floating--left {
-	left: 20px;
-}
-
 .hatnch-button__icon {
 	fill: currentColor;
 	height: 22px;
 	width: 22px;
+}
+
+.hatnch-privacy-toggle {
+	background: #fff;
+	border: 1px solid #d8dee7;
+	border-radius: 999px;
+	box-shadow: 0 3px 12px rgba(15, 23, 42, .12);
+	color: #243044;
+	cursor: pointer;
+	font: inherit;
+	font-size: 12px;
+	padding: 6px 11px;
+}
+
+.hatnch-privacy-toggle:focus-visible,
+.hatnch-privacy-panel button:focus-visible,
+.hatnch-privacy-panel a:focus-visible,
+.hatnch-privacy-details summary:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.hatnch-privacy-panel {
+	background: #fff;
+	border: 1px solid #d8dee7;
+	border-radius: 12px;
+	box-shadow: 0 8px 28px rgba(15, 23, 42, .2);
+	box-sizing: border-box;
+	color: #243044;
+	margin-bottom: 4px;
+	padding: 16px;
+	width: min(360px, calc(100vw - 32px));
+}
+
+.hatnch-privacy-panel[hidden] {
+	display: none;
+}
+
+.hatnch-privacy-panel h2 {
+	color: inherit;
+	font-size: 16px;
+	line-height: 1.35;
+	margin: 0 0 8px;
+}
+
+.hatnch-privacy-panel p {
+	color: inherit;
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 0 0 10px;
+}
+
+.hatnch-privacy-details {
+	font-size: 13px;
+	margin: 0 0 12px;
+}
+
+.hatnch-privacy-details summary {
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.hatnch-privacy-details p {
+	margin: 8px 0 0;
+}
+
+.hatnch-privacy-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.hatnch-privacy-panel button {
+	border: 1px solid #c8d0db;
+	border-radius: 6px;
+	cursor: pointer;
+	font: inherit;
+	font-size: 12px;
+	padding: 8px 10px;
+}
+
+.hatnch-privacy-panel .hatnch-privacy-allow {
+	background: #176b3a;
+	border-color: #176b3a;
+	color: #fff;
+}
+
+.hatnch-privacy-panel .hatnch-privacy-reject {
+	background: #fff;
+	color: #243044;
+}
+
+.hatnch-privacy-status {
+	font-size: 12px !important;
+	margin-bottom: 8px !important;
+}
+
+.hatnch-privacy-policy-link {
+	font-size: 12px;
+	text-decoration: underline;
 }
 
 .hatnch-inline {
@@ -80,15 +190,15 @@
 }
 
 @media (max-width: 782px) {
-	.hatnch-floating {
+	.hatnch-widget {
 		bottom: 16px;
 	}
 
-	.hatnch-floating--right {
+	.hatnch-widget--right {
 		right: 16px;
 	}
 
-	.hatnch-floating--left {
+	.hatnch-widget--left {
 		left: 16px;
 	}
 }
