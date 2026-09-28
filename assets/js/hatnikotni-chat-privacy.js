@@ -8,6 +8,7 @@
 	'use strict';
 
 	var cookieName = 'hatnch_analytics_consent';
+	var config = window.hatnchPrivacyConfig || {};
 	var maxAge = 60 * 60 * 24 * 180;
 
 	function readConsent() {
@@ -24,7 +25,6 @@
 	}
 
 	function clearCampaignCookie() {
-		var config = window.hatnchPrivacyConfig || {};
 		var path = config.cookiePath || '/';
 		var domain = config.cookieDomain || '';
 		var cookie = 'hatnch_campaign=; Max-Age=0; Path=' + path + '; SameSite=Lax';
@@ -68,7 +68,7 @@
 				if (consent.checked) {
 					writeConsent('yes');
 					if (status) {
-						status.textContent = 'Analitik diterima.';
+						status.textContent = config.consentAccepted || 'Analytics accepted.';
 					}
 					return;
 				}
@@ -76,7 +76,7 @@
 				writeConsent('no');
 				clearCampaignCookie();
 				if (status) {
-					status.textContent = 'Analitik ditolak. WhatsApp tetap tersedia.';
+					status.textContent = config.consentRejected || 'Analytics rejected. WhatsApp remains available.';
 				}
 			});
 
