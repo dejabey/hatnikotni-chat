@@ -120,9 +120,9 @@
 
 .hatnch-privacy-heading {
 	align-items: center;
-	display: flex;
-	gap: 12px;
-	justify-content: space-between;
+	column-gap: 12px;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
 	margin-bottom: 10px;
 }
 
@@ -131,8 +131,12 @@
 }
 
 .hatnch-privacy-details {
-	flex: 0 0 auto;
 	font-size: 11px;
+}
+
+.hatnch-privacy-details[open] {
+	grid-column: 1 / -1;
+	width: 100%;
 }
 
 .hatnch-privacy-details summary {
