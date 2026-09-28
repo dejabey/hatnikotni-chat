@@ -5,7 +5,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Lightweight WhatsApp contact routing with consent-aware first-party interaction analytics and UTM campaign attribution.
+Lightweight WhatsApp contact routing with explicit visitor analytics choices and first-party campaign attribution.
 
 == Description ==
 
@@ -17,19 +17,19 @@ Features include:
 * Shortcode: [hatnikotni_chat]
 * Contact management.
 * Direct, random and round-robin routing.
-* Consent-aware first-party WhatsApp click analytics.
-* UTM campaign attribution.
+* Explicit opt-in/opt-out controls for first-party WhatsApp click analytics.
+* UTM campaign attribution when analytics consent is granted.
 * 180-day analytics event retention.
 * WordPress Privacy Policy Guide integration.
 * Extension foundation for future integrations.
 
-The plugin does not require an external analytics service.
+The plugin does not require an external analytics service. The WhatsApp button works regardless of the visitor's analytics choice.
 
 == Privacy ==
 
-Hatnikotni Chat is designed so visitor analytics is opt-in.
+Hatnikotni Chat includes a compact Privacy choices control beside the floating WhatsApp button. Visitors can explicitly allow or reject optional analytics, expand a short explanation of the data recorded, and open the site's WordPress Privacy Policy page when one is configured. The WhatsApp action remains available regardless of the choice.
 
-Analytics and campaign attribution remain disabled unless the site provides an explicit visitor consent signal through the hatnch_has_analytics_consent filter. The plugin does not provide its own consent banner.
+Analytics and campaign attribution remain disabled when no explicit allow choice exists. The visitor's choice is stored in a first-party cookie named hatnch_analytics_consent for up to 180 days. The site can integrate or override the consent signal through the hatnch_has_analytics_consent filter.
 
 When consent is granted, the plugin may store:
 
@@ -40,7 +40,7 @@ When consent is granted, the plugin may store:
 
 The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content.
 
-Analytics events are stored in the site's WordPress database and retained for 180 days. The hatnch_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available.
+Analytics events are stored in the site's WordPress database and retained for 180 days. The hatnch_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available. Rejecting analytics expires the campaign cookie in the browser and the server also clears it on the next request where possible.
 
 When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp. WhatsApp's own privacy policy and terms apply to that interaction.
 
@@ -52,14 +52,21 @@ The plugin also provides suggested privacy-policy text through WordPress's Priva
 2. Open Hatnikotni Chat in wp-admin.
 3. Add at least one active contact.
 4. Configure the default contact, message, button and routing settings.
-5. Configure the site's consent mechanism to return true through the hatnch_has_analytics_consent filter if visitor analytics is desired.
-6. Test the WhatsApp button and routing on staging before production use.
+5. Test the privacy choices, WhatsApp button and routing on staging before production use.
 
 == Frequently Asked Questions ==
 
 = Does analytics run automatically? =
 
-No. Visitor analytics is disabled unless the site provides an explicit consent signal through the hatnch_has_analytics_consent filter.
+No. Analytics is disabled until the visitor explicitly allows it through the plugin's Privacy choices control, unless the site deliberately integrates a consent signal through the hatnch_has_analytics_consent filter.
+
+= Does rejecting analytics block WhatsApp? =
+
+No. Visitors can still use the WhatsApp button and shortcode. Rejecting analytics only disables optional analytics and campaign attribution.
+
+= Can a visitor change their choice? =
+
+Yes. The Privacy choices control remains available beside the floating button so visitors can change their selection. The latest choice is stored for up to 180 days in that browser.
 
 = Does the plugin send analytics to an external service? =
 
@@ -69,25 +76,27 @@ No. Core analytics is stored locally in the site's WordPress database.
 
 No. The event records that the visitor clicked the WhatsApp action. It does not confirm message delivery or conversation activity.
 
-= Can I use the plugin without analytics? =
-
-Yes. The WhatsApp button, shortcode, contact management and routing work without visitor analytics consent.
-
 = Does the plugin depend on WooCommerce? =
 
 No. WooCommerce is a future optional integration and is not required by the core plugin.
 
 == Screenshots ==
 
-1. Floating WhatsApp button and routing.
+1. Floating WhatsApp button and privacy choices.
 2. Contact management.
 3. General settings.
 4. WhatsApp interaction analytics.
 
 == Changelog ==
 
+= 0.1.2 =
+* Added native visitor analytics privacy choices with explicit allow/reject actions.
+* Kept WhatsApp routing available regardless of analytics choice.
+* Added a collapsible data-use explanation and link to the site's Privacy Policy page.
+* Added a 180-day first-party consent preference cookie and updated privacy documentation.
+
 = 0.1.1 =
-* Migrated plugin declarations and stored data to the unique `hatnch` namespace for WordPress.org compatibility.
+* Migrated plugin declarations and stored data to the unique hatnch namespace for WordPress.org compatibility.
 * Added migration handling for existing settings, routing state and custom tables.
 * Added explicit WordPress.org prefix compliance documentation.
 * Added consent-aware analytics and campaign attribution.
@@ -96,5 +105,5 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 == Upgrade Notice ==
 
-= Development =
-Development build. Complete staging and release validation is still required before production use.
+= 0.1.2 =
+Adds a native privacy choices panel. Validate the consent flow on staging before production use.
