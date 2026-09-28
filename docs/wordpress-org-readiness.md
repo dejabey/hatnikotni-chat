@@ -12,8 +12,8 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
-- [ ] Run full CI after the native consent UI changes.
-- [ ] Audit the newly built 0.1.2 ZIP.
+- [x] Run full CI after the native consent UI changes (PHP 8.1–8.4, contract checks and WPCS passed on 2026-09-28).
+- [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
 - [ ] Run staging tests for native consent and withdrawal.
 
 ## Release gates
