@@ -19,6 +19,8 @@ grep -q "get_privacy_policy_url" includes/class-hatnch-whatsapp.php || fail "Pri
 grep -q "hatnikotni-chat-privacy.js" includes/class-hatnch-whatsapp.php || fail "Privacy script enqueue missing"
 grep -q "writeConsent('yes')" assets/js/hatnikotni-chat-privacy.js || fail "Explicit consent write missing"
 grep -q "writeConsent('no')" assets/js/hatnikotni-chat-privacy.js || fail "Consent rejection write missing"
+grep -q "readConsent()" assets/js/hatnikotni-chat-privacy.js || fail "Saved consent initialization missing"
+grep -q "clearCampaignCookie()" assets/js/hatnikotni-chat-privacy.js || fail "Campaign cookie clearing function missing"
 grep -q "\$wpdb->prefix . 'hatnch_contacts'" includes/class-hatnch-contacts.php || fail "Contacts table prefix contract missing"
 grep -q "\$wpdb->prefix . 'hatnch_events'" includes/class-hatnch-analytics.php || fail "Events table prefix contract missing"
 grep -q "get_charset_collate" includes/class-hatnch-contacts.php || fail "Contacts charset contract missing"
