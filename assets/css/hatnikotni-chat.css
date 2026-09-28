@@ -169,21 +169,13 @@
 
 .hatnch-privacy-switch input {
 	height: 1px;
-	op: 0;
 	left: 0;
-	op: 0;
-	op: 0;
-	op: 0;
 	margin: 0;
-	op: 0;
-	width: 1px;
-	position: absolute;
-	op: 0;
-	left: 0;
-	op: 0;
 	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 1px;
 }
-
 .hatnch-privacy-switch-track {
 	background: #687386;
 	border: 1px solid #687386;
