@@ -3,7 +3,7 @@
  * Plugin Name: Hatnikotni Chat
  * Plugin URI: https://github.com/dejabey/hatnikotni-chat
  * Description: Lightweight WhatsApp contact routing and consent-aware first-party interaction analytics for WordPress.
- * Version: 0.1.6
+ * Version: 0.1.7
  * Author: Hatnikotni
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HATNCH_VERSION', '0.1.6' );
+define( 'HATNCH_VERSION', '0.1.7' );
 define( 'HATNCH_DB_VERSION', '1.1.0' );
 define( 'HATNCH_PLUGIN_FILE', __FILE__ );
 define( 'HATNCH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -33,6 +33,15 @@ require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-whatsapp.php';
 require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-shortcode.php';
 require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-admin.php';
 require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-plugin.php';
+
+add_action( 'plugins_loaded', 'hatnch_load_textdomain' );
+
+/**
+ * Load bundled translations for local installations; WordPress.org language packs remain supported.
+ */
+function hatnch_load_textdomain(): void {
+	load_plugin_textdomain( 'hatnikotni-chat', false, dirname( plugin_basename( HATNCH_PLUGIN_FILE ) ) . '/languages' );
+}
 
 register_activation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'activate' ) );
 register_deactivation_hook( HATNCH_PLUGIN_FILE, array( 'HATNCH_Plugin', 'deactivate' ) );
