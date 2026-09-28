@@ -62,7 +62,6 @@ grep -q "hatnch-analytics" includes/class-hatnch-analytics-admin.php || fail "An
 grep -q "hatnch-inline" includes/class-hatnch-shortcode.php || fail "Shortcode rendering contract missing"
 grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missing"
 grep -q "Stable tag:" readme.txt || fail "WordPress.org stable tag missing"
-echo "PASS: Hatnikotni Chat contracts"
 
 grep -q "hatnch_load_textdomain" hatnikotni-chat.php || fail "Plugin textdomain loader missing"
 grep -q "add_action( 'init', 'hatnch_load_textdomain' )" hatnikotni-chat.php || fail "Text domain must load on init"
@@ -72,3 +71,4 @@ grep -q "consentAccepted" includes/class-hatnch-whatsapp.php || fail "Localized 
 grep -q "consentRejected" includes/class-hatnch-whatsapp.php || fail "Localized JavaScript rejection string missing"
 test -f languages/hatnikotni-chat.pot || fail "Translation template missing"
 test -f languages/hatnikotni-chat-ms_MY.po || fail "Malay translation source missing"
+echo "PASS: Hatnikotni Chat contracts"
