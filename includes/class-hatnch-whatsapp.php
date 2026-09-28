@@ -118,14 +118,6 @@ final class HATNCH_WhatsApp {
 			)
 		);
 
-		wp_localize_script(
-			'hatnch-privacy',
-			'hatnchPrivacyConfig',
-			array(
-				'cookiePath'   => defined( 'COOKIEPATH' ) && COOKIEPATH ? COOKIEPATH : '/',
-				'cookieDomain' => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
-			)
-		);
 	}
 
 	public static function render_floating_button(): void {
