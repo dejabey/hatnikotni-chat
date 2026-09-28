@@ -34,7 +34,7 @@ require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-shortcode.php';
 require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-admin.php';
 require_once HATNCH_PLUGIN_DIR . 'includes/class-hatnch-plugin.php';
 
-add_action( 'plugins_loaded', 'hatnch_load_textdomain' );
+add_action( 'init', 'hatnch_load_textdomain' );
 
 /**
  * Load bundled translations for local installations; WordPress.org language packs remain supported.
