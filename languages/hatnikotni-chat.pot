@@ -8,46 +8,347 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: hatnikotni-chat\n"
 
-#: includes/class-hatnch-whatsapp.php
-msgid "Privacy"
+msgid "— Select —"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
-msgid "Privacy and analytics choices"
+#. Translators: %d is a number.
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "180 days"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
-msgid "Analytics"
+msgid "601155898464"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
-msgid "Details"
+msgid "A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
-msgid "If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way."
-msgstr ""
-
-#: includes/class-hatnch-whatsapp.php
-msgid "Reject"
-msgstr ""
-
-#: includes/class-hatnch-whatsapp.php
-msgid "Allow analytics"
-msgstr ""
-
-#: includes/class-hatnch-whatsapp.php
 msgid "Accept"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
-msgid "Privacy Policy"
+msgid "Actions"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
+msgid "Activate"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Add Contact"
+msgstr ""
+
+msgid "Allow analytics"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
 msgid "Analytics accepted."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php
+msgid "Analytics data is not sent by Hatnikotni Chat to an external analytics service. When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp and that service receives information according to its own privacy policy and terms."
+msgstr ""
+
+msgid "Analytics events are stored in the site WordPress database and are automatically deleted after 180 days. With analytics consent, the plugin may use the first-party hatnch_campaign cookie for up to 30 days to retain the latest supported UTM campaign attribution."
+msgstr ""
+
 msgid "Analytics rejected. WhatsApp remains available."
+msgstr ""
+
+msgid "Analytics summary"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Bottom left"
+msgstr ""
+
+msgid "Bottom right"
+msgstr ""
+
+msgid "Broad device categories only."
+msgstr ""
+
+msgid "Button & message"
+msgstr ""
+
+msgid "Button Label"
+msgstr ""
+
+msgid "Button Position"
+msgstr ""
+
+msgid "By Campaign"
+msgstr ""
+
+msgid "By Contact"
+msgstr ""
+
+msgid "By Device"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Choose an active contact. The contact’s WhatsApp number is managed under Contacts."
+msgstr ""
+
+msgid "Choose how active contacts are selected when a visitor starts a WhatsApp interaction."
+msgstr ""
+
+msgid "Clicks"
+msgstr ""
+
+msgid "Clicks attributed to each contact."
+msgstr ""
+
+msgid "Configure how visitors reach your WhatsApp contacts and how the button appears across the site."
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Contact list"
+msgstr ""
+
+msgid "Contact management"
+msgstr ""
+
+msgid "Contact name is required."
+msgstr ""
+
+msgid "Contact saved."
+msgstr ""
+
+msgid "Contact Us"
+msgstr ""
+
+msgid "Contacts"
+msgstr ""
+
+msgid "Control whether the site-wide WhatsApp button is active and which contact receives visitors by default."
+msgstr ""
+
+msgid "Controls contact order in the admin and round-robin sequence. Lower numbers appear first."
+msgstr ""
+
+msgid "Core settings"
+msgstr ""
+
+msgid "Deactivate"
+msgstr ""
+
+msgid "Default Contact"
+msgstr ""
+
+msgid "Default Message"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Direct"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit Contact"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Enable Hatnikotni Chat frontend button"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens."
+msgstr ""
+
+msgid "Example: Hello, I would like to ask about your services."
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Hatnikotni Chat"
+msgstr ""
+
+msgid "Hatnikotni Chat provides a WhatsApp contact button and optional first-party interaction analytics. Analytics is disabled until a visitor explicitly allows it using the plugin privacy choices. Visitors can change their choice at any time using the privacy choices control."
+msgstr ""
+
+msgid "If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way."
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Inactive contacts remain available for historical analytics and can be activated again later."
+msgstr ""
+
+msgid "Keep contact details accurate so routing and analytics remain reliable."
+msgstr ""
+
+#. Translators: %d is a number.
+msgid "Last %d day"
+msgid_plural "Last %d days"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Last-touch UTM campaign attribution when consent is available."
+msgstr ""
+
+msgid "Local database events"
+msgstr ""
+
+msgid "Manage the people or teams who receive WhatsApp enquiries. Phone numbers use international digits-only format."
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "No contacts yet."
+msgstr ""
+
+msgid "No data for this period."
+msgstr ""
+
+msgid "Optional pre-filled message. Keep it short and relevant to a first contact."
+msgstr ""
+
+msgid "Performance overview"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Privacy"
+msgstr ""
+
+msgid "Privacy and analytics choices"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Random"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Reporting period"
+msgstr ""
+
+msgid "Reserved for future weighted routing. Leave at 1 for V1."
+msgstr ""
+
+msgid "Retention"
+msgstr ""
+
+msgid "Review WhatsApp button interactions recorded with visitor consent. A click is an interaction event, not proof that a message was sent."
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Round robin"
+msgstr ""
+
+msgid "Routing"
+msgstr ""
+
+msgid "Routing Method"
+msgstr ""
+
+msgid "Sales, Support, Orders"
+msgstr ""
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Set the visitor-facing label, optional pre-filled message and placement of the floating button."
+msgstr ""
+
+msgid "Settings saved."
+msgstr ""
+
+msgid "Short internal note about this contact."
+msgstr ""
+
+msgid "Sort Order"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Text visitors see on the WhatsApp button."
+msgstr ""
+
+msgid "The contact could not be created."
+msgstr ""
+
+msgid "The contact could not be updated."
+msgstr ""
+
+msgid "Unattributed"
+msgstr ""
+
+msgid "Unknown / removed"
+msgstr ""
+
+msgid "Update Contact"
+msgstr ""
+
+msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601155898464."
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Visibility"
+msgstr ""
+
+msgid "Weight"
+msgstr ""
+
+msgid "WhatsApp clicks"
+msgstr ""
+
+msgid "WhatsApp contact layer"
+msgstr ""
+
+msgid "WhatsApp Interaction Analytics"
+msgstr ""
+
+msgid "WhatsApp Number"
+msgstr ""
+
+msgid "When analytics consent is granted, the plugin may record a WhatsApp click event containing the selected contact, the WordPress page ID and page type, a broad device category (mobile, tablet or desktop), and supported UTM campaign values. The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content."
+msgstr ""
+
+msgid "You do not have permission to access this page."
+msgstr ""
+
+msgid "You do not have permission to perform this action."
 msgstr ""
