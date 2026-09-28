@@ -14,7 +14,7 @@ grep -q "wp_add_privacy_policy_content" includes/class-hatnch-privacy.php || fai
 grep -q "hatnch-privacy-toggle" includes/class-hatnch-whatsapp.php || fail "Privacy choices control missing"
 grep -q "hatnch-privacy-consent-input" includes/class-hatnch-whatsapp.php || fail "Analytics consent switch missing"
 grep -q "role=\"switch\"" includes/class-hatnch-whatsapp.php || fail "Accessible switch role missing"
-grep -q "Baca lagi" includes/class-hatnch-whatsapp.php || fail "Expandable privacy details missing"
+grep -q "'Butiran'" includes/class-hatnch-whatsapp.php || fail "Malay expandable privacy details label missing"
 grep -q "'Privasi'" includes/class-hatnch-whatsapp.php || fail "Malay privacy control label missing"
 grep -q "'Tolak'" includes/class-hatnch-whatsapp.php || fail "Malay reject label missing"
 grep -q "'Terima'" includes/class-hatnch-whatsapp.php || fail "Malay accept label missing"
@@ -47,7 +47,8 @@ grep -q "case 'round_robin'" includes/class-hatnch-routing.php || fail "Round-ro
 grep -q "get_active" includes/class-hatnch-routing.php || fail "Active-contact routing contract missing"
 grep -q "hatnch_routing_state" includes/class-hatnch-routing.php || fail "Round-robin state contract missing"
 grep -q "admin_post_nopriv_hatnch_whatsapp_click" includes/class-hatnch-whatsapp.php || fail "Public WhatsApp action contract missing"
-grep -q "record_click" includes/class-hatnch-whatsapp.php || fail "Analytics action contract missing"
+grep -q "HATNCH_Analytics::record_click" includes/class-hatnch-whatsapp.php || fail "Correct analytics handler call missing"
+if grep -q "HATNCH_Analitik::record_click" includes/class-hatnch-whatsapp.php; then fail "Misspelled analytics handler call must not exist"; fi
 grep -q "https://wa.me/" includes/class-hatnch-whatsapp.php || fail "WhatsApp URL contract missing"
 grep -q "setcookie" includes/class-hatnch-campaign.php || fail "Campaign cookie contract missing"
 grep -q "hatnch_campaign" includes/class-hatnch-campaign.php || fail "Campaign cookie name contract missing"
