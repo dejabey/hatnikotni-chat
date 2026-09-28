@@ -3,6 +3,7 @@
 ## 0.1.2 — Unreleased
 
 - Added a native, expandable Privacy choices panel beside the floating WhatsApp button.
+- Refined the privacy panel with shorter copy, tighter spacing and a smaller responsive layout.
 - Added explicit Allow analytics and Reject analytics actions with a 180-day first-party preference cookie.
 - Kept WhatsApp navigation independent from analytics consent.
 - Added a short data-use explanation and link to the site's WordPress Privacy Policy page when configured.
