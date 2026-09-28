@@ -1,6 +1,14 @@
 # Changelog
 
-## 0.1.3 — Unreleased
+## 0.1.4 — Unreleased
+
+- Replaced separate Allow/Reject buttons with an accessible, compact analytics consent switch.
+- Added a Read more disclosure beside the Analytics heading.
+- Initialize the switch from the saved consent cookie; switching either way updates the stored choice immediately.
+- Kept analytics disabled by default and WhatsApp navigation independent of the choice.
+- Updated contract tests and staging test plan for the new control.
+
+## 0.1.3 — Previous development build
 
 - Refined the native privacy panel with shorter copy, tighter spacing, smaller controls and responsive sizing.
 - Updated the privacy panel's introductory and expandable copy for easier scanning.
