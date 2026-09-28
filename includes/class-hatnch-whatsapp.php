@@ -117,7 +117,6 @@ final class HATNCH_WhatsApp {
 				'cookieDomain' => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
 			)
 		);
-
 	}
 
 	public static function render_floating_button(): void {
