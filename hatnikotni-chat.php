@@ -3,7 +3,7 @@
  * Plugin Name: Hatnikotni Chat
  * Plugin URI: https://github.com/dejabey/hatnikotni-chat
  * Description: Lightweight WhatsApp contact routing and consent-aware first-party interaction analytics for WordPress.
- * Version: 0.1.7
+ * Version: 0.1.8
  * Author: Hatnikotni
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HATNCH_VERSION', '0.1.7' );
+define( 'HATNCH_VERSION', '0.1.8' );
 define( 'HATNCH_DB_VERSION', '1.1.0' );
 define( 'HATNCH_PLUGIN_FILE', __FILE__ );
 define( 'HATNCH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
