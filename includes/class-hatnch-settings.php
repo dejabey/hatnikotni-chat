@@ -22,7 +22,7 @@ final class HATNCH_Settings {
 				'enabled'         => true,
 				'default_contact' => 0,
 				'default_message' => '',
-				'button_label'    => 'WhatsApp Kami',
+				'button_label'    => 'Contact Us',
 				'button_position' => 'right',
 				'show_desktop'    => true,
 				'show_mobile'     => true,
