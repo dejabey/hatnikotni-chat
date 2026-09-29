@@ -20,7 +20,7 @@ msgstr[1] ""
 msgid "180 days"
 msgstr ""
 
-msgid "601155898464"
+msgid "601234567890"
 msgstr ""
 
 msgid "A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent."
@@ -242,6 +242,9 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
+msgid "Read More"
+msgstr ""
+
 msgid "Privacy"
 msgstr ""
 
@@ -320,7 +323,7 @@ msgstr ""
 msgid "Update Contact"
 msgstr ""
 
-msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601155898464."
+msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601234567890."
 msgstr ""
 
 msgid "Value"
