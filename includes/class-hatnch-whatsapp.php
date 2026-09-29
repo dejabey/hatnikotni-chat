@@ -158,21 +158,7 @@ final class HATNCH_WhatsApp {
 		$privacy_policy_url = get_privacy_policy_url();
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
-			<a class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
-				<svg class="hatnch-button__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-					<path d="M20.52 3.48A11.83 11.83 0 0 0 12.08 0C5.54 0 .22 5.31.22 11.86c0 2.09.55 4.13 1.59 5.93L.12 24l6.36-1.67a11.86 11.86 0 0 0 5.6 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.43-8.42Zm-8.44 18.26h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.82 9.82 0 0 1-1.51-5.24C2.2 6.42 6.62 2 12.08 2a9.87 9.87 0 0 1 7.02 2.92 9.85 9.85 0 0 1 2.9 7.01c0 5.46-4.45 9.81-9.92 9.81Zm5.41-7.36c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-1.76-.88-2.91-1.57-4.07-3.55-.31-.53.31-.49.88-1.63.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.88 1.22 3.08.15.2 2.11 3.22 5.11 4.52.71.31 1.27.49 1.7.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z"/>
-				</svg>
-				<span class="hatnch-button__label"><?php echo esc_html( $label ); ?></span>
-			</a>
-			<button class="hatnch-privacy-toggle" type="button" aria-expanded="false" aria-controls="hatnch-privacy-panel"><?php echo esc_html__( 'Privacy', 'hatnikotni-chat' ); ?></button>
 			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>">
-				<div class="hatnch-privacy-heading">
-					<h2><?php echo esc_html__( 'Analytics', 'hatnikotni-chat' ); ?></h2>
-					<details class="hatnch-privacy-details">
-						<summary><?php echo esc_html__( 'Details', 'hatnikotni-chat' ); ?></summary>
-						<p><?php echo esc_html__( 'If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way.', 'hatnikotni-chat' ); ?></p>
-					</details>
-				</div>
 				<div class="hatnch-privacy-consent">
 					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Reject', 'hatnikotni-chat' ); ?></span>
 					<label class="hatnch-privacy-switch">
@@ -181,11 +167,28 @@ final class HATNCH_WhatsApp {
 					</label>
 					<span class="hatnch-privacy-choice-label"><?php echo esc_html__( 'Accept', 'hatnikotni-chat' ); ?></span>
 				</div>
+				<div class="hatnch-privacy-links">
+					<?php if ( $privacy_policy_url ) : ?>
+						<a class="hatnch-privacy-policy-link" href="<?php echo esc_url( $privacy_policy_url ); ?>"><?php echo esc_html__( 'Privacy Policy', 'hatnikotni-chat' ); ?></a>
+					<?php else : ?>
+						<span></span>
+					<?php endif; ?>
+					<button class="hatnch-privacy-read-more" type="button" aria-expanded="false" aria-controls="hatnch-privacy-explanation"><?php echo esc_html__( 'Read More', 'hatnikotni-chat' ); ?></button>
+				</div>
+				<p class="hatnch-privacy-explanation" id="hatnch-privacy-explanation" hidden><?php echo esc_html__( 'If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way.', 'hatnikotni-chat' ); ?></p>
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
-				<?php if ( $privacy_policy_url ) : ?>
-					<a class="hatnch-privacy-policy-link" href="<?php echo esc_url( $privacy_policy_url ); ?>"><?php echo esc_html__( 'Privacy Policy', 'hatnikotni-chat' ); ?></a>
-				<?php endif; ?>
 			</section>
+			<div class="hatnch-widget__actions">
+				<button class="hatnch-privacy-toggle" type="button" aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>" title="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>" aria-expanded="false" aria-controls="hatnch-privacy-panel">
+					<svg class="hatnch-privacy-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 20 6v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+				</button>
+				<a class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
+					<svg class="hatnch-button__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path d="M20.52 3.48A11.83 11.83 0 0 0 12.08 0C5.54 0 .22 5.31.22 11.86c0 2.09.55 4.13 1.59 5.93L.12 24l6.36-1.67a11.86 11.86 0 0 0 5.6 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.43-8.42Zm-8.44 18.26h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.82 9.82 0 0 1-1.51-5.24C2.2 6.42 6.62 2 12.08 2a9.87 9.87 0 0 1 7.02 2.92 9.85 9.85 0 0 1 2.9 7.01c0 5.46-4.45 9.81-9.92 9.81Zm5.41-7.36c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-1.76-.88-2.91-1.57-4.07-3.55-.31-.53.31-.49.88-1.63.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.88 1.22 3.08.15.2 2.11 3.22 5.11 4.52.71.31 1.27.49 1.7.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z"/>
+					</svg>
+					<span class="hatnch-button__label"><?php echo esc_html( $label ); ?></span>
+				</a>
+			</div>
 		</div>
 		<?php
 	}

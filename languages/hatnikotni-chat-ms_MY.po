@@ -20,8 +20,8 @@ msgstr[1] "%d hari"
 msgid "180 days"
 msgstr "180 hari"
 
-msgid "601155898464"
-msgstr "601155898464"
+msgid "601234567890"
+msgstr "601234567890"
 
 msgid "A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent."
 msgstr "Klik tidak mengesahkan bahawa mesej WhatsApp telah dihantar. Analitik dan atribusi kempen memerlukan persetujuan pelawat."
@@ -242,6 +242,9 @@ msgstr "Gambaran prestasi"
 msgid "Phone"
 msgstr "Telefon"
 
+msgid "Read More"
+msgstr "Baca Lagi"
+
 msgid "Privacy"
 msgstr "Privasi"
 
@@ -320,8 +323,8 @@ msgstr "Tidak diketahui / telah dibuang"
 msgid "Update Contact"
 msgstr "Kemas kini kenalan"
 
-msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601155898464."
-msgstr "Gunakan digit antarabangsa sahaja: kod negara diikuti nombor, tanpa tanda +, ruang atau tanda sempang. Contoh: 601155898464."
+msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601234567890."
+msgstr "Gunakan digit antarabangsa sahaja: kod negara diikuti nombor, tanpa tanda +, ruang atau tanda sempang. Contoh: 601234567890."
 
 msgid "Value"
 msgstr "Nilai"

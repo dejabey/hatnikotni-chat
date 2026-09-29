@@ -37,6 +37,12 @@
 	align-items: flex-start;
 }
 
+.hatnch-widget__actions {
+	align-items: center;
+	display: flex;
+	gap: 8px;
+}
+
 .hatnch-floating {
 	background: #25d366;
 	border-radius: 999px;
@@ -67,27 +73,42 @@
 }
 
 .hatnch-privacy-toggle {
-	background: rgba(255, 255, 255, .88);
-	border: 1px solid rgba(216, 222, 231, .65);
-	border-radius: 999px;
-	box-shadow: none;
+	align-items: center;
+	background: rgba(255, 255, 255, .96);
+	border: 1px solid #d8dee7;
+	border-radius: 50%;
+	box-shadow: 0 3px 10px rgba(15, 23, 42, .12);
 	color: #596273;
 	cursor: pointer;
-	font: inherit;
-	font-size: 10px;
-	padding: 3px 7px;
-	transition: color .15s ease, background-color .15s ease;
+	display: inline-flex;
+	flex: 0 0 36px;
+	height: 36px;
+	justify-content: center;
+	padding: 0;
+	transition: color .15s ease, background-color .15s ease, box-shadow .15s ease;
+	width: 36px;
 }
 
 .hatnch-privacy-toggle:hover {
 	background: #fff;
+	box-shadow: 0 4px 12px rgba(15, 23, 42, .16);
 	color: #243044;
-	text-decoration: underline;
+}
+
+.hatnch-privacy-toggle__icon {
+	display: block;
+	fill: none;
+	height: 18px;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.8;
+	width: 18px;
 }
 
 .hatnch-privacy-toggle:focus-visible,
 .hatnch-privacy-panel a:focus-visible,
-.hatnch-privacy-details summary:focus-visible {
+.hatnch-privacy-read-more:focus-visible {
 	outline: 2px solid #2271b1;
 	outline-offset: 2px;
 }
@@ -95,65 +116,48 @@
 .hatnch-privacy-panel {
 	background: #fff;
 	border: 1px solid #d8dee7;
-	border-radius: 12px;
-	order: -1;
-	box-shadow: 0 8px 28px rgba(15, 23, 42, .2);
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, .16);
 	box-sizing: border-box;
 	color: #243044;
-	margin-bottom: 2px;
-	max-height: min(60vh, 320px);
+	margin-bottom: 0;
+	max-height: min(60vh, 240px);
 	overflow-y: auto;
-	padding: 8px;
-	width: min(250px, calc(100vw - 24px));
+	padding: 8px 10px;
+	width: min(240px, calc(100vw - 24px));
 }
 
 .hatnch-privacy-panel[hidden] {
 	display: none;
 }
 
-.hatnch-privacy-panel h2 {
-	color: inherit;
-	font-size: 13px;
-	line-height: 1.3;
-	margin: 0 0 4px;
-}
-
-.hatnch-privacy-panel p {
-	color: inherit;
-	font-size: 11px;
-	line-height: 1.35;
-	margin: 0 0 5px;
-}
-
-.hatnch-privacy-heading {
+.hatnch-privacy-links {
 	align-items: center;
-	column-gap: 12px;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	margin-bottom: 8px;
-}
-
-.hatnch-privacy-panel .hatnch-privacy-heading h2 {
-	margin: 0;
-}
-
-.hatnch-privacy-details {
+	display: flex;
 	font-size: 10px;
+	justify-content: space-between;
+	line-height: 1.3;
+	margin-top: 7px;
 }
 
-.hatnch-privacy-details[open] {
-	grid-column: 1 / -1;
-	width: 100%;
-}
-
-.hatnch-privacy-details summary {
+.hatnch-privacy-read-more {
+	background: transparent;
+	border: 0;
+	color: #243044;
 	cursor: pointer;
-	font-weight: 600;
+	font: inherit;
+	padding: 0;
 	text-decoration: underline;
 }
 
-.hatnch-privacy-details p {
-	margin: 8px 0 0;
+.hatnch-privacy-read-more:hover {
+	color: #176b3a;
+}
+
+.hatnch-privacy-explanation {
+	font-size: 10px !important;
+	line-height: 1.35 !important;
+	margin: 7px 0 0 !important;
 }
 
 .hatnch-privacy-consent {

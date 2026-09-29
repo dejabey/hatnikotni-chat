@@ -40,6 +40,15 @@
 	function closePanel(panel, toggle) {
 		panel.hidden = true;
 		toggle.setAttribute('aria-expanded', 'false');
+
+		var readMore = panel.querySelector('.hatnch-privacy-read-more');
+		var explanation = panel.querySelector('.hatnch-privacy-explanation');
+		if (readMore) {
+			readMore.setAttribute('aria-expanded', 'false');
+		}
+		if (explanation) {
+			explanation.hidden = true;
+		}
 	}
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -57,12 +66,24 @@
 
 			toggle.addEventListener('click', function () {
 				var willOpen = panel.hidden;
-				panel.hidden = !willOpen;
-				toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
 				if (willOpen) {
+					panel.hidden = false;
+					toggle.setAttribute('aria-expanded', 'true');
 					consent.focus();
+				} else {
+					closePanel(panel, toggle);
 				}
 			});
+
+			var readMore = widget.querySelector('.hatnch-privacy-read-more');
+			var explanation = widget.querySelector('.hatnch-privacy-explanation');
+			if (readMore && explanation) {
+				readMore.addEventListener('click', function () {
+					var willExpand = explanation.hidden;
+					explanation.hidden = !willExpand;
+					readMore.setAttribute('aria-expanded', willExpand ? 'true' : 'false');
+				});
+			}
 
 			consent.addEventListener('change', function () {
 				if (consent.checked) {
