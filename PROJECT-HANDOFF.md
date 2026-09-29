@@ -1,6 +1,6 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Updated:** 2026-09-28  
+**Updated:** 2026-09-29  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (unreleased; ZIP folder structure fixed)  
@@ -14,9 +14,11 @@ Remediate WordPress.org review feedback, maintain a clean production package, an
 ## Recent feature work: native analytics privacy choices and compact UI
 
 Implemented on wordpress-org-compliance:
-- Expandable Privacy choices control beside the floating WhatsApp button.
-- Short explanation plus expandable details about what analytics records.
-- Explicit Allow analytics and Reject analytics buttons.
+- Small shield icon for Privacy settings, positioned inline immediately to the left of the floating WhatsApp button.
+- Compact consent card with a Reject/Accept switch, Privacy Policy link and Read More disclosure.
+- Short data-use explanation is hidden until Read More is selected; the consent card itself opens only when the privacy icon is clicked.
+- The admin phone placeholder and helper example now use generic number 601234567890; existing saved contact values are not changed.
+- Explicit visitor analytics choice remains available, and WhatsApp navigation remains independent of that choice.
 - Link to the WordPress Privacy Policy page when configured.
 - A first-party hatnch_analytics_consent cookie storing yes/no for up to 180 days.
 - English is the source language for frontend privacy controls. Malay equivalents are provided in languages/hatnikotni-chat-ms_MY.po and compiled to .mo in the package workflow. Strings are gettext-wrapped under the hatnikotni-chat text domain.

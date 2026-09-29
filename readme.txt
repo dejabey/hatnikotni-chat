@@ -27,7 +27,7 @@ The plugin does not require an external analytics service. The WhatsApp button w
 
 == Privacy ==
 
-Hatnikotni Chat includes a compact Privacy choices control beside the floating WhatsApp button. Visitors can explicitly allow or reject optional analytics, expand a short explanation of the data recorded, and open the site's WordPress Privacy Policy page when one is configured. The WhatsApp action remains available regardless of the choice.
+Hatnikotni Chat includes a small shield icon immediately to the left of the floating WhatsApp button. Selecting it opens a compact consent card where visitors can explicitly allow or reject optional analytics, read a short explanation, and open the site's WordPress Privacy Policy page when one is configured. The WhatsApp action remains available regardless of the choice.
 
 Analytics and campaign attribution remain disabled when no explicit allow choice exists. The visitor's choice is stored in a first-party cookie named hatnch_analytics_consent for up to 180 days. The site can integrate or override the consent signal through the hatnch_has_analytics_consent filter.
 
