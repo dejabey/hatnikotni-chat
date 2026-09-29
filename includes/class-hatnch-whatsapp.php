@@ -179,7 +179,7 @@ final class HATNCH_WhatsApp {
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
 			</section>
 			<div class="hatnch-widget__actions">
-				<button class="hatnch-privacy-toggle" type="button" aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>" title="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>" aria-expanded="false" aria-controls="hatnch-privacy-panel">
+				<button class="hatnch-privacy-toggle" type="button" aria-label="<?php echo esc_attr__( 'Privacy', 'hatnikotni-chat' ); ?>" title="<?php echo esc_attr__( 'Privacy', 'hatnikotni-chat' ); ?>" aria-expanded="false" aria-controls="hatnch-privacy-panel">
 					<svg class="hatnch-privacy-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 20 6v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
 				</button>
 				<a class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
