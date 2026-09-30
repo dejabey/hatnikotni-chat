@@ -12,9 +12,11 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
-- [x] Run full CI after the native consent UI changes (PHP 8.1–8.4, contract checks and WPCS passed on 2026-09-28).
+- [x] CI run #484 passed PHP 8.1–8.4, contract checks, and WordPress Coding Standards on 2026-09-29.
 - [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
-- [ ] Run staging tests for native consent and withdrawal.
+- [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
+- [ ] CI matrix now includes PHP 8.5 to match staging; await the current run.
+- [ ] Complete runtime tests for consent Accept/Reject/withdrawal and campaign-cookie clearing; UI appearance alone does not prove these behaviors.
 
 ## Release gates
 
@@ -44,11 +46,15 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Capability checks for admin actions
 - [x] Nonces for admin state-changing actions
 - [x] Input sanitization/validation and escaped frontend/admin output
-- [ ] Re-run WordPress Coding Standards on current branch
-- [ ] Full staging security review
+- [ ] Confirm WordPress Coding Standards on the current branch including PHP 8.5.
+- [ ] Run WordPress Plugin Check against the final clean package.
+- [ ] Complete staging security review.
 
 ### Functional validation
-- [x] Round-robin routing verified on staging for 0.1.1
+- [x] Round-robin routing verified on staging for 0.1.1; current setting is still round_robin.
+- [x] Current 0.1.8 UI is installed on staging; user reports appearance is satisfactory.
+- [x] Current staging read-only checks found three contacts and a scheduled daily cleanup event.
+- [ ] Reconfirm live routing, consent allow/reject, and event-count changes against the current 0.1.8 build.
 - [ ] Fresh install and upgrade test for 0.1.2
 - [ ] Activation/deactivation and database upgrade
 - [ ] Direct and random routing

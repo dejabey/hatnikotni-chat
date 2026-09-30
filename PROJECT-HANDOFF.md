@@ -1,11 +1,22 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Updated:** 2026-09-29  
+**Updated:** 2026-09-30  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
-**Current feature version:** 0.1.8 (unreleased; ZIP folder structure fixed)  
+**Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
+**Current branch HEAD:** ac6098703082d5eb5b427556bf2a3e0d12736cd6  
 **Database schema:** 1.1.0  
-**WordPress.org review remediation:** in progress; do not reply to reviewer until current package and staging validation pass.
+**WordPress.org review remediation:** in progress; do not reply to reviewer until the final package, Plugin Check, and required staging consent tests pass.
+
+## Current verification state — 2026-09-30
+
+- Previous GitHub Actions run #484 passed PHP 8.1–8.4, JavaScript syntax, source contract tests, and WordPress Coding Standards on commit 27cca341cba18b172853554de4de94c9a57b5fcd.
+- Current staging environment: WordPress 7.1.2, PHP 8.5.10; Hatnikotni Chat 0.1.8 is active.
+- User confirmed the latest privacy card looks correct on staging. Rendered HTML confirms Malay labels, the Privacy Policy URL, Read More disclosure, and shield icon.
+- Read-only runtime checks: 3 contact records, routing method round_robin, and the daily hatnch_daily_cleanup event is scheduled. The analytics table contained 1 event when checked; this count alone does not prove consent behavior.
+- PHP 8.5 has been added to the CI matrix to match staging; wait for the resulting workflow before declaring current CI complete.
+- Still pending: runtime verification of no-consent default, Accept, Reject, changing choices, campaign-cookie clearing, event-count changes, full routing methods, cache behavior, keyboard accessibility, and WordPress Plugin Check on the final package.
+- No production changes have been made. No plugin uninstall/reinstall was performed during these checks.
 
 ## Current objective
 
@@ -47,13 +58,13 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Fetch the current branch head and confirm all commits are on wordpress-org-compliance.
-2. CI and clean-package audit must pass for the current 0.1.7 version before staging installation.
-3. Install 0.1.8 on staging without touching production. Verify the ZIP contains `hatnikotni-chat/hatnikotni-chat.php` and does not create a version-specific plugin folder. Use the latest successful workflow ZIP; upload/replace the existing plugin through wp-admin, and do not uninstall it because that can trigger data cleanup.
-4. Test missing consent, allow, reject, changing choices, campaign-cookie deletion, WhatsApp redirect and routing.
-5. Verify keyboard accessibility, mobile layout, page caching and the WordPress Privacy Policy URL.
-6. Record actual staging evidence in this handoff.
-7. Only after the release gates pass, prepare the corrected package and reply in the existing WordPress.org review email thread.
+1. Wait for CI to complete with PHP 8.5 included, then inspect its result.
+2. Run WordPress Plugin Check on the final clean package; resolve any actionable findings.
+3. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, campaign-cookie clearing, and event-count deltas.
+4. Verify direct, random and round-robin routing, shortcode, desktop/mobile visibility, keyboard focus/Escape behavior, cache compatibility, and WooCommerce pages.
+5. Update the handoff with actual test evidence and any remaining limitations.
+6. Prepare a versioned release candidate only after these gates pass. Do not uninstall the staging plugin; uninstall.php intentionally deletes plugin data.
+7. After the package and staging checks pass, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
 
 ## Source of truth
 
