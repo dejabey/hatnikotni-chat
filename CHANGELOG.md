@@ -1,11 +1,17 @@
 # Changelog
 
-## 0.1.7 — Unreleased
+## 0.1.8 — Unreleased
 
+- Fixed production ZIP structure so the archive contains the stable plugin directory.
 - Replaced the visible Privacy text control with a compact shield icon immediately left of the floating WhatsApp button.
-- Simplified the consent card to a Reject/Accept switch with Privacy Policy and Read More links.
-- Replaced the personal phone example in the admin form with the generic number 601234567890 without changing saved contacts.
-- Updated source contract checks for the revised privacy UI.
+- Simplified the consent card to a compact Reject/Accept switch with Privacy Policy and Read More links.
+- Tightened horizontal padding in the privacy card and justified the expanded explanation text.
+- Replaced the personal phone example in the admin form with generic number 601234567890 without changing saved contacts.
+- Updated source contract checks, translations, and staging/release documentation.
+- Added PHP 8.5 to the automated syntax and WordPress Coding Standards matrix to match the staging runtime.
+
+## 0.1.7 — Previous development build
+
 - Set English as the source language for frontend privacy controls.
 - Localized JavaScript consent status messages through PHP's translation system.
 - Added Malay translation source and text-domain loading for bundled translations.

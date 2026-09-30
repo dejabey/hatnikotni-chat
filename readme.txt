@@ -44,7 +44,7 @@ Analytics events are stored in the site's WordPress database and retained for 18
 
 When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp. WhatsApp's own privacy policy and terms apply to that interaction.
 
-The plugin also provides suggested privacy-policy text through WordPress's Privacy Policy Guide. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported.
+The plugin also provides suggested privacy-policy text through WordPress's Privacy Policy Guide. English is the source language. Translations use the `hatnikotni-chat` text domain and the site's WordPress locale; WordPress.org language packs are supported.
 
 == Installation ==
 
@@ -91,6 +91,9 @@ No. WooCommerce is a future optional integration and is not required by the core
 
 = 0.1.8 =
 * Fixed production ZIP structure so the archive contains the stable `hatnikotni-chat/` plugin directory.
+* Replaced the visible Privacy text control with a compact shield icon beside the WhatsApp button.
+* Reduced privacy card horizontal padding and justified the expanded explanation.
+* Replaced the admin phone example with generic number 601234567890 without changing saved contacts.
 * Added a packaging contract check to prevent version-specific install folders and accidental duplicate installations.
 
 = 0.1.7 =

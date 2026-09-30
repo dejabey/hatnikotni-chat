@@ -16,15 +16,15 @@
 
 1. Global floating WhatsApp button.
 2. Shortcode: [hatnikotni_chat].
-3. Expandable Privacy choices panel beside the global floating button.
+3. Small shield-shaped privacy icon immediately left of the floating WhatsApp button; it opens a compact consent card.
 
 The WhatsApp action remains a normal link to the public WordPress admin-post.php action. The handler resolves a contact, records a click only when analytics consent is available, then redirects to https://wa.me/<number>. The privacy panel uses a small local JavaScript file; no external JavaScript or analytics service is required.
 
 ## Privacy and consent
 
-The global floating widget exposes a Privacy choices button. Expanding it reveals a short explanation, a disclosure with details about analytics data, explicit Allow analytics and Reject analytics buttons, and a link to the site's WordPress Privacy Policy page when configured.
+The global floating widget exposes a small shield-shaped privacy icon. Selecting it opens a compact consent card with a Reject/Accept switch, a Privacy Policy link when configured, and a Read More disclosure. The expanded explanation uses justified text and the card uses compact horizontal padding.
 
-The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor presses Allow analytics. A no value or missing cookie means analytics remains disabled. Visitors can reopen the panel and change their choice. The WhatsApp link itself is never gated by this choice.
+The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor selects Accept. A no value or missing cookie means analytics remains disabled. Visitors can reopen the card and change their choice. The WhatsApp link itself is never gated by this choice.
 
 The filter hatnch_has_analytics_consent receives the native cookie-derived value (false by default) and remains available for deliberate site-level integrations.
 

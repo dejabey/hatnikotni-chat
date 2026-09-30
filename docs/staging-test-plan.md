@@ -20,7 +20,8 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Privacy choices control expands/collapses and has correct aria-expanded state.
 - [ ] Analytics consent switch starts off when there is no saved consent and reflects a previously saved allow choice.
 - [ ] Switch is keyboard accessible and its accessible label/checked state are correct.
-- [ ] Butiran expands/collapses the data-use explanation with keyboard and pointer.
+- [ ] Read More (Baca Lagi in Malay) expands/collapses the data-use explanation with keyboard and pointer.
+- [ ] Privacy icon is immediately left of the WhatsApp button; card uses compact horizontal padding and justified explanation text.
 - [ ] Privacy Policy link points to the configured WordPress Privacy Policy page.
 - [ ] Switching to Accept writes hatnch_analytics_consent=yes for 180 days.
 - [ ] After accepting, a WhatsApp click records one event on the next request.
