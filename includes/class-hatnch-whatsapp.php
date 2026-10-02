@@ -44,7 +44,6 @@ final class HATNCH_WhatsApp {
 			exit;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; this value only labels a consent-gated analytics event.
 		$page_id = isset( $_GET['hatnch_page_id'] ) ? absint( $_GET['hatnch_page_id'] ) : 0;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
