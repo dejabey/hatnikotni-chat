@@ -22,6 +22,7 @@ final class HATNCH_Admin {
 	}
 
 	public static function enqueue_assets( string $hook_suffix ): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin page selector; no state-changing action.
 		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( 'toplevel_page_hatnch' !== $hook_suffix && ! in_array( $page, array( 'hatnch', 'hatnch-contacts', 'hatnch-analytics' ), true ) ) {
@@ -74,9 +75,11 @@ final class HATNCH_Admin {
 			</header>
 
 			<?php
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only status notice flag.
 			if ( isset( $_GET['updated'] ) ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'hatnikotni-chat' ) . '</p></div>';
 			}
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag.
 			if ( isset( $_GET['error'] ) ) {
 				$error_messages = array(
 					'missing_name'     => __( 'Contact name is required.', 'hatnikotni-chat' ),
@@ -84,6 +87,7 @@ final class HATNCH_Admin {
 					'db_update_failed' => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag, sanitized and allow-listed below.
 				$error_key      = sanitize_key( wp_unslash( $_GET['error'] ) );
 				if ( isset( $error_messages[ $error_key ] ) ) {
 					echo '<div class="notice notice-error"><p>' . esc_html( $error_messages[ $error_key ] ) . '</p></div>';
@@ -234,10 +238,12 @@ final class HATNCH_Admin {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin edit selector.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only edit-form selector; mutations require a separate nonce-protected POST.
 		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		$editing  = $edit_id ? HATNCH_Contacts::get( $edit_id ) : null;
 		$contacts = HATNCH_Contacts::get_all();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selector; mutations require a separate nonce-protected POST.
 		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap hatnch-admin">
@@ -251,6 +257,7 @@ final class HATNCH_Admin {
 			</header>
 
 			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only status notice flag. ?>
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
