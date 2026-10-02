@@ -1,8 +1,8 @@
 # Hatnikotni Chat — Differentiation and WordPress.org Review Notes
 
-**Updated:** 2026-10-02  
+**Updated:** 2026-10-03  
 **Branch:** `wordpress-org-compliance`  
-**Latest verified CI:** Build #556 — all five PHP validation jobs and production package build passed. Source code matches build #549; subsequent commits were documentation-only.  
+**Latest verified CI:** Build #569 — all five PHP validation jobs and production package build passed. Source code matches build #549; subsequent commits were documentation-only.  
 **Review ID:** `AUTOPREREVIEW COM hatnikotni-chat/zaryl/27Sep26/T1 27Sep26/4.3 (P0TDX376260HGN)`
 
 ## 1. What the reviewer actually raised

@@ -12,10 +12,10 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
-- [x] GitHub Actions build #561 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #561](https://github.com/dejabey/hatnikotni-chat/actions/runs/37030788380). Artifact ID: `11236849218`. Builds #550–#561 after #549 contain documentation-only commits; plugin source code is unchanged.
+- [x] GitHub Actions build #569 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #569](https://github.com/dejabey/hatnikotni-chat/actions/runs/37031349573). Artifact ID: `11237333365`. Branch changes after #549 are documentation-only; plugin source/package code is unchanged from #549.
 - [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
-- [x] CI matrix includes PHP 8.5 to match staging; build #561 passed.
+- [x] CI matrix includes PHP 8.5 to match staging; build #569 passed.
 - [ ] Complete runtime tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing; UI appearance alone does not prove these behaviors.
 
 ## Release gates
@@ -46,7 +46,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Capability checks for admin actions
 - [x] Nonces for admin state-changing actions
 - [x] Input sanitization/validation and escaped frontend/admin output
-- [x] GitHub Actions build #561 passed the current PHP matrix and production package job. The source code has not changed since #549; builds #550–#561 were triggered by documentation commits.
+- [x] GitHub Actions build #569 passed the current PHP matrix and production package job. The source code has not changed since #549; intervening branch commits were documentation-only.
 - [x] Initial Plugin Check on 0.1.8 reported 2 readme errors and 37 warnings; a subsequent detailed report showed six warnings on 2026-10-02.
 - [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
 - [x] Earlier Plugin Check report supplied on 2026-10-02 showed six warnings: one recommended nonce warning for public UTM parameters and five unprefixed variables in `uninstall.php`.
