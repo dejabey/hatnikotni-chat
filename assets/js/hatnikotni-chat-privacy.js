@@ -37,6 +37,24 @@
 		document.cookie = cookie;
 	}
 
+	function requestCampaignCookieClear() {
+		if (!config.revokeCampaignUrl || typeof window.fetch !== 'function') {
+			return;
+		}
+
+		window.fetch(config.revokeCampaignUrl, {
+			method: 'POST',
+			credentials: 'same-origin',
+			cache: 'no-store',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			},
+			body: 'action=hatnch_revoke_campaign'
+		}).catch(function () {
+			// The next request also clears campaign attribution while consent is rejected.
+		});
+	}
+
 	function closePanel(panel, toggle) {
 		panel.hidden = true;
 		toggle.setAttribute('aria-expanded', 'false');
@@ -96,6 +114,7 @@
 
 				writeConsent('no');
 				clearCampaignCookie();
+				requestCampaignCookieClear();
 				if (status) {
 					status.textContent = config.consentRejected || 'Analytics rejected. WhatsApp remains available.';
 				}

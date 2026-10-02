@@ -15,6 +15,20 @@ final class HATNCH_Campaign {
 
 	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'capture' ), 1 );
+		add_action( 'admin_post_nopriv_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+		add_action( 'admin_post_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+	}
+
+	/**
+	 * Expire the HttpOnly campaign cookie immediately after consent is withdrawn.
+	 *
+	 * This public endpoint only clears the requesting visitor's own attribution cookie.
+	 */
+	public static function revoke_campaign(): void {
+		nocache_headers();
+		self::clear_cookie();
+		status_header( 204 );
+		exit;
 	}
 
 	public static function capture(): void {

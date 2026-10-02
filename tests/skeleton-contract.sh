@@ -56,6 +56,9 @@ grep -q "HATNCH_Analytics::record_click" includes/class-hatnch-whatsapp.php || f
 if grep -q "HATNCH_Analitik::record_click" includes/class-hatnch-whatsapp.php; then fail "Misspelled analytics handler call must not exist"; fi
 grep -q "https://wa.me/" includes/class-hatnch-whatsapp.php || fail "WhatsApp URL contract missing"
 grep -q "setcookie" includes/class-hatnch-campaign.php || fail "Campaign cookie contract missing"
+grep -q "admin_post_nopriv_hatnch_revoke_campaign" includes/class-hatnch-campaign.php || fail "Public campaign-cookie revocation endpoint missing"
+grep -q "revokeCampaignUrl" includes/class-hatnch-whatsapp.php || fail "Campaign-cookie revocation URL missing"
+grep -q "requestCampaignCookieClear()" assets/js/hatnikotni-chat-privacy.js || fail "Server-side campaign-cookie revocation request missing"
 grep -q "hatnch_campaign" includes/class-hatnch-campaign.php || fail "Campaign cookie name contract missing"
 grep -q "has_analytics_consent" includes/class-hatnch-campaign.php || fail "Campaign consent gate missing"
 grep -q "has_analytics_consent" includes/class-hatnch-analytics.php || fail "Analytics consent gate missing"
