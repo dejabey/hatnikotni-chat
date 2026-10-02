@@ -88,7 +88,7 @@ final class HATNCH_Admin {
 					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag, sanitized and allow-listed below.
-				$error_key      = sanitize_key( wp_unslash( $_GET['error'] ) );
+				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
 				if ( isset( $error_messages[ $error_key ] ) ) {
 					echo '<div class="notice notice-error"><p>' . esc_html( $error_messages[ $error_key ] ) . '</p></div>';
 				}
