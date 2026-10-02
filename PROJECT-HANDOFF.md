@@ -4,16 +4,16 @@
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Latest successful CI:** Build #559, branch HEAD `cb2edf4777f953e18a04682c3dc264fb00539683`. Plugin source/package code is unchanged from build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`); builds #550–#559 contain documentation-only changes.  
-**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11235744294` (build #559; not expired at last check).  
+**Latest successful CI:** Build #561, branch HEAD `c456bb3540d0f79abd90e35cdf356b889b41b7d6`. Build #561 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Builds #550–#561 contain documentation-only commits compared with build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`); plugin source/package code is unchanged from #549.  
+**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11236849218` (build #561; not expired at last check).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the final package, Plugin Check, and required staging consent tests pass.
 
 ## Current verification state — 2026-10-02
 
-- GitHub Actions build #559 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37028877654.
-- Build #559 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11235744294`, not expired at the last check). Plugin source/package code is unchanged from build #549; builds #550–#559 were documentation-only changes.
-- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `cb2edf4777f953e18a04682c3dc264fb00539683`.
+- GitHub Actions build #561 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37030788380.
+- Build #561 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11236849218`, not expired at the last check). Builds #550–#561 changed documentation only; plugin source/package code is unchanged from build #549.
+- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `c456bb3540d0f79abd90e35cdf356b889b41b7d6`.
 - Current staging environment: WordPress 7.1.2, PHP 8.5.10; Hatnikotni Chat 0.1.8 is active. The user has confirmed the privacy card/button appearance is satisfactory.
 - Read-only runtime checks: three contact records, routing method `round_robin`, and the daily `hatnch_daily_cleanup` event is scheduled. The analytics table contained one event when checked; this count alone does not prove consent behavior.
 - Plugin Check was rerun on staging on 2026-10-02 after the previous six-warning report. The latest screenshot shows “Checks complete. No errors found.” with both Error and Warning types selected and AI Analysis unchecked; no findings were displayed. The screenshot does not show the installed plugin version/build or an exported report, so correlate the result with the exact installed package before treating it as package-specific release evidence. The code fixes address the previous public UTM nonce recommendation and five unprefixed uninstall variables.
@@ -61,7 +61,7 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. The latest package build is #559: https://github.com/dejabey/hatnikotni-chat/actions/runs/37028877654 (artifact ID `11235744294`). Builds #550–#559 contain documentation-only changes compared with #549.
+1. The latest package build is #561: https://github.com/dejabey/hatnikotni-chat/actions/runs/37030788380 (artifact ID `11236849218`). Builds #550–#561 contain documentation-only changes compared with #549.
 2. The user has already run Plugin Check on staging and supplied a screenshot showing no findings; confirm the exact installed version/build if package-level evidence is needed.
 3. Do not uninstall the staging plugin because `uninstall.php` intentionally deletes plugin data.
 4. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, immediate campaign-cookie clearing, and event-count deltas.
