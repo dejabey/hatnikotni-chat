@@ -31,6 +31,7 @@ final class HATNCH_Analytics_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'hatnikotni-chat' ) );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only analytics filter, bounded to 1–180 days.
 		$days    = isset( $_GET['days'] ) ? min( 180, max( 1, absint( $_GET['days'] ) ) ) : 30;
 		$summary = HATNCH_Analytics::get_summary( $days );
 		?>
