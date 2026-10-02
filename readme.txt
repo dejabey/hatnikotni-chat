@@ -10,7 +10,7 @@ Lightweight WhatsApp contact routing with explicit visitor analytics choices and
 
 == Description ==
 
-Hatnikotni Chat provides a lightweight WhatsApp contact layer for WordPress sites. Its focus is contact routing (direct, random and round-robin), consent-gated first-party click analytics, and UTM campaign attribution without an external analytics service.
+Hatnikotni Chat is a focused WhatsApp enquiry-routing tool for WordPress sites. Rather than serving as a general social-sharing button, it combines configurable contact routing (direct, random and round-robin) with optional first-party click analytics and UTM campaign attribution. Analytics remains disabled until the visitor explicitly opts in, and WhatsApp stays usable when analytics is rejected. Core analytics is stored locally; no external analytics service is required.
 
 Features include:
 
