@@ -49,7 +49,8 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [ ] Confirm WordPress Coding Standards on the current branch including PHP 8.5.
 - [x] Initial Plugin Check on 0.1.8: 2 readme errors and 37 warnings on 2026-10-02.
 - [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
-- [ ] Re-run WordPress Plugin Check after rebuilding the package and review remaining warnings.
+- [x] Plugin Check results supplied on 2026-10-02: 6 warnings remain — one nonce-recommended warning for read-only public UTM parameters and five unprefixed variables in uninstall.php.
+- [ ] Re-run WordPress Plugin Check after the targeted warning fixes and inspect the remaining warnings.
 - [ ] Complete staging security review.
 
 ### Functional validation
