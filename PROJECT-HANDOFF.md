@@ -4,7 +4,7 @@
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Current branch HEAD:** ac6098703082d5eb5b427556bf2a3e0d12736cd6  
+**Current branch HEAD:** cd8dd41e8acc2a8441918bd815ab8f9e7d66af9c  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the final package, Plugin Check, and required staging consent tests pass.
 
