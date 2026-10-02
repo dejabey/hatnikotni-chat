@@ -39,7 +39,9 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 ## WordPress Plugin Check / package verification
 
-- [x] Production package build #569 succeeded: https://github.com/dejabey/hatnikotni-chat/actions/runs/37031349573. Artifact ID: `11237333365`. Plugin source is unchanged from build #549; intervening branch changes are documentation-only.
+- [x] Build #571 passed all six CI jobs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194. Artifact ID: `11238156392`. Plugin source is unchanged from build #549; intervening branch changes are documentation-only.
+- [x] User confirmed build #549 is installed on staging (CI run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956).
+- [ ] Resume runtime tests in the next session; no new post-install test results have been reported yet.
 - [x] User ran Tools → Plugin Check on staging and supplied a screenshot reading “Checks complete. No errors found.” with Error and Warning types selected and AI Analysis unchecked (2026-10-02).
 - [ ] Record the exact installed version/build used for this screenshot; the screenshot does not display that information. Export the complete report if possible.
 - [x] The earlier six warnings were addressed in source: the public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix. The latest screenshot is consistent with these findings being cleared, but exact build correlation remains to be recorded.
