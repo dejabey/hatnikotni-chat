@@ -39,7 +39,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 ## WordPress Plugin Check / package verification
 
-- [ ] Download the production ZIP from GitHub Actions build #555: https://github.com/dejabey/hatnikotni-chat/actions/runs/37027430113. Artifact ID: `11235711908`.
+- [ ] Download the production ZIP from GitHub Actions build #556: https://github.com/dejabey/hatnikotni-chat/actions/runs/37028564020. Artifact ID: `11236546630`.
 - [ ] In staging wp-admin, run Tools → Plugin Check against Hatnikotni Chat using the ZIP/version under test; save/export the full report.
 - [ ] Confirm whether the six previously reported warnings are cleared in build #555: the public UTM query nonce recommendation and five uninstall variable-prefix warnings. The source includes an explicit PHPCS exception for the public read-only UTM input and prefixes uninstall variables; only a fresh report can confirm the scanner result.
 - [ ] If the nonce warning remains, confirm Plugin Check/PHPCS is recognizing the documented exception around public, read-only UTM query parameters. Do not add a nonce to external UTM campaign URLs because that would break ordinary campaign links.

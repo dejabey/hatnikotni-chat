@@ -73,4 +73,4 @@ Supported parameters: utm_source, utm_medium, utm_campaign, utm_term and utm_con
 
 ## WordPress.org readiness
 
-The plugin uses GPL-compatible licensing, WordPress-native APIs, prefixed declarations/storage, consent-aware analytics and a clean release workflow. GitHub Actions build #555 passed PHP 8.1–8.5 validation and production packaging. Plugin Check must be rerun against the build #555 package after updating staging in place; see `docs/wordpress-org-readiness.md` and `docs/staging-test-plan.md`.
+The plugin uses GPL-compatible licensing, WordPress-native APIs, prefixed declarations/storage, consent-aware analytics and a clean release workflow. GitHub Actions build #556 passed PHP 8.1–8.5 validation and production packaging. Plugin Check must be rerun against the build #556 package after updating staging in place; see `docs/wordpress-org-readiness.md` and `docs/staging-test-plan.md`.
