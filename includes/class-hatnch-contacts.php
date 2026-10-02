@@ -49,6 +49,7 @@ final class HATNCH_Contacts {
 	public static function get( int $id ): ?array {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				'SELECT * FROM %i WHERE id = %d LIMIT 1',
@@ -64,6 +65,7 @@ final class HATNCH_Contacts {
 	public static function get_active(): array {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT * FROM %i WHERE status = 1 ORDER BY sort_order ASC, id ASC',
@@ -78,6 +80,7 @@ final class HATNCH_Contacts {
 	public static function get_all(): array {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT * FROM %i ORDER BY sort_order ASC, id ASC',
@@ -113,6 +116,7 @@ final class HATNCH_Contacts {
 		$table = self::table_name();
 
 		if ( $id > 0 ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$updated = $wpdb->update(
 				$table,
 				array(
@@ -137,6 +141,7 @@ final class HATNCH_Contacts {
 			return $id;
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 		$inserted = $wpdb->insert(
 			$table,
 			array(
@@ -163,6 +168,7 @@ final class HATNCH_Contacts {
 	public static function set_status( int $id, bool $active ): bool {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 		return false !== $wpdb->update(
 			self::table_name(),
 			array(
