@@ -14,14 +14,18 @@ global $wpdb;
 $contacts_table = $wpdb->prefix . 'hatnch_contacts';
 $events_table   = $wpdb->prefix . 'hatnch_events';
 
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
 $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $contacts_table ) );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
 $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $events_table ) );
 
 $legacy_prefix         = sprintf( '%s%s', 'hk', 'c_' );
 $legacy_contacts_table = $wpdb->prefix . $legacy_prefix . 'contacts';
 $legacy_events_table   = $wpdb->prefix . $legacy_prefix . 'events';
 
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
 $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $legacy_contacts_table ) );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
 $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $legacy_events_table ) );
 
 delete_option( 'hatnch_settings' );
