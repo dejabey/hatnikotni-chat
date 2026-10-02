@@ -4,16 +4,17 @@
 **Branch:** `wordpress-org-compliance`  
 **Base branch:** `main`  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Latest successful CI:** Build #569, branch HEAD `9f528d3bc6aa332a4384e87a5554d7ce7207c47f`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. Changes after build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`) are documentation-only; plugin source/package code is unchanged from #549.  
-**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11237333365` (build #569; not expired at last check).  
+**Latest successful CI:** Build #571, branch HEAD `34a9285582200982c50191072efd5bf8b1921a77`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. Changes after build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`) are documentation-only; plugin source/package code is unchanged from #549.  
+**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11238156392` (build #571; not expired at last check).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the package, Plugin Check evidence and required staging consent tests are fully correlated and reviewed.
 
 ## Current verification state — 2026-10-03
 
-- GitHub Actions build #569 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37031349573.
-- Build #569 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11237333365`, not expired at the last check). Branch changes after build #549 are documentation-only; plugin source/package code is unchanged from #549. Build #569 is a refreshed package artifact, not a new plugin-code change.
-- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `9f528d3bc6aa332a4384e87a5554d7ce7207c47f`.
+- GitHub Actions build #571 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194.
+- Build #571 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11238156392`, not expired at the last check). Branch changes after build #549 are documentation-only; plugin source/package code is unchanged from #549. Build #571 is a refreshed package artifact, not a new plugin-code change.
+- **Staging installation confirmed by the user:** build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`, CI run https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956) is installed. Follow-up runtime tests have not yet resumed; user will continue testing in the next session.
+- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `34a9285582200982c50191072efd5bf8b1921a77`.
 - Current staging environment: WordPress 7.1.2, PHP 8.5.10; Hatnikotni Chat 0.1.8 is active. The user has confirmed the privacy card/button appearance is satisfactory.
 - Read-only runtime checks: three contact records, routing method `round_robin`, and the daily `hatnch_daily_cleanup` event is scheduled. The analytics table contained one event when checked; this count alone does not prove consent behavior.
 - Plugin Check evidence is not yet fully correlated to a specific package. A detailed report screenshot showed six warnings on an earlier build: one `WordPress.Security.NonceVerification.Recommended` finding for public UTM parameters in `includes/class-hatnch-campaign.php`, plus five unprefixed local variables in `uninstall.php`. The branch source was subsequently changed to document the read-only public-UTM nonce exception and prefix the uninstall variables. A separate screenshot showed “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked, but neither screenshot identifies the exact installed build. Re-run/export Plugin Check against the selected release artifact and retain version/build evidence before submission.
@@ -61,7 +62,7 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Latest CI/package build is #569: https://github.com/dejabey/hatnikotni-chat/actions/runs/37031349573 (artifact ID `11237333365`). Source/package code remains unchanged from #549; intervening branch commits are documentation-only.
+1. Build #549 is installed on staging. Latest CI/package build is #571: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194 (artifact ID `11238156392`). Source/package code remains unchanged from #549; intervening branch commits are documentation-only.
 2. The user has already run Plugin Check on staging and supplied a screenshot showing no findings; confirm the exact installed version/build if package-level evidence is needed.
 3. Do not uninstall the staging plugin because `uninstall.php` intentionally deletes plugin data.
 4. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, immediate campaign-cookie clearing, and event-count deltas.
