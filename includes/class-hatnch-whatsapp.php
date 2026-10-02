@@ -117,7 +117,7 @@ final class HATNCH_WhatsApp {
 				'cookieDomain'      => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
 				'revokeCampaignUrl' => admin_url( 'admin-post.php' ),
 				'consentAccepted'   => __( 'Analytics accepted.', 'hatnikotni-chat' ),
-				'consentRejected' => __( 'Analytics rejected. WhatsApp remains available.', 'hatnikotni-chat' ),
+				'consentRejected'   => __( 'Analytics rejected. WhatsApp remains available.', 'hatnikotni-chat' ),
 			)
 		);
 	}
