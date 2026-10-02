@@ -49,8 +49,9 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [ ] Confirm WordPress Coding Standards on the current branch including PHP 8.5.
 - [x] Initial Plugin Check on 0.1.8: 2 readme errors and 37 warnings on 2026-10-02.
 - [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
-- [x] Plugin Check results supplied on 2026-10-02: 6 warnings remain — one nonce-recommended warning for read-only public UTM parameters and five unprefixed variables in uninstall.php.
-- [ ] Re-run WordPress Plugin Check after the targeted warning fixes and inspect the remaining warnings.
+- [x] Plugin Check screenshot supplied on 2026-10-02 showed 6 warnings in the tested package: one recommended nonce warning for public UTM parameters and five unprefixed variables in `uninstall.php`.
+- [x] Current branch documents the intentional no-nonce exception for public, read-only UTM query parameters and prefixes uninstall variables with `hatnch_`.
+- [ ] Re-run Plugin Check on build #531's ZIP; the screenshot does not establish the result of the latest source remediation.
 - [ ] Complete staging security review.
 
 ### Functional validation
