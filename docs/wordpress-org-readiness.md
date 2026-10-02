@@ -16,7 +16,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
 - [ ] CI matrix now includes PHP 8.5 to match staging; await the current run.
-- [ ] Complete runtime tests for consent Accept/Reject/withdrawal and campaign-cookie clearing; UI appearance alone does not prove these behaviors.
+- [ ] Complete runtime tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing; UI appearance alone does not prove these behaviors.
 
 ## Release gates
 
@@ -47,7 +47,9 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Nonces for admin state-changing actions
 - [x] Input sanitization/validation and escaped frontend/admin output
 - [ ] Confirm WordPress Coding Standards on the current branch including PHP 8.5.
-- [ ] Run WordPress Plugin Check against the final clean package.
+- [x] Initial Plugin Check on 0.1.8: 2 readme errors and 37 warnings on 2026-10-02.
+- [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
+- [ ] Re-run WordPress Plugin Check after rebuilding the package and review remaining warnings.
 - [ ] Complete staging security review.
 
 ### Functional validation
