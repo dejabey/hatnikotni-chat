@@ -11,26 +11,26 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 global $wpdb;
 
-$contacts_table = $wpdb->prefix . 'hatnch_contacts';
-$events_table   = $wpdb->prefix . 'hatnch_events';
+$hatnch_contacts_table = $wpdb->prefix . 'hatnch_contacts';
+$hatnch_events_table   = $wpdb->prefix . 'hatnch_events';
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $contacts_table ) );
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $hatnch_contacts_table ) );
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $events_table ) );
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $hatnch_events_table ) );
 
-$legacy_prefix         = sprintf( '%s%s', 'hk', 'c_' );
-$legacy_contacts_table = $wpdb->prefix . $legacy_prefix . 'contacts';
-$legacy_events_table   = $wpdb->prefix . $legacy_prefix . 'events';
+$hatnch_legacy_prefix         = sprintf( '%s%s', 'hk', 'c_' );
+$hatnch_legacy_contacts_table = $wpdb->prefix . $hatnch_legacy_prefix . 'contacts';
+$hatnch_legacy_events_table   = $wpdb->prefix . $hatnch_legacy_prefix . 'events';
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $legacy_contacts_table ) );
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $hatnch_legacy_contacts_table ) );
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Uninstall must drop plugin-owned tables; table identifiers are passed through wpdb::prepare with the identifier placeholder.
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $legacy_events_table ) );
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $hatnch_legacy_events_table ) );
 
 delete_option( 'hatnch_settings' );
 delete_option( 'hatnch_db_version' );
 delete_option( 'hatnch_routing_state' );
-delete_option( $legacy_prefix . 'settings' );
-delete_option( $legacy_prefix . 'db_version' );
-delete_option( $legacy_prefix . 'routing_state' );
+delete_option( $hatnch_legacy_prefix . 'settings' );
+delete_option( $hatnch_legacy_prefix . 'db_version' );
+delete_option( $hatnch_legacy_prefix . 'routing_state' );
