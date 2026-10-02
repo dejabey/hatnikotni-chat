@@ -37,6 +37,14 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Compact privacy panel remains readable on narrow mobile screens and does not cover the WhatsApp action.
 - [ ] Keyboard focus is visible; Escape closes the panel and returns focus to its toggle.
 
+## WordPress Plugin Check / package verification
+
+- [ ] Download the production ZIP from GitHub Actions build #531: https://github.com/dejabey/hatnikotni-chat/actions/runs/37021952844.
+- [ ] In staging wp-admin, run Tools → Plugin Check against Hatnikotni Chat using the ZIP/version under test; save/export the full report.
+- [ ] Confirm whether the six previously reported warnings are cleared: the public UTM query nonce recommendation and five uninstall variable-prefix warnings.
+- [ ] If the nonce warning remains, confirm Plugin Check/PHPCS is recognizing the documented exception around public, read-only UTM query parameters. Do not add a nonce to external UTM campaign URLs because that would break ordinary campaign links.
+- [ ] If any uninstall warning remains, inspect the exact source line and ensure no plugin-owned global variable is unprefixed. Never execute uninstall as a test on the live staging installation because it deletes plugin data.
+
 ## Cache/CDN
 
 - [ ] Page cache enabled.
