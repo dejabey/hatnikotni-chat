@@ -15,7 +15,7 @@
 - User confirmed the latest privacy card looks correct on staging. Rendered HTML confirms Malay labels, the Privacy Policy URL, Read More disclosure, and shield icon.
 - Read-only runtime checks: 3 contact records, routing method round_robin, and the daily hatnch_daily_cleanup event is scheduled. The analytics table contained 1 event when checked; this count alone does not prove consent behavior.
 - PHP 8.5 has been added to the CI matrix to match staging; wait for the resulting workflow before declaring current CI complete.
-- Initial WordPress Plugin Check on 0.1.8 reported 2 errors (missing `Tested up to`, incorrect `Stable tag: trunk`) and 37 warnings. Readme errors have been fixed on the branch; rerun Plugin Check on the rebuilt package.
+- Initial WordPress Plugin Check on 0.1.8 reported 2 readme errors and 37 warnings. The readme errors were fixed; the user's 2026-10-02 Plugin Check screenshot then showed 6 warnings: one recommended nonce warning for public UTM query input and five unprefixed local variables in `uninstall.php`. Targeted fixes are now in the branch; rerun Plugin Check to confirm.
 - Added `Domain Path: /languages` and removed the manual `load_plugin_textdomain()` hook after Plugin Check flagged that call as discouraged for WordPress.org-hosted plugins.
 - Still pending: runtime verification of no-consent default, Accept, Reject, changing choices, immediate campaign-cookie clearing, event-count changes, full routing methods, cache behavior, keyboard accessibility, and review of remaining Plugin Check warnings.
 - No production changes have been made. No plugin uninstall/reinstall was performed during these checks.
