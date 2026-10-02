@@ -15,7 +15,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] GitHub Actions build #531 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #531](https://github.com/dejabey/hatnikotni-chat/actions/runs/37021952844).
 - [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
-- [ ] CI matrix now includes PHP 8.5 to match staging; await the current run.
+- [x] CI matrix includes PHP 8.5 to match staging; build #531 passed.
 - [ ] Complete runtime tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing; UI appearance alone does not prove these behaviors.
 
 ## Release gates
