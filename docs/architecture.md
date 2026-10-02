@@ -26,6 +26,8 @@ The global floating widget exposes a small shield-shaped privacy icon. Selecting
 
 The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor selects Accept. A no value or missing cookie means analytics remains disabled. Visitors can reopen the card and change their choice. The WhatsApp link itself is never gated by this choice.
 
+When a visitor rejects consent, the browser posts to the same-origin `admin-post.php` action `hatnch_revoke_campaign`. The public handler only expires that visitor's own HttpOnly attribution cookie and returns HTTP 204 without rendering a page. If the request fails, campaign capture also expires the cookie on the next request while consent remains rejected.
+
 The filter hatnch_has_analytics_consent receives the native cookie-derived value (false by default) and remains available for deliberate site-level integrations.
 
 When analytics consent is absent:
