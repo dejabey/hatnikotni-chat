@@ -45,11 +45,15 @@ final class HATNCH_WhatsApp {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; this value only labels a consent-gated analytics event.
 		$page_id = isset( $_GET['hatnch_page_id'] ) ? absint( $_GET['hatnch_page_id'] ) : 0;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; this value only labels a consent-gated analytics event.
 		$page_type = isset( $_GET['hatnch_page_type'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_page_type'] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public action endpoint intentionally accepts anonymous GET parameters.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint accepts an optional prefilled message, sanitized below.
 		$message = isset( $_GET['hatnch_message'] ) && is_scalar( $_GET['hatnch_message'] )
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; sanitize before building the WhatsApp URL.
 			? sanitize_text_field( wp_unslash( $_GET['hatnch_message'] ) )
 			: (string) HATNCH_Settings::get( 'default_message', '' );
 
