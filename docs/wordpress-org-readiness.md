@@ -12,10 +12,12 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
-- [x] GitHub Actions build #569 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #569](https://github.com/dejabey/hatnikotni-chat/actions/runs/37031349573). Artifact ID: `11237333365`. Branch changes after #549 are documentation-only; plugin source/package code is unchanged from #549.
+- [x] GitHub Actions build #571 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #571](https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194). Artifact ID: `11238156392`. Branch changes after #549 are documentation-only; plugin source/package code is unchanged from #549.
+- [x] User confirmed build #549 is installed on staging: [Run #549](https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956).
+- [ ] Resume post-install runtime tests; results have not yet been reported.
 - [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
-- [x] CI matrix includes PHP 8.5 to match staging; build #569 passed.
+- [x] CI matrix includes PHP 8.5 to match staging; build #571 passed.
 - [ ] Complete runtime tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing; UI appearance alone does not prove these behaviors.
 
 ## Release gates
