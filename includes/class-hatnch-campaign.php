@@ -40,6 +40,7 @@ final class HATNCH_Campaign {
 		$attribution = array();
 
 		foreach ( self::FIELDS as $field ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public UTM attribution parameter; consent gate controls cookie capture.
 			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
 				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
 
