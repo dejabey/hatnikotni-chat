@@ -237,12 +237,10 @@ final class HATNCH_Admin {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'hatnikotni-chat' ) );
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin edit selector.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only edit-form selector; mutations require a separate nonce-protected POST.
 		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
 		$editing  = $edit_id ? HATNCH_Contacts::get( $edit_id ) : null;
 		$contacts = HATNCH_Contacts::get_all();
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen selector.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selector; mutations require a separate nonce-protected POST.
 		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
@@ -256,7 +254,6 @@ final class HATNCH_Admin {
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts&action=new' ) ); ?>" class="hatnch-button hatnch-button--secondary"><?php echo esc_html__( 'Add Contact', 'hatnikotni-chat' ); ?></a>
 			</header>
 
-			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag. ?>
 			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only status notice flag. ?>
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
