@@ -4,21 +4,21 @@
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Code/build commit used for build #549:** `fe98c0dd194d5194df08cdadd0290a6c31a9ee04`  
-**Documentation updates:** subsequently committed on this branch; use GitHub branch HEAD for the latest handoff/docs.  
+**Latest successful CI:** Build #555, source HEAD `8870ac6071111f9e09e2e34418cf0dab395edf5d` (build #549 uses code commit `fe98c0dd194d5194df08cdadd0290a6c31a9ee04`; commits after #549 updated documentation only).  
+**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11235711908`; normalized install ZIP SHA-256 `36e8cd0addc489da13058e8e1bdf2cce6cbb9405a3c1f3f735511cf01ba183e8`.  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the final package, Plugin Check, and required staging consent tests pass.
 
 ## Current verification state — 2026-10-02
 
-- GitHub Actions build #549 passed all six jobs: PHP validation on 8.1, 8.2, 8.3, 8.4 and 8.5, plus production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956.
-- Build #549 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11235033102`, not expired at the last check).
-- PR #2 remains open as a draft and has not been merged. Build #549 code commit: `fe98c0dd194d5194df08cdadd0290a6c31a9ee04`.
+- GitHub Actions build #555 passed all six jobs: PHP validation on 8.1, 8.2, 8.3, 8.4 and 8.5, plus production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37027430113.
+- Build #555 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11235711908`, not expired at the last check). Its code is unchanged from build #549; builds #550–#555 followed documentation-only commits.
+- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `8870ac6071111f9e09e2e34418cf0dab395edf5d`.
 - Current staging environment: WordPress 7.1.2, PHP 8.5.10; Hatnikotni Chat 0.1.8 is active. The user has confirmed the privacy card/button appearance is satisfactory.
 - Read-only runtime checks: three contact records, routing method `round_robin`, and the daily `hatnch_daily_cleanup` event is scheduled. The analytics table contained one event when checked; this count alone does not prove consent behavior.
-- The earlier detailed Plugin Check report showed six warnings: one `WordPress.Security.NonceVerification.Recommended` warning for public UTM query input and five `WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound` warnings in `uninstall.php`. The current branch contains a documented PHPCS exception for public, read-only UTM parameters and HATNCH-prefixed uninstall variables. The latest user-supplied Plugin Check screenshot for the current test says “Checks complete. No errors found,” but it does not display the warning count or warning details. Export the full report (CSV/JSON/Markdown) before concluding whether all six warnings are cleared.
+- The user supplied a detailed Plugin Check report with six warnings from the package then installed on staging: one `WordPress.Security.NonceVerification.Recommended` warning at `includes/class-hatnch-campaign.php` for public UTM query input and five `WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound` warnings in `uninstall.php`. The latest source documents a PHPCS exception for public, read-only UTM parameters and uses HATNCH-prefixed uninstall variables. These changes have not yet been verified by rerunning Plugin Check against the build #555 package on staging. Do not claim the warnings are cleared until a fresh full report confirms it.
 - The earlier two readme errors were addressed by fixing `Tested up to` and `Stable tag`. The main plugin header now declares `Domain Path: /languages`; manual `load_plugin_textdomain()` was removed after Plugin Check flagged it as discouraged for WordPress.org-hosted plugins.
-- Still pending: verify the fresh ZIP with Plugin Check; test consent default/Accept/Reject/choice changes, immediate campaign-cookie clearing, event-count changes, direct/random/round-robin routing, cache behavior, keyboard accessibility, and relevant WooCommerce pages.
+- Still pending: update staging from the inspected build #555 ZIP without uninstalling the plugin; rerun Plugin Check and export the complete report; test consent default/Accept/Reject/choice changes, immediate campaign-cookie clearing, event-count changes, direct/random/round-robin routing, cache behavior, keyboard accessibility, and relevant WooCommerce pages.
 - No production changes have been made. Do not uninstall/reinstall the staging plugin; `uninstall.php` intentionally deletes plugin data.
 
 ## Current objective
@@ -61,12 +61,13 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Download the ZIP from build #549 and rerun WordPress Plugin Check; save the complete report and confirm whether the six earlier warnings are resolved.
-2. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, immediate campaign-cookie clearing, and event-count deltas.
-3. Verify direct, random and round-robin routing, shortcode, desktop/mobile visibility, keyboard focus/Escape behavior, cache compatibility, and WooCommerce pages.
-4. Update this handoff with actual test evidence and any remaining limitations.
-5. Prepare a versioned release candidate only after these gates pass. Do not uninstall the staging plugin; uninstall.php intentionally deletes plugin data.
-6. After the package and staging checks pass, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
+1. Use the normalized install ZIP derived from GitHub Actions build #555: https://github.com/dejabey/hatnikotni-chat/actions/runs/37027430113 (artifact ID `11235711908`; SHA-256 `36e8cd0addc489da13058e8e1bdf2cce6cbb9405a3c1f3f735511cf01ba183e8`).
+2. Update the existing staging plugin in place; do not uninstall it, because `uninstall.php` intentionally deletes plugin data. Confirm the three saved contacts, routing mode and settings remain intact after the update.
+3. Rerun WordPress Plugin Check against the updated staging plugin and export the full report; verify whether the six prior warnings remain.
+4. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, immediate campaign-cookie clearing, and event-count deltas.
+5. Verify direct, random and round-robin routing, shortcode, desktop/mobile visibility, keyboard focus/Escape behavior, cache compatibility, and WooCommerce pages.
+6. Update this handoff with actual test evidence and remaining limitations. Prepare a versioned release candidate only after these gates pass.
+7. After the package and staging checks pass, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
 
 ## Source of truth
 
