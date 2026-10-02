@@ -39,11 +39,11 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 ## WordPress Plugin Check / package verification
 
-- [ ] Download the production ZIP from GitHub Actions build #556: https://github.com/dejabey/hatnikotni-chat/actions/runs/37028564020. Artifact ID: `11236546630`.
-- [ ] In staging wp-admin, run Tools → Plugin Check against Hatnikotni Chat using the ZIP/version under test; save/export the full report.
-- [ ] Confirm whether the six previously reported warnings are cleared in build #555: the public UTM query nonce recommendation and five uninstall variable-prefix warnings. The source includes an explicit PHPCS exception for the public read-only UTM input and prefixes uninstall variables; only a fresh report can confirm the scanner result.
-- [ ] If the nonce warning remains, confirm Plugin Check/PHPCS is recognizing the documented exception around public, read-only UTM query parameters. Do not add a nonce to external UTM campaign URLs because that would break ordinary campaign links.
-- [ ] If any uninstall warning remains, inspect the exact source line and ensure no plugin-owned global variable is unprefixed. Never execute uninstall as a test on the live staging installation because it deletes plugin data.
+- [x] Production package build #559 succeeded: https://github.com/dejabey/hatnikotni-chat/actions/runs/37028877654. Artifact ID: `11235744294`. Plugin source is unchanged from build #549; builds #550–#559 changed documentation only.
+- [x] User ran Tools → Plugin Check on staging and supplied a screenshot reading “Checks complete. No errors found.” with Error and Warning types selected and AI Analysis unchecked (2026-10-02).
+- [ ] Record the exact installed version/build used for this screenshot; the screenshot does not display that information. Export the complete report if possible.
+- [x] The earlier six warnings were addressed in source: the public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix. The latest screenshot is consistent with these findings being cleared, but exact build correlation remains to be recorded.
+- [ ] If any warning reappears in a full report, inspect the exact source line. Do not add a nonce to external UTM campaign URLs because that would break ordinary campaign links. Never execute uninstall as a test on live staging because it deletes plugin data.
 
 ## Cache/CDN
 
