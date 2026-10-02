@@ -96,10 +96,13 @@ final class HATNCH_Plugin {
 		$new_events      = $wpdb->prefix . 'hatnch_events';
 
 		foreach ( array( array( $legacy_contacts, $new_contacts ), array( $legacy_events, $new_events ) ) as $tables ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$legacy_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables[0] ) ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$new_exists    = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $tables[1] ) ) );
 
 			if ( $legacy_exists === $tables[0] && $new_exists !== $tables[1] ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 				$wpdb->query( $wpdb->prepare( 'RENAME TABLE %i TO %i', $tables[0], $tables[1] ) );
 			}
 		}
