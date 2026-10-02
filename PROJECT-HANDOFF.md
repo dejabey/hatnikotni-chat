@@ -1,6 +1,6 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Updated:** 2026-10-02  
+**Updated:** 2026-10-03  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
