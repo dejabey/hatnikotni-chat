@@ -70,10 +70,10 @@ grep -q "hatnch-analytics" includes/class-hatnch-analytics-admin.php || fail "An
 grep -q "hatnch-inline" includes/class-hatnch-shortcode.php || fail "Shortcode rendering contract missing"
 if grep -R -q "WhatsApp Kami\|Baca lagi\|Dasar Privasi" includes assets/js; then fail "Malay UI strings must come from translation files, not source code"; fi
 grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missing"
-grep -q "Stable tag:" readme.txt || fail "WordPress.org stable tag missing"
-
-grep -q "hatnch_load_textdomain" hatnikotni-chat.php || fail "Plugin textdomain loader missing"
-grep -q "add_action( 'init', 'hatnch_load_textdomain' )" hatnikotni-chat.php || fail "Text domain must load on init"
+grep -q "Stable tag: 0.1.8" readme.txt || fail "Stable tag must match plugin version"
+grep -q "Tested up to: 7.1" readme.txt || fail "Tested up to header missing or stale"
+grep -q "Domain Path: /languages" hatnikotni-chat.php || fail "Plugin language directory header missing"
+if grep -q "load_plugin_textdomain" hatnikotni-chat.php; then fail "Do not manually load WordPress.org translations on init"; fi
 grep -q "Analytics accepted." includes/class-hatnch-whatsapp.php || fail "English source consent message missing"
 grep -q "Analytics rejected. WhatsApp remains available." includes/class-hatnch-whatsapp.php || fail "English source rejection message missing"
 grep -q "consentAccepted" includes/class-hatnch-whatsapp.php || fail "Localized JavaScript consent strings missing"
