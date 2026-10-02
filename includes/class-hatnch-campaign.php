@@ -39,8 +39,10 @@ final class HATNCH_Campaign {
 
 		$attribution = array();
 
+		// External UTM campaign URLs are public, read-only attribution inputs, not form submissions.
+		// Requiring a nonce would break ordinary external campaign links; the consent gate controls capture.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		foreach ( self::FIELDS as $field ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public UTM attribution parameter; consent gate controls cookie capture.
 			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
 				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
 
@@ -49,6 +51,7 @@ final class HATNCH_Campaign {
 				}
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( empty( $attribution ) || headers_sent() ) {
 			return;
