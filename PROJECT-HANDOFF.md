@@ -1,6 +1,6 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
-**Updated:** 2026-09-30  
+**Updated:** 2026-10-02  
 **Branch:** wordpress-org-compliance  
 **Base branch:** main  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
@@ -15,7 +15,9 @@
 - User confirmed the latest privacy card looks correct on staging. Rendered HTML confirms Malay labels, the Privacy Policy URL, Read More disclosure, and shield icon.
 - Read-only runtime checks: 3 contact records, routing method round_robin, and the daily hatnch_daily_cleanup event is scheduled. The analytics table contained 1 event when checked; this count alone does not prove consent behavior.
 - PHP 8.5 has been added to the CI matrix to match staging; wait for the resulting workflow before declaring current CI complete.
-- Still pending: runtime verification of no-consent default, Accept, Reject, changing choices, campaign-cookie clearing, event-count changes, full routing methods, cache behavior, keyboard accessibility, and WordPress Plugin Check on the final package.
+- Initial WordPress Plugin Check on 0.1.8 reported 2 errors (missing `Tested up to`, incorrect `Stable tag: trunk`) and 37 warnings. Readme errors have been fixed on the branch; rerun Plugin Check on the rebuilt package.
+- Added `Domain Path: /languages` and removed the manual `load_plugin_textdomain()` hook after Plugin Check flagged that call as discouraged for WordPress.org-hosted plugins.
+- Still pending: runtime verification of no-consent default, Accept, Reject, changing choices, immediate campaign-cookie clearing, event-count changes, full routing methods, cache behavior, keyboard accessibility, and review of remaining Plugin Check warnings.
 - No production changes have been made. No plugin uninstall/reinstall was performed during these checks.
 
 ## Current objective
@@ -38,7 +40,7 @@ Implemented on wordpress-org-compliance:
 - Added a frontend JavaScript asset, scoped CSS, source contract checks, updated readme/changelog and updated architecture/readiness/staging documentation.
 - Version 0.1.6 fixed the Contact Us handler and compacted the privacy UI. Version 0.1.7 establishes English as the source language, adds Malay translation files, and compiles the .mo file into the release ZIP; DB schema remains 1.1.0.
 
-Important implementation note: consent is cookie-based and takes effect on the next HTTP request. This is sufficient for the WhatsApp action because the browser sends the cookie to admin-post.php. Staging must verify allow/reject/choice changes, campaign-cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the hatnch_events table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. The 0.1.5 staging test revealed a critical error when clicking Contact Us. Root cause found in source: the handler called the misspelled class HATNCH_Analitik::record_click(), while the actual class is HATNCH_Analytics. Version 0.1.6 fixes this and adds a regression contract test. Version 0.1.7 restores English source strings for the frontend privacy controls and JavaScript status messages, adds a Malay translation source, and loads the text domain on init. Re-run CI and verify Contact Us on staging before any production release.
+Important implementation note: consent is cookie-based. Rejecting consent now sends a same-origin request to `admin-post.php` so the server can expire the HttpOnly campaign cookie immediately; if that request fails, campaign capture clears it on the next request while consent remains rejected. Staging must verify allow/reject/choice changes, immediate cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the `hatnch_events` table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. Version 0.1.7 established English as the source language and added Malay translation files. Plugin Check flagged manual `load_plugin_textdomain()` use as discouraged for WordPress.org plugins, so the main plugin header now declares `Domain Path: /languages` and relies on WordPress just-in-time translation loading.
 
 ## Current implementation
 
