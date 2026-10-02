@@ -61,6 +61,7 @@ final class HATNCH_Analytics {
 		$device      = self::detect_device();
 		$contact_id  = absint( $data['contact_id'] ?? 0 );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$inserted = $wpdb->insert(
 			self::table_name(),
 			array(
@@ -88,6 +89,7 @@ final class HATNCH_Analytics {
 		$days  = min( self::RETENTION_DAYS, max( 1, absint( $days ) ) );
 		$since = wp_date( 'Y-m-d H:i:s', time() - ( DAY_IN_SECONDS * $days ) );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$total = (int) $wpdb->get_var(
 			$wpdb->prepare(
 				'SELECT COUNT(*) FROM %i WHERE event_type = %s AND created_at >= %s',
@@ -97,6 +99,7 @@ final class HATNCH_Analytics {
 			)
 		);
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$by_device = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT device, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s GROUP BY device ORDER BY total DESC',
@@ -107,6 +110,7 @@ final class HATNCH_Analytics {
 			ARRAY_A
 		);
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$by_contact = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT contact_id, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s GROUP BY contact_id ORDER BY total DESC',
@@ -117,6 +121,7 @@ final class HATNCH_Analytics {
 			ARRAY_A
 		);
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$by_campaign = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT utm_campaign, COUNT(*) AS total FROM %i WHERE event_type = %s AND created_at >= %s AND utm_campaign IS NOT NULL AND utm_campaign <> %s GROUP BY utm_campaign ORDER BY total DESC',
@@ -142,6 +147,7 @@ final class HATNCH_Analytics {
 
 		$cutoff = wp_date( 'Y-m-d H:i:s', time() - ( DAY_IN_SECONDS * self::RETENTION_DAYS ) );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on the plugin-owned analytics table; values are prepared or passed through wpdb CRUD APIs.
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i WHERE created_at < %s',
