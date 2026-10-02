@@ -1,7 +1,8 @@
 === Hatnikotni Chat ===
 Requires at least: 6.6
 Requires PHP: 8.1
-Stable tag: trunk
+Tested up to: 7.1
+Stable tag: 0.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +41,7 @@ When consent is granted, the plugin may store:
 
 The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content.
 
-Analytics events are stored in the site's WordPress database and retained for 180 days. The hatnch_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available. Rejecting analytics expires the campaign cookie in the browser and the server also clears it on the next request where possible.
+Analytics events are stored in the site's WordPress database and retained for 180 days. The hatnch_campaign first-party cookie may retain the latest supported UTM attribution for up to 30 days when consent is available. Rejecting analytics asks the server to expire this HttpOnly cookie immediately. If that request is blocked, the server clears it on the next request while consent remains rejected.
 
 When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp. WhatsApp's own privacy policy and terms apply to that interaction.
 
