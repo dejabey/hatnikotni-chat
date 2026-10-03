@@ -229,3 +229,11 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Updated PR #3's description to include both results. PR #3 remains draft/unmerged; PR #2 remains draft/unmerged.
 - Code review is still in progress. Automated CI does not replace the remaining disposable-staging-clone migration matrix, frontend/runtime checks, ZIP SHA-256 provenance verification, or exact-candidate Plugin Check correlation.
 - Safety unchanged: no staging/production database was accessed or modified. Do not uninstall/reinstall the existing staging plugin; `uninstall.php` deletes plugin data. No merge or production deployment is authorized.
+
+
+## Documentation and test-plan validation — Build #673 (2026-10-03)
+
+- Build #673 passed all eight jobs for commit `9090399ef72476882c82af6a8105f49ced2e7795`, which updates this handoff and the staging migration test plan: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133572267.
+- Verified job results: PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build all succeeded.
+- The updated staging test plan records six WordPress-backed migration scenarios and preserves the outstanding release gates: disposable-clone migration matrix, runtime/privacy/routing/cache/WooCommerce checks, ZIP SHA-256 provenance, and Plugin Check correlation.
+- PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
