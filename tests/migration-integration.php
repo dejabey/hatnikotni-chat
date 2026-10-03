@@ -8,6 +8,7 @@ define( 'HATNCH_DB_VERSION', '1.1.0' );
 $GLOBALS['hatnch_test_options'] = array();
 $GLOBALS['hatnch_test_fail_rename_to'] = '';
 $GLOBALS['hatnch_test_fail_update_option_key'] = '';
+$GLOBALS['hatnch_test_current_user_can'] = false;
 
 function get_option( $key, $default = false ) {
 	return array_key_exists( $key, $GLOBALS['hatnch_test_options'] ) ? $GLOBALS['hatnch_test_options'][ $key ] : $default;
@@ -28,6 +29,8 @@ function absint( $value ) { return abs( (int) $value ); }
 function wp_clear_scheduled_hook( $hook ) { return 0; }
 function __( $text, $domain = '' ) { return $text; }
 function esc_html__( $text, $domain = '' ) { return $text; }
+function esc_html( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' ); }
+function current_user_can( $capability ) { return ! empty( $GLOBALS['hatnch_test_current_user_can'] ); }
 
 class HATNCH_Test_WPDB {
 	public $prefix = 'wp_';
@@ -303,6 +306,23 @@ $GLOBALS['hatnch_test_fail_update_option_key'] = 'hatnch_db_version';
 hatnch_test_assert( false === $upgrade->invoke( null ), 'failed DB-version write should fail upgrade' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'failed DB-version write must preserve old version' );
 echo "PASS: failed database-version write does not advance version" . PHP_EOL;
+
+// Migration failure notices must be hidden from non-administrators.
+$notice_error = new ReflectionProperty( 'HATNCH_Plugin', 'migration_error' );
+$notice_error->setAccessible( true );
+$notice_error->setValue( null, 'Integration-test notice' );
+$GLOBALS['hatnch_test_current_user_can'] = false;
+ob_start();
+HATNCH_Plugin::migration_notice();
+$non_admin_notice = ob_get_clean();
+hatnch_test_assert( '' === $non_admin_notice, 'non-administrator must not see migration notice' );
+$GLOBALS['hatnch_test_current_user_can'] = true;
+ob_start();
+HATNCH_Plugin::migration_notice();
+$admin_notice = ob_get_clean();
+hatnch_test_assert( false !== strpos( $admin_notice, 'Integration-test notice' ), 'administrator should see migration notice' );
+echo "PASS: migration notice is restricted to administrators" . PHP_EOL;
+$notice_error->setValue( null, '' );
 
 hatnch_test_reset( $connection );
 $connection->close();
