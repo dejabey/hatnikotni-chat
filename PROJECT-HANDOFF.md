@@ -247,3 +247,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - The WordPress-backed suite now explicitly reports PASS for eight lifecycle/migration scenarios. Expected injected rename failure is logged by WordPress, followed by a PASS confirming data preservation and retry recovery.
 - Staging-clone tests, frontend/runtime checks, exact candidate ZIP SHA-256 provenance, and Plugin Check correlation remain open. CI does not authorize a live staging/production migration.
 - PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
+
+
+## Migration test-harness cleanup — Build #678 (2026-10-03)
+
+- Refined the injected rename-failure test to remove only its own `query` filter instead of clearing all WordPress query filters, preserving test isolation.
+- Suppressed the expected database error output for the deliberately injected failure and restored WordPress's previous error-suppression setting immediately afterward.
+- Build #678 passed all eight jobs for commit `18f7bbd65441e434e5f29ae67f36dab6b6d9e731`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133913786.
+- The expanded lifecycle tests from Build #675 and this test-harness cleanup are CI-verified. The test matrix on a disposable staging clone and the frontend/package-provenance gates remain outstanding.
+- PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
