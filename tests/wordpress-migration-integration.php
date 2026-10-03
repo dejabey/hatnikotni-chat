@@ -164,19 +164,20 @@ $wpdb->insert( $legacy_contacts, array( 'name' => 'Retry-path contact' ) );
 $wpdb->insert( $legacy_events, array( 'contact_id' => 1 ) );
 $GLOBALS['hatnch_wp_test_fail_events_rename'] = true;
 
-add_filter(
-	'query',
-	static function ( $query ) use ( $legacy_events ) {
-		if ( ! empty( $GLOBALS['hatnch_wp_test_fail_events_rename'] ) && 0 === strpos( ltrim( $query ), 'RENAME TABLE' ) && false !== strpos( $query, $legacy_events ) ) {
-			$GLOBALS['hatnch_wp_test_fail_events_rename'] = false;
-			return str_replace( $legacy_events, $GLOBALS['wpdb']->prefix . 'missing_hkc_events', $query );
-		}
-		return $query;
+$rename_failure_filter = static function ( $query ) use ( $legacy_events ) {
+	if ( ! empty( $GLOBALS['hatnch_wp_test_fail_events_rename'] ) && 0 === strpos( ltrim( $query ), 'RENAME TABLE' ) && false !== strpos( $query, $legacy_events ) ) {
+		$GLOBALS['hatnch_wp_test_fail_events_rename'] = false;
+		return str_replace( $legacy_events, $GLOBALS['wpdb']->prefix . 'missing_hkc_events', $query );
 	}
-);
+	return $query;
+};
+add_filter( 'query', $rename_failure_filter );
 
+// This query failure is deliberate; suppress its expected WordPress error output.
+$previous_suppress_errors = $wpdb->suppress_errors();
 HATNCH_Plugin::activate();
-remove_all_filters( 'query' );
+$wpdb->suppress_errors( $previous_suppress_errors );
+remove_filter( 'query', $rename_failure_filter );
 
 hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$contacts_table}'" ) === $contacts_table, 'first table rename should survive the injected second-rename failure' );
 hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$legacy_events}'" ) === $legacy_events, 'failed events rename should leave the legacy events table intact' );
