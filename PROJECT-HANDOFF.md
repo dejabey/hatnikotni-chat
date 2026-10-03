@@ -4,22 +4,22 @@
 **Branch:** `wordpress-org-compliance`  
 **Base branch:** `main`  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Latest successful CI:** Build #571, branch HEAD `34a9285582200982c50191072efd5bf8b1921a77`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. Changes after build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`) are documentation-only; plugin source/package code is unchanged from #549.  
-**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11238156392` (build #571; not expired at last check).  
+**Latest successful CI:** Build #578, branch HEAD `de9b2539232bfedc36c1e5806407bd4f52cb08d1`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. This commit changes documentation only; plugin source/package code is unchanged from build #549.  
+**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11238198052` (build #578; SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the package, Plugin Check evidence and required staging consent tests are fully correlated and reviewed.
 
 ## Current verification state — 2026-10-03
 
-- GitHub Actions build #571 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194.
-- Build #571 produced artifact `hatnikotni-chat-0.1.8` (artifact ID `11238156392`, not expired at the last check). Branch changes after build #549 are documentation-only; plugin source/package code is unchanged from #549. Build #571 is a refreshed package artifact, not a new plugin-code change.
-- **Staging installation confirmed by the user:** build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`, CI run https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956) is installed. Follow-up runtime tests have not yet resumed; user will continue testing in the next session.
-- PR #2 remains open as a draft and has not been merged. Latest branch HEAD: `34a9285582200982c50191072efd5bf8b1921a77`.
-- Current staging environment: WordPress 7.1.2, PHP 8.5.10; Hatnikotni Chat 0.1.8 is active. The user has confirmed the privacy card/button appearance is satisfactory.
-- Read-only runtime checks: three contact records, routing method `round_robin`, and the daily `hatnch_daily_cleanup` event is scheduled. The analytics table contained one event when checked; this count alone does not prove consent behavior.
-- Plugin Check evidence is not yet fully correlated to a specific package. A detailed report screenshot showed six warnings on an earlier build: one `WordPress.Security.NonceVerification.Recommended` finding for public UTM parameters in `includes/class-hatnch-campaign.php`, plus five unprefixed local variables in `uninstall.php`. The branch source was subsequently changed to document the read-only public-UTM nonce exception and prefix the uninstall variables. A separate screenshot showed “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked, but neither screenshot identifies the exact installed build. Re-run/export Plugin Check against the selected release artifact and retain version/build evidence before submission.
-- The earlier two readme errors were addressed by fixing `Tested up to` and `Stable tag`. The main plugin header now declares `Domain Path: /languages`; manual `load_plugin_textdomain()` was removed after Plugin Check flagged it as discouraged for WordPress.org-hosted plugins.
-- Still pending: record the exact plugin version/build used for the clean Plugin Check result (the screenshot does not show it); export the report if possible; test consent default/Accept/Reject/choice changes, immediate campaign-cookie clearing, event-count changes, direct/random/round-robin routing, cache behavior, keyboard accessibility, and relevant WooCommerce pages.
+- GitHub Actions build #578 passed all six jobs: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37033299925.
+- Build #578 artifact: `hatnikotni-chat-0.1.8`, artifact ID `11238198052`, SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`. Branch: `wordpress-org-compliance`; HEAD: `de9b2539232bfedc36c1e5806407bd4f52cb08d1`.
+- Commit #578 is documentation-only. The package source code is unchanged from build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`). Build #578 is a refreshed ZIP of the same plugin source, not a new runtime-code revision.
+- **Staging runtime tests reported by the user:** active plugin version 0.1.8; WhatsApp action redirected successfully; privacy panel opened; Accept recorded an analytics click (count 3→4); Reject prevented a new event; consent choices persisted across reloads; withdrawal restored consent to `no`; and the HttpOnly `hatnch_campaign` cookie was present before withdrawal, absent after Reject, and remained absent after reload. These tests pass as reported.
+- **Important provenance limitation:** the exact artifact installed on staging has not been cryptographically correlated to build #578. Do not state that the installed ZIP is artifact #578 unless its hash is independently verified. Runtime test results establish observed behavior of the active 0.1.8 installation, not the ZIP's SHA-256.
+- PR #2 remains open as a draft and has not been merged. Current branch HEAD is `de9b2539232bfedc36c1e5806407bd4f52cb08d1`.
+- The Plugin Check screenshot reported “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked. The screenshot does not identify the installed build; retain this as a clean screenshot result, not as cryptographic package correlation.
+- **Remaining audit issue:** legacy table migration renames an old table only when the corresponding new table does not exist. If both old and new tables exist, migration leaves the legacy table untouched and does not merge its rows. This collision case has not been tested; resolve or explicitly document it before calling upgrade migration fully validated.
+- Remaining staging coverage: direct/random/round-robin routing on the current build, cache/CDN behavior, keyboard accessibility/Escape/focus, mobile layout, shortcode, WooCommerce pages, JavaScript-disabled behavior, custom cookie path/domain, and upgrade collision handling.
 - No production changes have been made. Do not uninstall/reinstall the staging plugin; `uninstall.php` intentionally deletes plugin data.
 
 ## Current objective
@@ -42,7 +42,7 @@ Implemented on wordpress-org-compliance:
 - Added a frontend JavaScript asset, scoped CSS, source contract checks, updated readme/changelog and updated architecture/readiness/staging documentation.
 - Version 0.1.6 fixed the Contact Us handler and compacted the privacy UI. Version 0.1.7 establishes English as the source language, adds Malay translation files, and compiles the .mo file into the release ZIP; DB schema remains 1.1.0.
 
-Important implementation note: consent is cookie-based. Rejecting consent now sends a same-origin request to `admin-post.php` so the server can expire the HttpOnly campaign cookie immediately; if that request fails, campaign capture clears it on the next request while consent remains rejected. Staging must verify allow/reject/choice changes, immediate cookie clearing, custom cookie paths and cached pages. Initial staging rejection test was performed by the user: after Reject analytics and a WhatsApp click, the `hatnch_events` table remained at 0 events, consistent with analytics being blocked. Allow analytics and switching consent back and forth still require verification. Version 0.1.7 established English as the source language and added Malay translation files. Plugin Check flagged manual `load_plugin_textdomain()` use as discouraged for WordPress.org plugins, so the main plugin header now declares `Domain Path: /languages` and relies on WordPress just-in-time translation loading.
+Important implementation note: consent is cookie-based. Rejecting consent posts to same-origin `admin-post.php` so the server can expire the HttpOnly campaign cookie immediately; if that request fails, campaign capture clears it on the next request while consent remains rejected. The user has now reported successful staging tests for Accept, Reject, consent withdrawal, analytics event counts and campaign-cookie removal. Exact build-artifact correlation remains unverified, and custom cookie paths/cached pages still require testing.
 
 ## Current implementation
 
@@ -62,13 +62,13 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Build #549 is installed on staging. Latest CI/package build is #571: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194 (artifact ID `11238156392`). Source/package code remains unchanged from #549; intervening branch commits are documentation-only.
-2. The user has already run Plugin Check on staging and supplied a screenshot showing no findings; confirm the exact installed version/build if package-level evidence is needed.
-3. Do not uninstall the staging plugin because `uninstall.php` intentionally deletes plugin data.
-4. Complete consent runtime tests on staging: no choice, Accept, Reject, switching both ways, immediate campaign-cookie clearing, and event-count deltas.
-5. Verify direct, random and round-robin routing, shortcode, desktop/mobile visibility, keyboard focus/Escape behavior, cache compatibility, and WooCommerce pages.
-6. Update this handoff with actual test evidence and remaining limitations. Prepare a versioned release candidate only after these gates pass.
-7. After the package and staging checks pass, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
+1. Keep Build #578 as the latest audited CI package until a newer build supersedes it. Artifact: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
+2. Do not claim the ZIP on staging is exactly Build #578 until the installed artifact hash is verified. The user-reported 0.1.8 runtime tests pass, but that is a separate evidence track.
+3. Complete remaining staging tests: routing modes, shortcode, cache/CDN, keyboard accessibility, mobile layout, WooCommerce pages, JavaScript-disabled behavior and custom cookie path/domain.
+4. Review and decide how to handle migration when both legacy and new custom tables exist. Current code leaves the old table untouched and does not merge rows in this collision case.
+5. Re-run/export Plugin Check with the installed version/build visible if possible, then correlate the report to the release candidate.
+6. Update this handoff with new evidence. Prepare a versioned release candidate only after remaining gates pass.
+7. After package, Plugin Check and staging checks are correlated, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
 
 ## Source of truth
 
