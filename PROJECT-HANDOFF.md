@@ -10,6 +10,9 @@
 **Latest known package artifact before migration hardening:** `hatnikotni-chat-0.1.8`, artifact ID `11238198052` (build #578; SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the package, Plugin Check evidence and required staging consent tests are fully correlated and reviewed.
+**Current migration branch status (2026-10-03):** Build #662 passed all eight jobs on code/test commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225. It includes PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build. Follow-up commits `be6d24822fff0d3ea69f78005237a51ecbccaa96` and `4ed031631e0e9c0dc33742500439af613662a215` update handoff/test-plan documentation; their CI runs must be checked before treating the current HEAD as validated.
+**Migration test coverage:** real WordPress activation migrates tables, settings and routing-state options; real `init()` repairs a missing column and index through `dbDelta()`; collision tests preserve old/new tables and conflicting options without advancing the database version. Separate MySQL integration tests cover partial rename retry and schema/version failure gates.
+**Safety gates:** PR #3 is draft/unmerged; PR #2 is draft/unmerged. No staging/production database has been accessed or modified. Do not merge or run migration on the existing staging site without explicit authorization and a verified backup/clone.
 
 ## Current verification state — 2026-10-03
 
@@ -73,15 +76,14 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Keep Build #578 as the latest confirmed successful production package build. Build #608 validates the migration-hardening branch; it is not a replacement release package artifact. Build #578 artifact: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
-2. Do not claim the ZIP on staging is exactly Build #578 until the installed artifact hash is verified. The user-reported 0.1.8 runtime tests pass, but that is a separate evidence track.
-3. Review PR #3 after Build #604 passed; CI is not a substitute for code review or the controlled migration test matrix. Do not merge it yet.
-4. Run the migration test matrix on a disposable staging clone or controlled test database: legacy-only; new-only; both tables including empty/new and non-empty/old; conflicting options; rename failure; partial rename followed by retry; and deactivate/reactivate before migration.
-5. Verify that failed migration does not delete legacy options/tables or advance the schema version, and that the admin notice is visible only to administrators.
-6. Complete remaining staging tests: routing modes, shortcode, cache/CDN, keyboard accessibility, mobile layout, WooCommerce pages, JavaScript-disabled behavior and custom cookie path/domain.
-7. Re-run/export Plugin Check with the installed version/build visible if possible, then correlate the report to the release candidate.
-8. Update this handoff with new evidence. Prepare a versioned release candidate only after remaining gates pass.
-9. After package, Plugin Check and staging checks are correlated, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
+1. Verify the latest CI runs for the two documentation commits and for the current PR #3 HEAD; do not infer success from an earlier build.
+2. Perform a code review of PR #3, focusing on activation ordering, migration idempotence, error paths, schema verification, and compatibility with the declared WordPress/PHP minimums. Keep PR #3 draft and unmerged until review and controlled tests are complete.
+3. Before any staging migration, obtain explicit authorization, make and verify a restorable backup, and use a disposable clone where possible. Do not uninstall/reinstall the existing staging plugin; `uninstall.php` deletes plugin data.
+4. On a disposable staging clone, run the remaining migration matrix: empty/new plus populated/legacy table collision, actual rename failure and retry, deactivate/reactivate before migration, and verify schema version/legacy options remain unchanged on failure. CI already covers several of these, but does not replace environment-specific testing.
+5. Verify the exact ZIP installed on staging against a specific CI artifact using SHA-256. The existing runtime tests and Plugin Check screenshot do not establish artifact provenance.
+6. Complete remaining runtime tests: direct/random/round-robin routing, shortcode, cache/CDN, keyboard focus/Escape, mobile layout, WooCommerce pages, JavaScript-disabled behavior, and custom cookie path/domain.
+7. Correlate the complete Plugin Check report with the exact candidate version. Do not respond to the WordPress.org reviewer or release until code review, controlled migration tests, package provenance, and required runtime checks are complete.
+8. Update this handoff with verified evidence after each gate. Production deployment remains a separate decision requiring separate approval.
 
 ## Source of truth
 
