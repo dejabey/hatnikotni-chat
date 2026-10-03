@@ -98,3 +98,13 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Corrected the two PHPDoc spacing issues in commit `89e8a1ddc1e30729d1a99e6f1e93307c154b4738`.
 - **Next gate:** verify a fresh Validate workflow run for that commit and inspect all matrix jobs before describing the branch as passing.
 - No PR was merged and no staging/production database was accessed or modified.
+
+
+## CI follow-up — Build #621 passed (2026-10-03)
+
+- Verified GitHub Actions run #621: all five PHP validation matrix jobs (PHP 8.1–8.5) and the production package build completed successfully.
+- Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37118840794
+- The successful run is for commit `a1f917090b9fac8ddfb8a8b8d5298dcec186aece`, which includes the Build #619 PHPDoc spacing correction and this handoff update.
+- Compatibility check: plugin header/readme require WordPress 6.6 and PHP 8.1; the `%i` identifier placeholder used by schema inspection is compatible with the declared WordPress minimum.
+- Remaining code-review item: schema validation currently checks required column names and named index names/order, but not column types, nullability/defaults, `AUTO_INCREMENT`, or index uniqueness/visibility. Review the actual schema definitions before deciding which attributes are essential to verify.
+- Build success validates automated checks/package generation only. The controlled migration matrix and runtime staging verification remain pending; PR #3 stays draft and must not be merged yet.
