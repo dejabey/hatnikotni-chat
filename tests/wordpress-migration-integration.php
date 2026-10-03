@@ -188,6 +188,6 @@ hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$events_table}'" ) ==
 hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table} WHERE name = 'Retry-path contact'" ) === 1, 'contact row should survive actual $wpdb rename failure and retry' );
 hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$events_table} WHERE contact_id = 1" ) === 1, 'event row should survive actual $wpdb rename failure and retry' );
 hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'retry should advance the schema version only after successful verification' );
-echo "PASS: real WordPress $wpdb rename failure preserves data and recovers on retry" . PHP_EOL;
+echo 'PASS: real WordPress $wpdb rename failure preserves data and recovers on retry' . PHP_EOL;
 
 echo "PASS: all WordPress-backed migration lifecycle tests" . PHP_EOL;
