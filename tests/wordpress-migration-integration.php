@@ -85,4 +85,56 @@ hatnch_wp_test_assert( $status_index_found, 'init upgrade should restore a missi
 hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'version should advance after required index is restored and verified' );
 echo "PASS: real WordPress init/dbDelta repairs a missing index before version advancement" . PHP_EOL;
 
+
+
+// A current/legacy table collision must pause activation without dropping either table.
+$wpdb->query( "DROP TABLE IF EXISTS {$contacts_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_contacts}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_events}" );
+delete_option( 'hatnch_db_version' );
+delete_option( 'hatnch_settings' );
+delete_option( 'hkc_settings' );
+
+$wpdb->query( "CREATE TABLE {$legacy_contacts} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->query( "CREATE TABLE {$contacts_table} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->insert( $legacy_contacts, array( 'name' => 'Legacy collision row' ) );
+$wpdb->insert( $contacts_table, array( 'name' => 'Current collision row' ) );
+update_option( 'hkc_settings', array( 'source' => 'legacy' ) );
+
+HATNCH_Plugin::activate();
+
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$legacy_contacts} WHERE name = 'Legacy collision row'" ) === 1, 'legacy collision table row must remain untouched' );
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table} WHERE name = 'Current collision row'" ) === 1, 'current collision table row must remain untouched' );
+hatnch_wp_test_assert( array( 'source' => 'legacy' ) === get_option( 'hkc_settings' ), 'legacy option must remain when table collision pauses migration' );
+hatnch_wp_test_assert( false === get_option( 'hatnch_db_version', false ), 'table collision must not advance the database version' );
+echo "PASS: real WordPress activation preserves both tables and legacy options on table collision" . PHP_EOL;
+
+// A conflicting legacy/current option pair must pause activation before table changes.
+$wpdb->query( "DROP TABLE IF EXISTS {$contacts_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_contacts}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_events}" );
+delete_option( 'hatnch_db_version' );
+delete_option( 'hatnch_settings' );
+delete_option( 'hkc_settings' );
+update_option( 'hkc_settings', array( 'source' => 'legacy' ) );
+update_option( 'hatnch_settings', array( 'source' => 'current' ) );
+
+HATNCH_Plugin::activate();
+
+hatnch_wp_test_assert( array( 'source' => 'legacy' ) === get_option( 'hkc_settings' ), 'legacy option must remain on option conflict' );
+hatnch_wp_test_assert( array( 'source' => 'current' ) === get_option( 'hatnch_settings' ), 'current option must remain on option conflict' );
+hatnch_wp_test_assert( false === get_option( 'hatnch_db_version', false ), 'option conflict must not advance the database version' );
+hatnch_wp_test_assert( null === $wpdb->get_var( "SHOW TABLES LIKE '{$contacts_table}'" ), 'option conflict must stop before creating current tables' );
+echo "PASS: real WordPress activation preserves conflicting options and stops before table changes" . PHP_EOL;
+
 echo "PASS: all WordPress-backed migration lifecycle tests" . PHP_EOL;
