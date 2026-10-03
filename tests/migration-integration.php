@@ -101,10 +101,10 @@ function hatnch_test_create_legacy_tables( mysqli $connection ) {
 	$connection->query( 'INSERT INTO wp_hkc_events (contact_id) VALUES (1)' );
 }
 
-function hatnch_test_create_contacts_schema( mysqli $connection, string $id_type = 'BIGINT UNSIGNED', string $status_index = 'KEY status (status)', bool $include_updated_at = true ) {
+function hatnch_test_create_contacts_schema( mysqli $connection, string $id_type = 'BIGINT UNSIGNED', string $status_index = 'KEY status (status)', bool $include_updated_at = true, string $id_definition = 'NOT NULL AUTO_INCREMENT' ) {
 	$updated_at = $include_updated_at ? ', updated_at DATETIME NOT NULL' : '';
 	$sql = "CREATE TABLE wp_hatnch_contacts (
-		id {$id_type} NOT NULL AUTO_INCREMENT,
+		id {$id_type} {$id_definition},
 		name VARCHAR(100) NOT NULL,
 		phone VARCHAR(30) NOT NULL,
 		role VARCHAR(50) NOT NULL DEFAULT '',
@@ -120,7 +120,7 @@ function hatnch_test_create_contacts_schema( mysqli $connection, string $id_type
 	$connection->query( $sql );
 }
 
-function hatnch_test_create_events_schema( mysqli $connection ) {
+function hatnch_test_create_events_schema( mysqli $connection, string $contact_date_index = 'KEY contact_date (contact_id, created_at)' ) {
 	$connection->query( "CREATE TABLE wp_hatnch_events (
 		id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 		event_type VARCHAR(50) NOT NULL,
@@ -136,7 +136,7 @@ function hatnch_test_create_events_schema( mysqli $connection ) {
 		utm_content VARCHAR(255) NULL,
 		PRIMARY KEY (id),
 		KEY created_at (created_at),
-		KEY contact_date (contact_id, created_at),
+		{$contact_date_index},
 		KEY page_date (page_id, page_type, created_at),
 		KEY campaign_date (utm_campaign, created_at)
 	)" );
@@ -257,6 +257,28 @@ $GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
 hatnch_test_assert( false === $upgrade->invoke( null ), 'wrong primary ID type should fail schema gate' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong primary ID must not advance schema version' );
 echo "PASS: invalid primary ID blocks database-version advancement" . PHP_EOL;
+
+// An ID without AUTO_INCREMENT must not be accepted as the plugin's primary ID contract.
+hatnch_test_reset( $connection );
+hatnch_test_create_contacts_schema( $connection, 'BIGINT UNSIGNED', 'KEY status (status)', true, 'NOT NULL' );
+hatnch_test_create_events_schema( $connection );
+hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'non-auto-increment contacts fixture must exist' );
+hatnch_test_assert( 'wp_hatnch_events' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_events'" ), 'events fixture must exist for auto-increment test' );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+hatnch_test_assert( false === $upgrade->invoke( null ), 'missing AUTO_INCREMENT should fail schema gate' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'missing AUTO_INCREMENT must not advance schema version' );
+echo "PASS: missing AUTO_INCREMENT blocks database-version advancement" . PHP_EOL;
+
+// A required secondary index with misordered columns must be rejected.
+hatnch_test_reset( $connection );
+hatnch_test_create_contacts_schema( $connection );
+hatnch_test_create_events_schema( $connection, 'KEY contact_date (created_at, contact_id)' );
+hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'contacts fixture must exist for index-order test' );
+hatnch_test_assert( 'wp_hatnch_events' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_events'" ), 'misordered-index events fixture must exist' );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+hatnch_test_assert( false === $upgrade->invoke( null ), 'misordered required index should fail schema gate' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'misordered index must not advance schema version' );
+echo "PASS: misordered index blocks database-version advancement" . PHP_EOL;
 
 // A required secondary index with the wrong uniqueness must be rejected.
 hatnch_test_reset( $connection );
