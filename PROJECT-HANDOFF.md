@@ -192,3 +192,13 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - **Build #662 passed all eight jobs** for test commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: PHP validation on 8.1–8.5, MySQL migration integration, WordPress-backed lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225.
 - The WordPress-backed test log passed all five scenarios; the activation-migration assertion now checks both settings and routing-state options.
 - No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+## Current verified state — Build #665 (2026-10-03)
+
+- Re-checked the live GitHub Actions API during the continuation review: Build #665 completed successfully with all eight jobs green for branch HEAD `a1e81919aaf79ade4ec4f59ea9a106efc2cad788`. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132255572.
+- The eight successful jobs are PHP validation on PHP 8.1–8.5, MySQL migration integration tests, WordPress 6.6 migration lifecycle tests, and production ZIP build.
+- Re-checked PR #3: open, draft, and unmerged. Keep PR #3 and PR #2 unmerged pending the release gates below.
+- Review of `includes/class-hatnch-plugin.php` found no new confirmed defect that justifies a code change in this pass. This is a code-inspection result, not a substitute for controlled failure injection.
+- Still outstanding: execute the migration failure/retry matrix on a disposable staging clone or isolated test database; complete the frontend/privacy/routing/cache/WooCommerce checks; verify the exact candidate ZIP against the CI artifact using SHA-256; correlate the complete Plugin Check report with the exact candidate build.
+- Safety boundary unchanged: no staging or production database was accessed or modified; do not uninstall/reinstall the existing staging plugin because `uninstall.php` is destructive. Obtain explicit authorization and verify a restorable backup before any staging migration. Production deployment requires separate approval.
