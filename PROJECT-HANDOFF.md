@@ -145,3 +145,11 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - DDL review: the contacts table has required non-null fields and defaults for `role`, `description`, `status`, `weight`, and `sort_order`; the events table intentionally permits NULL for optional attribution/context fields. Adding strict checks for every column default/type would duplicate part of `dbDelta()` and could reject compatible database representations. Keep the current explicit checks focused on structural requirements that the plugin relies on; add further checks only for a demonstrated compatibility or data-integrity risk.
 - **Not verified yet:** no disposable database was available in this workflow to execute fault-injection or migration integration tests. Static contract tests and CI do not establish runtime retry behavior. PR #3 remains draft and unmerged; no staging/production database was accessed or changed.
 - Build #633 passed all six jobs for handoff commit `49ad6d0049ea55b20a463e48eb7d065d74eb44d2`: PHP validation on 8.1–8.5 and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37122709277. This verifies the branch HEAD and static/packaging checks, not the controlled migration matrix.
+
+
+## CI verification — Build #634 (2026-10-03)
+
+- Verified Build #634 completed successfully for commit `8d3bc1ec1f599430089037ef583185a3da3d2e9d`: all five PHP validation jobs (8.1–8.5) and the production package build passed.
+- Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37122792361
+- This confirms CI for the latest test-plan and handoff updates at that commit. It does not execute the controlled migration matrix against a real database.
+- Current release gate remains unchanged: PR #3 is draft/unmerged; run migration fault-injection and retry tests on a disposable database before considering merge. No staging/production database was accessed or changed.
