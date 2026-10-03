@@ -15,6 +15,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Migration case: copied legacy settings match the new option; verify legacy options are deleted only after the copy is verified.
 - [ ] Migration case: one table rename succeeds and a later rename fails; retry and verify the already-renamed table is handled idempotently without data loss.
 - [ ] Verify schema version is not advanced when migration, table verification, or version-option update fails.
+- [ ] Simulate an incomplete current table (one required column missing) and verify the upgrade gate does not accept the schema or advance the database version until `dbDelta()` restores the required column.
 - [ ] Verify migration/upgrade errors are shown only to users with manage_options capability and do not expose sensitive data.
 - [ ] Direct routing.
 - [ ] Random routing.
