@@ -202,3 +202,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Review of `includes/class-hatnch-plugin.php` found no new confirmed defect that justifies a code change in this pass. This is a code-inspection result, not a substitute for controlled failure injection.
 - Still outstanding: execute the migration failure/retry matrix on a disposable staging clone or isolated test database; complete the frontend/privacy/routing/cache/WooCommerce checks; verify the exact candidate ZIP against the CI artifact using SHA-256; correlate the complete Plugin Check report with the exact candidate build.
 - Safety boundary unchanged: no staging or production database was accessed or modified; do not uninstall/reinstall the existing staging plugin because `uninstall.php` is destructive. Obtain explicit authorization and verify a restorable backup before any staging migration. Production deployment requires separate approval.
+
+
+## Documentation CI confirmation — Builds #666 and #667 (2026-10-03)
+
+- Re-checked live GitHub Actions results after the two documentation commits: Build #666 passed for handoff commit `e36288404021f53f96e177eaf46baa2269f7dcce`; Build #667 passed for staging-plan commit / branch HEAD `0c65fb89b42ddad8995f41ba93827c982cd477c0`.
+- Runs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132487851 and https://github.com/dejabey/hatnikotni-chat/actions/runs/37132489013.
+- Both runs completed with conclusion `success`. Build #667 is the latest verified branch-head CI result at the time of this entry.
+- This confirms the documentation commits pass the existing CI workflow; it does not complete the controlled staging migration matrix or runtime/release gates.
+- PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
