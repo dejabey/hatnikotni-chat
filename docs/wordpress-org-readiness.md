@@ -9,7 +9,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Replace legacy three-character declarations with unique HATNCH_/hatnch_ namespace.
 - [x] Prefix custom hooks, options, cron events, admin page slugs, storage tables, cookies and asset handles/classes.
 - [x] Add baseline migration for existing settings, routing state and custom tables.
-- [x] Implement migration safeguards for legacy/new table collisions, failed rename handling, schema-version advancement after failure, and deactivate/reactivate ordering; verify required columns before accepting the current schema. Build #608 passed for the migration-hardening branch: https://github.com/dejabey/hatnikotni-chat/actions/runs/37111027511.
+- [x] Implement migration safeguards for legacy/new table collisions, failed rename handling, schema-version advancement after failure, and deactivate/reactivate ordering; verify required columns before accepting the current schema. Build #608 passed for the migration-hardening code: https://github.com/dejabey/hatnikotni-chat/actions/runs/37111027511. Follow-up documentation commit passed Build #611: https://github.com/dejabey/hatnikotni-chat/actions/runs/37118281504.
 - [ ] Complete code review and controlled migration tests for legacy-only tables, collisions, option conflicts, rename failure/partial retry, incomplete schema, and deactivate/reactivate before release.
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
