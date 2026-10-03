@@ -153,3 +153,14 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37122792361
 - This confirms CI for the latest test-plan and handoff updates at that commit. It does not execute the controlled migration matrix against a real database.
 - Current release gate remains unchanged: PR #3 is draft/unmerged; run migration fault-injection and retry tests on a disposable database before considering merge. No staging/production database was accessed or changed.
+
+
+## Database-backed migration test results — 2026-10-03
+
+- Added `tests/migration-integration.php`, run against an ephemeral MySQL 8.0 service in GitHub Actions. The harness calls the migration routine using real MySQL table operations and a minimal adapter for the WordPress options API and `$wpdb` methods used by that routine.
+- Added a dedicated `migration-integration` job to `.github/workflows/validate.yml`; the existing five-version PHP matrix and clean production package job remain enabled.
+- **Build #638 passed** for commit `44f139772726fa086842319edb451320db121691`: all five PHP matrix jobs, production package build, and MySQL migration integration tests. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123452206.
+- **Build #639 passed** for commit `473279457a347913c68954d3ad94e983cb26dedd`, adding the explicit conflicting-options case. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123502898.
+- Verified integration cases: (1) legacy-only tables/options migrate and representative rows/settings survive; (2) conflicting legacy/current settings stop migration before table changes and preserve both values; (3) old/new table collision pauses without deleting either table; (4) injected failure on the second rename leaves the remaining legacy table intact and a subsequent retry completes while preserving contact/event rows.
+- **Scope limitation:** these tests exercise the migration routine with real MySQL, but use a minimal adapter rather than booting WordPress. They do not yet test the complete activation/init lifecycle, `dbDelta()` recovery, required-schema rejection, schema-version update failures, or administrator-notice permissions. The manual staging test plan remains in force.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
