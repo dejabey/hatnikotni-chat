@@ -273,8 +273,56 @@ final class HATNCH_Plugin {
 	private static function plugin_tables_exist(): bool {
 		global $wpdb;
 
-		return true === self::table_exists( $wpdb->prefix . 'hatnch_contacts' )
-			&& true === self::table_exists( $wpdb->prefix . 'hatnch_events' );
+		$contacts_columns = array(
+			'id',
+			'name',
+			'phone',
+			'role',
+			'description',
+			'status',
+			'weight',
+			'sort_order',
+			'created_at',
+			'updated_at',
+		);
+		$events_columns   = array(
+			'id',
+			'event_type',
+			'created_at',
+			'contact_id',
+			'page_id',
+			'page_type',
+			'device',
+			'utm_source',
+			'utm_medium',
+			'utm_campaign',
+			'utm_term',
+			'utm_content',
+		);
+
+		return self::table_has_columns( $wpdb->prefix . 'hatnch_contacts', $contacts_columns )
+			&& self::table_has_columns( $wpdb->prefix . 'hatnch_events', $events_columns );
+	}
+
+	/**
+	 * Verify that a plugin-owned table contains every required column.
+	 *
+	 * @param string   $table           Table name.
+	 * @param string[] $required_columns Required column names.
+	 * @return bool True when every required column is present.
+	 */
+	private static function table_has_columns( string $table, array $required_columns ): bool {
+		global $wpdb;
+
+		$wpdb->last_error = '';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional schema verification for plugin-owned tables.
+		$columns = $wpdb->get_col( $wpdb->prepare( 'SHOW COLUMNS FROM %i', $table ), 0 );
+
+		if ( '' !== $wpdb->last_error || ! is_array( $columns ) ) {
+			return false;
+		}
+
+		return array() === array_diff( $required_columns, $columns );
 	}
 
 	/**
