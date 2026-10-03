@@ -121,8 +121,8 @@ final class HATNCH_Plugin {
 
 		$legacy_prefix = sprintf( '%s%s', 'hk', 'c_' );
 		$option_pairs  = array(
-			$legacy_prefix . 'settings'       => 'hatnch_settings',
-			$legacy_prefix . 'routing_state'  => 'hatnch_routing_state',
+			$legacy_prefix . 'settings'      => 'hatnch_settings',
+			$legacy_prefix . 'routing_state' => 'hatnch_routing_state',
 		);
 
 		// Preflight option conflicts before making any changes.
