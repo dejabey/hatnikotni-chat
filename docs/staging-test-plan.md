@@ -131,3 +131,11 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Build #659 passed all eight jobs for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
 - The WordPress-backed suite now covers five scenarios, including actual activation/init and `dbDelta()` column/index repair. It does not inject an actual WordPress `$wpdb` rename failure; partial-rename retry remains covered by the separate MySQL adapter integration suite.
 - All automated database tests use ephemeral GitHub Actions services. No staging/production database was accessed or changed.
+
+
+## Routing-state migration assertion — 2026-10-03
+
+- [x] WordPress-backed activation test verifies the legacy routing-state option is copied exactly and deleted only after the new value is verified.
+- [x] Build #662 passed all eight jobs for commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225.
+- This assertion supplements the real WordPress tests for activation migration, `dbDelta()` column/index repair, table collisions, and option conflicts.
+- No staging/production database was accessed or changed.
