@@ -128,7 +128,6 @@ echo "PASS: legacy tables/options migrate with data preserved" . PHP_EOL;
 // Conflicting legacy/current options: pause before any table changes and preserve both values.
 hatnch_test_reset( $connection );
 $GLOBALS['hatnch_test_options']['hkc_settings'] = array( 'legacy' => 1 );
-$GLOBALS['hatnch_test_options']['hatnch_settings'] = array( 'current' => 1 );
 hatnch_test_assert( false === $migration->invoke( null ), 'conflicting options should pause migration' );
 hatnch_test_assert( array( 'legacy' => 1 ) === get_option( 'hkc_settings' ), 'legacy option must remain after conflict' );
 hatnch_test_assert( array( 'current' => 1 ) === get_option( 'hatnch_settings' ), 'current option must remain after conflict' );
