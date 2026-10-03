@@ -3,6 +3,8 @@
  * Database-backed migration integration tests. Uses only the disposable CI MySQL service.
  */
 define( 'ABSPATH', __DIR__ );
+define( 'ARRAY_A', 'ARRAY_A' );
+define( 'HATNCH_DB_VERSION', '1.1.0' );
 $GLOBALS['hatnch_test_options'] = array();
 $GLOBALS['hatnch_test_fail_rename_to'] = '';
 
@@ -15,6 +17,12 @@ function add_option( $key, $value, $deprecated = '', $autoload = 'yes' ) {
 	return true;
 }
 function delete_option( $key ) { unset( $GLOBALS['hatnch_test_options'][ $key ] ); return true; }
+function update_option( $key, $value, $autoload = null ) {
+	if ( get_option( $key, null ) === $value ) { return false; }
+	$GLOBALS['hatnch_test_options'][ $key ] = $value;
+	return true;
+}
+function absint( $value ) { return abs( (int) $value ); }
 function wp_clear_scheduled_hook( $hook ) { return 0; }
 function __( $text, $domain = '' ) { return $text; }
 function esc_html__( $text, $domain = '' ) { return $text; }
@@ -38,6 +46,24 @@ class HATNCH_Test_WPDB {
 			}
 		}
 		return $query;
+	}
+	public function get_col( $query, $column = 0 ) {
+		$this->last_error = '';
+		$result = $this->connection->query( $query );
+		if ( false === $result ) { $this->last_error = $this->connection->error; return null; }
+		$values = array();
+		while ( $row = $result->fetch_row() ) { $values[] = $row[ $column ] ?? null; }
+		$result->free();
+		return $values;
+	}
+	public function get_results( $query, $output = ARRAY_A ) {
+		$this->last_error = '';
+		$result = $this->connection->query( $query );
+		if ( false === $result ) { $this->last_error = $this->connection->error; return null; }
+		$rows = array();
+		while ( $row = $result->fetch_assoc() ) { $rows[] = $row; }
+		$result->free();
+		return $rows;
 	}
 	public function get_var( $query ) {
 		$this->last_error = '';
@@ -79,6 +105,8 @@ $connection = new mysqli( getenv( 'MYSQL_HOST' ) ?: '127.0.0.1', getenv( 'MYSQL_
 if ( $connection->connect_error ) { fwrite( STDERR, 'MySQL connection failed: ' . $connection->connect_error . PHP_EOL ); exit( 1 ); }
 $connection->set_charset( 'utf8mb4' );
 $GLOBALS['wpdb'] = new HATNCH_Test_WPDB( $connection );
+class HATNCH_Contacts { public static function install_schema() {} }
+class HATNCH_Analytics { public static function install_schema() {} }
 require_once __DIR__ . '/../includes/class-hatnch-plugin.php';
 $migration = new ReflectionMethod( 'HATNCH_Plugin', 'maybe_migrate_legacy_data' );
 $migration->setAccessible( true );
@@ -134,6 +162,48 @@ hatnch_test_assert( 1 === (int) $row[0], 'contact row should survive retry' );
 $row = $connection->query( 'SELECT COUNT(*) FROM wp_hatnch_events' )->fetch_row();
 hatnch_test_assert( 1 === (int) $row[0], 'event row should survive retry' );
 echo "PASS: partial rename failure recovers on retry" . PHP_EOL;
+
+// Schema gate: a missing required column must prevent DB-version advancement.
+hatnch_test_reset( $connection );
+$connection->query( 'CREATE TABLE wp_hatnch_contacts (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	phone VARCHAR(30) NOT NULL,
+	role VARCHAR(50) NOT NULL DEFAULT \'\',
+	description TEXT NOT NULL,
+	status VARCHAR(20) NOT NULL DEFAULT \'active\',
+	weight INT NOT NULL DEFAULT 1,
+	sort_order INT NOT NULL DEFAULT 0,
+	created_at DATETIME NOT NULL,
+	PRIMARY KEY (id),
+	KEY status (status),
+	KEY sort_order (sort_order)
+)' );
+$connection->query( 'CREATE TABLE wp_hatnch_events (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	event_type VARCHAR(50) NOT NULL,
+	created_at DATETIME NOT NULL,
+	contact_id BIGINT UNSIGNED NULL,
+	page_id BIGINT UNSIGNED NULL,
+	page_type VARCHAR(50) NULL,
+	device VARCHAR(50) NULL,
+	utm_source VARCHAR(255) NULL,
+	utm_medium VARCHAR(255) NULL,
+	utm_campaign VARCHAR(255) NULL,
+	utm_term VARCHAR(255) NULL,
+	utm_content VARCHAR(255) NULL,
+	PRIMARY KEY (id),
+	KEY created_at (created_at),
+	KEY contact_date (contact_id, created_at),
+	KEY page_date (page_id, page_type, created_at),
+	KEY campaign_date (utm_campaign, created_at)
+)' );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+$upgrade = new ReflectionMethod( 'HATNCH_Plugin', 'maybe_upgrade' );
+$upgrade->setAccessible( true );
+hatnch_test_assert( false === $upgrade->invoke( null ), 'missing required column should fail schema gate' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'schema version must not advance when schema verification fails' );
+echo "PASS: incomplete schema blocks database-version advancement" . PHP_EOL;
 
 hatnch_test_reset( $connection );
 $connection->close();
