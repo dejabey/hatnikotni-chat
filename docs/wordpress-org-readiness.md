@@ -8,7 +8,8 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 
 - [x] Replace legacy three-character declarations with unique HATNCH_/hatnch_ namespace.
 - [x] Prefix custom hooks, options, cron events, admin page slugs, storage tables, cookies and asset handles/classes.
-- [x] Add migration for existing settings, routing state and custom tables.
+- [x] Add baseline migration for existing settings, routing state and custom tables.
+- [ ] Close migration safety gaps identified in the 2026-10-03 audit: legacy/new table collisions, failed rename handling, schema-version advancement after failure, and deactivate/reactivate ordering that can replace old settings with defaults. Preserve recoverability and test all cases before release.
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
