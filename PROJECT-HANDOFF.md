@@ -211,3 +211,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Both runs completed with conclusion `success`. Build #667 is the latest verified branch-head CI result at the time of this entry.
 - This confirms the documentation commits pass the existing CI workflow; it does not complete the controlled staging migration matrix or runtime/release gates.
 - PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+
+
+## WordPress-backed rename-failure and retry test — Build #670 (2026-10-03)
+
+- Verified live GitHub Actions run #670 completed with conclusion `success` for HEAD commit `189dd82529ceced521b92d89864edce86c23fe96`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229.
+- All eight jobs passed: PHP validation on PHP 8.1–8.5, MySQL migration integration tests, WordPress 6.6 migration lifecycle tests, and production package build.
+- Added a WordPress-backed fault-injection scenario that forces a real `$wpdb` `RENAME TABLE` failure after the contacts table has already been renamed. The test verifies that the legacy events table and data remain available, the database version does not advance on failure, and a subsequent activation retry completes migration while preserving contact/event rows.
+- This verifies the injected partial-rename failure/retry path in the isolated disposable WordPress/MySQL CI environment. It does not replace testing against a disposable clone of the actual staging environment or establish candidate ZIP provenance.
+- PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed. Do not uninstall/reinstall the existing staging plugin; `uninstall.php` deletes plugin data.
