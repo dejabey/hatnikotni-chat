@@ -100,6 +100,8 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Conflicting legacy/current settings options: migration pauses before table changes and preserves both values.
 - [x] Legacy/current table collision: migration pauses and preserves both tables and the legacy option.
 - [x] Injected failure on the second table rename: verify the first rename remains valid, the failed legacy table remains present, and a retry completes with both rows preserved.
-- [x] Build #639 passed all six PHP/package validation jobs plus the disposable MySQL integration-test job: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123502898. Commit: `473279457a347913c68954d3ad94e983cb26dedd`.
-- Scope limitation: the test harness invokes the migration routine against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, validate `dbDelta()`/schema-version failure behavior, or replace staging runtime tests.
+- [x] Incomplete current schema: missing required contact column prevents the database version from advancing.
+- [x] Build #643 passed all five PHP matrix jobs (8.1–8.5), migration integration tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123621773. Branch commit: `5e2381194d3e1007b3744cd6adbfe912f99a9c9c`.
+- [x] Integration job output explicitly reported PASS for all five cases above.
+- Scope limitation: the test harness invokes migration/upgrade routines against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, test real `dbDelta()` repair, or verify administrator-notice permissions. Manual staging checks remain required.
 - These automated tests use an ephemeral GitHub Actions MySQL service only. No staging or production database was accessed or modified. PR #3 remains draft and unmerged.
