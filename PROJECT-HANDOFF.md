@@ -30,7 +30,7 @@
 
 - Added verification of required named indexes and their ordered columns for both `hatnch_contacts` and `hatnch_events`, in addition to required-column checks. Code commit: `3292afaaa91f04f39402e221b039654509351d57`.
 - Added static contract assertions in `tests/skeleton-contract.sh` (commit `15dcedd2040784bc9a781f87df2eb517936cc5c0`) and documented a missing/misordered-index test in `docs/staging-test-plan.md` (commit `23c40fe69ced0c8af0c0be46cf1a29b578db82c7`).
-- Build #614 (run `37118448499`) was in progress at last check for the code change. Build #615 (run `37118455872`) was queued for a documentation commit. Recheck CI before considering the latest code validated.
+- Build #614 (run `37118448499`) failed only at PHPCS on a PHPDoc spacing issue (PHP syntax and skeleton contract passed); fixed in commit `2e7a5c5d420ffa4ba3cf5b6e25e580618731ed5c`. A fresh CI result for that fix has not yet been returned by the workflow lookup. Build #615 (`37118455872`) was queued for documentation. Recheck CI before considering the latest code validated.
 - This remains code-level hardening only. No staging/production database was accessed or changed. Controlled tests for legacy data, conflicts, partial migration, schema columns/indexes, and retry behavior remain required.
 
 ## Current objective
