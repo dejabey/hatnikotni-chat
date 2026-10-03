@@ -44,7 +44,7 @@ V1 uses two custom tables:
 - {$wpdb->prefix}hatnch_contacts
 - {$wpdb->prefix}hatnch_events
 
-WordPress database prefix and charset/collation are obtained from WordPress APIs. The schema version is stored in hatnch_db_version. Deactivation preserves data. Legacy-prefix migration runs during plugins_loaded; audit on 2026-10-03 found unresolved edge cases: if old and new tables both exist, old rows are not merged and remain invisible to current plugin queries; activation can create new defaults/tables before migration and cause legacy settings to be skipped and deleted; and rename-query failures are not checked before the schema upgrade path may advance the database version. These cases must be addressed and tested before release. Do not merge contacts/events blindly: event contact_id values must remain linked to the correct contacts when IDs collide.
+WordPress database prefix and charset/collation are obtained from WordPress APIs. The schema version is stored in hatnch_db_version. Deactivation preserves data. The migration-hardening branch runs legacy migration before defaults/schema installation, stops without merging when legacy and current tables coexist, verifies rename outcomes, and preserves legacy options until copied values are checked. Before advancing the schema version, the upgrade gate checks that both plugin tables contain all required columns. It does not automatically merge contacts/events because event contact_id values must remain linked to the correct contacts when IDs collide. Build #604 passed per user report, but controlled migration tests—including incomplete-schema and partial-rename/retry cases—remain pending; see docs/staging-test-plan.md.
 
 ## Contacts and routing
 
