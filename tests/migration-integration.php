@@ -238,6 +238,8 @@ $connection->query( 'CREATE TABLE wp_hatnch_events (
 	KEY page_date (page_id, page_type, created_at),
 	KEY campaign_date (utm_campaign, created_at)
 )' );
+hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'incomplete contacts fixture must exist' );
+hatnch_test_assert( 'wp_hatnch_events' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_events'" ), 'events fixture must exist' );
 $GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
 $upgrade = new ReflectionMethod( 'HATNCH_Plugin', 'maybe_upgrade' );
 $upgrade->setAccessible( true );
@@ -249,6 +251,8 @@ echo "PASS: incomplete schema blocks database-version advancement" . PHP_EOL;
 hatnch_test_reset( $connection );
 hatnch_test_create_contacts_schema( $connection, 'INT UNSIGNED' );
 hatnch_test_create_events_schema( $connection );
+hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'wrong-ID contacts fixture must exist' );
+hatnch_test_assert( 'wp_hatnch_events' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_events'" ), 'events fixture must exist for ID test' );
 $GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
 hatnch_test_assert( false === $upgrade->invoke( null ), 'wrong primary ID type should fail schema gate' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong primary ID must not advance schema version' );
@@ -258,6 +262,8 @@ echo "PASS: invalid primary ID blocks database-version advancement" . PHP_EOL;
 hatnch_test_reset( $connection );
 hatnch_test_create_contacts_schema( $connection, 'BIGINT UNSIGNED', 'UNIQUE KEY status (status)' );
 hatnch_test_create_events_schema( $connection );
+hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'wrong-index contacts fixture must exist' );
+hatnch_test_assert( 'wp_hatnch_events' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_events'" ), 'events fixture must exist for index test' );
 $GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
 hatnch_test_assert( false === $upgrade->invoke( null ), 'unique secondary index should fail schema gate' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong index uniqueness must not advance schema version' );
