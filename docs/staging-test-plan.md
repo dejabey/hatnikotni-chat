@@ -101,9 +101,11 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Legacy/current table collision: migration pauses and preserves both tables and the legacy option.
 - [x] Injected failure on the second table rename: verify the first rename remains valid, the failed legacy table remains present, and a retry completes with both rows preserved.
 - [x] Incomplete current schema: missing required contact column prevents the database version from advancing.
-- [x] Invalid primary ID definition: non-BIGINT ID prevents the database version from advancing.
+- [x] Invalid primary ID type: non-BIGINT ID prevents the database version from advancing.
+- [x] Missing AUTO_INCREMENT: schema gate rejects the ID and prevents version advancement.
+- [x] Misordered required index: schema gate rejects the index and prevents version advancement.
 - [x] Wrong secondary-index uniqueness: unique `status` index is rejected and the database version is not advanced.
-- [x] Build #646 passed all five PHP matrix jobs (8.1–8.5), migration integration tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123812035. Commit: `6cc75a45bbcaf9485aaad017519ca95f3033f7cd`.
-- [x] Integration job output explicitly reported PASS for all seven cases above.
+- [x] Build #649 passed all five PHP matrix jobs (8.1–8.5), migration integration tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123966892. Commit: `2c97ef26720f492ff0f3d8357ab4e3a23f4621ec`.
+- [x] Integration job output explicitly reported PASS for all nine cases above.
 - Scope limitation: the test harness invokes migration/upgrade routines against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, test real `dbDelta()` repair, or verify administrator-notice permissions. Manual staging checks remain required.
 - These automated tests use an ephemeral GitHub Actions MySQL service only. No staging or production database was accessed or modified. PR #3 remains draft and unmerged.
