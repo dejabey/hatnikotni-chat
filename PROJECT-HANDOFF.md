@@ -10,7 +10,7 @@
 **Latest known package artifact before migration hardening:** `hatnikotni-chat-0.1.8`, artifact ID `11238198052` (build #578; SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the package, Plugin Check evidence and required staging consent tests are fully correlated and reviewed.
-**Current migration branch status (2026-10-03):** Build #662 passed all eight jobs on code/test commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225. It includes PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build. Follow-up commits `be6d24822fff0d3ea69f78005237a51ecbccaa96` and `4ed031631e0e9c0dc33742500439af613662a215` update handoff/test-plan documentation; their CI runs must be checked before treating the current HEAD as validated.
+**Current migration branch status (2026-10-03):** Build #670 passed all eight jobs for code/test commit `189dd82529ceced521b92d89864edce86c23fe96`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229. Build #671 then passed all eight jobs for handoff commit `69557fdb7ba3e15bc1e89b4e3af29978861822f6`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133299028. The latest verified CI therefore includes PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build.
 **Migration test coverage:** real WordPress activation migrates tables, settings and routing-state options; real `init()` repairs a missing column and index through `dbDelta()`; collision tests preserve old/new tables and conflicting options without advancing the database version. Separate MySQL integration tests cover partial rename retry and schema/version failure gates.
 **Safety gates:** PR #3 is draft/unmerged; PR #2 is draft/unmerged. No staging/production database has been accessed or modified. Do not merge or run migration on the existing staging site without explicit authorization and a verified backup/clone.
 
@@ -220,3 +220,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Added a WordPress-backed fault-injection scenario that forces a real `$wpdb` `RENAME TABLE` failure after the contacts table has already been renamed. The test verifies that the legacy events table and data remain available, the database version does not advance on failure, and a subsequent activation retry completes migration while preserving contact/event rows.
 - This verifies the injected partial-rename failure/retry path in the isolated disposable WordPress/MySQL CI environment. It does not replace testing against a disposable clone of the actual staging environment or establish candidate ZIP provenance.
 - PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed. Do not uninstall/reinstall the existing staging plugin; `uninstall.php` deletes plugin data.
+
+
+## Latest verified state — Build #671 (2026-10-03)
+
+- Re-checked the live GitHub Actions API: Build #671 completed with conclusion `success` and all eight jobs passed for handoff commit `69557fdb7ba3e15bc1e89b4e3af29978861822f6`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133299028.
+- Build #670 passed all eight jobs for code/test commit `189dd82529ceced521b92d89864edce86c23fe96`, including the real WordPress `$wpdb` rename-failure/retry scenario: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229.
+- Updated PR #3's description to include both results. PR #3 remains draft/unmerged; PR #2 remains draft/unmerged.
+- Code review is still in progress. Automated CI does not replace the remaining disposable-staging-clone migration matrix, frontend/runtime checks, ZIP SHA-256 provenance verification, or exact-candidate Plugin Check correlation.
+- Safety unchanged: no staging/production database was accessed or modified. Do not uninstall/reinstall the existing staging plugin; `uninstall.php` deletes plugin data. No merge or production deployment is authorized.
