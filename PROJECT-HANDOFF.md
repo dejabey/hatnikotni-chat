@@ -117,3 +117,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Added static contract checks in `tests/skeleton-contract.sh` and documented a controlled test for wrong ID type/nullability/missing AUTO_INCREMENT in `docs/staging-test-plan.md`.
 - Code commit: `e0a57d230ebf2162a0c6213788c397e70af8afc0`; test commit: `e7dac64095a1cc873c34ec188db41e963d8bfdb6`; test-plan commit: `aa8364877d9fae1a9e9042dc4e3e351533df01ce`.
 - **Validation pending:** these new commits still need a fresh GitHub Actions run. Do not call this new check CI-verified until the workflow completes successfully. Column types/defaults beyond `id`, and index uniqueness/visibility, are not yet comprehensively checked. Controlled migration tests remain outstanding. No staging/production database was accessed or changed; PR #3 remains draft and unmerged.
+
+
+## CI and index-contract follow-up — 2026-10-03
+
+- Verified Build #627 succeeded: all five PHP matrix jobs (8.1–8.5) and the production package build passed, including PHP syntax, JavaScript syntax, skeleton contract tests, and WordPress Coding Standards. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37122434046.
+- Further review found index verification compared names and ordered columns but not uniqueness. Updated `table_has_required_indexes()` to verify `Non_unique`: `PRIMARY` must be unique and each declared secondary index must be non-unique. Added static contract assertions and a staging test-plan case for wrong uniqueness.
+- Relevant commits: ID schema validation `e0a57d230ebf2162a0c6213788c397e70af8afc0`; uniqueness verification `73cc40aa37f8e459ecd7b8a706fa9ff0d139d3bb`; static test `0f73862434f4dd8888a8138fdcd8d7d5d29ba0b2`; test plan `96e535cedbce2cc1727dff38f1b0637483b1098f`.
+- **Validation status:** Build #627 predates the index-uniqueness change. A fresh CI run is required; do not treat the latest changes as CI-verified until all jobs pass.
+- Still pending: controlled migration test matrix and review of all column types/defaults/nullability beyond the ID column. PR #3 remains draft and unmerged; no staging/production database was accessed or modified.
