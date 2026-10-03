@@ -6,6 +6,12 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 - [ ] Fresh installation and activation.
 - [ ] Upgrade migration from existing data; verify contacts and routing state survive.
+- [ ] Migration case: legacy contacts/events tables exist and new tables do not; verify rename succeeds and all rows remain accessible.
+- [ ] Migration case: new tables already exist and legacy tables also contain data; verify no data is silently hidden or lost and define safe recovery/merge behavior (including event contact_id references).
+- [ ] Migration case: new tables exist but are empty while legacy tables contain data.
+- [ ] Migration case: legacy table rename fails (e.g. simulated database error); verify migration does not mark the schema version complete or strand the old data.
+- [ ] Migration case: deactivate/reactivate an old installation before migration; verify old settings and routing state are not replaced by activation defaults or deleted.
+- [ ] Migration case: existing new settings coexist with legacy settings; confirm documented precedence and retain a recoverable copy until migration is verified.
 - [ ] Direct routing.
 - [ ] Random routing.
 - [ ] Round-robin order across active contacts.
@@ -46,7 +52,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [x] User supplied a staging Plugin Check screenshot reading “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked (2026-10-02).
 - [ ] Correlate the clean Plugin Check screenshot/report with the exact installed version/build; screenshot itself does not display that information. Export the complete report if possible.
 - [x] Earlier six warnings were addressed in source: public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix.
-- [ ] Test the migration collision case where both legacy and new custom tables exist. Current code renames legacy tables only if the new table does not exist; it does not merge rows if both exist.
+- [ ] Fix and test the migration collision/failure cases identified in the 2026-10-03 code audit. Current migration can leave legacy rows invisible to the plugin and can delete legacy settings after activation has already created new defaults.
 - [ ] Complete remaining runtime checks: routing modes, shortcode, keyboard/focus/Escape, mobile layout, cache/CDN, JavaScript-disabled behavior, custom cookie path/domain, and WooCommerce pages.
 
 ## Cache/CDN
