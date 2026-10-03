@@ -39,13 +39,15 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 
 ## WordPress Plugin Check / package verification
 
-- [x] Build #571 passed all six CI jobs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194. Artifact ID: `11238156392`. Plugin source is unchanged from build #549; intervening branch changes are documentation-only.
-- [x] User confirmed build #549 is installed on staging (CI run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956).
-- [ ] Resume runtime tests in the next session; no new post-install test results have been reported yet.
-- [x] User ran Tools → Plugin Check on staging and supplied a screenshot reading “Checks complete. No errors found.” with Error and Warning types selected and AI Analysis unchecked (2026-10-02).
-- [ ] Record the exact installed version/build used for this screenshot; the screenshot does not display that information. Export the complete report if possible.
-- [x] The earlier six warnings were addressed in source: the public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix. The latest screenshot is consistent with these findings being cleared, but exact build correlation remains to be recorded.
-- [ ] If any warning reappears in a full report, inspect the exact source line. Do not add a nonce to external UTM campaign URLs because that would break ordinary campaign links. Never execute uninstall as a test on live staging because it deletes plugin data.
+- [x] Build #578 passed all six CI jobs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37033299925. Artifact ID: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
+- [x] Build #578 is based on branch HEAD `de9b2539232bfedc36c1e5806407bd4f52cb08d1`; this commit changes documentation only, so package source remains unchanged from build #549.
+- [x] User-reported runtime tests on the active Hatnikotni Chat 0.1.8 staging installation: WhatsApp redirect works; consent panel opens; Accept increments analytics 3→4; Reject prevents a new event; choices persist after reload; withdrawal sets consent to `no`; and the HttpOnly campaign cookie is removed on Reject and stays absent after reload.
+- [ ] Verify the exact ZIP installed on staging matches a specific artifact by SHA-256. Runtime tests alone do not prove artifact provenance.
+- [x] User supplied a staging Plugin Check screenshot reading “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked (2026-10-02).
+- [ ] Correlate the clean Plugin Check screenshot/report with the exact installed version/build; screenshot itself does not display that information. Export the complete report if possible.
+- [x] Earlier six warnings were addressed in source: public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix.
+- [ ] Test the migration collision case where both legacy and new custom tables exist. Current code renames legacy tables only if the new table does not exist; it does not merge rows if both exist.
+- [ ] Complete remaining runtime checks: routing modes, shortcode, keyboard/focus/Escape, mobile layout, cache/CDN, JavaScript-disabled behavior, custom cookie path/domain, and WooCommerce pages.
 
 ## Cache/CDN
 
