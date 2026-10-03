@@ -106,7 +106,8 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Misordered required index: schema gate rejects the index and prevents version advancement.
 - [x] Wrong secondary-index uniqueness: unique `status` index is rejected and the database version is not advanced.
 - [x] Failed database-version option write: the upgrade returns failure and leaves the old version unchanged.
-- [x] Build #651 passed all five PHP matrix jobs (8.1–8.5), migration integration tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37124126644. Commit: `5e8dfea587bc9fb7a384cdb31fb198b4b2a2739a`.
-- [x] Integration job output explicitly reported PASS for all ten cases above.
-- Scope limitation: the test harness invokes migration/upgrade routines against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, test real `dbDelta()` repair, or verify administrator-notice permissions. Manual staging checks remain required.
+- [x] Migration error notice is hidden from non-administrators and visible to administrators.
+- [x] Build #653 passed all five PHP matrix jobs (8.1–8.5), migration integration tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37124265410. Commit: `eebf15e65703f1b4634937e46c91da346eba59c8`.
+- [x] Integration job output explicitly reported PASS for all eleven cases above.
+- Scope limitation: the test harness invokes migration/upgrade routines against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, or test real `dbDelta()` repair. Manual staging checks remain required.
 - These automated tests use an ephemeral GitHub Actions MySQL service only. No staging or production database was accessed or modified. PR #3 remains draft and unmerged.
