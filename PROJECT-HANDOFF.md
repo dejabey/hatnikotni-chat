@@ -174,3 +174,11 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - WordPress-backed test output explicitly reports PASS for: real activation migrating legacy tables/options while preserving rows; real `init()` upgrade restoring a missing contacts column through `dbDelta()` before version advancement; and restoring a missing `status` index through `dbDelta()` before version advancement.
 - This closes the previous CI gap for a real WordPress activation callback, the actual WordPress options/`$wpdb` APIs, and real `dbDelta()` column/index repair. It does not replace the separate manual staging checks for collision scenarios, failure injection, frontend behavior, or artifact provenance.
 - CI uses an isolated disposable WordPress/MySQL environment only. No staging or production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+## Expanded WordPress-backed collision tests — 2026-10-03
+
+- Expanded `tests/wordpress-migration-integration.php` with two real WordPress activation scenarios: a legacy/current table collision, and conflicting legacy/current settings options.
+- **Build #659 passed all eight jobs** for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: PHP 8.1–8.5 validation, MySQL migration integration, WordPress-backed lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
+- WordPress-backed test logs explicitly report PASS for five scenarios: legacy table/option migration with rows preserved; real `dbDelta()` repair of a missing column; real `dbDelta()` repair of a missing index; table-collision preservation; and conflicting-option preservation without creating current tables or advancing the database version.
+- Tests run only against disposable WordPress/MySQL services in GitHub Actions. No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
