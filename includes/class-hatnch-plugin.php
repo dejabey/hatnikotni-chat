@@ -414,7 +414,7 @@ final class HATNCH_Plugin {
 				return false;
 			}
 
-			$actual_indexes[ $key_name ]['non_unique'] = $non_unique;
+			$actual_indexes[ $key_name ]['non_unique']          = $non_unique;
 			$actual_indexes[ $key_name ]['columns'][ $position ] = (string) $row['Column_name'];
 		}
 
