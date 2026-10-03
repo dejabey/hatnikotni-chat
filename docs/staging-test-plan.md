@@ -56,7 +56,8 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [x] User supplied a staging Plugin Check screenshot reading “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked (2026-10-02).
 - [ ] Correlate the clean Plugin Check screenshot/report with the exact installed version/build; screenshot itself does not display that information. Export the complete report if possible.
 - [x] Earlier six warnings were addressed in source: public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix.
-- [ ] **Migration hardening PR #3 is draft and not merged:** https://github.com/dejabey/hatnikotni-chat/pull/3. Code review and current CI are pending. The change preflights conflicts, preserves legacy data on conflict/failure, runs migration before activation defaults, checks renames and table presence, and delays schema-version updates until verification.
+- [x] **Migration hardening PR #3 validation workflow passed in Build #604 (user-confirmed, 2026-10-03); PR remains draft and unmerged:** https://github.com/dejabey/hatnikotni-chat/pull/3. The change preflights conflicts, preserves legacy data on conflict/failure, runs migration before activation defaults, checks renames and table presence, and delays schema-version updates until verification.
+- [ ] **Migration hardening code review and controlled test matrix remain pending.** CI passing does not prove migration behavior against legacy/coexisting/partially migrated database states.
 - [ ] After CI/code review, run the migration test matrix on a disposable staging clone or controlled test database before any real staging upgrade.
 - [ ] Complete remaining runtime checks: routing modes, shortcode, keyboard/focus/Escape, mobile layout, cache/CDN, JavaScript-disabled behavior, custom cookie path/domain, and WooCommerce pages.
 
