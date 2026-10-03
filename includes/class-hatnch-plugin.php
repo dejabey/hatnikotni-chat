@@ -342,7 +342,10 @@ final class HATNCH_Plugin {
 		}
 
 		foreach ( $columns as $column ) {
-			if ( ! isset( $column['Field'], $column['Type'], $column['Null'], $column['Extra'] ) || 'id' !== $column['Field'] ) {
+			if (
+				! isset( $column['Field'], $column['Type'], $column['Null'], $column['Extra'] )
+				|| 'id' !== $column['Field']
+			) {
 				continue;
 			}
 
