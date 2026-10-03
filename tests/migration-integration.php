@@ -97,7 +97,17 @@ hatnch_test_assert( array( 'enabled' => 1 ) === get_option( 'hatnch_settings' ),
 hatnch_test_assert( false === get_option( 'hkc_settings' ), 'legacy settings should be deleted after verification' );
 echo "PASS: legacy tables/options migrate with data preserved" . PHP_EOL;
 
-// Coexisting old/new tables: stop without deleting either table or conflicting options.
+// Conflicting legacy/current options: pause before any table changes and preserve both values.
+hatnch_test_reset( $connection );
+$GLOBALS['hatnch_test_options']['hkc_settings'] = array( 'legacy' => 1 );
+$GLOBALS['hatnch_test_options']['hatnch_settings'] = array( 'current' => 1 );
+hatnch_test_assert( false === $migration->invoke( null ), 'conflicting options should pause migration' );
+hatnch_test_assert( array( 'legacy' => 1 ) === get_option( 'hkc_settings' ), 'legacy option must remain after conflict' );
+hatnch_test_assert( array( 'current' => 1 ) === get_option( 'hatnch_settings' ), 'current option must remain after conflict' );
+hatnch_test_assert( null === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'option conflict must stop before table changes' );
+echo "PASS: option conflict preserves both values" . PHP_EOL;
+
+// Coexisting old/new tables: stop without deleting either table.
 hatnch_test_reset( $connection );
 hatnch_test_create_legacy_tables( $connection );
 $connection->query( 'CREATE TABLE wp_hatnch_contacts (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL)' );
