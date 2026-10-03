@@ -1,11 +1,13 @@
 # PROJECT HANDOFF — Hatnikotni Chat
 
 **Updated:** 2026-10-03  
-**Branch:** `wordpress-org-compliance`  
+**Active review branch:** `wordpress-org-compliance`  
+**Migration hardening branch:** `migration-hardening`  
+**Migration hardening PR:** https://github.com/dejabey/hatnikotni-chat/pull/3 (draft; not merged)  
 **Base branch:** `main`  
 **Current feature version:** 0.1.8 (installed on staging; not yet released to WordPress.org)  
-**Latest successful CI:** Build #578, branch HEAD `de9b2539232bfedc36c1e5806407bd4f52cb08d1`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. This commit changes documentation only; PHP/JavaScript runtime source is unchanged from build #549, but packaged `readme.txt` has a revised description; therefore the package contents are not byte-for-byte the same as build #549.  
-**Latest package artifact:** `hatnikotni-chat-0.1.8`, artifact ID `11238198052` (build #578; SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`).  
+**Latest confirmed successful CI before migration hardening:** Build #578, branch HEAD `de9b2539232bfedc36c1e5806407bd4f52cb08d1`. All six jobs passed: PHP validation on 8.1–8.5 and production package build. This commit changes documentation only; PHP/JavaScript runtime source is unchanged from build #549, but packaged `readme.txt` has a revised description; therefore the package contents are not byte-for-byte the same as build #549.  
+**Latest known package artifact before migration hardening:** `hatnikotni-chat-0.1.8`, artifact ID `11238198052` (build #578; SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`).  
 **Database schema:** 1.1.0  
 **WordPress.org review remediation:** in progress; do not reply to reviewer until the package, Plugin Check evidence and required staging consent tests are fully correlated and reviewed.
 
@@ -16,10 +18,11 @@
 - Commit #578 is documentation-only. PHP/JavaScript runtime source is unchanged from build #549 (`fe98c0dd194d5194df08cdadd0290a6c31a9ee04`), but packaged `readme.txt` has a revised plugin description. Build #578 therefore contains no new runtime-code revision, but its package contents are not byte-for-byte identical to build #549.
 - **Staging runtime tests reported by the user:** active plugin version 0.1.8; WhatsApp action redirected successfully; privacy panel opened; Accept recorded an analytics click (count 3→4); Reject prevented a new event; consent choices persisted across reloads; withdrawal restored consent to `no`; and the HttpOnly `hatnch_campaign` cookie was present before withdrawal, absent after Reject, and remained absent after reload. These tests pass as reported.
 - **Important provenance limitation:** the exact artifact installed on staging has not been cryptographically correlated to build #578. Do not state that the installed ZIP is artifact #578 unless its hash is independently verified. Runtime test results establish observed behavior of the active 0.1.8 installation, not the ZIP's SHA-256.
-- PR #2 remains open as a draft and has not been merged. Subsequent documentation updates trigger new CI runs; check [GitHub Actions](https://github.com/dejabey/hatnikotni-chat/actions) for the latest run before treating the current branch HEAD as CI-validated. Build #578 remains the last confirmed successful package artifact. Current branch HEAD is the latest documentation commit on `wordpress-org-compliance`.
+- PR #2 remains open as a draft and has not been merged. PR #3 is a separate draft PR for migration hardening, based on `wordpress-org-compliance`; neither PR is merged. Check [GitHub Actions](https://github.com/dejabey/hatnikotni-chat/actions) for current validation before treating migration code as CI-validated.
 - The Plugin Check screenshot reported “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked. The screenshot does not identify the installed build; retain this as a clean screenshot result, not as cryptographic package correlation.
-- **Migration audit — 2026-10-03 (code inspection; no database mutation):** migration is not yet safe to call complete. (1) If a legacy contacts/events table and its new `hatnch_` table both exist, `maybe_migrate_legacy_data()` does nothing for that pair. The plugin then reads only the new table, so rows in the legacy table remain physically present but are invisible to the plugin. (2) `activate()` creates new defaults and new tables before the runtime migration runs. If a legacy install is deactivated/reactivated before migration, the new settings option/table may already exist; migration then skips copying the legacy value/table and deletes the legacy settings option. This can discard the user's prior settings and strand old table data. (3) The result of the table rename query is not checked, while `maybe_upgrade()` can create/upgrade the new tables and advance `hatnch_db_version`; a rename failure can therefore turn into the same old/new collision on the next request. No code has been changed and no staging database was modified during this audit.
-- **Migration safety gate:** design and test a recoverable migration path before release. Preserve legacy data on collision/failure; do not automatically merge tables without an explicit strategy for primary-key collisions and event `contact_id` references. Add tests for legacy-only, new-only, both tables (empty/non-empty), rename failure, and deactivate/reactivate-before-migration.
+- **Migration audit — 2026-10-03 (code inspection; no database mutation):** the previous implementation could leave legacy rows invisible when old and new tables coexisted; activation could create defaults/tables before runtime migration; and a failed rename could still be followed by schema-version advancement.
+- **Migration hardening implementation — PR #3, commit `8d5d6ca002a0f26442c78957a19ddcfab67c775c`:** migration is now attempted before activation defaults/schema creation; legacy/current option conflicts and old/new table collisions stop migration without deleting either side; table rename results and resulting table state are checked; copied options are verified before legacy options are removed; schema version is advanced only after required tables are verified; and an administrator-facing notice is registered when migration/upgrade is paused. This is code-level implementation only—not yet CI-validated or runtime-tested. Automatic merging of coexisting tables is intentionally not attempted because contact/event primary-key references need a deliberate reconciliation strategy.
+- **Validation status for PR #3:** no staging database was accessed or changed. The initial workflow-run lookup returned no runs for the new commit at the time checked; this is not proof that all CI has completed. Check the PR checks directly. Controlled tests remain required for legacy-only, new-only, table collision (including empty new table), option conflict, rename failure, partial rename/retry, and deactivate/reactivate.
 - Remaining staging coverage: direct/random/round-robin routing on the current build, cache/CDN behavior, keyboard accessibility/Escape/focus, mobile layout, shortcode, WooCommerce pages, JavaScript-disabled behavior, custom cookie path/domain, and upgrade collision handling.
 - No production changes have been made. Do not uninstall/reinstall the staging plugin; `uninstall.php` intentionally deletes plugin data.
 
@@ -63,16 +66,19 @@ On staging.perlis.xyz, Hatnikotni Chat 0.1.1 was active after prefix migration. 
 
 ## Required next actions
 
-1. Keep Build #578 as the latest audited CI package until a newer build supersedes it. Artifact: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
+1. Keep Build #578 as the latest confirmed successful CI package until a newer build passes. Artifact: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
 2. Do not claim the ZIP on staging is exactly Build #578 until the installed artifact hash is verified. The user-reported 0.1.8 runtime tests pass, but that is a separate evidence track.
-3. Complete remaining staging tests: routing modes, shortcode, cache/CDN, keyboard accessibility, mobile layout, WooCommerce pages, JavaScript-disabled behavior and custom cookie path/domain.
-4. Resolve the migration findings recorded above before release; test legacy-only, new-only, both tables, rename failure and deactivate/reactivate-before-migration. Keep legacy data recoverable and account for contact-ID references before any merge.
-5. Re-run/export Plugin Check with the installed version/build visible if possible, then correlate the report to the release candidate.
-6. Update this handoff with new evidence. Prepare a versioned release candidate only after remaining gates pass.
-7. After package, Plugin Check and staging checks are correlated, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
+3. Review PR #3 and obtain successful CI for the exact head commit before staging migration tests. Do not merge it yet.
+4. Run the migration test matrix on a disposable staging clone or controlled test database: legacy-only; new-only; both tables including empty/new and non-empty/old; conflicting options; rename failure; partial rename followed by retry; and deactivate/reactivate before migration.
+5. Verify that failed migration does not delete legacy options/tables or advance the schema version, and that the admin notice is visible only to administrators.
+6. Complete remaining staging tests: routing modes, shortcode, cache/CDN, keyboard accessibility, mobile layout, WooCommerce pages, JavaScript-disabled behavior and custom cookie path/domain.
+7. Re-run/export Plugin Check with the installed version/build visible if possible, then correlate the report to the release candidate.
+8. Update this handoff with new evidence. Prepare a versioned release candidate only after remaining gates pass.
+9. After package, Plugin Check and staging checks are correlated, prepare the WordPress.org response in the existing review email thread. Production deployment remains a separate decision.
 
 ## Source of truth
 
 Repository: https://github.com/dejabey/hatnikotni-chat  
 Review branch: wordpress-org-compliance  
+Migration hardening branch: migration-hardening  
 Plugin URI: https://github.com/dejabey/hatnikotni-chat
