@@ -1,39 +1,64 @@
 # Changelog
 
-## Unreleased
+## 0.1.8 — Unreleased
 
-- Enforced strict international digits-only phone input at the server validation layer; formatting characters such as +, spaces and hyphens are rejected rather than silently normalized.
-- Confirmed GitHub Actions PHP 8.1–8.4 matrix is fully green for syntax, contracts and WPCS.
-- Staging direct routing verified with international WhatsApp number format; default-deny analytics produced no event without consent.
-- Added Hatnikotni Chat admin UI refinement: scoped stylesheet, clearer grouping, contextual placeholders/help text and improved table presentation.
+- Fixed production ZIP structure so the archive contains the stable plugin directory.
+- Replaced the visible Privacy text control with a compact shield icon immediately left of the floating WhatsApp button.
+- Simplified the consent card to a compact Reject/Accept switch with Privacy Policy and Read More links.
+- Tightened horizontal padding in the privacy card and justified the expanded explanation text.
+- Replaced the personal phone example in the admin form with generic number 601234567890 without changing saved contacts.
+- Updated source contract checks, translations, and staging/release documentation.
+- Added PHP 8.5 to the automated syntax and WordPress Coding Standards matrix to match the staging runtime.
 
-- Completed WPCS source cleanup across admin, analytics, contacts, routing, settings, campaign, WhatsApp and plugin bootstrap layers.
-- Hardened custom-table queries with prepared identifiers and sanitized device detection input.
-- Confirmed latest CI validation passes PHP syntax, contract checks and WordPress Coding Standards.
+## 0.1.7 — Previous development build
 
-- Audited admin, analytics-admin, WhatsApp, shortcode, routing, contact storage, uninstall and frontend CSS layers for WordPress.org/WPCS readiness.
-- Tightened admin markup/source formatting and restored distinct settings/contact success notices.
+- Set English as the source language for frontend privacy controls.
+- Localized JavaScript consent status messages through PHP's translation system.
+- Added Malay translation source and text-domain loading for bundled translations.
+- Updated tests and package workflow to validate/include translation assets.
 
-- Added consent-aware visitor analytics with a default-deny consent filter.
+## 0.1.6 — Previous development build
+
+- Fixed the fatal class-name typo in the WhatsApp click handler (`HATNCH_Analitik` → `HATNCH_Analytics`).
+- Added a contract test to prevent regression of the analytics handler call.
+- Reduced privacy panel width to 250px maximum and tightened typography/padding.
+- Made the “Privasi” control quieter and renamed the disclosure to “Butiran”.
+
+## 0.1.5 — Previous development build
+
+- Localized visible consent-panel labels and status messages in Malay.
+- Shortened the floating privacy control label to “Privasi”.
+- Reduced panel width, padding and spacing while keeping the expanded explanation readable.
+
+## 0.1.4 — Previous development build
+
+- Replaced separate Allow/Reject buttons with an accessible, compact analytics consent switch.
+- Added a Read more disclosure beside the Analytics heading.
+- Initialize the switch from the saved consent cookie; switching either way updates the stored choice immediately.
+- Kept analytics disabled by default and WhatsApp navigation independent of the choice.
+- Updated contract tests and staging test plan for the new control.
+
+## 0.1.3 — Previous development build
+
+- Refined the native privacy panel with shorter copy, tighter spacing, smaller controls and responsive sizing.
+- Updated the privacy panel's introductory and expandable copy for easier scanning.
+- Added a staging check for compact layout and WhatsApp-button overlap.
+- Updated the clean-package workflow to derive ZIP and artifact names from the plugin header version.
+
+## 0.1.2 — Previous development build
+
+- Added a native, expandable Privacy choices panel beside the floating WhatsApp button.
+- Added explicit Allow analytics and Reject analytics actions with a 180-day first-party preference cookie.
+- Kept WhatsApp navigation independent from analytics consent.
+- Added a short data-use explanation and link to the site's WordPress Privacy Policy page when configured.
+- Updated privacy policy copy, readme, source contracts and clean package workflow.
+
+## 0.1.1 — WordPress.org review remediation
+
+- Migrated global declarations, hooks, admin page slugs, storage keys, table names, cookies and CSS handles/classes to the unique hatnch prefix.
+- Added migration for legacy settings, routing state and custom tables.
+- Enforced strict international digits-only phone input at the server validation layer.
+- Confirmed PHP syntax, contract checks and WordPress Coding Standards passed in GitHub Actions.
+- Added consent-aware visitor analytics and campaign attribution with default-deny behavior.
 - Added WordPress Privacy Policy Guide integration.
-- Made UTM campaign attribution and the hkc_campaign cookie consent-aware, including cookie clearing when consent is absent.
-- Added WordPress.org readme and readiness checklist.
-- Added Composer-based WordPress Coding Standards tooling and CI validation.
-- Added source contracts for privacy, consent and WordPress.org readme requirements.
-- Source audit fixed uninstall cleanup for the round-robin state option and restored contact save error notices.
-- Added General admin settings for frontend enablement, default contact/message, button label, position, desktop/mobile visibility, and routing method.
-- Added Analytics admin reporting for 7/30/90/180-day periods with device, contact and campaign breakdowns.
-- Added daily 180-day analytics retention cleanup.
-- Added frontend handling for button position and visibility settings.
-- Hardened WhatsApp redirect handling when a routed contact has no valid phone.
-
-## 0.1.0
-
-- Initial development release.
-- Contact CRUD and activation/deactivation.
-- Direct, random and round-robin contact routing.
-- Database schema/version upgrade foundation.
-- Shared WhatsApp action endpoint.
-- Local WhatsApp click analytics.
-- 30-day UTM campaign attribution.
-- Global floating button and [hatnikotni_chat] shortcode.
+- Added admin UI refinement, analytics reporting and 180-day event retention.

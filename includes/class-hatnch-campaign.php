@@ -7,24 +7,41 @@
 
 defined( 'ABSPATH' ) || exit;
 
-final class HKC_Campaign {
+final class HATNCH_Campaign {
 
-	private const COOKIE_NAME = 'hkc_campaign';
+	private const COOKIE_NAME = 'hatnch_campaign';
 	private const COOKIE_DAYS = 30;
 	private const FIELDS      = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
 
 	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'capture' ), 1 );
+		add_action( 'admin_post_nopriv_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+		add_action( 'admin_post_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+	}
+
+	/**
+	 * Expire the HttpOnly campaign cookie immediately after consent is withdrawn.
+	 *
+	 * This public endpoint only clears the requesting visitor's own attribution cookie.
+	 */
+	public static function revoke_campaign(): void {
+		nocache_headers();
+		self::clear_cookie();
+		status_header( 204 );
+		exit;
 	}
 
 	public static function capture(): void {
-		if ( ! HKC_Privacy::has_analytics_consent() ) {
+		if ( ! HATNCH_Privacy::has_analytics_consent() ) {
 			self::clear_cookie();
 			return;
 		}
 
 		$attribution = array();
 
+		// External UTM campaign URLs are public, read-only attribution inputs, not form submissions.
+		// Requiring a nonce would break ordinary external campaign links; the consent gate controls capture.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		foreach ( self::FIELDS as $field ) {
 			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
 				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
@@ -34,6 +51,7 @@ final class HKC_Campaign {
 				}
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( empty( $attribution ) || headers_sent() ) {
 			return;
@@ -64,7 +82,7 @@ final class HKC_Campaign {
 	}
 
 	public static function get_attribution(): array {
-		if ( ! HKC_Privacy::has_analytics_consent() || empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
+		if ( ! HATNCH_Privacy::has_analytics_consent() || empty( $_COOKIE[ self::COOKIE_NAME ] ) ) {
 			return self::empty_attribution();
 		}
 

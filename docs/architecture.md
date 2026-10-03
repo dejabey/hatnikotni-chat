@@ -6,7 +6,7 @@
 - Contacts
 - Routing
 - Analytics
-- Privacy and consent integration
+- Privacy and consent
 - Campaign attribution
 - WhatsApp action/URL layer
 - Shortcode
@@ -14,105 +14,63 @@
 
 ## Frontend interfaces
 
-Hatnikotni Chat provides two V1 interfaces:
+1. Global floating WhatsApp button.
+2. Shortcode: [hatnikotni_chat].
+3. Small shield-shaped privacy icon immediately left of the floating WhatsApp button; it opens a compact consent card.
 
-1. Global floating WhatsApp button
-2. Shortcode: [hatnikotni_chat]
-
-Both interfaces use the same routing, campaign attribution, analytics and WhatsApp URL/action logic.
-
-The frontend action is a normal link to a public WordPress admin-post.php action. The handler resolves the contact, records the click when analytics consent is available, then redirects to https://wa.me/<number>. No frontend JavaScript or external analytics request is required.
+The WhatsApp action remains a normal link to the public WordPress admin-post.php action. The handler resolves a contact, records a click only when analytics consent is available, then redirects to https://wa.me/<number>. The privacy panel uses a small local JavaScript file; no external JavaScript or analytics service is required.
 
 ## Privacy and consent
 
-Analytics is opt-in at the visitor level.
+The global floating widget exposes a small shield-shaped privacy icon. Selecting it opens a compact consent card with a Reject/Accept switch, a Privacy Policy link when configured, and a Read More disclosure. The expanded explanation uses justified text and the card uses compact horizontal padding.
 
-The plugin exposes the filter:
+The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor selects Accept. A no value or missing cookie means analytics remains disabled. Visitors can reopen the card and change their choice. The WhatsApp link itself is never gated by this choice.
 
-hkc_has_analytics_consent
+When a visitor rejects consent, the browser posts to the same-origin `admin-post.php` action `hatnch_revoke_campaign`. The public handler only expires that visitor's own HttpOnly attribution cookie and returns HTTP 204 without rendering a page. If the request fails, campaign capture also expires the cookie on the next request while consent remains rejected.
 
-The default value is false. A site or consent-management integration must return true only after an explicit visitor consent signal has been granted.
+The filter hatnch_has_analytics_consent receives the native cookie-derived value (false by default) and remains available for deliberate site-level integrations.
 
-When consent is absent:
-
+When analytics consent is absent:
 - WhatsApp click events are not recorded.
-- The hkc_campaign cookie is not set or read for attribution.
-- The WhatsApp button and routing continue to work normally.
+- Campaign attribution is not read or captured.
+- Existing campaign cookie is expired where possible.
+- WhatsApp routing continues normally.
 
-The plugin does not ship a consent banner. This avoids taking over the site's consent UI and allows the site owner to use its existing consent-management mechanism.
-
-The plugin adds suggested privacy-policy content using WordPress wp_add_privacy_policy_content().
+The plugin adds suggested privacy-policy content through WordPress wp_add_privacy_policy_content().
 
 ## Data
 
 V1 uses two custom tables:
+- {$wpdb->prefix}hatnch_contacts
+- {$wpdb->prefix}hatnch_events
 
-- {$wpdb->prefix}hkc_contacts
-- {$wpdb->prefix}hkc_events
+WordPress database prefix and charset/collation are obtained from WordPress APIs. The schema version is stored in hatnch_db_version. Deactivation preserves data. Legacy-prefix migration runs during plugins_loaded; audit on 2026-10-03 found unresolved edge cases: if old and new tables both exist, old rows are not merged and remain invisible to current plugin queries; activation can create new defaults/tables before migration and cause legacy settings to be skipped and deleted; and rename-query failures are not checked before the schema upgrade path may advance the database version. These cases must be addressed and tested before release. Do not merge contacts/events blindly: event contact_id values must remain linked to the correct contacts when IDs collide.
 
-WordPress database prefix and charset/collation are always obtained from WordPress APIs.
+## Contacts and routing
 
-The plugin records its schema version in hkc_db_version and checks for schema upgrades during plugin initialization. Deactivation preserves data.
+Contacts are persistent entities; historical contacts are deactivated rather than deleted. Phone numbers are stored as digits only. Weight is reserved for future weighted routing and is not used by V1.
 
-## Contacts
-
-Contacts are persistent entities. Historical contacts are deactivated rather than deleted.
-
-- Phone numbers are stored as digits only.
-- weight is stored for future weighted routing but is not used by V1 routing.
-- sort_order controls deterministic contact ordering and is not routing priority.
-
-## Routing
-
-V1 routing methods:
-
-- direct — uses the configured default contact and requires that contact to be active.
-- random — selects one active contact uniformly.
-- round_robin — selects active contacts in deterministic sort_order, then id order and stores the last selected contact in a WordPress option.
+Routing methods:
+- direct — configured default contact, which must be active.
+- random — uniformly selects an active contact.
+- round_robin — deterministic sort_order then ID order; stores the last selected contact.
 
 If no valid active contact can be resolved, routing returns null.
 
 ## Analytics
 
-The primary V1 event is whatsapp_click.
+The primary event is whatsapp_click. Analytics is first-party and local. It is recorded immediately before the WhatsApp redirect only when consent is available. It indicates a click, not confirmation that a WhatsApp message was sent.
 
-Analytics is first-party and local. The event is recorded immediately before the WhatsApp redirect only when visitor analytics consent is available. It means a button click, not confirmation that a WhatsApp message was sent.
-
-Stored fields are limited to contact, page, device and supported UTM attribution. IP addresses, visitor identity, full user-agent, fingerprints, conversation content, browsing history and visitor IDs are not stored.
-
-Analytics failure must never prevent the WhatsApp redirect.
-
-Analytics events are automatically cleaned after 180 days by daily WP-Cron.
+Stored fields are limited to contact, page, broad device category and supported UTM attribution. IP addresses, visitor identity, full user-agent, fingerprints, conversation content, browsing history and visitor IDs are not stored intentionally. Events are deleted after 180 days by daily WP-Cron.
 
 ## Campaign attribution
 
-UTM parameters supported:
-
-- utm_source
-- utm_medium
-- utm_campaign
-- utm_term
-- utm_content
-
-V1 uses last-touch attribution with a first-party hkc_campaign cookie for 30 days, only after analytics consent is available. A new UTM-bearing visit replaces the previous attribution.
+Supported parameters: utm_source, utm_medium, utm_campaign, utm_term and utm_content. Last-touch attribution uses the first-party hatnch_campaign cookie for up to 30 days and only while analytics consent is available.
 
 ## Shortcode
 
-[hatnikotni_chat] accepts optional:
-
-- label
-- message
-
-The shortcode generates the same public WhatsApp action URL used by the global button.
-
-## Extension points
-
-WordPress actions/filters are preferred for internal extensibility. The core does not require external services.
-
-Future integrations may include Webhook, WooCommerce, CRM, weighted/context routing, and WhatsApp Business API support without making them dependencies of the core plugin.
+[hatnikotni_chat] accepts optional label and message attributes and generates the same public WhatsApp action URL. The global floating widget provides the native Privacy choices interface; shortcode use remains functional without analytics consent.
 
 ## WordPress.org readiness
 
-The plugin is designed around the WordPress.org requirements for GPL-compatible licensing, human-readable code, privacy-aware tracking, WordPress-native libraries/APIs, versioned releases, and a complete release package.
-
-The repository's readme.txt is intended for the WordPress.org Plugin Directory. GitHub documentation remains the source-control and development documentation.
+The plugin uses GPL-compatible licensing, WordPress-native APIs, prefixed declarations/storage, consent-aware analytics and a clean release workflow. GitHub Actions build #578 passed PHP 8.1–8.5 validation and production packaging on 2026-10-02 (artifact ID `11238198052`, SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`). PHP/JavaScript runtime source is unchanged from #549, but the packaged `readme.txt` description changed; package contents are therefore not identical. The user reported successful consent/analytics/campaign-cookie runtime tests on the active 0.1.8 staging installation, but the exact installed ZIP has not been correlated to a CI artifact. On 2026-10-02, the user supplied a staging Plugin Check screenshot showing “Checks complete. No errors found.” with Error and Warning selected and AI Analysis unchecked. The screenshot does not identify the installed plugin build, so package correlation remains pending. See `docs/wordpress-org-readiness.md` and `docs/staging-test-plan.md`.

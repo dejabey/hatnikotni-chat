@@ -1,133 +1,84 @@
-# Staging Test Plan — Hatnikotni Chat
+# Staging Test Plan
 
-## Purpose
-Validate the release candidate on a real WordPress staging site before production migration.
+Run all tests on staging, not production. Record the plugin version, browser, device, result and any relevant console/PHP errors.
 
-## Test environment
-- WordPress compatible with production
-- PHP production version
-- HTTPS enabled
-- Production-equivalent cache/CDN
-- WooCommerce enabled if production uses it
-- Consent mechanism enabled if production uses one
+## Core functional tests
 
-## Installation and lifecycle
-- [ ] Fresh installation
-- [ ] Activation
-- [ ] Database tables created
-- [ ] Default settings created
-- [ ] Deactivation
-- [ ] Reactivation preserves data
-- [ ] Upgrade preserves data
-- [ ] Uninstall removes plugin-owned data only
+- [ ] Fresh installation and activation.
+- [ ] Upgrade migration from existing data; verify contacts and routing state survive.
+- [ ] Migration case: legacy contacts/events tables exist and new tables do not; verify rename succeeds and all rows remain accessible.
+- [ ] Migration case: new tables already exist and legacy tables also contain data; verify no data is silently hidden or lost and define safe recovery/merge behavior (including event contact_id references).
+- [ ] Migration case: new tables exist but are empty while legacy tables contain data.
+- [ ] Migration case: legacy table rename fails (e.g. simulated database error); verify migration does not mark the schema version complete or strand the old data.
+- [ ] Migration case: deactivate/reactivate an old installation before migration; verify old settings and routing state are not replaced by activation defaults or deleted.
+- [ ] Migration case: existing new settings coexist with legacy settings; confirm documented precedence and retain a recoverable copy until migration is verified.
+- [ ] Direct routing.
+- [ ] Random routing.
+- [ ] Round-robin order across active contacts.
+- [ ] WhatsApp redirect and optional pre-filled message; confirm no critical error and the browser reaches wa.me.
+- [ ] Shortcode output and routing.
+- [ ] Desktop/mobile visibility and left/right positioning.
+- [ ] Disabled state hides the floating widget.
 
-## Contacts
-- [x] Create/edit contact
-- [x] Phone normalized to digits only
-- [ ] Invalid phone rejected
-- [ ] Activate/deactivate
-- [ ] Historical inactive contacts remain usable in analytics
-- [ ] No delete UI
+## Native privacy choices
 
-## Routing
-- [x] Direct selects active default contact
-- [ ] Invalid/inactive default fails safely
-- [ ] Random selects only active contacts
-- [ ] Round-robin follows sort order and wraps correctly
-- [ ] Inactive contacts are skipped
-- [ ] Round-robin state persists
-- [ ] Concurrent requests produce valid routing
+- [ ] With no consent cookie, click analytics does not record an event.
+- [ ] Privacy choices control expands/collapses and has correct aria-expanded state.
+- [ ] Analytics consent switch starts off when there is no saved consent and reflects a previously saved allow choice.
+- [ ] Switch is keyboard accessible and its accessible label/checked state are correct.
+- [ ] Read More (Baca Lagi in Malay) expands/collapses the data-use explanation with keyboard and pointer.
+- [ ] Privacy icon is immediately left of the WhatsApp button; card uses compact horizontal padding and justified explanation text.
+- [ ] Privacy Policy link points to the configured WordPress Privacy Policy page.
+- [ ] Switching to Accept writes hatnch_analytics_consent=yes for 180 days.
+- [ ] After accepting, a WhatsApp click records one event on the next request.
+- [ ] Switching to Reject writes hatnch_analytics_consent=no.
+- [ ] After rejecting, WhatsApp still redirects and no new analytics event is recorded.
+- [ ] Rejecting expires the campaign cookie and the next request also clears it server-side where possible.
+- [ ] Visitor can change from reject to allow and from allow to reject.
+- [ ] Missing choice and rejected choice both default to analytics disabled.
+- [ ] Shortcode works when consent is absent or rejected.
+- [ ] Browser with JavaScript disabled can still use WhatsApp; analytics remains disabled unless an explicit site integration supplies consent.
+- [ ] Check cookie path/domain behavior when WordPress is installed in a subdirectory or uses a custom COOKIEPATH/COOKIE_DOMAIN.
+- [ ] No console errors, PHP notices or layout overlap on desktop/mobile.
+- [ ] Compact privacy panel remains readable on narrow mobile screens and does not cover the WhatsApp action.
+- [ ] Keyboard focus is visible; Escape closes the panel and returns focus to its toggle.
 
-## WhatsApp action
-- [x] Global button works
-- [ ] Shortcode works
-- [ ] Both use the same routing/action layer
-- [ ] Default/custom message works
-- [x] Destination is HTTPS wa.me with normalized phone
-- [x] Analytics failure never blocks redirect
-- [x] No frontend JS required for core action
-- [ ] Failure fallback is safe
+## WordPress Plugin Check / package verification
 
-## Consent and privacy
-### Without consent
-- [x] WhatsApp works
-- [x] No analytics event
-- [ ] No campaign cookie retained
-- [ ] Existing campaign cookie cleared where possible
-
-### With consent
-- [ ] Click event recorded
-- [ ] Contact/page/device fields correct
-- [ ] Supported UTM fields captured
-- [ ] Campaign cookie created
-- [ ] New UTM visit replaces last-touch attribution
-
-### Consent timing
-- [ ] Consent before page load
-- [ ] Consent after page load with UTM parameters
-- [ ] Consent withdrawal
-- [ ] Subsequent click follows new consent state
-
-## Analytics
-- [ ] Event is whatsapp_click (click, not proof of message sent)
-- [ ] Device classification works
-- [ ] No IP/full user-agent/visitor identity/fingerprint/visitor ID stored
-- [ ] Admin totals match event counts
-- [ ] Device/contact/campaign reports are consistent
-- [ ] 7/30/90/180-day filters work
-- [ ] 180-day cleanup works
-- [ ] Daily WP-Cron cleanup works
-
-## Frontend
-- [ ] Enable/disable setting
-- [ ] Desktop/mobile visibility
-- [ ] Left/right position
-- [ ] Shortcode rendering
-- [ ] Keyboard focus
-- [ ] Accessible label
-- [ ] Reduced motion
-- [ ] Mobile layout
-- [ ] No unnecessary external requests
+- [x] Build #578 passed all six CI jobs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37033299925. Artifact ID: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
+- [x] Build #578 is based on branch HEAD `de9b2539232bfedc36c1e5806407bd4f52cb08d1`; the PHP/JavaScript runtime source remains unchanged from build #549, but the packaged `readme.txt` description changed, so package contents are not identical to build #549.
+- [x] User-reported runtime tests on the active Hatnikotni Chat 0.1.8 staging installation: WhatsApp redirect works; consent panel opens; Accept increments analytics 3→4; Reject prevents a new event; choices persist after reload; withdrawal sets consent to `no`; and the HttpOnly campaign cookie is removed on Reject and stays absent after reload.
+- [ ] Verify the exact ZIP installed on staging matches a specific artifact by SHA-256. Runtime tests alone do not prove artifact provenance.
+- [x] User supplied a staging Plugin Check screenshot reading “Checks complete. No errors found,” with Error and Warning selected and AI Analysis unchecked (2026-10-02).
+- [ ] Correlate the clean Plugin Check screenshot/report with the exact installed version/build; screenshot itself does not display that information. Export the complete report if possible.
+- [x] Earlier six warnings were addressed in source: public UTM query nonce recommendation has a documented PHPCS exception, and uninstall variables use the plugin prefix.
+- [ ] Fix and test the migration collision/failure cases identified in the 2026-10-03 code audit. Current migration can leave legacy rows invisible to the plugin and can delete legacy settings after activation has already created new defaults.
+- [ ] Complete remaining runtime checks: routing modes, shortcode, keyboard/focus/Escape, mobile layout, cache/CDN, JavaScript-disabled behavior, custom cookie path/domain, and WooCommerce pages.
 
 ## Cache/CDN
-- [ ] Page cache enabled
-- [ ] CDN enabled if production uses one
-- [ ] Routing remains dynamic
-- [ ] Analytics action is not cached
-- [ ] Settings changes reflect after cache purge
-- [ ] No personalized data in cached HTML
+
+- [ ] Page cache enabled.
+- [ ] CDN enabled if production uses one.
+- [ ] Routing remains dynamic.
+- [ ] Analytics action is not cached.
+- [ ] Consent choice takes effect on the next request even with cached frontend pages.
+- [ ] Settings changes reflect after cache purge.
 
 ## WooCommerce
-- [ ] Shop/product pages
-- [ ] Cart/checkout
-- [ ] Button does not interfere with WooCommerce UI
-- [ ] Analytics attribution remains correct
-- [ ] Logged-in/logged-out tests
+
+- [ ] Shop/product pages.
+- [ ] Cart/checkout.
+- [ ] Button does not interfere with WooCommerce UI.
+- [ ] Logged-in/logged-out behavior.
 
 ## Performance and security
-- [ ] No PHP notices/warnings/fatals
-- [ ] No repeated unnecessary schema work
-- [ ] Nonce/capability checks enforced
-- [ ] Inputs sanitized and outputs escaped
-- [ ] External redirect constrained to intended wa.me destination
-- [ ] No secrets/API keys
-- [ ] No unexpected external HTTP requests
 
-## Admin UI refinement
-- [ ] Modernize Hatnikotni Chat submenu layout
-- [ ] Add concise placeholders/help text to precision-sensitive fields
-- [ ] Improve grouping and visual hierarchy without adding unnecessary JS/dependencies
-- [ ] Preserve WordPress admin accessibility and responsive behavior
-
-## Migration rehearsal
-- [ ] Keep current WP Chat App intact
-- [ ] Activate Hatnikotni Chat on staging
-- [ ] Verify contacts/routing
-- [ ] Disable WP Chat App
-- [ ] Re-test all critical paths
-- [ ] Re-enable WP Chat App and verify rollback
+- [ ] No PHP notices/warnings/fatals.
+- [ ] No unnecessary external requests.
+- [ ] Inputs sanitized and outputs escaped.
+- [ ] External redirect constrained to intended wa.me destination.
+- [ ] No secrets/API keys.
 
 ## Release gate
-Release candidate proceeds only after critical tests pass, CI is green, privacy/cache/routing behavior is verified, WordPress.org preflight is complete, and a clean ZIP has been inspected.
 
-Production activation remains a separate approval step.
+Do not release until the current branch passes CI, the clean ZIP is inspected, consent allow/reject/withdrawal behavior is confirmed on staging, and critical routing/privacy tests pass. Production deployment requires separate approval.

@@ -1,10 +1,10 @@
 /**
  * Hatnikotni Chat frontend styles.
  *
- * All frontend selectors use the hkc- namespace.
+ * All frontend selectors use the hatnch- namespace.
  */
 
-.hkc-button {
+.hatnch-button {
 	align-items: center;
 	box-sizing: border-box;
 	display: inline-flex;
@@ -12,52 +12,244 @@
 	text-decoration: none;
 }
 
-.hkc-button:focus-visible {
+.hatnch-button:focus-visible {
 	outline: 3px solid currentColor;
 	outline-offset: 3px;
 }
 
-.hkc-floating {
+.hatnch-widget {
 	bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 8px;
 	position: fixed;
 	z-index: 9999;
+	max-width: min(360px, calc(100vw - 32px));
+}
+
+.hatnch-widget--right {
+	right: 20px;
+}
+
+.hatnch-widget--left {
+	left: 20px;
+	align-items: flex-start;
+}
+
+.hatnch-widget__actions {
+	align-items: center;
+	display: flex;
+	gap: 8px;
+}
+
+.hatnch-floating {
 	background: #25d366;
 	border-radius: 999px;
+	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
 	color: #fff;
 	font-weight: 600;
 	padding: 12px 18px;
-	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
-.hkc-floating:hover,
-.hkc-floating:focus-visible {
+.hatnch-floating:hover,
+.hatnch-floating:focus-visible {
 	background: #128c4a;
 	box-shadow: 0 7px 22px rgba(15, 23, 42, .22);
 	color: #fff;
 	transform: translateY(-1px);
 }
 
-.hkc-floating:active {
+.hatnch-floating:active {
 	box-shadow: 0 4px 12px rgba(15, 23, 42, .18);
 	transform: translateY(0);
 }
 
-.hkc-floating--right {
-	right: 20px;
-}
-
-.hkc-floating--left {
-	left: 20px;
-}
-
-.hkc-button__icon {
+.hatnch-button__icon {
 	fill: currentColor;
 	height: 22px;
 	width: 22px;
 }
 
-.hkc-inline {
+.hatnch-privacy-toggle {
+	align-items: center;
+	background: rgba(255, 255, 255, .96);
+	border: 1px solid #d8dee7;
+	border-radius: 50%;
+	box-shadow: 0 3px 10px rgba(15, 23, 42, .12);
+	color: #596273;
+	cursor: pointer;
+	display: inline-flex;
+	flex: 0 0 36px;
+	height: 36px;
+	justify-content: center;
+	padding: 0;
+	transition: color .15s ease, background-color .15s ease, box-shadow .15s ease;
+	width: 36px;
+}
+
+.hatnch-privacy-toggle:hover {
+	background: #fff;
+	box-shadow: 0 4px 12px rgba(15, 23, 42, .16);
+	color: #243044;
+}
+
+.hatnch-privacy-toggle__icon {
+	display: block;
+	fill: none;
+	height: 18px;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.8;
+	width: 18px;
+}
+
+.hatnch-privacy-toggle:focus-visible,
+.hatnch-privacy-panel a:focus-visible,
+.hatnch-privacy-read-more:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.hatnch-privacy-panel {
+	background: #fff;
+	border: 1px solid #d8dee7;
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, .16);
+	box-sizing: border-box;
+	color: #243044;
+	margin-bottom: 0;
+	max-height: min(60vh, 240px);
+	overflow-y: auto;
+	padding: 7px 5px;
+	width: min(240px, calc(100vw - 24px));
+}
+
+.hatnch-privacy-panel[hidden] {
+	display: none;
+}
+
+.hatnch-privacy-links {
+	align-items: center;
+	display: flex;
+	font-size: 10px;
+	justify-content: space-between;
+	line-height: 1.3;
+	margin-top: 7px;
+}
+
+.hatnch-privacy-read-more {
+	background: transparent;
+	border: 0;
+	color: #243044;
+	cursor: pointer;
+	font: inherit;
+	padding: 0;
+	text-decoration: underline;
+}
+
+.hatnch-privacy-read-more:hover {
+	color: #176b3a;
+}
+
+.hatnch-privacy-explanation {
+	font-size: 10px !important;
+	line-height: 1.35 !important;
+	margin: 7px 0 0 !important;
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+.hatnch-privacy-consent {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	padding: 2px 0;
+}
+
+.hatnch-privacy-choice-label {
+	color: #243044;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.hatnch-privacy-switch {
+	display: inline-flex;
+	flex: 0 0 auto;
+	position: relative;
+	width: 42px;
+	height: 24px;
+}
+
+.hatnch-privacy-switch input {
+	height: 1px;
+	left: 0;
+	margin: 0;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 1px;
+}
+.hatnch-privacy-switch-track {
+	background: #687386;
+	border: 1px solid #687386;
+	border-radius: 999px;
+	box-sizing: border-box;
+	cursor: pointer;
+	inset: 0;
+	position: absolute;
+	transition: background-color .15s ease, border-color .15s ease;
+}
+
+.hatnch-privacy-switch-track::before {
+	background: #fff;
+	border-radius: 50%;
+	content: "";
+	height: 18px;
+	left: 2px;
+	position: absolute;
+	top: 2px;
+	transition: transform .15s ease;
+	width: 18px;
+}
+
+.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track {
+	background: #176b3a;
+	border-color: #176b3a;
+}
+
+.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track::before {
+	transform: translateX(18px);
+}
+
+.hatnch-privacy-switch input:focus-visible + .hatnch-privacy-switch-track {
+	outline: 2px solid #2271b1;
+	outline-offset: 3px;
+}
+
+.hatnch-privacy-switch input:disabled + .hatnch-privacy-switch-track {
+	cursor: not-allowed;
+	opacity: .6;
+}
+
+.hatnch-privacy-status {
+	font-size: 11px !important;
+	margin-bottom: 6px !important;
+}
+
+.hatnch-privacy-status:empty {
+	display: none;
+}
+
+.hatnch-privacy-policy-link {
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+.hatnch-inline {
 	background: #25d366;
 	border-radius: 6px;
 	color: #fff;
@@ -66,47 +258,47 @@
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
-.hkc-inline:hover,
-.hkc-inline:focus-visible {
+.hatnch-inline:hover,
+.hatnch-inline:focus-visible {
 	background: #128c4a;
 	box-shadow: 0 5px 14px rgba(15, 23, 42, .16);
 	color: #fff;
 	transform: translateY(-1px);
 }
 
-.hkc-inline:active {
+.hatnch-inline:active {
 	box-shadow: none;
 	transform: translateY(0);
 }
 
 @media (max-width: 782px) {
-	.hkc-floating {
+	.hatnch-widget {
 		bottom: 16px;
 	}
 
-	.hkc-floating--right {
-		right: 16px;
+	.hatnch-widget--right {
+		right: 12px;
 	}
 
-	.hkc-floating--left {
-		left: 16px;
+	.hatnch-widget--left {
+		left: 12px;
 	}
 }
 
 @media (min-width: 783px) {
-	.hkc-hide-desktop {
+	.hatnch-hide-desktop {
 		display: none;
 	}
 }
 
 @media (max-width: 782px) {
-	.hkc-hide-mobile {
+	.hatnch-hide-mobile {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hkc-button {
+	.hatnch-button {
 		transition: none;
 	}
 }
