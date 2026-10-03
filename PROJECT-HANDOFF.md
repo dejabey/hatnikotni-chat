@@ -89,3 +89,12 @@ Repository: https://github.com/dejabey/hatnikotni-chat
 Review branch: wordpress-org-compliance  
 Migration hardening branch: migration-hardening  
 Plugin URI: https://github.com/dejabey/hatnikotni-chat
+
+
+## CI follow-up — 2026-10-03 (Build #619)
+
+- Build #619 failed in **Run WordPress Coding Standards** in `includes/class-hatnch-plugin.php`, PHPDoc lines 349–350: spacing alignment for the `@param` annotations of `table_has_required_indexes()`.
+- PHP syntax checks and `tests/skeleton-contract.sh` passed in the failed run; PHPCS stopped the job before package build, so this is not a successful validation run.
+- Corrected the two PHPDoc spacing issues in commit `89e8a1ddc1e30729d1a99e6f1e93307c154b4738`.
+- **Next gate:** verify a fresh Validate workflow run for that commit and inspect all matrix jobs before describing the branch as passing.
+- No PR was merged and no staging/production database was accessed or modified.
