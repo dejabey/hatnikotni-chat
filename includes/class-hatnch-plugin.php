@@ -300,14 +300,32 @@ final class HATNCH_Plugin {
 			'utm_content',
 		);
 
-		return self::table_has_columns( $wpdb->prefix . 'hatnch_contacts', $contacts_columns )
-			&& self::table_has_columns( $wpdb->prefix . 'hatnch_events', $events_columns );
+		$contacts_table = $wpdb->prefix . 'hatnch_contacts';
+		$events_table   = $wpdb->prefix . 'hatnch_events';
+
+		$contacts_indexes = array(
+			'PRIMARY'    => array( 'id' ),
+			'status'     => array( 'status' ),
+			'sort_order' => array( 'sort_order' ),
+		);
+		$events_indexes   = array(
+			'PRIMARY'       => array( 'id' ),
+			'created_at'    => array( 'created_at' ),
+			'contact_date'  => array( 'contact_id', 'created_at' ),
+			'page_date'     => array( 'page_id', 'page_type', 'created_at' ),
+			'campaign_date' => array( 'utm_campaign', 'created_at' ),
+		);
+
+		return self::table_has_columns( $contacts_table, $contacts_columns )
+			&& self::table_has_columns( $events_table, $events_columns )
+			&& self::table_has_required_indexes( $contacts_table, $contacts_indexes )
+			&& self::table_has_required_indexes( $events_table, $events_indexes );
 	}
 
 	/**
 	 * Verify that a plugin-owned table contains every required column.
 	 *
-	 * @param string   $table           Table name.
+	 * @param string   $table            Table name.
 	 * @param string[] $required_columns Required column names.
 	 * @return bool True when every required column is present.
 	 */
@@ -323,6 +341,53 @@ final class HATNCH_Plugin {
 		}
 
 		return array() === array_diff( $required_columns, $columns );
+	}
+
+	/**
+	 * Verify required indexes and their ordered columns.
+	 *
+	 * @param string                 $table            Table name.
+	 * @param array<string, string[]> $required_indexes Required index names and ordered columns.
+	 * @return bool True when every required index matches.
+	 */
+	private static function table_has_required_indexes( string $table, array $required_indexes ): bool {
+		global $wpdb;
+
+		$wpdb->last_error = '';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional schema verification for plugin-owned tables.
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SHOW INDEX FROM %i', $table ), ARRAY_A );
+
+		if ( '' !== $wpdb->last_error || ! is_array( $rows ) ) {
+			return false;
+		}
+
+		$actual_indexes = array();
+		foreach ( $rows as $row ) {
+			if ( ! isset( $row['Key_name'], $row['Column_name'], $row['Seq_in_index'] ) ) {
+				return false;
+			}
+
+			$key_name = (string) $row['Key_name'];
+			$position = absint( $row['Seq_in_index'] );
+			if ( '' === $key_name || $position < 1 ) {
+				return false;
+			}
+
+			$actual_indexes[ $key_name ][ $position ] = (string) $row['Column_name'];
+		}
+
+		foreach ( $required_indexes as $key_name => $required_columns ) {
+			if ( ! isset( $actual_indexes[ $key_name ] ) ) {
+				return false;
+			}
+
+			ksort( $actual_indexes[ $key_name ] );
+			if ( array_values( $actual_indexes[ $key_name ] ) !== $required_columns ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
