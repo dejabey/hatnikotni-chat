@@ -347,7 +347,7 @@ final class HATNCH_Plugin {
 	 * Verify required indexes and their ordered columns.
 	 *
 	 * @param string                 $table            Table name.
-	 * @param array<string, string[]> $required_indexes Required index names and ordered columns.
+	 * @param array<string, string[]>  $required_indexes Required index names and ordered columns.
 	 * @return bool True when every required index matches.
 	 */
 	private static function table_has_required_indexes( string $table, array $required_indexes ): bool {
