@@ -399,7 +399,7 @@ final class HATNCH_Plugin {
 
 		$actual_indexes = array();
 		foreach ( $rows as $row ) {
-			if ( ! isset( $row['Key_name'], $row['Column_name'], $row['Seq_in_index'] ) ) {
+			if ( ! isset( $row['Key_name'], $row['Column_name'], $row['Seq_in_index'], $row['Non_unique'] ) ) {
 				return false;
 			}
 
@@ -409,16 +409,27 @@ final class HATNCH_Plugin {
 				return false;
 			}
 
-			$actual_indexes[ $key_name ][ $position ] = (string) $row['Column_name'];
-		}
-
-		foreach ( $required_indexes as $key_name => $required_columns ) {
-			if ( ! isset( $actual_indexes[ $key_name ] ) ) {
+			$non_unique = absint( $row['Non_unique'] );
+			if ( isset( $actual_indexes[ $key_name ]['non_unique'] ) && $actual_indexes[ $key_name ]['non_unique'] !== $non_unique ) {
 				return false;
 			}
 
-			ksort( $actual_indexes[ $key_name ] );
-			if ( array_values( $actual_indexes[ $key_name ] ) !== $required_columns ) {
+			$actual_indexes[ $key_name ]['non_unique'] = $non_unique;
+			$actual_indexes[ $key_name ]['columns'][ $position ] = (string) $row['Column_name'];
+		}
+
+		foreach ( $required_indexes as $key_name => $required_columns ) {
+			if ( ! isset( $actual_indexes[ $key_name ]['columns'], $actual_indexes[ $key_name ]['non_unique'] ) ) {
+				return false;
+			}
+
+			ksort( $actual_indexes[ $key_name ]['columns'] );
+			if ( array_values( $actual_indexes[ $key_name ]['columns'] ) !== $required_columns ) {
+				return false;
+			}
+
+			$expected_non_unique = 'PRIMARY' === $key_name ? 0 : 1;
+			if ( $actual_indexes[ $key_name ]['non_unique'] !== $expected_non_unique ) {
 				return false;
 			}
 		}
