@@ -92,3 +92,14 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 ## Release gate
 
 Do not release until the current branch passes CI, the clean ZIP is inspected, consent allow/reject/withdrawal behavior is confirmed on staging, and critical routing/privacy tests pass. Migration hardening must also pass code review and the controlled migration test matrix. Production deployment requires separate approval.
+
+
+## Automated migration integration tests — 2026-10-03
+
+- [x] Legacy-only tables/options: rename both tables and verify representative row and option preservation.
+- [x] Conflicting legacy/current settings options: migration pauses before table changes and preserves both values.
+- [x] Legacy/current table collision: migration pauses and preserves both tables and the legacy option.
+- [x] Injected failure on the second table rename: verify the first rename remains valid, the failed legacy table remains present, and a retry completes with both rows preserved.
+- [x] Build #639 passed all six PHP/package validation jobs plus the disposable MySQL integration-test job: https://github.com/dejabey/hatnikotni-chat/actions/runs/37123502898. Commit: `473279457a347913c68954d3ad94e983cb26dedd`.
+- Scope limitation: the test harness invokes the migration routine against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, validate `dbDelta()`/schema-version failure behavior, or replace staging runtime tests.
+- These automated tests use an ephemeral GitHub Actions MySQL service only. No staging or production database was accessed or modified. PR #3 remains draft and unmerged.
