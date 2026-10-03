@@ -139,3 +139,11 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Build #662 passed all eight jobs for commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225.
 - This assertion supplements the real WordPress tests for activation migration, `dbDelta()` column/index repair, table collisions, and option conflicts.
 - No staging/production database was accessed or changed.
+
+
+## Latest migration-hardening CI confirmation — Build #665 (2026-10-03)
+
+- [x] Re-checked live GitHub Actions run #665: all eight jobs passed for current branch HEAD `a1e81919aaf79ade4ec4f59ea9a106efc2cad788`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132255572.
+- [x] Job-level result confirmed: PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build all completed successfully.
+- [ ] Still required before migration/release: controlled failure/retry tests on a disposable clone, remaining runtime/privacy/routing/cache/WooCommerce checks, SHA-256 provenance check for the exact candidate ZIP, and correlation of the complete Plugin Check report to the same candidate.
+- PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
