@@ -139,4 +139,55 @@ hatnch_wp_test_assert( false === get_option( 'hatnch_db_version', false ), 'opti
 hatnch_wp_test_assert( null === $wpdb->get_var( "SHOW TABLES LIKE '{$contacts_table}'" ), 'option conflict must stop before creating current tables' );
 echo "PASS: real WordPress activation preserves conflicting options and stops before table changes" . PHP_EOL;
 
+// Inject a real WordPress $wpdb rename failure, then retry without the fault.
+$wpdb->query( "DROP TABLE IF EXISTS {$contacts_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_contacts}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_events}" );
+delete_option( 'hatnch_db_version' );
+delete_option( 'hatnch_settings' );
+delete_option( 'hatnch_routing_state' );
+delete_option( 'hkc_settings' );
+delete_option( 'hkc_routing_state' );
+
+$wpdb->query( "CREATE TABLE {$legacy_contacts} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->query( "CREATE TABLE {$legacy_events} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	contact_id BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->insert( $legacy_contacts, array( 'name' => 'Retry-path contact' ) );
+$wpdb->insert( $legacy_events, array( 'contact_id' => 1 ) );
+$GLOBALS['hatnch_wp_test_fail_events_rename'] = true;
+
+add_filter(
+	'query',
+	static function ( $query ) use ( $legacy_events ) {
+		if ( ! empty( $GLOBALS['hatnch_wp_test_fail_events_rename'] ) && 0 === strpos( ltrim( $query ), 'RENAME TABLE' ) && false !== strpos( $query, $legacy_events ) ) {
+			$GLOBALS['hatnch_wp_test_fail_events_rename'] = false;
+			return str_replace( $legacy_events, $GLOBALS['wpdb']->prefix . 'missing_hkc_events', $query );
+		}
+		return $query;
+	}
+);
+
+HATNCH_Plugin::activate();
+remove_all_filters( 'query' );
+
+hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$contacts_table}'" ) === $contacts_table, 'first table rename should survive the injected second-rename failure' );
+hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$legacy_events}'" ) === $legacy_events, 'failed events rename should leave the legacy events table intact' );
+hatnch_wp_test_assert( false === get_option( 'hatnch_db_version', false ), 'failed real $wpdb rename must not advance the database version' );
+
+HATNCH_Plugin::activate();
+
+hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$events_table}'" ) === $events_table, 'retry should complete the events table rename' );
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table} WHERE name = 'Retry-path contact'" ) === 1, 'contact row should survive actual $wpdb rename failure and retry' );
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$events_table} WHERE contact_id = 1" ) === 1, 'event row should survive actual $wpdb rename failure and retry' );
+hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'retry should advance the schema version only after successful verification' );
+echo "PASS: real WordPress $wpdb rename failure preserves data and recovers on retry" . PHP_EOL;
+
 echo "PASS: all WordPress-backed migration lifecycle tests" . PHP_EOL;
