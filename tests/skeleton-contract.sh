@@ -57,6 +57,8 @@ grep -q "auto_increment" includes/class-hatnch-plugin.php || fail "AUTO_INCREMEN
 grep -q "bigint" includes/class-hatnch-plugin.php || fail "Unsigned bigint ID schema verification missing"
 grep -q "table_has_required_indexes" includes/class-hatnch-plugin.php || fail "Required database index verification missing"
 grep -q "SHOW INDEX FROM %i" includes/class-hatnch-plugin.php || fail "Database index inspection missing"
+grep -q "Non_unique" includes/class-hatnch-plugin.php || fail "Database index uniqueness inspection missing"
+grep -q "expected_non_unique" includes/class-hatnch-plugin.php || fail "Database index uniqueness contract missing"
 grep -q "'contact_date'" includes/class-hatnch-plugin.php || fail "Analytics contact/date index contract missing"
 grep -q "'campaign_date'" includes/class-hatnch-plugin.php || fail "Analytics campaign/date index contract missing"
 grep -q "hatnch_save_settings" includes/class-hatnch-admin.php || fail "Settings save action missing"
