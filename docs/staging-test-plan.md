@@ -111,3 +111,14 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Integration job output explicitly reported PASS for all eleven cases above.
 - Scope limitation: the test harness invokes migration/upgrade routines against real MySQL with a small WordPress-option/`$wpdb` adapter. It does not boot WordPress, test the full activation/init lifecycle, or test real `dbDelta()` repair. Manual staging checks remain required.
 - These automated tests use an ephemeral GitHub Actions MySQL service only. No staging or production database was accessed or modified. PR #3 remains draft and unmerged.
+
+
+## WordPress-backed migration CI — 2026-10-03
+
+- [x] Added a disposable WordPress 6.6 + MySQL 8.0 CI job using WP-CLI; no staging/production database is used.
+- [x] Real WordPress activation migrates legacy contacts/events tables and legacy settings while preserving representative rows.
+- [x] Real `init()` upgrade path repairs a missing contacts column using `dbDelta()` before the schema version advances.
+- [x] Real `init()` upgrade path repairs a missing `status` index using `dbDelta()` before the schema version advances.
+- [x] Build #657 passed all eight jobs, including PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress-backed lifecycle tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37130408312. Commit: `90450534421f653879e9157a04a45b49af8d5550`.
+- [ ] Manual staging checks remain required for table/option conflicts, partial failure recovery, frontend behavior, and exact ZIP/artifact provenance. CI does not authorize a staging or production migration.
+- No staging or production database was accessed or changed. PR #3 remains draft and unmerged.
