@@ -164,3 +164,13 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - **Test-harness correction recorded:** Build #642 failed because the fixture for the conflicting-options case omitted the current option it intended to conflict with. The fixture was corrected and the separated option-conflict and table-collision cases both passed in Build #643 and subsequent runs. This was a test-fixture failure, not evidence of a plugin runtime failure.
 - **Scope limitation:** these tests exercise migration/upgrade logic with real MySQL but use a minimal adapter rather than booting WordPress. They do not test the complete activation/init lifecycle or actual `dbDelta()` recovery. The manual staging test plan remains in force.
 - No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+## WordPress-backed migration lifecycle verification — 2026-10-03
+
+- Added `tests/wordpress-migration-integration.php`, executed with WP-CLI against a disposable WordPress 6.6 install and ephemeral MySQL 8.0 service in GitHub Actions.
+- Added the dedicated `WordPress migration lifecycle tests` job to `.github/workflows/validate.yml`.
+- **Build #657 passed all eight jobs**, including PHP validation on PHP 8.1–8.5, the original MySQL migration integration suite, WordPress-backed lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37130408312. Commit: `90450534421f653879e9157a04a45b49af8d5550`.
+- WordPress-backed test output explicitly reports PASS for: real activation migrating legacy tables/options while preserving rows; real `init()` upgrade restoring a missing contacts column through `dbDelta()` before version advancement; and restoring a missing `status` index through `dbDelta()` before version advancement.
+- This closes the previous CI gap for a real WordPress activation callback, the actual WordPress options/`$wpdb` APIs, and real `dbDelta()` column/index repair. It does not replace the separate manual staging checks for collision scenarios, failure injection, frontend behavior, or artifact provenance.
+- CI uses an isolated disposable WordPress/MySQL environment only. No staging or production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
