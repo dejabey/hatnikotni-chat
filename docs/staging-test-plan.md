@@ -129,7 +129,7 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Real WordPress activation pauses on a legacy/current table collision and preserves both tables' rows and legacy options.
 - [x] Real WordPress activation pauses on conflicting legacy/current settings options, preserves both values, creates no current table, and does not advance the DB version.
 - [x] Build #659 passed all eight jobs for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
-- The WordPress-backed suite now covers five scenarios, including actual activation/init and `dbDelta()` column/index repair. It does not inject an actual WordPress `$wpdb` rename failure; partial-rename retry remains covered by the separate MySQL adapter integration suite.
+- The WordPress-backed suite now covers six scenarios, including actual activation/init, `dbDelta()` column/index repair, table/option conflicts, and an injected real WordPress `$wpdb` `RENAME TABLE` failure followed by successful retry. Build #670 passed all eight jobs for test commit `189dd82529ceced521b92d89864edce86c23fe96`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229. Build #671 passed all eight jobs for the subsequent handoff commit `69557fdb7ba3e15bc1e89b4e3af29978861822f6`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133299028.
 - All automated database tests use ephemeral GitHub Actions services. No staging/production database was accessed or changed.
 
 
@@ -147,3 +147,12 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Job-level result confirmed: PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build all completed successfully.
 - [ ] Still required before migration/release: controlled failure/retry tests on a disposable clone, remaining runtime/privacy/routing/cache/WooCommerce checks, SHA-256 provenance check for the exact candidate ZIP, and correlation of the complete Plugin Check report to the same candidate.
 - PR #3 remains draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+
+
+## Latest migration-hardening CI — Builds #670 and #671 (2026-10-03)
+
+- [x] Build #670 passed all eight jobs, including PHP 8.1–8.5 validation, MySQL integration tests, WordPress 6.6 lifecycle tests, and production package build. The WordPress-backed suite injects a real `$wpdb` rename failure after the contacts table has been renamed, verifies that the schema version does not advance and the remaining legacy events table survives, then retries and verifies both data rows.
+- [x] Build #671 passed all eight jobs for the subsequent handoff commit.
+- These CI tests use disposable GitHub Actions WordPress/MySQL services only. They do not constitute permission to migrate the live staging or production database.
+- [ ] Controlled migration matrix on a disposable clone, remaining frontend/runtime checks, exact ZIP SHA-256 provenance, and Plugin Check correlation remain release gates.
+- PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
