@@ -182,3 +182,11 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - **Build #659 passed all eight jobs** for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: PHP 8.1–8.5 validation, MySQL migration integration, WordPress-backed lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
 - WordPress-backed test logs explicitly report PASS for five scenarios: legacy table/option migration with rows preserved; real `dbDelta()` repair of a missing column; real `dbDelta()` repair of a missing index; table-collision preservation; and conflicting-option preservation without creating current tables or advancing the database version.
 - Tests run only against disposable WordPress/MySQL services in GitHub Actions. No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+## Routing-state preservation assertion — 2026-10-03
+
+- Strengthened the WordPress-backed activation test to assert that legacy `hkc_routing_state` is copied exactly to `hatnch_routing_state` and removed only after verified copy.
+- **Build #662 passed all eight jobs** for test commit `bd64f13fe23a9a43a3b3066b187e363e00796f85`: PHP validation on 8.1–8.5, MySQL migration integration, WordPress-backed lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132140225.
+- The WordPress-backed test log passed all five scenarios; the activation-migration assertion now checks both settings and routing-state options.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
