@@ -190,4 +190,75 @@ hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$events_tabl
 hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'retry should advance the schema version only after successful verification' );
 echo 'PASS: real WordPress $wpdb rename failure preserves data and recovers on retry' . PHP_EOL;
 
+// An empty current table must still be treated as a collision when legacy rows exist.
+$wpdb->query( "DROP TABLE IF EXISTS {$contacts_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_contacts}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_events}" );
+delete_option( 'hatnch_db_version' );
+delete_option( 'hatnch_settings' );
+delete_option( 'hatnch_routing_state' );
+delete_option( 'hkc_settings' );
+delete_option( 'hkc_routing_state' );
+
+$wpdb->query( "CREATE TABLE {$legacy_contacts} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->query( "CREATE TABLE {$contacts_table} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->insert( $legacy_contacts, array( 'name' => 'Legacy row beside empty current table' ) );
+update_option( 'hkc_settings', array( 'source' => 'legacy-empty-collision' ) );
+
+HATNCH_Plugin::activate();
+
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$legacy_contacts} WHERE name = 'Legacy row beside empty current table'" ) === 1, 'legacy data must remain when the current table exists but is empty' );
+hatnch_wp_test_assert( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table}" ), 'empty current table must remain unchanged on collision' );
+hatnch_wp_test_assert( array( 'source' => 'legacy-empty-collision' ) === get_option( 'hkc_settings' ), 'legacy settings must remain when an empty current table collides' );
+hatnch_wp_test_assert( false === get_option( 'hatnch_db_version', false ), 'empty-current-table collision must not advance the database version' );
+echo "PASS: real WordPress activation preserves legacy rows when the colliding current table is empty" . PHP_EOL;
+
+// Deactivate/reactivate an old installation before migration; legacy settings must be migrated before defaults.
+$wpdb->query( "DROP TABLE IF EXISTS {$contacts_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$events_table}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_contacts}" );
+$wpdb->query( "DROP TABLE IF EXISTS {$legacy_events}" );
+delete_option( 'hatnch_db_version' );
+delete_option( 'hatnch_settings' );
+delete_option( 'hatnch_routing_state' );
+delete_option( 'hkc_settings' );
+delete_option( 'hkc_routing_state' );
+
+$wpdb->query( "CREATE TABLE {$legacy_contacts} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->query( "CREATE TABLE {$legacy_events} (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	contact_id BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) {$wpdb->get_charset_collate()}" );
+$wpdb->insert( $legacy_contacts, array( 'name' => 'Deactivate-reactivate contact' ) );
+$wpdb->insert( $legacy_events, array( 'contact_id' => 1 ) );
+update_option( 'hkc_settings', array( 'source' => 'pre-reactivation-legacy' ) );
+update_option( 'hkc_routing_state', array( 'last_id' => 17 ) );
+
+HATNCH_Plugin::deactivate();
+HATNCH_Plugin::activate();
+
+hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$contacts_table}'" ) === $contacts_table, 'reactivation should migrate legacy contacts before creating new tables' );
+hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$events_table}'" ) === $events_table, 'reactivation should migrate legacy events before creating new tables' );
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table} WHERE name = 'Deactivate-reactivate contact'" ) === 1, 'reactivation must preserve the legacy contact row' );
+hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$events_table} WHERE contact_id = 1" ) === 1, 'reactivation must preserve the legacy event row' );
+hatnch_wp_test_assert( array( 'source' => 'pre-reactivation-legacy' ) === get_option( 'hatnch_settings' ), 'legacy settings must migrate before defaults during reactivation' );
+hatnch_wp_test_assert( array( 'last_id' => 17 ) === get_option( 'hatnch_routing_state' ), 'legacy routing state must survive reactivation' );
+hatnch_wp_test_assert( false === get_option( 'hkc_settings', false ), 'legacy settings should be deleted only after verified reactivation migration' );
+hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'reactivation should advance the version only after verified migration' );
+echo "PASS: deactivate/reactivate migrates legacy tables and options before defaults/schema installation" . PHP_EOL;
+
 echo "PASS: all WordPress-backed migration lifecycle tests" . PHP_EOL;
