@@ -7,6 +7,7 @@ define( 'ARRAY_A', 'ARRAY_A' );
 define( 'HATNCH_DB_VERSION', '1.1.0' );
 $GLOBALS['hatnch_test_options'] = array();
 $GLOBALS['hatnch_test_fail_rename_to'] = '';
+$GLOBALS['hatnch_test_fail_update_option_key'] = '';
 
 function get_option( $key, $default = false ) {
 	return array_key_exists( $key, $GLOBALS['hatnch_test_options'] ) ? $GLOBALS['hatnch_test_options'][ $key ] : $default;
@@ -18,6 +19,7 @@ function add_option( $key, $value, $deprecated = '', $autoload = 'yes' ) {
 }
 function delete_option( $key ) { unset( $GLOBALS['hatnch_test_options'][ $key ] ); return true; }
 function update_option( $key, $value, $autoload = null ) {
+	if ( $key === $GLOBALS['hatnch_test_fail_update_option_key'] ) { return false; }
 	if ( get_option( $key, null ) === $value ) { return false; }
 	$GLOBALS['hatnch_test_options'][ $key ] = $value;
 	return true;
@@ -93,6 +95,7 @@ function hatnch_test_reset( mysqli $connection ) {
 	}
 	$GLOBALS['hatnch_test_options'] = array();
 	$GLOBALS['hatnch_test_fail_rename_to'] = '';
+	$GLOBALS['hatnch_test_fail_update_option_key'] = '';
 }
 function hatnch_test_create_legacy_tables( mysqli $connection ) {
 	$connection->query( 'CREATE TABLE wp_hkc_contacts (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL)' );
@@ -290,6 +293,16 @@ $GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
 hatnch_test_assert( false === $upgrade->invoke( null ), 'unique secondary index should fail schema gate' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong index uniqueness must not advance schema version' );
 echo "PASS: invalid index uniqueness blocks database-version advancement" . PHP_EOL;
+
+// A failed DB-version option write must leave the old version in place and report upgrade failure.
+hatnch_test_reset( $connection );
+hatnch_test_create_contacts_schema( $connection );
+hatnch_test_create_events_schema( $connection );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+$GLOBALS['hatnch_test_fail_update_option_key'] = 'hatnch_db_version';
+hatnch_test_assert( false === $upgrade->invoke( null ), 'failed DB-version write should fail upgrade' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'failed DB-version write must preserve old version' );
+echo "PASS: failed database-version write does not advance version" . PHP_EOL;
 
 hatnch_test_reset( $connection );
 $connection->close();
