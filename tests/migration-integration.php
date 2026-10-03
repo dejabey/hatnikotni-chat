@@ -101,6 +101,47 @@ function hatnch_test_create_legacy_tables( mysqli $connection ) {
 	$connection->query( 'INSERT INTO wp_hkc_events (contact_id) VALUES (1)' );
 }
 
+function hatnch_test_create_contacts_schema( mysqli $connection, string $id_type = 'BIGINT UNSIGNED', string $status_index = 'KEY status (status)', bool $include_updated_at = true ) {
+	$updated_at = $include_updated_at ? ', updated_at DATETIME NOT NULL' : '';
+	$sql = "CREATE TABLE wp_hatnch_contacts (
+		id {$id_type} NOT NULL AUTO_INCREMENT,
+		name VARCHAR(100) NOT NULL,
+		phone VARCHAR(30) NOT NULL,
+		role VARCHAR(50) NOT NULL DEFAULT '',
+		description TEXT NOT NULL,
+		status VARCHAR(20) NOT NULL DEFAULT 'active',
+		weight INT NOT NULL DEFAULT 1,
+		sort_order INT NOT NULL DEFAULT 0,
+		created_at DATETIME NOT NULL" . $updated_at . ",
+		PRIMARY KEY (id),
+		{$status_index},
+		KEY sort_order (sort_order)
+	)";
+	$connection->query( $sql );
+}
+
+function hatnch_test_create_events_schema( mysqli $connection ) {
+	$connection->query( "CREATE TABLE wp_hatnch_events (
+		id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+		event_type VARCHAR(50) NOT NULL,
+		created_at DATETIME NOT NULL,
+		contact_id BIGINT UNSIGNED NULL,
+		page_id BIGINT UNSIGNED NULL,
+		page_type VARCHAR(50) NULL,
+		device VARCHAR(50) NULL,
+		utm_source VARCHAR(255) NULL,
+		utm_medium VARCHAR(255) NULL,
+		utm_campaign VARCHAR(255) NULL,
+		utm_term VARCHAR(255) NULL,
+		utm_content VARCHAR(255) NULL,
+		PRIMARY KEY (id),
+		KEY created_at (created_at),
+		KEY contact_date (contact_id, created_at),
+		KEY page_date (page_id, page_type, created_at),
+		KEY campaign_date (utm_campaign, created_at)
+	)" );
+}
+
 $connection = new mysqli( getenv( 'MYSQL_HOST' ) ?: '127.0.0.1', getenv( 'MYSQL_USER' ) ?: 'root', getenv( 'MYSQL_PASSWORD' ) ?: '', getenv( 'MYSQL_DATABASE' ) ?: 'hatnch_test', (int) ( getenv( 'MYSQL_PORT' ) ?: 3306 ) );
 if ( $connection->connect_error ) { fwrite( STDERR, 'MySQL connection failed: ' . $connection->connect_error . PHP_EOL ); exit( 1 ); }
 $connection->set_charset( 'utf8mb4' );
@@ -203,6 +244,24 @@ $upgrade->setAccessible( true );
 hatnch_test_assert( false === $upgrade->invoke( null ), 'missing required column should fail schema gate' );
 hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'schema version must not advance when schema verification fails' );
 echo "PASS: incomplete schema blocks database-version advancement" . PHP_EOL;
+
+// A malformed primary ID must also block the version bump.
+hatnch_test_reset( $connection );
+hatnch_test_create_contacts_schema( $connection, 'INT UNSIGNED' );
+hatnch_test_create_events_schema( $connection );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+hatnch_test_assert( false === $upgrade->invoke( null ), 'wrong primary ID type should fail schema gate' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong primary ID must not advance schema version' );
+echo "PASS: invalid primary ID blocks database-version advancement" . PHP_EOL;
+
+// A required secondary index with the wrong uniqueness must be rejected.
+hatnch_test_reset( $connection );
+hatnch_test_create_contacts_schema( $connection, 'BIGINT UNSIGNED', 'UNIQUE KEY status (status)' );
+hatnch_test_create_events_schema( $connection );
+$GLOBALS['hatnch_test_options']['hatnch_db_version'] = '1.0.0';
+hatnch_test_assert( false === $upgrade->invoke( null ), 'unique secondary index should fail schema gate' );
+hatnch_test_assert( '1.0.0' === get_option( 'hatnch_db_version' ), 'wrong index uniqueness must not advance schema version' );
+echo "PASS: invalid index uniqueness blocks database-version advancement" . PHP_EOL;
 
 hatnch_test_reset( $connection );
 $connection->close();
