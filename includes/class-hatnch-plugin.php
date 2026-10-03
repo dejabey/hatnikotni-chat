@@ -318,8 +318,41 @@ final class HATNCH_Plugin {
 
 		return self::table_has_columns( $contacts_table, $contacts_columns )
 			&& self::table_has_columns( $events_table, $events_columns )
+			&& self::table_has_auto_increment_primary_id( $contacts_table )
+			&& self::table_has_auto_increment_primary_id( $events_table )
 			&& self::table_has_required_indexes( $contacts_table, $contacts_indexes )
 			&& self::table_has_required_indexes( $events_table, $events_indexes );
+	}
+
+	/**
+	 * Verify the table ID is an unsigned bigint AUTO_INCREMENT primary-key column.
+	 *
+	 * @param string $table Plugin-owned table name.
+	 * @return bool True when the ID column has the required definition.
+	 */
+	private static function table_has_auto_increment_primary_id( string $table ): bool {
+		global $wpdb;
+
+		$wpdb->last_error = '';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional schema verification for plugin-owned tables.
+		$columns = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i', $table ), ARRAY_A );
+
+		if ( '' !== $wpdb->last_error || ! is_array( $columns ) ) {
+			return false;
+		}
+
+		foreach ( $columns as $column ) {
+			if ( ! isset( $column['Field'], $column['Type'], $column['Null'], $column['Extra'] ) || 'id' !== $column['Field'] ) {
+				continue;
+			}
+
+			$type = strtolower( (string) $column['Type'] );
+			return (bool) preg_match( '/^bigint(?:\\(\\d+\\))? unsigned$/', $type )
+				&& 'NO' === $column['Null']
+				&& false !== stripos( (string) $column['Extra'], 'auto_increment' );
+		}
+
+		return false;
 	}
 
 	/**
