@@ -12,13 +12,13 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
-- [x] GitHub Actions build #571 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #571](https://github.com/dejabey/hatnikotni-chat/actions/runs/37032163194). Artifact ID: `11238156392`. Branch changes after #549 are documentation-only; plugin source/package code is unchanged from #549.
-- [x] User confirmed build #549 is installed on staging: [Run #549](https://github.com/dejabey/hatnikotni-chat/actions/runs/37026032956).
-- [ ] Resume post-install runtime tests; results have not yet been reported.
-- [x] Audit the 0.1.2 ZIP structure and verify the JavaScript asset is included.
+- [x] GitHub Actions build #578 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #578](https://github.com/dejabey/hatnikotni-chat/actions/runs/37033299925). Artifact ID: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
+- [x] Build #578 commit `de9b2539232bfedc36c1e5806407bd4f52cb08d1` changes documentation only; plugin source/package code remains unchanged from build #549.
+- [x] User-reported runtime tests on the active 0.1.8 staging installation passed for WhatsApp redirect, consent UI, Accept/Reject event-count behavior, persisted choice, withdrawal, and campaign-cookie deletion.
+- [ ] Verify exact staging ZIP provenance by comparing its SHA-256 to a known artifact.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
 - [x] CI matrix includes PHP 8.5 to match staging; build #571 passed.
-- [ ] Complete runtime tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing; UI appearance alone does not prove these behaviors.
+- [x] User-reported staging tests for consent Accept/Reject/withdrawal and immediate campaign-cookie clearing passed; exact installed artifact remains unverified.
 
 ## Release gates
 
@@ -48,7 +48,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Capability checks for admin actions
 - [x] Nonces for admin state-changing actions
 - [x] Input sanitization/validation and escaped frontend/admin output
-- [x] GitHub Actions build #569 passed the current PHP matrix and production package job. The source code has not changed since #549; intervening branch commits were documentation-only.
+- [x] GitHub Actions build #578 passed the current PHP matrix and production package job. The source code has not changed since #549; intervening branch commits were documentation-only.
 - [x] Initial Plugin Check on 0.1.8 reported 2 readme errors and 37 warnings; a subsequent detailed report showed six warnings on 2026-10-02.
 - [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
 - [x] Earlier Plugin Check report supplied on 2026-10-02 showed six warnings: one recommended nonce warning for public UTM parameters and five unprefixed variables in `uninstall.php`.
@@ -61,7 +61,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Round-robin routing verified on staging for 0.1.1; current setting is still round_robin.
 - [x] Current 0.1.8 UI is installed on staging; user reports appearance is satisfactory.
 - [x] Current staging read-only checks found three contacts and a scheduled daily cleanup event.
-- [ ] Reconfirm live routing, consent allow/reject, and event-count changes against the current 0.1.8 build.
+- [x] User-reported consent allow/reject/withdrawal and event-count changes passed on the active 0.1.8 staging installation; [ ] correlate the installed ZIP to an exact CI artifact.
 - [ ] Fresh install and upgrade test for 0.1.2
 - [ ] Activation/deactivation and database upgrade
 - [ ] Direct and random routing
