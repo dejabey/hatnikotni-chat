@@ -18,6 +18,7 @@ Run all tests on staging, not production. Record the plugin version, browser, de
 - [ ] Simulate an incomplete current table (one required column missing) and verify the upgrade gate does not accept the schema or advance the database version until `dbDelta()` restores the required column.
 - [ ] Simulate an `id` column with the wrong type, nullable definition, or missing `AUTO_INCREMENT`; verify schema validation pauses and does not advance the database version until corrected.
 - [ ] Simulate a missing or incorrectly ordered required index on each table and verify the upgrade gate does not accept the schema or advance the database version until `dbDelta()` restores the required index.
+- [ ] Simulate a required non-primary index with the wrong uniqueness setting (unique instead of non-unique, or vice versa); verify the schema gate rejects it until the index definition is corrected.
 - [ ] Verify migration/upgrade errors are shown only to users with manage_options capability and do not expose sensitive data.
 - [ ] Direct routing.
 - [ ] Random routing.
