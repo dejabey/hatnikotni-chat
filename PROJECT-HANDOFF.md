@@ -126,3 +126,12 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Relevant commits: ID schema validation `e0a57d230ebf2162a0c6213788c397e70af8afc0`; uniqueness verification `73cc40aa37f8e459ecd7b8a706fa9ff0d139d3bb`; static test `0f73862434f4dd8888a8138fdcd8d7d5d29ba0b2`; test plan `96e535cedbce2cc1727dff38f1b0637483b1098f`.
 - **Validation status:** Build #627 predates the index-uniqueness change. A fresh CI run is required; do not treat the latest changes as CI-verified until all jobs pass.
 - Still pending: controlled migration test matrix and review of all column types/defaults/nullability beyond the ID column. PR #3 remains draft and unmerged; no staging/production database was accessed or modified.
+
+
+## CI verification — Build #632 (2026-10-03)
+
+- Verified Build #632 succeeded for commit `c09393f02e34f085e4b5abcf47423330169a26ed`: all five PHP validation jobs (8.1–8.5) and the production package build passed. This run includes the index uniqueness check, its skeleton-contract assertions, and the PHPCS alignment correction.
+- Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37122659995
+- Builds #628–#631 failed in PHPCS due to assignment alignment in the new index verifier; the reported spacing was corrected and Build #632 confirms the fix.
+- Migration hardening now checks required column presence, the `id` column's unsigned BIGINT / NOT NULL / AUTO_INCREMENT definition, required index names and ordered columns, and index uniqueness (`PRIMARY` unique; secondary indexes non-unique).
+- Remaining gates: controlled migration matrix on a disposable test database; broader review of column types/defaults/nullability beyond `id`; confirm failure and retry semantics under real database errors. PR #3 remains draft and unmerged. No staging/production database was accessed or modified.
