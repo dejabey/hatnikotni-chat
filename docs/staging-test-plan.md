@@ -129,7 +129,7 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Real WordPress activation pauses on a legacy/current table collision and preserves both tables' rows and legacy options.
 - [x] Real WordPress activation pauses on conflicting legacy/current settings options, preserves both values, creates no current table, and does not advance the DB version.
 - [x] Build #659 passed all eight jobs for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
-- The WordPress-backed suite now covers six scenarios, including actual activation/init, `dbDelta()` column/index repair, table/option conflicts, and an injected real WordPress `$wpdb` `RENAME TABLE` failure followed by successful retry. Build #670 passed all eight jobs for test commit `189dd82529ceced521b92d89864edce86c23fe96`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229. Build #671 passed all eight jobs for the subsequent handoff commit `69557fdb7ba3e15bc1e89b4e3af29978861822f6`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133299028.
+- The WordPress-backed suite now covers eight scenarios, including actual activation/init, `dbDelta()` column/index repair, populated and empty-current-table collisions, conflicting options, an injected real WordPress `$wpdb` `RENAME TABLE` failure followed by successful retry, and deactivate/reactivate migration before defaults/schema installation. Build #670 passed all eight jobs for the rename-failure test commit: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132997229. Build #675 passed all eight jobs for the expanded empty-table-collision and deactivate/reactivate test commit `6e7ca5d54477615207a5932297dc8c22d442e04e`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133763454.
 - All automated database tests use ephemeral GitHub Actions services. No staging/production database was accessed or changed.
 
 
@@ -156,3 +156,11 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - These CI tests use disposable GitHub Actions WordPress/MySQL services only. They do not constitute permission to migrate the live staging or production database.
 - [ ] Controlled migration matrix on a disposable clone, remaining frontend/runtime checks, exact ZIP SHA-256 provenance, and Plugin Check correlation remain release gates.
 - PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+## Expanded lifecycle coverage — Build #675 (2026-10-03)
+
+- [x] Real WordPress activation pauses when the current contacts table exists but is empty while the legacy contacts table contains a row; both tables and the legacy option remain unchanged, and the schema version does not advance.
+- [x] Real WordPress deactivate/reactivate sequence migrates legacy contacts/events and settings/routing-state options before defaults or schema installation; representative rows and option values survive.
+- [x] Build #675 passed all eight jobs for commit `6e7ca5d54477615207a5932297dc8c22d442e04e`: PHP 8.1–8.5, MySQL integration, WordPress 6.6 lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133763454.
+- These are isolated CI tests, not staging results. Keep the manual staging-clone checkboxes below open until tested on a disposable clone.
