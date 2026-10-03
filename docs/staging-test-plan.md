@@ -122,3 +122,12 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Build #657 passed all eight jobs, including PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress-backed lifecycle tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37130408312. Commit: `90450534421f653879e9157a04a45b49af8d5550`.
 - [ ] Manual staging checks remain required for table/option conflicts, partial failure recovery, frontend behavior, and exact ZIP/artifact provenance. CI does not authorize a staging or production migration.
 - No staging or production database was accessed or changed. PR #3 remains draft and unmerged.
+
+
+## Additional real-WordPress collision coverage — 2026-10-03
+
+- [x] Real WordPress activation pauses on a legacy/current table collision and preserves both tables' rows and legacy options.
+- [x] Real WordPress activation pauses on conflicting legacy/current settings options, preserves both values, creates no current table, and does not advance the DB version.
+- [x] Build #659 passed all eight jobs for commit `d5a0f4ea2a8464df5bd47774b8b3bed8995fcdba`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37132015156.
+- The WordPress-backed suite now covers five scenarios, including actual activation/init and `dbDelta()` column/index repair. It does not inject an actual WordPress `$wpdb` rename failure; partial-rename retry remains covered by the separate MySQL adapter integration suite.
+- All automated database tests use ephemeral GitHub Actions services. No staging/production database was accessed or changed.
