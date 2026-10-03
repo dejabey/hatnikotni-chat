@@ -48,7 +48,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Capability checks for admin actions
 - [x] Nonces for admin state-changing actions
 - [x] Input sanitization/validation and escaped frontend/admin output
-- [x] GitHub Actions build #578 passed the current PHP matrix and production package job. The source code has not changed since #549; intervening branch commits were documentation-only.
+- [x] GitHub Actions build #578 passed the current PHP matrix and production package job. PHP/JavaScript runtime source is unchanged since #549, but the packaged `readme.txt` description was revised, so the ZIP contents are not identical.
 - [x] Initial Plugin Check on 0.1.8 reported 2 readme errors and 37 warnings; a subsequent detailed report showed six warnings on 2026-10-02.
 - [x] Fixed `Tested up to` and `Stable tag` readme headers; removed discouraged manual `load_plugin_textdomain()` call and declared `Domain Path: /languages`.
 - [x] Earlier Plugin Check report supplied on 2026-10-02 showed six warnings: one recommended nonce warning for public UTM parameters and five unprefixed variables in `uninstall.php`.
