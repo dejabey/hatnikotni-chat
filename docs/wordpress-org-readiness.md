@@ -13,7 +13,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
 - [x] GitHub Actions build #578 passed all six jobs on 2026-10-02: PHP 8.1–8.5 validation and production package build. [Run #578](https://github.com/dejabey/hatnikotni-chat/actions/runs/37033299925). Artifact ID: `11238198052`; SHA-256: `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`.
-- [x] Build #578 commit `de9b2539232bfedc36c1e5806407bd4f52cb08d1` changes documentation only; plugin source/package code remains unchanged from build #549.
+- [x] Build #578 commit `de9b2539232bfedc36c1e5806407bd4f52cb08d1` does not change PHP/JavaScript runtime source. However, the packaged `readme.txt` description differs from build #549, so package contents are not identical.
 - [x] User-reported runtime tests on the active 0.1.8 staging installation passed for WhatsApp redirect, consent UI, Accept/Reject event-count behavior, persisted choice, withdrawal, and campaign-cookie deletion.
 - [ ] Verify exact staging ZIP provenance by comparing its SHA-256 to a known artifact.
 - [x] User confirmed the current compact privacy UI looks correct on staging (2026-09-30).
