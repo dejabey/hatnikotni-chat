@@ -106,5 +106,14 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37118840794
 - The successful run is for commit `a1f917090b9fac8ddfb8a8b8d5298dcec186aece`, which includes the Build #619 PHPDoc spacing correction and this handoff update.
 - Compatibility check: plugin header/readme require WordPress 6.6 and PHP 8.1; the `%i` identifier placeholder used by schema inspection is compatible with the declared WordPress minimum.
-- Remaining code-review item: schema validation currently checks required column names and named index names/order, but not column types, nullability/defaults, `AUTO_INCREMENT`, or index uniqueness/visibility. Review the actual schema definitions before deciding which attributes are essential to verify.
+- Follow-up schema review identified that required-column and index checks did not verify the primary ID definition. Added checks for `id` to be unsigned `BIGINT`, `NOT NULL`, and `AUTO_INCREMENT` in both custom tables; the existing required-index check also requires `PRIMARY(id)`. Static contract assertions and a staging test-plan case were added. This does not yet verify every column type/default or index uniqueness/visibility; those remain review considerations.
 - Build success validates automated checks/package generation only. The controlled migration matrix and runtime staging verification remain pending; PR #3 stays draft and must not be merged yet.
+
+
+## Schema ID contract follow-up — 2026-10-03
+
+- Inspected the actual DDL in `includes/class-hatnch-contacts.php` and `includes/class-hatnch-analytics.php`: both tables define `id bigint(20) unsigned NOT NULL AUTO_INCREMENT` and `PRIMARY KEY (id)`.
+- Added `table_has_auto_increment_primary_id()` in `includes/class-hatnch-plugin.php`; schema verification now rejects either table if its `id` is not an unsigned BIGINT, is nullable, or lacks `AUTO_INCREMENT`. Existing index validation also requires the primary index on `id`.
+- Added static contract checks in `tests/skeleton-contract.sh` and documented a controlled test for wrong ID type/nullability/missing AUTO_INCREMENT in `docs/staging-test-plan.md`.
+- Code commit: `e0a57d230ebf2162a0c6213788c397e70af8afc0`; test commit: `e7dac64095a1cc873c34ec188db41e963d8bfdb6`; test-plan commit: `aa8364877d9fae1a9e9042dc4e3e351533df01ce`.
+- **Validation pending:** these new commits still need a fresh GitHub Actions run. Do not call this new check CI-verified until the workflow completes successfully. Column types/defaults beyond `id`, and index uniqueness/visibility, are not yet comprehensively checked. Controlled migration tests remain outstanding. No staging/production database was accessed or changed; PR #3 remains draft and unmerged.
