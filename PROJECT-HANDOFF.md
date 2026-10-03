@@ -237,3 +237,13 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Verified job results: PHP 8.1–8.5 validation, MySQL migration integration tests, WordPress 6.6 lifecycle tests, and production package build all succeeded.
 - The updated staging test plan records six WordPress-backed migration scenarios and preserves the outstanding release gates: disposable-clone migration matrix, runtime/privacy/routing/cache/WooCommerce checks, ZIP SHA-256 provenance, and Plugin Check correlation.
 - PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
+
+
+## Expanded migration lifecycle coverage — Build #675 (2026-10-03)
+
+- Added a WordPress-backed test for the edge case where a current contacts table exists but is empty while the legacy contacts table contains data. Activation must pause and preserve both tables/options without advancing the schema version.
+- Added a WordPress-backed deactivate/reactivate scenario for a legacy installation. It verifies table rows, settings and routing-state options migrate before defaults/schema installation.
+- Build #675 passed all eight jobs for test commit `6e7ca5d54477615207a5932297dc8c22d442e04e`: PHP 8.1–8.5 validation, MySQL migration integration, WordPress 6.6 lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133763454.
+- The WordPress-backed suite now explicitly reports PASS for eight lifecycle/migration scenarios. Expected injected rename failure is logged by WordPress, followed by a PASS confirming data preservation and retry recovery.
+- Staging-clone tests, frontend/runtime checks, exact candidate ZIP SHA-256 provenance, and Plugin Check correlation remain open. CI does not authorize a live staging/production migration.
+- PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
