@@ -26,6 +26,13 @@
 - Remaining staging coverage: direct/random/round-robin routing on the current build, cache/CDN behavior, keyboard accessibility/Escape/focus, mobile layout, shortcode, WooCommerce pages, JavaScript-disabled behavior, custom cookie path/domain, and upgrade collision handling.
 - No production changes have been made. Do not uninstall/reinstall the staging plugin; `uninstall.php` intentionally deletes plugin data.
 
+## Follow-up schema audit — 2026-10-03
+
+- Added verification of required named indexes and their ordered columns for both `hatnch_contacts` and `hatnch_events`, in addition to required-column checks. Code commit: `3292afaaa91f04f39402e221b039654509351d57`.
+- Added static contract assertions in `tests/skeleton-contract.sh` (commit `15dcedd2040784bc9a781f87df2eb517936cc5c0`) and documented a missing/misordered-index test in `docs/staging-test-plan.md` (commit `23c40fe69ced0c8af0c0be46cf1a29b578db82c7`).
+- Build #614 (run `37118448499`) was in progress at last check for the code change. Build #615 (run `37118455872`) was queued for a documentation commit. Recheck CI before considering the latest code validated.
+- This remains code-level hardening only. No staging/production database was accessed or changed. Controlled tests for legacy data, conflicts, partial migration, schema columns/indexes, and retry behavior remain required.
+
 ## Current objective
 
 Remediate WordPress.org review feedback, maintain a clean production package, and validate Hatnikotni Chat on staging. The reviewer identified the old three-character prefix and inaccessible Plugin URI. The runtime namespace has been migrated to HATNCH_/hatnch_, and the GitHub repository is now public.
