@@ -128,6 +128,7 @@ echo "PASS: legacy tables/options migrate with data preserved" . PHP_EOL;
 // Conflicting legacy/current options: pause before any table changes and preserve both values.
 hatnch_test_reset( $connection );
 $GLOBALS['hatnch_test_options']['hkc_settings'] = array( 'legacy' => 1 );
+$GLOBALS['hatnch_test_options']['hatnch_settings'] = array( 'current' => 1 );
 hatnch_test_assert( false === $migration->invoke( null ), 'conflicting options should pause migration' );
 hatnch_test_assert( array( 'legacy' => 1 ) === get_option( 'hkc_settings' ), 'legacy option must remain after conflict' );
 hatnch_test_assert( array( 'current' => 1 ) === get_option( 'hatnch_settings' ), 'current option must remain after conflict' );
@@ -139,7 +140,6 @@ hatnch_test_reset( $connection );
 hatnch_test_create_legacy_tables( $connection );
 $connection->query( 'CREATE TABLE wp_hatnch_contacts (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL)' );
 $GLOBALS['hatnch_test_options']['hkc_settings'] = array( 'legacy' => 1 );
-$GLOBALS['hatnch_test_options']['hatnch_settings'] = array( 'current' => 1 );
 hatnch_test_assert( false === $migration->invoke( null ), 'table collision should pause migration' );
 hatnch_test_assert( 'wp_hkc_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hkc_contacts'" ), 'legacy table must remain' );
 hatnch_test_assert( 'wp_hatnch_contacts' === $GLOBALS['wpdb']->get_var( "SHOW TABLES LIKE 'wp_hatnch_contacts'" ), 'current table must remain' );
