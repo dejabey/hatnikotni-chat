@@ -53,7 +53,9 @@ hatnch_wp_test_assert( $wpdb->get_var( "SHOW TABLES LIKE '{$events_table}'" ) ==
 hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$contacts_table} WHERE name = 'WordPress integration contact'" ) === 1, 'legacy contact row should survive activation migration' );
 hatnch_wp_test_assert( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$events_table} WHERE contact_id = 1" ) === 1, 'legacy event row should survive activation migration' );
 hatnch_wp_test_assert( get_option( 'hatnch_settings' ) === array( 'enabled' => 1 ), 'legacy settings should migrate through WordPress options API' );
+hatnch_wp_test_assert( get_option( 'hatnch_routing_state' ) === array( 'last_id' => 9 ), 'legacy routing state should migrate through WordPress options API' );
 hatnch_wp_test_assert( false === get_option( 'hkc_settings', false ), 'legacy settings should be removed after verified copy' );
+hatnch_wp_test_assert( false === get_option( 'hkc_routing_state', false ), 'legacy routing state should be removed after verified copy' );
 hatnch_wp_test_assert( HATNCH_DB_VERSION === get_option( 'hatnch_db_version' ), 'activation should record the verified schema version' );
 echo "PASS: real WordPress activation migrates legacy tables and options" . PHP_EOL;
 
