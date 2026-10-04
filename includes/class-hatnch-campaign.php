@@ -29,11 +29,6 @@ final class HATNCH_Campaign {
 	}
 
 	/**
-	 * Expire the HttpOnly campaign cookie immediately after consent is withdrawn.
-	 *
-	 * This public endpoint only clears the requesting visitor's own attribution cookie.
-	 */
-	/**
 	 * Finish a consented campaign-capture request after init has processed its UTM query.
 	 */
 	public static function capture_campaign_request(): void {
@@ -42,6 +37,11 @@ final class HATNCH_Campaign {
 		exit;
 	}
 
+	/**
+	 * Expire the HttpOnly campaign cookie immediately after consent is withdrawn.
+	 *
+	 * This public endpoint only clears the requesting visitor's own attribution cookie.
+	 */
 	public static function revoke_campaign(): void {
 		nocache_headers();
 		self::clear_cookie();
