@@ -256,3 +256,14 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Build #678 passed all eight jobs for commit `18f7bbd65441e434e5f29ae67f36dab6b6d9e731`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133913786.
 - The expanded lifecycle tests from Build #675 and this test-harness cleanup are CI-verified. The test matrix on a disposable staging clone and the frontend/package-provenance gates remain outstanding.
 - PR #3 remains draft/unmerged; PR #2 remains draft/unmerged. No staging/production database was accessed or changed.
+
+
+
+## Contact input validation hardening — Builds #680–#686 (2026-10-04)
+
+- **Build #680 passed all eight jobs** for commit `1e15d4a1753be0dcea7a2d1d7713fb53757fb2e5`: `HATNCH_Settings::get()` now safely returns its fallback when the stored settings option is malformed and not an array. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37171831143.
+- **Builds #681 and #682 passed all eight jobs** for commits `09729b684f679d9a890ae125d8c9750131756be4` and `8ff485baee30cc1e34f291a8846dcee55ca7ca65`. The contact save path now clamps `weight` to the unsigned SMALLINT range and `sort_order` to the unsigned INT range; contract checks cover both limits. Runs: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172084235 and https://github.com/dejabey/hatnikotni-chat/actions/runs/37172093587.
+- Follow-up review found that HTML `maxlength` attributes for contact name, role and description were not enforced server-side. Added Unicode-aware server-side length validation for the schema limits (name 100, role 100, description 255 characters), explicit error codes/messages, and static contract assertions. The character counter uses `mb_strlen` when available and a UTF-8 regex fallback otherwise.
+- Builds #684 and #685 failed the WordPress Coding Standards step because the newly added admin error-message array was misaligned. The contract checks, PHP syntax and migration integration/lifecycle jobs had passed in those runs; the failure was a style issue. The array was aligned and the final verification is **Build #686 passed all eight jobs**, including PHPCS on PHP 8.1–8.5, both migration test suites, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172705507. Final code commit at this entry: `c447ac724aa9b88425a295480b90b4d2aa04f480`.
+- PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+- Remaining gates are unchanged: finish the broader privacy/routing/campaign review, run the manual runtime checks on a disposable staging clone, verify the exact candidate ZIP against CI artifact SHA-256, and correlate the complete Plugin Check report with that exact candidate. Do not uninstall/reinstall the staging plugin; `uninstall.php` is destructive.
