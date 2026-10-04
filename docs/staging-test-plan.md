@@ -176,3 +176,13 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [ ] On a disposable staging clone, verify that values at each exact maximum save successfully and values one character over are rejected with the expected admin error message. Do not test by changing production contacts.
 - [ ] Verify the final candidate ZIP SHA-256 against the CI artifact and correlate the complete Plugin Check report with that exact artifact.
 - No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
+
+
+
+## UTM attribution input bounds — Build #691 (2026-10-04)
+
+- [x] Incoming UTM values are bounded to the matching analytics-table column lengths: source/medium 100 characters; campaign/term/content 150 characters.
+- [x] Cookie-decoded values are bounded again before use, protecting against older or malformed oversized attribution cookies.
+- [x] Contract assertions cover all five field limits. Build #691 passed all eight jobs for commit `179e60f74df2013f6a473c2631df5cabca52171d`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172876517.
+- [ ] On a disposable staging clone, verify long UTM values are bounded and analytics insertion still succeeds when consent is granted. Verify attribution remains absent when consent is not granted.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged.
