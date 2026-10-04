@@ -44,6 +44,8 @@ grep -q '\$hatnch_legacy_events_table' uninstall.php || fail "Prefixed legacy ev
 grep -q 'phpcs:disable WordPress.Security.NonceVerification.Recommended' includes/class-hatnch-campaign.php || fail "Documented public UTM nonce exception missing"
 grep -q "hatnch_routing_state" uninstall.php || fail "Routing state uninstall cleanup missing"
 grep -q "function save" includes/class-hatnch-contacts.php || fail "Contact save contract missing"
+grep -Fq "min( 65535, max( 1, absint( \$data['weight'] ?? 1 ) ) )" includes/class-hatnch-contacts.php || fail "Contact weight must be clamped to SMALLINT UNSIGNED range"
+grep -Fq "min( 4294967295, absint( \$data['sort_order'] ?? 0 ) )" includes/class-hatnch-contacts.php || fail "Contact sort order must be clamped to INT UNSIGNED range"
 grep -q "function set_status" includes/class-hatnch-contacts.php || fail "Contact status contract missing"
 grep -q "admin_post_hatnch_save_contact" includes/class-hatnch-admin.php || fail "Contact save admin action missing"
 grep -q "check_admin_referer" includes/class-hatnch-admin.php || fail "Admin nonce contract missing"
