@@ -24,6 +24,8 @@ final class HATNCH_Campaign {
 		add_action( 'init', array( __CLASS__, 'capture' ), 1 );
 		add_action( 'admin_post_nopriv_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
 		add_action( 'admin_post_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+		add_action( 'admin_post_nopriv_hatnch_capture_campaign', array( __CLASS__, 'capture_campaign_request' ) );
+		add_action( 'admin_post_hatnch_capture_campaign', array( __CLASS__, 'capture_campaign_request' ) );
 	}
 
 	/**
@@ -31,6 +33,15 @@ final class HATNCH_Campaign {
 	 *
 	 * This public endpoint only clears the requesting visitor's own attribution cookie.
 	 */
+	/**
+	 * Finish a consented campaign-capture request after init has processed its UTM query.
+	 */
+	public static function capture_campaign_request(): void {
+		nocache_headers();
+		status_header( 204 );
+		exit;
+	}
+
 	public static function revoke_campaign(): void {
 		nocache_headers();
 		self::clear_cookie();
