@@ -34,6 +34,10 @@ final class HATNCH_Settings {
 	public static function get( string $key, mixed $fallback = null ): mixed {
 		$settings = get_option( self::OPTION_KEY, array() );
 
+		if ( ! is_array( $settings ) ) {
+			return $fallback;
+		}
+
 		return array_key_exists( $key, $settings ) ? $settings[ $key ] : $fallback;
 	}
 
