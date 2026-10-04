@@ -75,6 +75,12 @@ final class HATNCH_Campaign {
 
 		$value = rawurlencode( $encoded );
 
+		// Keep the encoded cookie below common browser cookie-size limits.
+		if ( strlen( $value ) > 3500 ) {
+			self::clear_cookie();
+			return;
+		}
+
 		setcookie(
 			self::COOKIE_NAME,
 			$value,
