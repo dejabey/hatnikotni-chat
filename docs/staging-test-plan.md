@@ -164,3 +164,15 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Real WordPress deactivate/reactivate sequence migrates legacy contacts/events and settings/routing-state options before defaults or schema installation; representative rows and option values survive.
 - [x] Build #675 passed all eight jobs for commit `6e7ca5d54477615207a5932297dc8c22d442e04e`: PHP 8.1–8.5, MySQL integration, WordPress 6.6 lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37133763454.
 - These are isolated CI tests, not staging results. Keep the manual staging-clone checkboxes below open until tested on a disposable clone.
+
+
+
+## Contact input validation hardening — Build #686 (2026-10-04)
+
+- [x] Server-side validation rejects contact names longer than 100 characters, roles longer than 100 characters, and descriptions longer than 255 characters; limits match the custom-table schema and the admin form.
+- [x] Unicode-aware character counting uses `mb_strlen` when available and a UTF-8 regex fallback otherwise.
+- [x] Contract checks verify the validation error codes and admin-facing messages.
+- [x] Build #686 passed all eight jobs for code commit `c447ac724aa9b88425a295480b90b4d2aa04f480`, including PHPCS on PHP 8.1–8.5, migration integration, WordPress lifecycle tests, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172705507.
+- [ ] On a disposable staging clone, verify that values at each exact maximum save successfully and values one character over are rejected with the expected admin error message. Do not test by changing production contacts.
+- [ ] Verify the final candidate ZIP SHA-256 against the CI artifact and correlate the complete Plugin Check report with that exact artifact.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged; PR #2 remains draft and unmerged.
