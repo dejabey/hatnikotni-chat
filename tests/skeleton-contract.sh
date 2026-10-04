@@ -82,6 +82,13 @@ grep -q "HATNCH_Analytics::record_click" includes/class-hatnch-whatsapp.php || f
 if grep -q "HATNCH_Analitik::record_click" includes/class-hatnch-whatsapp.php; then fail "Misspelled analytics handler call must not exist"; fi
 grep -q "https://wa.me/" includes/class-hatnch-whatsapp.php || fail "WhatsApp URL contract missing"
 grep -q "setcookie" includes/class-hatnch-campaign.php || fail "Campaign cookie contract missing"
+grep -q "FIELD_LIMITS" includes/class-hatnch-campaign.php || fail "UTM attribution database field limits missing"
+grep -q "limit_text" includes/class-hatnch-campaign.php || fail "UTM attribution length guard missing"
+grep -q "'utm_source'   => 100" includes/class-hatnch-campaign.php || fail "UTM source length must match schema"
+grep -q "'utm_medium'   => 100" includes/class-hatnch-campaign.php || fail "UTM medium length must match schema"
+grep -q "'utm_campaign' => 150" includes/class-hatnch-campaign.php || fail "UTM campaign length must match schema"
+grep -q "'utm_term'     => 150" includes/class-hatnch-campaign.php || fail "UTM term length must match schema"
+grep -q "'utm_content'  => 150" includes/class-hatnch-campaign.php || fail "UTM content length must match schema"
 grep -q "admin_post_nopriv_hatnch_revoke_campaign" includes/class-hatnch-campaign.php || fail "Public campaign-cookie revocation endpoint missing"
 grep -q "revokeCampaignUrl" includes/class-hatnch-whatsapp.php || fail "Campaign-cookie revocation URL missing"
 grep -q "requestCampaignCookieClear()" assets/js/hatnikotni-chat-privacy.js || fail "Server-side campaign-cookie revocation request missing"
