@@ -82,13 +82,13 @@ final class HATNCH_Admin {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag.
 			if ( isset( $_GET['error'] ) ) {
 				$error_messages = array(
-					'missing_name'       => __( 'Contact name is required.', 'hatnikotni-chat' ),
-					'invalid_phone'      => __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ),
-					'name_too_long'      => __( 'Contact name must be 100 characters or fewer.', 'hatnikotni-chat' ),
-					'role_too_long'      => __( 'Contact role must be 100 characters or fewer.', 'hatnikotni-chat' ),
+					'missing_name'         => __( 'Contact name is required.', 'hatnikotni-chat' ),
+					'invalid_phone'        => __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ),
+					'name_too_long'        => __( 'Contact name must be 100 characters or fewer.', 'hatnikotni-chat' ),
+					'role_too_long'        => __( 'Contact role must be 100 characters or fewer.', 'hatnikotni-chat' ),
 					'description_too_long' => __( 'Contact description must be 255 characters or fewer.', 'hatnikotni-chat' ),
-					'db_update_failed'   => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
-					'db_insert_failed' => __( 'The contact could not be created.', 'hatnikotni-chat' ),
+					'db_update_failed'     => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
+					'db_insert_failed'     => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 				);
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag, sanitized and allow-listed below.
 				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
