@@ -267,3 +267,15 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Builds #684 and #685 failed the WordPress Coding Standards step because the newly added admin error-message array was misaligned. The contract checks, PHP syntax and migration integration/lifecycle jobs had passed in those runs; the failure was a style issue. The array was aligned and the final verification is **Build #686 passed all eight jobs**, including PHPCS on PHP 8.1–8.5, both migration test suites, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172705507. Final code commit at this entry: `c447ac724aa9b88425a295480b90b4d2aa04f480`.
 - PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
 - Remaining gates are unchanged: finish the broader privacy/routing/campaign review, run the manual runtime checks on a disposable staging clone, verify the exact candidate ZIP against CI artifact SHA-256, and correlate the complete Plugin Check report with that exact candidate. Do not uninstall/reinstall the staging plugin; `uninstall.php` is destructive.
+
+
+
+## UTM attribution input bounds — Build #691 (2026-10-04)
+
+- Follow-up review found that incoming UTM values were sanitized but not bounded to the custom analytics table's declared column lengths. Added per-field limits matching the schema: `utm_source` and `utm_medium` 100 characters; `utm_campaign`, `utm_term`, and `utm_content` 150 characters.
+- The limits are applied both when capturing query-string values and when decoding the campaign cookie, so malformed or older oversized cookie values are bounded before insertion.
+- Unicode-safe truncation uses `mb_substr` when available and a UTF-8 regex split fallback otherwise. Added contract checks for all five field limits.
+- Builds #689 and #690 failed only the PHPCS step because the new class constants were not aligned. The constants were aligned; **Build #691 passed all eight jobs** for commit `179e60f74df2013f6a473c2631df5cabca52171d`, including PHP 8.1–8.5/PHPCS, both migration suites, and production package build: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172876517.
+- Build #688 also passed all eight jobs for the staging-plan documentation update: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172807564.
+- PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+- Remaining gates: manual contact-length boundary checks on a disposable clone; finish broader privacy/routing/campaign review; verify candidate ZIP SHA-256 against the CI artifact; correlate the complete Plugin Check report with the same artifact. Do not uninstall/reinstall staging plugin; `uninstall.php` is destructive.
