@@ -186,3 +186,15 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [x] Contract assertions cover all five field limits. Build #691 passed all eight jobs for commit `179e60f74df2013f6a473c2631df5cabca52171d`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172876517.
 - [ ] On a disposable staging clone, verify long UTM values are bounded and analytics insertion still succeeds when consent is granted. Verify attribution remains absent when consent is not granted.
 - No staging/production database was accessed or changed. PR #3 remains draft and unmerged.
+
+
+
+## Post-consent UTM capture — Build #700 (2026-10-04)
+
+- [x] Added a same-site capture endpoint so a visitor who accepts analytics on a UTM landing page can capture attribution without reloading the page.
+- [x] Server-side `init` capture still enforces `HATNCH_Privacy::has_analytics_consent()`; the endpoint does not bypass the consent gate.
+- [x] Added a 3,500-character guard on the URL-encoded campaign cookie value and a contract assertion for the guard.
+- [x] Build #700 passed all eight jobs for commit `e45c73aa5d448a67ebb85085dd7c4fce4fb0b14b`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37173121178.
+- [ ] On a disposable staging clone, land on a URL with UTM values before consent, accept analytics without reloading, then verify the campaign cookie and the next click event's UTM attribution.
+- [ ] Repeat with consent rejected and with consent withdrawn; verify no attribution is stored/retained. Test oversized multibyte UTM values and confirm the browser is not sent an oversized campaign cookie.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged.
