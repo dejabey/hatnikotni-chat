@@ -9,14 +9,32 @@ defined( 'ABSPATH' ) || exit;
 
 final class HATNCH_Campaign {
 
-	private const COOKIE_NAME = 'hatnch_campaign';
-	private const COOKIE_DAYS = 30;
-	private const FIELDS      = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
+	private const COOKIE_NAME  = 'hatnch_campaign';
+	private const COOKIE_DAYS  = 30;
+	private const FIELDS       = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
+	private const FIELD_LIMITS = array(
+		'utm_source'   => 100,
+		'utm_medium'   => 100,
+		'utm_campaign' => 150,
+		'utm_term'     => 150,
+		'utm_content'  => 150,
+	);
 
 	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'capture' ), 1 );
 		add_action( 'admin_post_nopriv_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
 		add_action( 'admin_post_hatnch_revoke_campaign', array( __CLASS__, 'revoke_campaign' ) );
+		add_action( 'admin_post_nopriv_hatnch_capture_campaign', array( __CLASS__, 'capture_campaign_request' ) );
+		add_action( 'admin_post_hatnch_capture_campaign', array( __CLASS__, 'capture_campaign_request' ) );
+	}
+
+	/**
+	 * Finish a consented campaign-capture request after init has processed its UTM query.
+	 */
+	public static function capture_campaign_request(): void {
+		nocache_headers();
+		status_header( 204 );
+		exit;
 	}
 
 	/**
@@ -44,7 +62,10 @@ final class HATNCH_Campaign {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		foreach ( self::FIELDS as $field ) {
 			if ( isset( $_GET[ $field ] ) && is_scalar( $_GET[ $field ] ) ) {
-				$value = sanitize_text_field( wp_unslash( $_GET[ $field ] ) );
+				$value = self::limit_text(
+					sanitize_text_field( wp_unslash( $_GET[ $field ] ) ),
+					self::FIELD_LIMITS[ $field ]
+				);
 
 				if ( '' !== $value ) {
 					$attribution[ $field ] = $value;
@@ -64,6 +85,12 @@ final class HATNCH_Campaign {
 		}
 
 		$value = rawurlencode( $encoded );
+
+		// Keep the encoded cookie below common browser cookie-size limits.
+		if ( strlen( $value ) > 3500 ) {
+			self::clear_cookie();
+			return;
+		}
 
 		setcookie(
 			self::COOKIE_NAME,
@@ -98,7 +125,10 @@ final class HATNCH_Campaign {
 
 		foreach ( self::FIELDS as $field ) {
 			if ( isset( $data[ $field ] ) && is_scalar( $data[ $field ] ) ) {
-				$attribution[ $field ] = sanitize_text_field( (string) $data[ $field ] );
+				$attribution[ $field ] = self::limit_text(
+					sanitize_text_field( (string) $data[ $field ] ),
+					self::FIELD_LIMITS[ $field ]
+				);
 			}
 		}
 
@@ -124,6 +154,27 @@ final class HATNCH_Campaign {
 		);
 
 		unset( $_COOKIE[ self::COOKIE_NAME ] );
+	}
+
+	/**
+	 * Limit attribution text to the matching database column length.
+	 *
+	 * @param string $value Sanitized attribution value.
+	 * @param int    $limit Maximum number of Unicode characters.
+	 * @return string Value bounded to the requested character limit.
+	 */
+	private static function limit_text( string $value, int $limit ): string {
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $value, 0, $limit, 'UTF-8' );
+		}
+
+		$characters = preg_split( '//u', $value, -1, PREG_SPLIT_NO_EMPTY );
+
+		if ( ! is_array( $characters ) ) {
+			return substr( $value, 0, $limit );
+		}
+
+		return implode( '', array_slice( $characters, 0, $limit ) );
 	}
 
 	private static function empty_attribution(): array {

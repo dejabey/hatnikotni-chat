@@ -101,8 +101,8 @@ final class HATNCH_Contacts {
 		$role        = sanitize_text_field( $data['role'] ?? '' );
 		$description = sanitize_text_field( $data['description'] ?? '' );
 		$status      = ! empty( $data['status'] ) ? 1 : 0;
-		$weight      = max( 1, absint( $data['weight'] ?? 1 ) );
-		$sort_order  = absint( $data['sort_order'] ?? 0 );
+		$weight      = min( 65535, max( 1, absint( $data['weight'] ?? 1 ) ) );
+		$sort_order  = min( 4294967295, absint( $data['sort_order'] ?? 0 ) );
 
 		if ( '' === $name ) {
 			return new WP_Error( 'missing_name', __( 'Contact name is required.', 'hatnikotni-chat' ) );
@@ -110,6 +110,18 @@ final class HATNCH_Contacts {
 
 		if ( ! preg_match( '/^[0-9]{8,20}$/', $raw_phone ) || $phone !== $raw_phone ) {
 			return new WP_Error( 'invalid_phone', __( 'Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ) );
+		}
+
+		if ( self::text_length( $name ) > 100 ) {
+			return new WP_Error( 'name_too_long', __( 'Contact name must be 100 characters or fewer.', 'hatnikotni-chat' ) );
+		}
+
+		if ( self::text_length( $role ) > 100 ) {
+			return new WP_Error( 'role_too_long', __( 'Contact role must be 100 characters or fewer.', 'hatnikotni-chat' ) );
+		}
+
+		if ( self::text_length( $description ) > 255 ) {
+			return new WP_Error( 'description_too_long', __( 'Contact description must be 255 characters or fewer.', 'hatnikotni-chat' ) );
 		}
 
 		$now   = current_time( 'mysql' );
@@ -163,6 +175,22 @@ final class HATNCH_Contacts {
 		}
 
 		return (int) $wpdb->insert_id;
+	}
+
+	/**
+	 * Count Unicode characters without requiring the mbstring extension.
+	 *
+	 * @param string $value Sanitized text.
+	 * @return int Character count, or byte length if the value is not valid UTF-8.
+	 */
+	private static function text_length( string $value ): int {
+		if ( function_exists( 'mb_strlen' ) ) {
+			return mb_strlen( $value, 'UTF-8' );
+		}
+
+		$count = preg_match_all( '/./us', $value, $matches );
+
+		return false === $count ? strlen( $value ) : $count;
 	}
 
 	public static function set_status( int $id, bool $active ): bool {

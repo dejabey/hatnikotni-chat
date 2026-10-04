@@ -9,7 +9,8 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Replace legacy three-character declarations with unique HATNCH_/hatnch_ namespace.
 - [x] Prefix custom hooks, options, cron events, admin page slugs, storage tables, cookies and asset handles/classes.
 - [x] Add baseline migration for existing settings, routing state and custom tables.
-- [ ] Close migration safety gaps identified in the 2026-10-03 audit: legacy/new table collisions, failed rename handling, schema-version advancement after failure, and deactivate/reactivate ordering that can replace old settings with defaults. Preserve recoverability and test all cases before release.
+- [x] Implement migration safeguards for legacy/new table collisions, failed rename handling, schema-version advancement after failure, and deactivate/reactivate ordering; verify required columns before accepting the current schema. Build #608 passed for the migration-hardening code: https://github.com/dejabey/hatnikotni-chat/actions/runs/37111027511. Follow-up documentation commit passed Build #611: https://github.com/dejabey/hatnikotni-chat/actions/runs/37118281504.
+- [ ] Complete code review and controlled migration tests for legacy-only tables, collisions, option conflicts, rename failure/partial retry, incomplete schema, and deactivate/reactivate before release.
 - [x] Retain the unique public shortcode [hatnikotni_chat].
 - [x] Make Plugin URI repository publicly reachable.
 - [x] Add clean production package workflow.
@@ -64,7 +65,7 @@ Hatnikotni Chat is being developed for eventual submission to the WordPress.org 
 - [x] Current staging read-only checks found three contacts and a scheduled daily cleanup event.
 - [x] User-reported consent allow/reject/withdrawal and event-count changes passed on the active 0.1.8 staging installation; [ ] correlate the installed ZIP to an exact CI artifact.
 - [ ] Fresh install and upgrade test for 0.1.2
-- [ ] Activation/deactivation and database upgrade
+- [ ] Activation/deactivation and database upgrade, including controlled legacy migration and schema-integrity cases
 - [ ] Direct and random routing
 - [ ] WhatsApp redirect
 - [ ] Consent absent: no analytics/campaign cookie

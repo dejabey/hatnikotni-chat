@@ -55,6 +55,44 @@
 		});
 	}
 
+	function requestCampaignCapture() {
+		if (!config.captureCampaignUrl || typeof window.fetch !== 'function' || typeof window.URLSearchParams !== 'function') {
+			return;
+		}
+
+		var currentUrl;
+		var endpoint;
+		try {
+			currentUrl = new URL(window.location.href);
+			endpoint = new URL(config.captureCampaignUrl, window.location.href);
+		} catch (error) {
+			return;
+		}
+
+		var fields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+		var hasAttribution = false;
+		fields.forEach(function (field) {
+			var value = currentUrl.searchParams.get(field);
+			if (value) {
+				endpoint.searchParams.set(field, value);
+				hasAttribution = true;
+			}
+		});
+
+		if (!hasAttribution) {
+			return;
+		}
+
+		endpoint.searchParams.set('action', 'hatnch_capture_campaign');
+		window.fetch(endpoint.toString(), {
+			method: 'GET',
+			credentials: 'same-origin',
+			cache: 'no-store'
+		}).catch(function () {
+			// A later page request can capture attribution while consent remains granted.
+		});
+	}
+
 	function closePanel(panel, toggle) {
 		panel.hidden = true;
 		toggle.setAttribute('aria-expanded', 'false');
@@ -106,6 +144,7 @@
 			consent.addEventListener('change', function () {
 				if (consent.checked) {
 					writeConsent('yes');
+					requestCampaignCapture();
 					if (status) {
 						status.textContent = config.consentAccepted || 'Analytics accepted.';
 					}
