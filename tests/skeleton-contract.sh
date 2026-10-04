@@ -84,6 +84,7 @@ grep -q "https://wa.me/" includes/class-hatnch-whatsapp.php || fail "WhatsApp UR
 grep -q "setcookie" includes/class-hatnch-campaign.php || fail "Campaign cookie contract missing"
 grep -q "FIELD_LIMITS" includes/class-hatnch-campaign.php || fail "UTM attribution database field limits missing"
 grep -q "limit_text" includes/class-hatnch-campaign.php || fail "UTM attribution length guard missing"
+grep -q "strlen( \$value ) > 3500" includes/class-hatnch-campaign.php || fail "Encoded campaign cookie must be capped below common browser limits"
 grep -q "'utm_source'   => 100" includes/class-hatnch-campaign.php || fail "UTM source length must match schema"
 grep -q "'utm_medium'   => 100" includes/class-hatnch-campaign.php || fail "UTM medium length must match schema"
 grep -q "'utm_campaign' => 150" includes/class-hatnch-campaign.php || fail "UTM campaign length must match schema"
