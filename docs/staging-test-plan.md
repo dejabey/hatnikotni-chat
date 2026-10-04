@@ -198,3 +198,17 @@ Do not release until the current branch passes CI, the clean ZIP is inspected, c
 - [ ] On a disposable staging clone, land on a URL with UTM values before consent, accept analytics without reloading, then verify the campaign cookie and the next click event's UTM attribution.
 - [ ] Repeat with consent rejected and with consent withdrawn; verify no attribution is stored/retained. Test oversized multibyte UTM values and confirm the browser is not sent an oversized campaign cookie.
 - No staging/production database was accessed or changed. PR #3 remains draft and unmerged.
+
+
+
+## Build #703 package provenance and post-consent campaign checks (2026-10-04)
+
+- [x] Build #703 passed all 8 CI jobs for code commit `d22a069d6161a3b94f4485472de6fcfe5b4af73e`: https://github.com/dejabey/hatnikotni-chat/actions/runs/37173471101.
+- [x] Downloaded and inspected artifact `11292656339`. Outer artifact SHA-256: `956de98a4187072a6a6ad40fed9a5dcb9f90acf96044ff5da90f588f4e9be537`.
+- [x] Extracted installable `hatnikotni-chat-0.1.8.zip`; SHA-256: `3d77b463fdf0bce5ee29e0943899d72c513de4d374c2271847c82409a8e62971`.
+- [x] Confirmed stable `hatnikotni-chat/` root, required entry files, campaign PHP and privacy JS are present, and no development/test/docs/.git paths are included in the installable ZIP.
+- [ ] Hash the exact ZIP installed on staging and compare it with the installable ZIP SHA-256 above before attributing staging test results to this build.
+- [ ] Run Plugin Check against this exact installable ZIP and retain the complete report, not only a screenshot.
+- [ ] On a disposable staging clone, open a UTM landing URL before consent, accept analytics without reloading, verify the HttpOnly campaign cookie and next click event attribution; repeat for reject and withdrawal.
+- [ ] Verify contact name/role/description exact maximum and one-over-maximum values; verify all five UTM field limits and oversized multibyte cookie handling.
+- No staging/production database was accessed or changed. PR #3 remains draft and unmerged.
