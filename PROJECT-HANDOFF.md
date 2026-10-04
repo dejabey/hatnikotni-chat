@@ -291,3 +291,14 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Builds #697–#699 failed PHPCS because the new localized endpoint settings were not aligned. The alignment was corrected; **Build #700 passed all eight jobs** for commit `e45c73aa5d448a67ebb85085dd7c4fce4fb0b14b`: PHP 8.1–8.5/PHPCS, MySQL migration integration, WordPress lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37173121178.
 - This is automated CI validation, not a manual frontend verification. Still verify on a disposable staging clone: UTM landing without consent; accept on the same page; confirm attribution cookie is set only after consent and the next click event receives the UTM values; reject/withdraw consent and confirm attribution is cleared.
 - PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+
+
+
+## Campaign consent endpoint documentation cleanup and package inspection — Build #703 (2026-10-04)
+
+- Corrected the PHPDoc placement for `capture_campaign_request()` and `revoke_campaign()`; this is documentation-only within the source file, with no behavior change.
+- **Build #703 passed all eight jobs** for commit `d22a069d6161a3b94f4485472de6fcfe5b4af73e`: PHP 8.1–8.5/PHPCS, MySQL migration integration, WordPress 6.6 lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37173471101.
+- Downloaded the Build #703 artifact (ID `11292656339`) and inspected the contained production plugin ZIP. GitHub artifact SHA-256: `956de98a4187072a6a6ad40fed9a5dcb9f90acf96044ff5da90f588f4e9be537`. SHA-256 of the inner installable plugin ZIP `hatnikotni-chat-0.1.8.zip`: `3d77b463fdf0bce5ee29e0943899d72c513de4d374c2271847c82409a8e62971`.
+- Package inspection confirms one stable `hatnikotni-chat/` root, expected PHP/CSS/JS/language files, and no tests, vendor, .github, docs, handoff or .git paths in the installable ZIP. Required entry files and the new campaign/privacy JS files are present.
+- **Important limitation:** the CI artifact and its inner ZIP have verified hashes, but the ZIP installed on staging has not been hashed; staging artifact provenance remains unverified. Plugin Check has not been rerun against this exact artifact, and manual post-consent UTM tests remain open.
+- PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
