@@ -101,8 +101,8 @@ final class HATNCH_Contacts {
 		$role        = sanitize_text_field( $data['role'] ?? '' );
 		$description = sanitize_text_field( $data['description'] ?? '' );
 		$status      = ! empty( $data['status'] ) ? 1 : 0;
-		$weight      = max( 1, absint( $data['weight'] ?? 1 ) );
-		$sort_order  = absint( $data['sort_order'] ?? 0 );
+		$weight      = min( 65535, max( 1, absint( $data['weight'] ?? 1 ) ) );
+		$sort_order  = min( 4294967295, absint( $data['sort_order'] ?? 0 ) );
 
 		if ( '' === $name ) {
 			return new WP_Error( 'missing_name', __( 'Contact name is required.', 'hatnikotni-chat' ) );
