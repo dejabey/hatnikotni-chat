@@ -279,3 +279,15 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Build #688 also passed all eight jobs for the staging-plan documentation update: https://github.com/dejabey/hatnikotni-chat/actions/runs/37172807564.
 - PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
 - Remaining gates: manual contact-length boundary checks on a disposable clone; finish broader privacy/routing/campaign review; verify candidate ZIP SHA-256 against the CI artifact; correlate the complete Plugin Check report with the same artifact. Do not uninstall/reinstall staging plugin; `uninstall.php` is destructive.
+
+
+
+## Post-consent UTM capture and cookie-size guard — Build #700 (2026-10-04)
+
+- Review found a consent-flow gap: when a visitor landed on a UTM URL before opting in, the initial server request correctly refused attribution capture, but accepting analytics on that same page did not trigger a second capture request. The first WhatsApp click could therefore be missing campaign attribution.
+- Added a public, same-site `admin-post.php` capture endpoint. After explicit acceptance, the frontend sends the current page's supported UTM parameters to that endpoint; WordPress processes them during `init`, where the existing consent gate still applies. No page reload is required. The endpoint only finalizes the request with a no-cache 204 response.
+- Added a 3,500-character encoded-value guard before setting the campaign cookie, to keep the cookie below common browser size limits even when UTM values contain multibyte characters. Oversized attribution is not stored; an existing campaign cookie is cleared where possible.
+- Contract checks now assert the post-consent capture endpoint/request and the encoded cookie-size guard.
+- Builds #697–#699 failed PHPCS because the new localized endpoint settings were not aligned. The alignment was corrected; **Build #700 passed all eight jobs** for commit `e45c73aa5d448a67ebb85085dd7c4fce4fb0b14b`: PHP 8.1–8.5/PHPCS, MySQL migration integration, WordPress lifecycle tests, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/37173121178.
+- This is automated CI validation, not a manual frontend verification. Still verify on a disposable staging clone: UTM landing without consent; accept on the same page; confirm attribution cookie is set only after consent and the next click event receives the UTM values; reject/withdraw consent and confirm attribution is cleared.
+- PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
