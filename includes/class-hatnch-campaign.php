@@ -9,9 +9,9 @@ defined( 'ABSPATH' ) || exit;
 
 final class HATNCH_Campaign {
 
-	private const COOKIE_NAME = 'hatnch_campaign';
-	private const COOKIE_DAYS = 30;
-	private const FIELDS      = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
+	private const COOKIE_NAME  = 'hatnch_campaign';
+	private const COOKIE_DAYS  = 30;
+	private const FIELDS       = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
 	private const FIELD_LIMITS = array(
 		'utm_source'   => 100,
 		'utm_medium'   => 100,
