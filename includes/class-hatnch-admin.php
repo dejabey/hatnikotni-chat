@@ -373,12 +373,14 @@ final class HATNCH_Admin {
 						<input id="hatnch-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>">
 						<p class="description"><?php echo esc_html__( 'Lower numbers appear first in the admin and round-robin sequence.', 'hatnikotni-chat' ); ?></p>
 					</div>
-					<div class="hatnch-field hatnch-field--status">
-						<span class="hatnch-field__label"><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></span>
-						<label class="hatnch-toggle-label"><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> <span><?php echo esc_html__( 'Active', 'hatnikotni-chat' ); ?></span></label>
-					</div>
 				</div>
 				<div class="hatnch-form-actions">
+					<label class="hatnch-status-switch">
+						<span class="hatnch-status-switch__text"><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></span>
+						<input name="status" type="checkbox" role="switch" value="1" <?php checked( 1, (int) $contact['status'] ); ?> aria-label="<?php echo esc_attr__( 'Active contact', 'hatnikotni-chat' ); ?>">
+						<span class="hatnch-status-switch__track" aria-hidden="true"></span>
+						<span class="hatnch-status-switch__state"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Active', 'hatnikotni-chat' ) : esc_html__( 'Inactive', 'hatnikotni-chat' ); ?></span>
+					</label>
 					<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ), 'primary', '', false ); ?>
 					<a class="hatnch-button hatnch-button--ghost" href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts' ) ); ?>"><?php echo esc_html__( 'Cancel', 'hatnikotni-chat' ); ?></a>
 				</div>
