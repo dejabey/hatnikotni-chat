@@ -772,3 +772,51 @@
 		gap: 13px;
 	}
 }
+
+
+/* Contact form alignment, status switch and mobile table usability. */
+.hatnch-admin .hatnch-contact-form,
+.hatnch-admin .hatnch-panel--table {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+	flex-wrap: nowrap;
+	gap: 10px;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
+	margin: 0 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.hatnch-admin .hatnch-status-switch input {
+	top: auto;
+	left: auto;
+}
+
+.hatnch-admin .hatnch-table-wrap {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	overflow-x: auto !important;
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+.hatnch-admin .hatnch-contacts-table {
+	min-width: 760px;
+	width: 100%;
+}
+
+@media (max-width: 640px) {
+	.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+		flex-wrap: wrap;
+	}
+
+	.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
+		margin-left: auto;
+	}
+}
