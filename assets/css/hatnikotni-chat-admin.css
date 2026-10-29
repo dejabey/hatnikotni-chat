@@ -589,8 +589,17 @@
 		max-width: none;
 	}
 
+	.hatnch-admin .hatnch-table-wrap {
+		width: 100%;
+		max-width: 100%;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+	}
+
 	.hatnch-admin .hatnch-contacts-table {
 		min-width: 760px;
+		width: 760px;
+		max-width: none;
 	}
 }
 
@@ -607,7 +616,9 @@
 
 /* Compact, responsive contact form. */
 .hatnch-admin .hatnch-contact-form {
-	max-width: 980px;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
 	padding: 20px 22px;
 }
 
@@ -676,15 +687,83 @@
 	font-size: 12px;
 }
 
-.hatnch-admin .hatnch-field--status {
-	align-self: end;
-	padding-bottom: 4px;
-}
-
 .hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+	flex-wrap: wrap;
 	margin-top: 18px;
 	padding-top: 14px;
 	border-top: 1px solid var(--hatnch-admin-border);
+}
+
+.hatnch-admin .hatnch-status-switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	margin-right: auto;
+	min-height: 36px;
+	cursor: pointer;
+}
+
+.hatnch-admin .hatnch-status-switch__text {
+	font-size: 13px;
+	font-weight: 650;
+	color: var(--hatnch-admin-text);
+}
+
+.hatnch-admin .hatnch-status-switch input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	op: auto;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-status-switch__track {
+	position: relative;
+	width: 38px;
+	height: 22px;
+	flex: 0 0 38px;
+	border-radius: 999px;
+	background: #94a3b8;
+	transition: background .15s ease;
+}
+
+.hatnch-admin .hatnch-status-switch__track::after {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, .25);
+	content: "";
+	transition: transform .15s ease;
+}
+
+.hatnch-admin .hatnch-status-switch input:checked + .hatnch-status-switch__track {
+	background: var(--hatnch-admin-accent);
+}
+
+.hatnch-admin .hatnch-status-switch input:checked + .hatnch-status-switch__track::after {
+	transform: translateX(16px);
+}
+
+.hatnch-admin .hatnch-status-switch input:focus-visible + .hatnch-status-switch__track {
+	outline: 2px solid var(--hatnch-admin-accent);
+	outline-offset: 3px;
+}
+
+.hatnch-admin .hatnch-status-switch__state {
+	min-width: 52px;
+	font-size: 12px;
+	color: var(--hatnch-admin-muted);
+}
+
+.hatnch-admin .hatnch-table-wrap {
+	box-sizing: border-box;
+	max-width: 100%;
 }
 
 @media (max-width: 640px) {
