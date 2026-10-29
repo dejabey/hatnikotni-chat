@@ -275,7 +275,8 @@ final class HATNCH_Admin {
 					<span class="hatnch-count-badge"><?php echo esc_html( number_format_i18n( count( $contacts ) ) ); ?></span>
 				</div>
 
-				<div class="hatnch-table-wrap">
+				<p class="hatnch-table-scroll-hint"><?php echo esc_html__( 'Swipe horizontally to view all columns.', 'hatnikotni-chat' ); ?></p>
+				<div class="hatnch-table-wrap" role="region" aria-label="<?php echo esc_attr__( 'Contact list; scroll horizontally to view all columns', 'hatnikotni-chat' ); ?>" tabindex="0">
 					<table class="widefat fixed striped hatnch-contacts-table">
 						<thead>
 							<tr>

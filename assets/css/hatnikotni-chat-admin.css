@@ -597,9 +597,10 @@
 	}
 
 	.hatnch-admin .hatnch-contacts-table {
-		min-width: 760px;
-		width: 760px;
-		max-width: none;
+		min-width: 760px !important;
+		width: 760px !important;
+		max-width: none !important;
+		table-layout: fixed;
 	}
 }
 
@@ -713,7 +714,7 @@
 	position: absolute;
 	width: 1px;
 	height: 1px;
-	op: auto;
+	top: auto;
 	overflow: hidden;
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
@@ -799,16 +800,32 @@
 
 .hatnch-admin .hatnch-table-wrap {
 	display: block;
+	box-sizing: border-box;
 	width: 100%;
 	max-width: 100%;
-	overflow-x: auto !important;
+	overflow-x: scroll !important;
+	overflow-y: hidden;
 	overscroll-behavior-x: contain;
 	-webkit-overflow-scrolling: touch;
+	scrollbar-width: auto;
 }
 
 .hatnch-admin .hatnch-contacts-table {
-	min-width: 760px;
-	width: 100%;
+	min-width: 760px !important;
+	width: 760px !important;
+	max-width: none !important;
+	table-layout: fixed;
+}
+
+.hatnch-admin .hatnch-table-scroll-hint {
+	margin: 0 0 8px;
+	color: var(--hatnch-admin-muted);
+	font-size: 12px;
+}
+
+.hatnch-admin .hatnch-table-wrap:focus-visible {
+	outline: 2px solid var(--hatnch-admin-accent);
+	outline-offset: 2px;
 }
 
 @media (max-width: 640px) {
