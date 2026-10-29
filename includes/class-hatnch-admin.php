@@ -375,14 +375,14 @@ final class HATNCH_Admin {
 					</div>
 				</div>
 				<div class="hatnch-form-actions">
+					<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ), 'primary', '', false ); ?>
+					<a class="hatnch-button hatnch-button--ghost" href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts' ) ); ?>"><?php echo esc_html__( 'Cancel', 'hatnikotni-chat' ); ?></a>
 					<label class="hatnch-status-switch">
 						<span class="hatnch-status-switch__text"><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></span>
 						<input name="status" type="checkbox" role="switch" value="1" <?php checked( 1, (int) $contact['status'] ); ?> aria-label="<?php echo esc_attr__( 'Active contact', 'hatnikotni-chat' ); ?>">
 						<span class="hatnch-status-switch__track" aria-hidden="true"></span>
 						<span class="hatnch-status-switch__state"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Active', 'hatnikotni-chat' ) : esc_html__( 'Inactive', 'hatnikotni-chat' ); ?></span>
 					</label>
-					<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ), 'primary', '', false ); ?>
-					<a class="hatnch-button hatnch-button--ghost" href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts' ) ); ?>"><?php echo esc_html__( 'Cancel', 'hatnikotni-chat' ); ?></a>
 				</div>
 			</form>
 		</section>
