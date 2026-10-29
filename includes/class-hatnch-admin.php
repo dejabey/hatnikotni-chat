@@ -345,19 +345,39 @@ final class HATNCH_Admin {
 					<p><?php echo esc_html__( 'Keep contact details accurate so routing and analytics remain reliable.', 'hatnikotni-chat' ); ?></p>
 				</div>
 			</div>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="hatnch-contact-form__body">
 				<input type="hidden" name="action" value="hatnch_save_contact">
 				<input type="hidden" name="id" value="<?php echo esc_attr( $contact['id'] ); ?>">
 				<?php wp_nonce_field( 'hatnch_save_contact', 'hatnch_nonce' ); ?>
-				<table class="form-table" role="presentation">
-					<tr><th scope="row"><label for="hatnch-name"><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-name" name="name" type="text" class="regular-text" maxlength="100" required value="<?php echo esc_attr( $contact['name'] ); ?>"></td></tr>
-					<tr><th scope="row"><label for="hatnch-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-phone" name="phone" type="tel" class="regular-text" maxlength="20" inputmode="numeric" pattern="[0-9]{8,20}" placeholder="<?php echo esc_attr__( '601234567890', 'hatnikotni-chat' ); ?>" required value="<?php echo esc_attr( $contact['phone'] ); ?>"><p class="description"><?php echo esc_html__( 'Use international digits only: country code + number, without +, spaces or hyphens. Example: 601234567890.', 'hatnikotni-chat' ); ?></p></td></tr>
-					<tr><th scope="row"><label for="hatnch-role"><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-role" name="role" type="text" class="regular-text" maxlength="100" placeholder="<?php echo esc_attr__( 'Sales, Support, Orders', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['role'] ); ?>"></td></tr>
-					<tr><th scope="row"><label for="hatnch-description"><?php echo esc_html__( 'Description', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-description" name="description" type="text" class="regular-text" maxlength="255" placeholder="<?php echo esc_attr__( 'Short internal note about this contact.', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['description'] ); ?>"></td></tr>
-					<tr><th scope="row"><label for="hatnch-weight"><?php echo esc_html__( 'Weight', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-weight" name="weight" type="number" min="1" max="65535" value="<?php echo esc_attr( $contact['weight'] ); ?>"><p class="description"><?php echo esc_html__( 'Reserved for future weighted routing. Leave at 1 for V1.', 'hatnikotni-chat' ); ?></p></td></tr>
-					<tr><th scope="row"><label for="hatnch-sort-order"><?php echo esc_html__( 'Sort Order', 'hatnikotni-chat' ); ?></label></th><td><input id="hatnch-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>"><p class="description"><?php echo esc_html__( 'Controls contact order in the admin and round-robin sequence. Lower numbers appear first.', 'hatnikotni-chat' ); ?></p></td></tr>
-					<tr><th scope="row"><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></th><td><label class="hatnch-toggle-label"><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> <span><?php echo esc_html__( 'Active', 'hatnikotni-chat' ); ?></span></label></td></tr>
-				</table>
+				<p class="hatnch-required-note"><span aria-hidden="true">*</span> <?php echo esc_html__( 'Required fields', 'hatnikotni-chat' ); ?></p>
+				<div class="hatnch-contact-grid">
+					<div class="hatnch-field">
+						<label for="hatnch-name"><?php echo esc_html__( 'Name', 'hatnikotni-chat' ); ?> <span class="hatnch-required-mark" aria-hidden="true">*</span><span class="screen-reader-text"><?php echo esc_html__( '(required)', 'hatnikotni-chat' ); ?></span></label>
+						<input id="hatnch-name" name="name" type="text" maxlength="100" required aria-required="true" autocomplete="name" value="<?php echo esc_attr( $contact['name'] ); ?>">
+					</div>
+					<div class="hatnch-field">
+						<label for="hatnch-phone"><?php echo esc_html__( 'WhatsApp Number', 'hatnikotni-chat' ); ?> <span class="hatnch-required-mark" aria-hidden="true">*</span><span class="screen-reader-text"><?php echo esc_html__( '(required)', 'hatnikotni-chat' ); ?></span></label>
+						<input id="hatnch-phone" name="phone" type="tel" maxlength="20" inputmode="numeric" pattern="[0-9]{8,20}" placeholder="<?php echo esc_attr__( '601234567890', 'hatnikotni-chat' ); ?>" required aria-required="true" autocomplete="tel-national" value="<?php echo esc_attr( $contact['phone'] ); ?>">
+						<p class="description"><?php echo esc_html__( 'International digits only, without +, spaces or hyphens.', 'hatnikotni-chat' ); ?></p>
+					</div>
+					<div class="hatnch-field">
+						<label for="hatnch-role"><?php echo esc_html__( 'Role', 'hatnikotni-chat' ); ?> <span class="hatnch-optional-mark"><?php echo esc_html__( 'Optional', 'hatnikotni-chat' ); ?></span></label>
+						<input id="hatnch-role" name="role" type="text" maxlength="100" placeholder="<?php echo esc_attr__( 'Sales, Support, Orders', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['role'] ); ?>">
+					</div>
+					<div class="hatnch-field">
+						<label for="hatnch-description"><?php echo esc_html__( 'Description', 'hatnikotni-chat' ); ?> <span class="hatnch-optional-mark"><?php echo esc_html__( 'Optional', 'hatnikotni-chat' ); ?></span></label>
+						<input id="hatnch-description" name="description" type="text" maxlength="255" placeholder="<?php echo esc_attr__( 'Short internal note about this contact.', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $contact['description'] ); ?>">
+					</div>
+					<div class="hatnch-field">
+						<label for="hatnch-sort-order"><?php echo esc_html__( 'Sort Order', 'hatnikotni-chat' ); ?> <span class="hatnch-optional-mark"><?php echo esc_html__( 'Optional', 'hatnikotni-chat' ); ?></span></label>
+						<input id="hatnch-sort-order" name="sort_order" type="number" min="0" value="<?php echo esc_attr( $contact['sort_order'] ); ?>">
+						<p class="description"><?php echo esc_html__( 'Lower numbers appear first in the admin and round-robin sequence.', 'hatnikotni-chat' ); ?></p>
+					</div>
+					<div class="hatnch-field hatnch-field--status">
+						<span class="hatnch-field__label"><?php echo esc_html__( 'Status', 'hatnikotni-chat' ); ?></span>
+						<label class="hatnch-toggle-label"><input name="status" type="checkbox" value="1" <?php checked( 1, (int) $contact['status'] ); ?>> <span><?php echo esc_html__( 'Active', 'hatnikotni-chat' ); ?></span></label>
+					</div>
+				</div>
 				<div class="hatnch-form-actions">
 					<?php submit_button( $contact['id'] ? __( 'Update Contact', 'hatnikotni-chat' ) : __( 'Add Contact', 'hatnikotni-chat' ), 'primary', '', false ); ?>
 					<a class="hatnch-button hatnch-button--ghost" href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts' ) ); ?>"><?php echo esc_html__( 'Cancel', 'hatnikotni-chat' ); ?></a>
