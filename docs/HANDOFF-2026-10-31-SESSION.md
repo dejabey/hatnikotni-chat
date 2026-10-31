@@ -100,7 +100,10 @@ Preserve routing, consent, persistence, contact CRUD, shortcode, extension contr
 - Full source/behavior reconciliation: **PENDING**
 - GitHub budget reset/restoration: **PENDING**
 - UX implementation and staging acceptance: **PENDING**
-- Current PR CI state: **PENDING fresh verification**
+- PR #4 head validation: **PASSED** — GitHub Actions run #711 completed successfully on 2026-10-29 for head SHA `6148e5b9c85adb82dada6f432edafacaa1d0a15f` (compact responsive contact form UI). This validates the PR workflow run, not runtime UX acceptance.
+- PR #3 head validation: latest observed run #705 completed successfully on 2026-10-04 for head SHA `43e805e6e9e396b0e17223f8e3be00419be1879d`.
+- PR #2 current-head workflow status: **PENDING exact verification**.
+- PR #1 current-head workflow status: **PENDING exact verification**.
 - Production: **NOT AUTHORIZED**
 
 ## Resume instruction
