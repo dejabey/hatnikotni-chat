@@ -396,14 +396,19 @@ final class HATNCH_Admin {
 		}
 		check_admin_referer( 'hatnch_save_contact', 'hatnch_nonce' );
 
-		$id   = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+
+		// The compact editor omits Weight; preserve its stored value when editing.
+		$existing_contact = $id > 0 ? HATNCH_Contacts::get( $id ) : null;
+		$weight = isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : ( $existing_contact ? absint( $existing_contact['weight'] ) : 1 );
+
 		$data = array(
 			'name'        => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
 			'phone'       => isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '',
 			'role'        => isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '',
 			'description' => isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : '',
 			'status'      => isset( $_POST['status'] ) ? 1 : 0,
-			'weight'      => isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : 1,
+			'weight'      => $weight,
 			'sort_order'  => isset( $_POST['sort_order'] ) ? absint( $_POST['sort_order'] ) : 0,
 		);
 
