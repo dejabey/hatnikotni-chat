@@ -44,6 +44,11 @@ final class HATNCH_Routing {
 		return $contact && 1 === (int) $contact['status'] ? $contact : null;
 	}
 
+	/**
+	 * Select an active contact using its configured relative weight.
+	 *
+	 * @return array|null Selected contact, or null when no active contacts exist.
+	 */
 	private function resolve_random(): ?array {
 		$contacts = HATNCH_Contacts::get_active();
 
@@ -51,7 +56,28 @@ final class HATNCH_Routing {
 			return null;
 		}
 
-		return $contacts[ wp_rand( 0, count( $contacts ) - 1 ) ];
+		$total_weight = 0;
+		foreach ( $contacts as $contact ) {
+			$weight = max( 1, absint( $contact['weight'] ?? 1 ) );
+			$total_weight += $weight;
+		}
+
+		// Stored weights are bounded by the Contacts validation layer (1–65535).
+		// Avoid an invalid random range if a malformed/custom data set overflows.
+		if ( $total_weight < 1 || $total_weight > PHP_INT_MAX ) {
+			return $contacts[ wp_rand( 0, count( $contacts ) - 1 ) ];
+		}
+
+		$ticket = wp_rand( 1, $total_weight );
+		foreach ( $contacts as $contact ) {
+			$ticket -= max( 1, absint( $contact['weight'] ?? 1 ) );
+			if ( $ticket <= 0 ) {
+				return $contact;
+			}
+		}
+
+		// Defensive fallback for unexpected data.
+		return $contacts[ count( $contacts ) - 1 ];
 	}
 
 	private function resolve_round_robin(): ?array {
