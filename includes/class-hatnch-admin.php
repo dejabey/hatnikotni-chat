@@ -89,6 +89,7 @@ final class HATNCH_Admin {
 					'description_too_long' => __( 'Contact description must be 255 characters or fewer.', 'hatnikotni-chat' ),
 					'db_update_failed'     => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed'     => __( 'The contact could not be created.', 'hatnikotni-chat' ),
+					'contact_not_found'    => __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ),
 				);
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag, sanitized and allow-listed below.
 				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
