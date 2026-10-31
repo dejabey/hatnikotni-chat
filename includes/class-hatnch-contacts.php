@@ -128,6 +128,10 @@ final class HATNCH_Contacts {
 		$table = self::table_name();
 
 		if ( $id > 0 ) {
+			if ( null === self::get( $id ) ) {
+				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
+			}
+
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$updated = $wpdb->update(
 				$table,
