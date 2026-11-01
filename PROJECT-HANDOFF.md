@@ -357,3 +357,13 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 
 ### Consolidated release recommendation
 **NOT READY TO RELEASE / MERGE.** CI is green, but merge/release gates remain: resolve or explicitly accept the state-changing GET and admin status-label UX findings; decide how to message or address round-robin concurrency; add/execute controlled persistence and routing tests; complete privacy/cookie and browser accessibility/responsive staging matrix; correlate exact release ZIP hash; refresh package/release documentation. Keep PR #4 draft. No runtime source was modified by this audit checkpoint; no staging/production site or database was accessed or changed.
+
+
+## Follow-up hardening — 2026-11-01
+
+- Converted contact activation/deactivation from state-changing GET links to POST forms. Each form submits the contact ID and action-specific nonce; the handler reads the ID from POST and validates the nonce field explicitly. Capability checks and allow-listed result redirects remain in place.
+- Source commit: `94f3338d269c47981b341bc8962de3aa111d928c` (`includes/class-hatnch-admin.php`). This change addresses the audit's GET-mutation hardening recommendation; it does not claim browser regression tests.
+- CI must be confirmed for this exact commit before considering the patch validated. No staging or production site/database was accessed or changed.
+- Admin status label remains static text in the edit switch; it can display stale Active/Inactive wording if toggled before submit. Follow-up UX choice: remove the redundant status state copy or bind it accessibly to the switch in a dedicated tested frontend/admin script. This is not marked resolved.
+- Round-robin concurrency, controlled DB/routing tests, privacy/cookie checks, browser accessibility/responsive matrix, exact staging ZIP hash correlation, and Plugin Check candidate correlation remain open release gates.
+- PR #4 remains draft/unmerged; no release or deployment approval was made.
