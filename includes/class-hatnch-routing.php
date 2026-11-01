@@ -58,7 +58,7 @@ final class HATNCH_Routing {
 
 		$total_weight = 0;
 		foreach ( $contacts as $contact ) {
-			$weight = max( 1, absint( $contact['weight'] ?? 1 ) );
+			$weight        = max( 1, absint( $contact['weight'] ?? 1 ) );
 			$total_weight += $weight;
 		}
 
