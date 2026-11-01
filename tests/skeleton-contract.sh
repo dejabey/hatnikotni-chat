@@ -56,6 +56,14 @@ grep -Fq "min( 4294967295, absint( \$data['sort_order'] ?? 0 ) )" includes/class
 grep -q "function set_status" includes/class-hatnch-contacts.php || fail "Contact status contract missing"
 grep -q "admin_post_hatnch_save_contact" includes/class-hatnch-admin.php || fail "Contact save admin action missing"
 grep -q "check_admin_referer" includes/class-hatnch-admin.php || fail "Admin nonce contract missing"
+grep -q 'name="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "Contact status mutation must submit POST action"
+grep -q "hatnch_toggle_contact_" includes/class-hatnch-admin.php || fail "Contact status action-specific nonce missing"
+grep -q "isset( \$_POST\['id'\] )" includes/class-hatnch-admin.php || fail "Contact status ID must be read from POST"
+if grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php; then fail "Status switch must not display a stale static state label"; fi
+grep -q "GET_LOCK" includes/class-hatnch-routing.php || fail "Round-robin serialization lock missing"
+grep -q "RELEASE_LOCK" includes/class-hatnch-routing.php || fail "Round-robin lock release missing"
+grep -q "finally" includes/class-hatnch-routing.php || fail "Round-robin lock must release through finally"
+
 grep -q "current_user_can( 'manage_options' )" includes/class-hatnch-admin.php || fail "Admin capability contract missing"
 grep -q "wp_safe_redirect" includes/class-hatnch-admin.php || fail "Safe redirect contract missing"
 grep -q "maybe_upgrade" includes/class-hatnch-plugin.php || fail "Database upgrade contract missing"
