@@ -56,7 +56,8 @@ grep -Fq "min( 4294967295, absint( \$data['sort_order'] ?? 0 ) )" includes/class
 grep -q "function set_status" includes/class-hatnch-contacts.php || fail "Contact status contract missing"
 grep -q "admin_post_hatnch_save_contact" includes/class-hatnch-admin.php || fail "Contact save admin action missing"
 grep -q "check_admin_referer" includes/class-hatnch-admin.php || fail "Admin nonce contract missing"
-grep -q 'name="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "Contact status mutation must submit POST action"
+grep -q 'method="post"' includes/class-hatnch-admin.php || fail "Contact status mutation must use POST"
+grep -q 'value="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "Contact status POST action missing"
 grep -q "hatnch_toggle_contact_" includes/class-hatnch-admin.php || fail "Contact status action-specific nonce missing"
 grep -q "isset( \$_POST\['id'\] )" includes/class-hatnch-admin.php || fail "Contact status ID must be read from POST"
 if grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php; then fail "Status switch must not display a stale static state label"; fi
