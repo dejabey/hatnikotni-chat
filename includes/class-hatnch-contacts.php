@@ -205,8 +205,12 @@ final class HATNCH_Contacts {
 	public static function set_status( int $id, bool $active ): bool {
 		global $wpdb;
 
+		if ( $id < 1 || null === self::get( $id ) ) {
+			return false;
+		}
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
-		return false !== $wpdb->update(
+		$updated = $wpdb->update(
 			self::table_name(),
 			array(
 				'status'     => $active ? 1 : 0,
@@ -216,5 +220,12 @@ final class HATNCH_Contacts {
 			array( '%d', '%s' ),
 			array( '%d' )
 		);
+
+		if ( false === $updated ) {
+			return false;
+		}
+
+		// Zero affected rows is valid when status is unchanged, unless the row vanished.
+		return 0 !== $updated || null !== self::get( $id );
 	}
 }
