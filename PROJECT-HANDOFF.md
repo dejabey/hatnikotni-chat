@@ -401,3 +401,14 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 
 ### Decision
 **CI gate: PASS for source HEAD `73076b384629a154a03a939b6a1b72410783021c`. Overall merge/release gate: NOT YET PASSED.** Keep PR #4 draft/unmerged pending remaining manual/integration gates and review. No staging or production site/database was accessed or modified during this checkpoint.
+
+
+### Production-package artifact evidence — Build #734
+- CI artifact name: `hatnikotni-chat-0.1.8`
+- Artifact ID: `13072358694`
+- Size: `46,234 bytes`
+- GitHub artifact digest: `sha256:d7f65d3b8e2e3f468ea3d0f8bb1a38f413c313717f37e27a03cefa17fa5b599f`
+- Artifact source: branch `ui-compact-contact-form`, HEAD `73076b384629a154a03a939b6a1b72410783021c`; workflow run `41280413559`.
+- Artifact URL: https://api.github.com/repos/dejabey/hatnikotni-chat/actions/artifacts/13072358694
+- **Provenance qualification:** the CI artifact digest identifies the build artifact, not the ZIP currently installed on staging. No claim of staging package match is made until that installed ZIP is independently hashed and compared.
+- This artifact evidence is for source HEAD `73076b3`. The later `PROJECT-HANDOFF.md`-only commits do not change plugin runtime files or the generated package inputs. The latest documentation commit still has no separately observed workflow run.
