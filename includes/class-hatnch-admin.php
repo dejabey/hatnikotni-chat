@@ -90,6 +90,7 @@ final class HATNCH_Admin {
 					'db_update_failed'     => __( 'The contact could not be updated.', 'hatnikotni-chat' ),
 					'db_insert_failed'     => __( 'The contact could not be created.', 'hatnikotni-chat' ),
 					'contact_not_found'    => __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ),
+					'status_update_failed' => __( 'The contact status could not be updated. Refresh the contact list and try again.', 'hatnikotni-chat' ),
 				);
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag, sanitized and allow-listed below.
 				$error_key = sanitize_key( wp_unslash( $_GET['error'] ) );
@@ -427,14 +428,18 @@ final class HATNCH_Admin {
 		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
 		check_admin_referer( 'hatnch_toggle_contact_' . $id );
 
+		$updated = false;
 		if ( $id > 0 ) {
 			$contact = HATNCH_Contacts::get( $id );
 			if ( $contact ) {
-				HATNCH_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
+				$updated = HATNCH_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
 			}
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&updated=1' ) );
+		$redirect = $updated
+			? admin_url( 'admin.php?page=hatnch-contacts&updated=1' )
+			: admin_url( 'admin.php?page=hatnch-contacts&error=status_update_failed' );
+		wp_safe_redirect( $redirect );
 		exit;
 	}
 }
