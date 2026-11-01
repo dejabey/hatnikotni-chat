@@ -154,6 +154,11 @@ final class HATNCH_Contacts {
 				return new WP_Error( 'db_update_failed', __( 'The contact could not be updated.', 'hatnikotni-chat' ) );
 			}
 
+			// A concurrent deletion after the existence check must not report success.
+			if ( 0 === $updated && null === self::get( $id ) ) {
+				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
+			}
+
 			return $id;
 		}
 
