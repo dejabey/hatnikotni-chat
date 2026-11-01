@@ -589,8 +589,18 @@
 		max-width: none;
 	}
 
+	.hatnch-admin .hatnch-table-wrap {
+		width: 100%;
+		max-width: 100%;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+	}
+
 	.hatnch-admin .hatnch-contacts-table {
-		min-width: 760px;
+		min-width: 760px !important;
+		width: 760px !important;
+		max-width: none !important;
+		table-layout: fixed;
 	}
 }
 
@@ -601,5 +611,229 @@
 		scroll-behavior: auto !important;
 		transition: none !important;
 		animation: none !important;
+	}
+}
+
+
+/* Compact, responsive contact form. */
+.hatnch-admin .hatnch-contact-form {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	padding: 20px 22px;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-panel__header {
+	margin-bottom: 12px;
+}
+
+.hatnch-admin .hatnch-contact-form__body {
+	margin: 0;
+}
+
+.hatnch-admin .hatnch-required-note {
+	margin: 0 0 14px;
+	color: var(--hatnch-admin-muted);
+	font-size: 12px;
+}
+
+.hatnch-admin .hatnch-required-mark {
+	color: #b42318;
+	font-weight: 700;
+}
+
+.hatnch-admin .hatnch-optional-mark {
+	margin-left: 6px;
+	color: var(--hatnch-admin-muted);
+	font-size: 11px;
+	font-weight: 400;
+}
+
+.hatnch-admin .hatnch-contact-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px 18px;
+}
+
+.hatnch-admin .hatnch-field {
+	min-width: 0;
+}
+
+.hatnch-admin .hatnch-field > label,
+.hatnch-admin .hatnch-field__label {
+	display: block;
+	margin: 0 0 6px;
+	color: var(--hatnch-admin-text);
+	font-size: 13px;
+	font-weight: 650;
+}
+
+.hatnch-admin .hatnch-field > input {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	min-height: 40px;
+	border: 1px solid var(--hatnch-admin-border-strong);
+	border-radius: 9px;
+	box-shadow: none;
+}
+
+.hatnch-admin .hatnch-field > input:focus {
+	border-color: var(--hatnch-admin-accent);
+	box-shadow: 0 0 0 1px var(--hatnch-admin-accent);
+}
+
+.hatnch-admin .hatnch-field .description {
+	margin-top: 5px;
+	font-size: 12px;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+	flex-wrap: wrap;
+	margin-top: 18px;
+	padding-top: 14px;
+	border-top: 1px solid var(--hatnch-admin-border);
+}
+
+.hatnch-admin .hatnch-status-switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	margin-right: auto;
+	min-height: 36px;
+	cursor: pointer;
+}
+
+.hatnch-admin .hatnch-status-switch__text {
+	font-size: 13px;
+	font-weight: 650;
+	color: var(--hatnch-admin-text);
+}
+
+.hatnch-admin .hatnch-status-switch input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	top: auto;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-status-switch__track {
+	position: relative;
+	width: 38px;
+	height: 22px;
+	flex: 0 0 38px;
+	border-radius: 999px;
+	background: #94a3b8;
+	transition: background .15s ease;
+}
+
+.hatnch-admin .hatnch-status-switch__track::after {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, .25);
+	content: "";
+	transition: transform .15s ease;
+}
+
+.hatnch-admin .hatnch-status-switch input:checked + .hatnch-status-switch__track {
+	background: var(--hatnch-admin-accent);
+}
+
+.hatnch-admin .hatnch-status-switch input:checked + .hatnch-status-switch__track::after {
+	transform: translateX(16px);
+}
+
+.hatnch-admin .hatnch-status-switch input:focus-visible + .hatnch-status-switch__track {
+	outline: 2px solid var(--hatnch-admin-accent);
+	outline-offset: 3px;
+}
+
+.hatnch-admin .hatnch-status-switch__state {
+	min-width: 52px;
+	font-size: 12px;
+	color: var(--hatnch-admin-muted);
+}
+
+.hatnch-admin .hatnch-table-wrap {
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
+@media (max-width: 640px) {
+	.hatnch-admin .hatnch-contact-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 13px;
+	}
+}
+
+
+/* Contact form alignment, status switch and mobile table usability. */
+.hatnch-admin .hatnch-contact-form,
+.hatnch-admin .hatnch-panel--table {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+	flex-wrap: nowrap;
+	gap: 10px;
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
+	margin: 0 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.hatnch-admin .hatnch-status-switch input {
+	top: auto;
+	left: auto;
+}
+
+.hatnch-admin .hatnch-table-wrap {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	overflow-x: scroll !important;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: auto;
+}
+
+.hatnch-admin .hatnch-contacts-table {
+	min-width: 760px !important;
+	width: 760px !important;
+	max-width: none !important;
+	table-layout: fixed;
+}
+
+.hatnch-admin .hatnch-table-scroll-hint {
+	margin: 0 0 8px;
+	color: var(--hatnch-admin-muted);
+	font-size: 12px;
+}
+
+.hatnch-admin .hatnch-table-wrap:focus-visible {
+	outline: 2px solid var(--hatnch-admin-accent);
+	outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+	.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+		flex-wrap: wrap;
+	}
+
+	.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
+		margin-left: auto;
 	}
 }

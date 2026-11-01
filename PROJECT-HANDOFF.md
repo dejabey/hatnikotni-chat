@@ -302,3 +302,126 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Package inspection confirms one stable `hatnikotni-chat/` root, expected PHP/CSS/JS/language files, and no tests, vendor, .github, docs, handoff or .git paths in the installable ZIP. Required entry files and the new campaign/privacy JS files are present.
 - **Important limitation:** the CI artifact and its inner ZIP have verified hashes, but the ZIP installed on staging has not been hashed; staging artifact provenance remains unverified. Plugin Check has not been rerun against this exact artifact, and manual post-consent UTM tests remain open.
 - PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+
+## Audit continuation and handoff refresh — 2026-11-01
+
+**Reviewed branch/PR:** `ui-compact-contact-form`, PR #4 (https://github.com/dejabey/hatnikotni-chat/pull/4), draft and unmerged. **Reviewed HEAD at start:** `d23f877752910d8b39e4eb7f164295591dcc08cc`. **Base:** `migration-hardening` at PR metadata SHA `43e805e6e9e396b0e17223f8e3be00419be1879d`. The handoff metadata above predates the current branch and is historically stale; this section is the current audit checkpoint.
+
+### Work completed in this audit continuation
+- Re-fetched PR #4 metadata, diff and branch sources from GitHub.
+- Confirmed PR #4 is still open, draft and unmerged; PR body still incorrectly says automated CI has not run. Its head SHA is `d23f877752910d8b39e4eb7f164295591dcc08cc`.
+- Queried GitHub commit status for that HEAD: **state pending; zero status records** at the time of check. No successful current-HEAD CI result was verified. Do not treat older branch build results as validation of this revision.
+- Reviewed current admin contact form/save/toggle, settings-save handler, round-robin routing, and contact status database update behavior.
+
+### Audit findings / review notes
+1. **Settings save reports success unconditionally (correctness/observability).** `save_settings()` calls `update_option('hatnch_settings', $settings, false)` and immediately redirects with `updated=1`, without checking the result. WordPress `update_option()` returning false is ambiguous (unchanged option versus failed update), so a simple boolean check alone is not sufficient to prove persistence. Add a reliable verification strategy and tests (including unchanged values and injected DB failure) before presenting a definitive success notice.
+2. **Round-robin state update is not atomic (concurrency limitation).** `resolve_round_robin()` reads a shared option, chooses the next active contact, then writes the option. Simultaneous click requests can select the same contact or overwrite sequence state. This is not necessarily a blocker for low traffic, but round-robin must not be described as strict/fair under concurrent requests. A robust fix needs an atomic persistence/locking strategy and contention tests; avoid a superficial patch.
+3. **Contact status toggle uses a nonce-protected GET.** Capability and action nonce checks exist, reducing CSRF exposure, but a state-changing operation over GET is still an HTTP-method semantics weakness. Prefer POST with nonce and regression coverage when revising this path; classify as hardening rather than demonstrated exploit.
+4. **Status switch display text does not live-update.** The checked state changes natively, but adjacent “Active/Inactive” text is rendered server-side and is not bound to switch changes. Native switch semantics remain available to assistive technology; visible text may disagree until submit/reload. Either update text client-side accessibly or remove the misleading static state label.
+5. **Current PR remains presentation-focused.** It introduces a two-column editor and horizontally scrollable fixed-width contact table; visual confirmation at narrow/desktop breakpoints, keyboard operation, focus visibility, and admin regression checks remain manual release gates.
+6. **Server-side validation is claimed as previously implemented, not revalidated here end-to-end.** Save handler routes returned `WP_Error` codes to allow-listed notices and preserves existing weight when omitted. Re-run boundary/Unicode, malformed input, vanished-record, insert/update failure and unchanged-value scenarios in isolated tests.
+7. **Potential misleading notice coupling.** The general settings renderer displays an error notice map containing contact-specific error strings, while Contacts renderer independently displays its own allow-listed errors. Confirm the handler-to-screen redirects consistently place each message on the intended page; avoid stale or duplicated notices.
+
+### Current decision / gates
+- PR #4 remains **draft/unmerged**. No approval to merge, release, install, or deploy was exercised.
+- No staging or production site/database was accessed or changed during this continuation.
+- Before release: obtain passing CI for the exact final HEAD; review the complete PR diff; test admin behavior at desktop/mobile breakpoints and keyboard-only; exercise CRUD/status/validation/error paths; inspect package contents and correlate the exact candidate ZIP hash with CI output.
+- Continue the broader privacy, consent, campaign capture, routing and package-provenance audit separately from this UI PR. Round-robin concurrency and persistence-verification behavior are tracked audit topics, not marked fixed.
+
+## Full audit pass — 2026-11-01 (static review + CI evidence; staging checks outstanding)
+
+**Audit target:** PR #4 branch `ui-compact-contact-form`, commit `0e572eb24e15abeeb51910f1d5abe815eeb7d338`. PR remains open, draft, unmerged. CI Build #723, run `41276995173`, completed successfully on this exact SHA (8 jobs). Report: https://github.com/dejabey/hatnikotni-chat/actions/runs/41276995173. The successful workflow includes PHP syntax/standards and JS syntax, skeleton contract, WordPress 6.6/MySQL migration lifecycle tests, and production packaging. This is CI validation, not visual/browser/staging verification.
+
+### Audit 1 — Contacts CRUD/admin UI
+**Code inspection outcome:** save validation rejects missing names, non-digit or 8–20 digit invalid phone formats, and over-limit name/role/description lengths. Contact CRUD distinguishes DB false from zero affected rows and checks concurrent deletion. Editor preserves stored Weight when omitted from compact form; error codes are routed to allow-listed text notices. Status mutation has capability + nonce checks.
+**Findings retained:** status action is state-changing GET; recommend POST. Static Active/Inactive copy does not live-update as switch changes. Admin screen still needs human responsive/keyboard/focus/contrast review. A visually scrollable table can be usable, but needs browser verification. Save DB error handling and unchanged/no-op branches need controlled tests. UI does not constitute evidence for those tests.
+**Disposition:** static review complete; browser and interaction checks pending.
+
+### Audit 2 — Routing & persistence
+**Code inspection outcome:** Direct validates active selected contact; random routing uses positive relative weights; round-robin reads shared option, selects next active contact in sort/id order, then writes state.
+**Finding retained:** round-robin is not atomic. Concurrent requests may duplicate a selected contact or lose advancement. Random selection is weighted probability, not guaranteed proportional distribution over small samples. Direct method becomes unavailable if its configured contact is missing/inactive. The admin UI supports choosing a contact, but save normalizes an invalid/inactive selection to 0.
+**Disposition:** algorithm review complete; race-condition stress test and any strict fairness guarantee are pending. Do not promise exact turn-by-turn round robin under concurrent traffic.
+
+### Audit 3 — Privacy, consent & campaign
+**Code inspection scope:** consent gate, campaign capture/revoke, analytics recording/aggregation/retention, visitor redirect flow and uninstall cleanup were reviewed at source level in this project audit stream.
+**Positive controls:** analytics recording checks consent; native consent defaults false absent an explicit choice; UTM values are bounded/sanitized before campaign storage; analytics data records event/page/contact/device/campaign dimensions rather than a plugin-defined visitor identity; retention cleanup targets events older than 180 days; WhatsApp contact routing is designed to remain available independent of analytics consent.
+**Residual limitations:** plugin cannot prevent web-server/CDN/WAF access logs or external WhatsApp processing. The policy statement should be understood as plugin application data, not all infrastructure traces. Consent cookie behavior must be rechecked with actual cache/CDN layers, cookie path/domain variants, JavaScript-disabled scenarios, revocation request failures, and browser reloads. The stored consent is browser-cookie based, not a server-side consent ledger. Native UI testing from earlier handoff is user-reported and exact ZIP provenance was not verified.
+**Disposition:** code-path inspection complete for current pass; controlled browser/privacy validation and legal/policy review remain open.
+
+### Audit 4 — Release readiness
+- Build #723 passed for exact handoff SHA `0e572eb24e15abeeb51910f1d5abe815eeb7d338`: PHP 8.1–8.5 syntax/validation matrix, JavaScript syntax, skeleton contract, WordPress coding standards, WordPress migration lifecycle tests, and package build (see workflow run for authoritative job list).
+- Exact candidate package artifact/hash has not been retrieved and independently correlated with a staging-installed ZIP in this audit pass.
+- No live staging/production runtime, cache/CDN, mobile layout, keyboard-only browser, shortcode/WooCommerce context, or JavaScript-disabled test was executed here.
+- Existing documented manual staging test matrix remains applicable; mark unperformed cases as pending, not passed.
+- Uninstall routine intentionally deletes plugin-owned current and legacy tables/options. Do not use uninstall/reinstall as a validation shortcut on populated site data.
+
+### Consolidated release recommendation
+**NOT READY TO RELEASE / MERGE.** CI is green, but merge/release gates remain: resolve or explicitly accept the state-changing GET and admin status-label UX findings; decide how to message or address round-robin concurrency; add/execute controlled persistence and routing tests; complete privacy/cookie and browser accessibility/responsive staging matrix; correlate exact release ZIP hash; refresh package/release documentation. Keep PR #4 draft. No runtime source was modified by this audit checkpoint; no staging/production site or database was accessed or changed.
+
+
+## Follow-up hardening — 2026-11-01
+
+- Converted contact activation/deactivation from state-changing GET links to POST forms. Each form submits the contact ID and action-specific nonce; the handler reads the ID from POST and validates the nonce field explicitly. Capability checks and allow-listed result redirects remain in place.
+- Source commit: `94f3338d269c47981b341bc8962de3aa111d928c` (`includes/class-hatnch-admin.php`). This change addresses the audit's GET-mutation hardening recommendation; it does not claim browser regression tests.
+- CI must be confirmed for this exact commit before considering the patch validated. No staging or production site/database was accessed or changed.
+- Admin status label remains static text in the edit switch; it can display stale Active/Inactive wording if toggled before submit. Follow-up UX choice: remove the redundant status state copy or bind it accessibly to the switch in a dedicated tested frontend/admin script. This is not marked resolved.
+- Round-robin concurrency, controlled DB/routing tests, privacy/cookie checks, browser accessibility/responsive matrix, exact staging ZIP hash correlation, and Plugin Check candidate correlation remain open release gates.
+- PR #4 remains draft/unmerged; no release or deployment approval was made.
+
+
+## Audit continuation — 2026-11-01 (persistence regression harness + final-HEAD CI)
+
+**Target:** PR #4, branch `ui-compact-contact-form`. Source HEAD under verification: `73076b384629a154a03a939b6a1b72410783021c`. PR #4 remains open, draft, and unmerged. No deployment or merge was authorized.
+
+### Persistence regression harness
+- Added `tests/contacts-regression.php`, a standalone PHP test-double suite for `HATNCH_Contacts`.
+- Wired the suite into `tests/skeleton-contract.sh`; CI's skeleton contract step now executes the persistence tests.
+- Intended coverage: contact insert/readback; update/readback; no-op update; status no-op/change and persistence; missing contact status failure; insert/update DB error handling; deletion between existence check and update; missing-record edit; required-name validation.
+- **Test boundary:** the fake wpdb harness tests the PHP class's CRUD/error branches. It does not exercise a real MySQL server, database isolation, actual concurrent requests, lock contention, or routing fairness. Its simulated concurrent deletion is deterministic test-double behavior, not a race test against MySQL.
+
+### CI evidence — verified for exact source HEAD
+- GitHub Actions **Validate**, run **#734**, run ID `41280413559`, completed with conclusion **success** for commit `73076b384629a154a03a939b6a1b72410783021c`.
+- All eight jobs passed: WordPress migration lifecycle tests; migration integration tests; validation on PHP 8.1, 8.2, 8.3, 8.4 and 8.5; and production package build.
+- Validation includes PHP syntax, frontend JavaScript syntax, skeleton contract (including the new persistence regression script), and WordPress Coding Standards.
+- Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/41280413559
+- This is CI evidence for the exact commit. It is not evidence of browser usability, runtime routing concurrency, staging artifact provenance, or production readiness.
+
+### Admin state mutation hardening
+- The current handler uses a capability check, contact-specific nonce, POSTed ID and explicit target state (0/1), then redirects to an allow-listed success/error destination.
+- This avoids toggle ambiguity from stale forms by expressing the intended state. Confirm actual form method/field contract and status UI manually before release.
+- The compact form omits Weight while retaining the stored field; inspect the save path when changing editor fields to ensure preservation remains intentional.
+
+### Remaining gates (not passed by CI)
+1. Manual responsive, keyboard-only, focus/contrast and status-switch UI checks.
+2. Controlled real database tests for CRUD, no-op semantics, DB failures and concurrent deletion; the current fake harness is useful but not a substitute for integration coverage.
+3. Actual round-robin contention/concurrency tests and an explicit decision on strict fairness guarantees. Advisory-lock behavior/support on target hosting must be verified against current implementation.
+4. Review complete PR diff and confirm status POST contract and redirect/notice behavior end-to-end.
+5. Correlate candidate release ZIP SHA-256 with the exact artifact installed on staging; run Plugin Check against that candidate.
+6. Complete previously listed privacy/cookie, cache/CDN, mobile/browser and runtime routing test matrix.
+
+### Decision
+**CI gate: PASS for source HEAD `73076b384629a154a03a939b6a1b72410783021c`. Overall merge/release gate: NOT YET PASSED.** Keep PR #4 draft/unmerged pending remaining manual/integration gates and review. No staging or production site/database was accessed or modified during this checkpoint.
+
+
+### Production-package artifact evidence — Build #734
+- CI artifact name: `hatnikotni-chat-0.1.8`
+- Artifact ID: `13072358694`
+- Size: `46,234 bytes`
+- GitHub artifact digest: `sha256:d7f65d3b8e2e3f468ea3d0f8bb1a38f413c313717f37e27a03cefa17fa5b599f`
+- Artifact source: branch `ui-compact-contact-form`, HEAD `73076b384629a154a03a939b6a1b72410783021c`; workflow run `41280413559`.
+- Artifact URL: https://api.github.com/repos/dejabey/hatnikotni-chat/actions/artifacts/13072358694
+- **Provenance qualification:** the CI artifact digest identifies the build artifact, not the ZIP currently installed on staging. No claim of staging package match is made until that installed ZIP is independently hashed and compared.
+- This artifact evidence is for source HEAD `73076b3`. The later `PROJECT-HANDOFF.md`-only commits do not change plugin runtime files or the generated package inputs. The latest documentation commit still has no separately observed workflow run.
+
+
+## Final audit checkpoint — 2026-11-01 (current PR HEAD CI verified)
+
+- Rechecked PR #4 metadata: open, draft, unmerged; head `af33c0d6377d2d781c7acbd8889869f3e382beac`, base `migration-hardening`. No merge or deployment performed.
+- **Correction to the earlier handoff checkpoint:** a workflow run is now present for the latest documentation head. GitHub Actions Validate **Build #736**, run ID `41281003996`, completed with conclusion **success** for exact HEAD `af33c0d6377d2d781c7acbd8889869f3e382beac`. All eight jobs passed: migration lifecycle tests, migration integration tests, PHP validation on 8.1–8.5, and production package build. Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/41281003996
+- Build #736 production artifact: `hatnikotni-chat-0.1.8`; artifact ID `13073540665`; size `46,234 bytes`; digest `sha256:7f91317a5e9d6006f19d89d478ee8253635ad53daf5a6202c4ce0cca6d55c655`.
+- This artifact is the current candidate tied to the current PR HEAD. It does **not** prove that staging has this artifact installed; independent installed-ZIP SHA-256 comparison remains required.
+- Current source review confirms the contact status mutation path uses POST with capability check, per-contact nonce, explicit requested status, and allow-listed success/error redirects. The formerly stale switch-state label element is absent; the switch label says “Status” and does not promise a dynamic Active/Inactive copy.
+- Round-robin implementation currently acquires a MySQL named lock, selects and advances shared state while locked, verifies state, and releases in `finally`. CI verifies contracts/syntax, not actual target-server GET_LOCK support, connection persistence, lock timeout contention, or parallel request behavior. Confirm host engine compatibility and run controlled concurrency testing before any strict round-robin assurance.
+- Contacts regression tests are a fake-wpdb test-double suite wired into the skeleton contract. They cover several CRUD/error/no-op and simulated deletion cases, but are not actual MySQL persistence or concurrency integration tests. The test file itself states this boundary.
+- **Release disposition remains HOLD / NOT READY.** Automated CI is green for exact HEAD; outstanding release gates remain: actual staging ZIP hash correlation and candidate Plugin Check; desktop/mobile visual and keyboard/accessibility review; direct/random/round-robin runtime checks including lock contention on target database; real DB failure/no-op/concurrent-deletion tests; privacy/consent, cache/CDN, cookie and browser matrix; review/approval of full PR diff. Keep PR #4 draft/unmerged until gates are addressed and explicit approval is given.
+- No staging or production site/database was accessed or changed during this checkpoint.

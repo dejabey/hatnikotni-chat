@@ -128,6 +128,10 @@ final class HATNCH_Contacts {
 		$table = self::table_name();
 
 		if ( $id > 0 ) {
+			if ( null === self::get( $id ) ) {
+				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
+			}
+
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$updated = $wpdb->update(
 				$table,
@@ -148,6 +152,11 @@ final class HATNCH_Contacts {
 
 			if ( false === $updated ) {
 				return new WP_Error( 'db_update_failed', __( 'The contact could not be updated.', 'hatnikotni-chat' ) );
+			}
+
+			// A concurrent deletion after the existence check must not report success.
+			if ( 0 === $updated && null === self::get( $id ) ) {
+				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
 			}
 
 			return $id;
@@ -196,8 +205,12 @@ final class HATNCH_Contacts {
 	public static function set_status( int $id, bool $active ): bool {
 		global $wpdb;
 
+		if ( $id < 1 || null === self::get( $id ) ) {
+			return false;
+		}
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
-		return false !== $wpdb->update(
+		$updated = $wpdb->update(
 			self::table_name(),
 			array(
 				'status'     => $active ? 1 : 0,
@@ -207,5 +220,12 @@ final class HATNCH_Contacts {
 			array( '%d', '%s' ),
 			array( '%d' )
 		);
+
+		if ( false === $updated ) {
+			return false;
+		}
+
+		// Zero affected rows is valid when status is unchanged, unless the row vanished.
+		return 0 !== $updated || null !== self::get( $id );
 	}
 }

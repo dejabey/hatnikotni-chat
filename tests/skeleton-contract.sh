@@ -56,6 +56,17 @@ grep -Fq "min( 4294967295, absint( \$data['sort_order'] ?? 0 ) )" includes/class
 grep -q "function set_status" includes/class-hatnch-contacts.php || fail "Contact status contract missing"
 grep -q "admin_post_hatnch_save_contact" includes/class-hatnch-admin.php || fail "Contact save admin action missing"
 grep -q "check_admin_referer" includes/class-hatnch-admin.php || fail "Admin nonce contract missing"
+grep -q 'method="post"' includes/class-hatnch-admin.php || fail "Contact status mutation must use POST"
+grep -q 'value="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "Contact status POST action missing"
+grep -q "hatnch_toggle_contact_" includes/class-hatnch-admin.php || fail "Contact status action-specific nonce missing"
+grep -q "isset( \$_POST\['id'\] )" includes/class-hatnch-admin.php || fail "Contact status ID must be read from POST"
+if grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php; then fail "Status switch must not display a stale static state label"; fi
+grep -q 'name="status" value=' includes/class-hatnch-admin.php || fail "Contact status target state must be submitted"
+grep -q '$target_status' includes/class-hatnch-admin.php || fail "Contact toggle must apply explicit target state"
+grep -q "GET_LOCK" includes/class-hatnch-routing.php || fail "Round-robin serialization lock missing"
+grep -q "RELEASE_LOCK" includes/class-hatnch-routing.php || fail "Round-robin lock release missing"
+grep -q "finally" includes/class-hatnch-routing.php || fail "Round-robin lock must release through finally"
+
 grep -q "current_user_can( 'manage_options' )" includes/class-hatnch-admin.php || fail "Admin capability contract missing"
 grep -q "wp_safe_redirect" includes/class-hatnch-admin.php || fail "Safe redirect contract missing"
 grep -q "maybe_upgrade" includes/class-hatnch-plugin.php || fail "Database upgrade contract missing"
@@ -118,4 +129,5 @@ grep -q "consentAccepted" includes/class-hatnch-whatsapp.php || fail "Localized 
 grep -q "consentRejected" includes/class-hatnch-whatsapp.php || fail "Localized JavaScript rejection string missing"
 test -f languages/hatnikotni-chat.pot || fail "Translation template missing"
 test -f languages/hatnikotni-chat-ms_MY.po || fail "Malay translation source missing"
+php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"
