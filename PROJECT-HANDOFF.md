@@ -302,3 +302,28 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Package inspection confirms one stable `hatnikotni-chat/` root, expected PHP/CSS/JS/language files, and no tests, vendor, .github, docs, handoff or .git paths in the installable ZIP. Required entry files and the new campaign/privacy JS files are present.
 - **Important limitation:** the CI artifact and its inner ZIP have verified hashes, but the ZIP installed on staging has not been hashed; staging artifact provenance remains unverified. Plugin Check has not been rerun against this exact artifact, and manual post-consent UTM tests remain open.
 - PR #3 remains open, draft and unmerged; PR #2 remains draft and unmerged. No staging/production database was accessed or changed.
+
+## Audit continuation and handoff refresh — 2026-11-01
+
+**Reviewed branch/PR:** `ui-compact-contact-form`, PR #4 (https://github.com/dejabey/hatnikotni-chat/pull/4), draft and unmerged. **Reviewed HEAD at start:** `d23f877752910d8b39e4eb7f164295591dcc08cc`. **Base:** `migration-hardening` at PR metadata SHA `43e805e6e9e396b0e17223f8e3be00419be1879d`. The handoff metadata above predates the current branch and is historically stale; this section is the current audit checkpoint.
+
+### Work completed in this audit continuation
+- Re-fetched PR #4 metadata, diff and branch sources from GitHub.
+- Confirmed PR #4 is still open, draft and unmerged; PR body still incorrectly says automated CI has not run. Its head SHA is `d23f877752910d8b39e4eb7f164295591dcc08cc`.
+- Queried GitHub commit status for that HEAD: **state pending; zero status records** at the time of check. No successful current-HEAD CI result was verified. Do not treat older branch build results as validation of this revision.
+- Reviewed current admin contact form/save/toggle, settings-save handler, round-robin routing, and contact status database update behavior.
+
+### Audit findings / review notes
+1. **Settings save reports success unconditionally (correctness/observability).** `save_settings()` calls `update_option('hatnch_settings', $settings, false)` and immediately redirects with `updated=1`, without checking the result. WordPress `update_option()` returning false is ambiguous (unchanged option versus failed update), so a simple boolean check alone is not sufficient to prove persistence. Add a reliable verification strategy and tests (including unchanged values and injected DB failure) before presenting a definitive success notice.
+2. **Round-robin state update is not atomic (concurrency limitation).** `resolve_round_robin()` reads a shared option, chooses the next active contact, then writes the option. Simultaneous click requests can select the same contact or overwrite sequence state. This is not necessarily a blocker for low traffic, but round-robin must not be described as strict/fair under concurrent requests. A robust fix needs an atomic persistence/locking strategy and contention tests; avoid a superficial patch.
+3. **Contact status toggle uses a nonce-protected GET.** Capability and action nonce checks exist, reducing CSRF exposure, but a state-changing operation over GET is still an HTTP-method semantics weakness. Prefer POST with nonce and regression coverage when revising this path; classify as hardening rather than demonstrated exploit.
+4. **Status switch display text does not live-update.** The checked state changes natively, but adjacent “Active/Inactive” text is rendered server-side and is not bound to switch changes. Native switch semantics remain available to assistive technology; visible text may disagree until submit/reload. Either update text client-side accessibly or remove the misleading static state label.
+5. **Current PR remains presentation-focused.** It introduces a two-column editor and horizontally scrollable fixed-width contact table; visual confirmation at narrow/desktop breakpoints, keyboard operation, focus visibility, and admin regression checks remain manual release gates.
+6. **Server-side validation is claimed as previously implemented, not revalidated here end-to-end.** Save handler routes returned `WP_Error` codes to allow-listed notices and preserves existing weight when omitted. Re-run boundary/Unicode, malformed input, vanished-record, insert/update failure and unchanged-value scenarios in isolated tests.
+7. **Potential misleading notice coupling.** The general settings renderer displays an error notice map containing contact-specific error strings, while Contacts renderer independently displays its own allow-listed errors. Confirm the handler-to-screen redirects consistently place each message on the intended page; avoid stale or duplicated notices.
+
+### Current decision / gates
+- PR #4 remains **draft/unmerged**. No approval to merge, release, install, or deploy was exercised.
+- No staging or production site/database was accessed or changed during this continuation.
+- Before release: obtain passing CI for the exact final HEAD; review the complete PR diff; test admin behavior at desktop/mobile breakpoints and keyboard-only; exercise CRUD/status/validation/error paths; inspect package contents and correlate the exact candidate ZIP hash with CI output.
+- Continue the broader privacy, consent, campaign capture, routing and package-provenance audit separately from this UI PR. Round-robin concurrency and persistence-verification behavior are tracked audit topics, not marked fixed.
