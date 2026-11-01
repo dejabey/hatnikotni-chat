@@ -367,3 +367,37 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - Admin status label remains static text in the edit switch; it can display stale Active/Inactive wording if toggled before submit. Follow-up UX choice: remove the redundant status state copy or bind it accessibly to the switch in a dedicated tested frontend/admin script. This is not marked resolved.
 - Round-robin concurrency, controlled DB/routing tests, privacy/cookie checks, browser accessibility/responsive matrix, exact staging ZIP hash correlation, and Plugin Check candidate correlation remain open release gates.
 - PR #4 remains draft/unmerged; no release or deployment approval was made.
+
+
+## Audit continuation — 2026-11-01 (persistence regression harness + final-HEAD CI)
+
+**Target:** PR #4, branch `ui-compact-contact-form`. Source HEAD under verification: `73076b384629a154a03a939b6a1b72410783021c`. PR #4 remains open, draft, and unmerged. No deployment or merge was authorized.
+
+### Persistence regression harness
+- Added `tests/contacts-regression.php`, a standalone PHP test-double suite for `HATNCH_Contacts`.
+- Wired the suite into `tests/skeleton-contract.sh`; CI's skeleton contract step now executes the persistence tests.
+- Intended coverage: contact insert/readback; update/readback; no-op update; status no-op/change and persistence; missing contact status failure; insert/update DB error handling; deletion between existence check and update; missing-record edit; required-name validation.
+- **Test boundary:** the fake wpdb harness tests the PHP class's CRUD/error branches. It does not exercise a real MySQL server, database isolation, actual concurrent requests, lock contention, or routing fairness. Its simulated concurrent deletion is deterministic test-double behavior, not a race test against MySQL.
+
+### CI evidence — verified for exact source HEAD
+- GitHub Actions **Validate**, run **#734**, run ID `41280413559`, completed with conclusion **success** for commit `73076b384629a154a03a939b6a1b72410783021c`.
+- All eight jobs passed: WordPress migration lifecycle tests; migration integration tests; validation on PHP 8.1, 8.2, 8.3, 8.4 and 8.5; and production package build.
+- Validation includes PHP syntax, frontend JavaScript syntax, skeleton contract (including the new persistence regression script), and WordPress Coding Standards.
+- Run: https://github.com/dejabey/hatnikotni-chat/actions/runs/41280413559
+- This is CI evidence for the exact commit. It is not evidence of browser usability, runtime routing concurrency, staging artifact provenance, or production readiness.
+
+### Admin state mutation hardening
+- The current handler uses a capability check, contact-specific nonce, POSTed ID and explicit target state (0/1), then redirects to an allow-listed success/error destination.
+- This avoids toggle ambiguity from stale forms by expressing the intended state. Confirm actual form method/field contract and status UI manually before release.
+- The compact form omits Weight while retaining the stored field; inspect the save path when changing editor fields to ensure preservation remains intentional.
+
+### Remaining gates (not passed by CI)
+1. Manual responsive, keyboard-only, focus/contrast and status-switch UI checks.
+2. Controlled real database tests for CRUD, no-op semantics, DB failures and concurrent deletion; the current fake harness is useful but not a substitute for integration coverage.
+3. Actual round-robin contention/concurrency tests and an explicit decision on strict fairness guarantees. Advisory-lock behavior/support on target hosting must be verified against current implementation.
+4. Review complete PR diff and confirm status POST contract and redirect/notice behavior end-to-end.
+5. Correlate candidate release ZIP SHA-256 with the exact artifact installed on staging; run Plugin Check against that candidate.
+6. Complete previously listed privacy/cookie, cache/CDN, mobile/browser and runtime routing test matrix.
+
+### Decision
+**CI gate: PASS for source HEAD `73076b384629a154a03a939b6a1b72410783021c`. Overall merge/release gate: NOT YET PASSED.** Keep PR #4 draft/unmerged pending remaining manual/integration gates and review. No staging or production site/database was accessed or modified during this checkpoint.
