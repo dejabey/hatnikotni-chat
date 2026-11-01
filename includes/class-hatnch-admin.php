@@ -450,15 +450,14 @@ final class HATNCH_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
-		$id = isset( $_POST['		$target_status = isset( $_POST['status'] ) ? absint( $_POST['status'] ) : -1;
+		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		check_admin_referer( 'hatnch_toggle_contact_' . $id, 'hatnch_nonce' );
+
+		$target_status = isset( $_POST['status'] ) ? absint( $_POST['status'] ) : -1;
 		$updated       = false;
 
 		if ( $id > 0 && in_array( $target_status, array( 0, 1 ), true ) ) {
 			$updated = HATNCH_Contacts::set_status( $id, 1 === $target_status );
-		}
-	if ( $contact ) {
-				$updated = HATNCH_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
-			}
 		}
 
 		$redirect = $updated
