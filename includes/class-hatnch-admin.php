@@ -264,6 +264,13 @@ final class HATNCH_Admin {
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
 
+			<?php
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only error notice flag.
+			if ( isset( $_GET['error'] ) && 'status_update_failed' === sanitize_key( wp_unslash( $_GET['error'] ) ) ) :
+				?>
+				<div class="notice notice-error"><p><?php echo esc_html__( 'The contact status could not be updated. Refresh the contact list and try again.', 'hatnikotni-chat' ); ?></p></div>
+			<?php endif; ?>
+
 			<?php if ( $editing || $is_new ) : ?>
 				<?php self::render_contact_form( $editing ); ?>
 			<?php endif; ?>
