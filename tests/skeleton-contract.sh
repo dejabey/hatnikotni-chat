@@ -60,6 +60,8 @@ grep -q 'name="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "
 grep -q "hatnch_toggle_contact_" includes/class-hatnch-admin.php || fail "Contact status action-specific nonce missing"
 grep -q "isset( \$_POST\['id'\] )" includes/class-hatnch-admin.php || fail "Contact status ID must be read from POST"
 if grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php; then fail "Status switch must not display a stale static state label"; fi
+grep -q 'name="status" value=' includes/class-hatnch-admin.php || fail "Contact status target state must be submitted"
+grep -q '$target_status' includes/class-hatnch-admin.php || fail "Contact toggle must apply explicit target state"
 grep -q "GET_LOCK" includes/class-hatnch-routing.php || fail "Round-robin serialization lock missing"
 grep -q "RELEASE_LOCK" includes/class-hatnch-routing.php || fail "Round-robin lock release missing"
 grep -q "finally" includes/class-hatnch-routing.php || fail "Round-robin lock must release through finally"
