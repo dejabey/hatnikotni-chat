@@ -327,3 +327,33 @@ Plugin URI: https://github.com/dejabey/hatnikotni-chat
 - No staging or production site/database was accessed or changed during this continuation.
 - Before release: obtain passing CI for the exact final HEAD; review the complete PR diff; test admin behavior at desktop/mobile breakpoints and keyboard-only; exercise CRUD/status/validation/error paths; inspect package contents and correlate the exact candidate ZIP hash with CI output.
 - Continue the broader privacy, consent, campaign capture, routing and package-provenance audit separately from this UI PR. Round-robin concurrency and persistence-verification behavior are tracked audit topics, not marked fixed.
+
+## Full audit pass — 2026-11-01 (static review + CI evidence; staging checks outstanding)
+
+**Audit target:** PR #4 branch `ui-compact-contact-form`, commit `0e572eb24e15abeeb51910f1d5abe815eeb7d338`. PR remains open, draft, unmerged. CI Build #723, run `41276995173`, completed successfully on this exact SHA (8 jobs). Report: https://github.com/dejabey/hatnikotni-chat/actions/runs/41276995173. The successful workflow includes PHP syntax/standards and JS syntax, skeleton contract, WordPress 6.6/MySQL migration lifecycle tests, and production packaging. This is CI validation, not visual/browser/staging verification.
+
+### Audit 1 — Contacts CRUD/admin UI
+**Code inspection outcome:** save validation rejects missing names, non-digit or 8–20 digit invalid phone formats, and over-limit name/role/description lengths. Contact CRUD distinguishes DB false from zero affected rows and checks concurrent deletion. Editor preserves stored Weight when omitted from compact form; error codes are routed to allow-listed text notices. Status mutation has capability + nonce checks.
+**Findings retained:** status action is state-changing GET; recommend POST. Static Active/Inactive copy does not live-update as switch changes. Admin screen still needs human responsive/keyboard/focus/contrast review. A visually scrollable table can be usable, but needs browser verification. Save DB error handling and unchanged/no-op branches need controlled tests. UI does not constitute evidence for those tests.
+**Disposition:** static review complete; browser and interaction checks pending.
+
+### Audit 2 — Routing & persistence
+**Code inspection outcome:** Direct validates active selected contact; random routing uses positive relative weights; round-robin reads shared option, selects next active contact in sort/id order, then writes state.
+**Finding retained:** round-robin is not atomic. Concurrent requests may duplicate a selected contact or lose advancement. Random selection is weighted probability, not guaranteed proportional distribution over small samples. Direct method becomes unavailable if its configured contact is missing/inactive. The admin UI supports choosing a contact, but save normalizes an invalid/inactive selection to 0.
+**Disposition:** algorithm review complete; race-condition stress test and any strict fairness guarantee are pending. Do not promise exact turn-by-turn round robin under concurrent traffic.
+
+### Audit 3 — Privacy, consent & campaign
+**Code inspection scope:** consent gate, campaign capture/revoke, analytics recording/aggregation/retention, visitor redirect flow and uninstall cleanup were reviewed at source level in this project audit stream.
+**Positive controls:** analytics recording checks consent; native consent defaults false absent an explicit choice; UTM values are bounded/sanitized before campaign storage; analytics data records event/page/contact/device/campaign dimensions rather than a plugin-defined visitor identity; retention cleanup targets events older than 180 days; WhatsApp contact routing is designed to remain available independent of analytics consent.
+**Residual limitations:** plugin cannot prevent web-server/CDN/WAF access logs or external WhatsApp processing. The policy statement should be understood as plugin application data, not all infrastructure traces. Consent cookie behavior must be rechecked with actual cache/CDN layers, cookie path/domain variants, JavaScript-disabled scenarios, revocation request failures, and browser reloads. The stored consent is browser-cookie based, not a server-side consent ledger. Native UI testing from earlier handoff is user-reported and exact ZIP provenance was not verified.
+**Disposition:** code-path inspection complete for current pass; controlled browser/privacy validation and legal/policy review remain open.
+
+### Audit 4 — Release readiness
+- Build #723 passed for exact handoff SHA `0e572eb24e15abeeb51910f1d5abe815eeb7d338`: PHP 8.1–8.5 syntax/validation matrix, JavaScript syntax, skeleton contract, WordPress coding standards, WordPress migration lifecycle tests, and package build (see workflow run for authoritative job list).
+- Exact candidate package artifact/hash has not been retrieved and independently correlated with a staging-installed ZIP in this audit pass.
+- No live staging/production runtime, cache/CDN, mobile layout, keyboard-only browser, shortcode/WooCommerce context, or JavaScript-disabled test was executed here.
+- Existing documented manual staging test matrix remains applicable; mark unperformed cases as pending, not passed.
+- Uninstall routine intentionally deletes plugin-owned current and legacy tables/options. Do not use uninstall/reinstall as a validation shortcut on populated site data.
+
+### Consolidated release recommendation
+**NOT READY TO RELEASE / MERGE.** CI is green, but merge/release gates remain: resolve or explicitly accept the state-changing GET and admin status-label UX findings; decide how to message or address round-robin concurrency; add/execute controlled persistence and routing tests; complete privacy/cookie and browser accessibility/responsive staging matrix; correlate exact release ZIP hash; refresh package/release documentation. Keep PR #4 draft. No runtime source was modified by this audit checkpoint; no staging/production site or database was accessed or changed.
