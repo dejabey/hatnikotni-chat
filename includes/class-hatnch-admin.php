@@ -401,7 +401,7 @@ final class HATNCH_Admin {
 
 		// The compact editor omits Weight; preserve its stored value when editing.
 		$existing_contact = $id > 0 ? HATNCH_Contacts::get( $id ) : null;
-		$weight = isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : ( $existing_contact ? absint( $existing_contact['weight'] ) : 1 );
+		$weight           = isset( $_POST['weight'] ) ? absint( $_POST['weight'] ) : ( $existing_contact ? absint( $existing_contact['weight'] ) : 1 );
 
 		$data = array(
 			'name'        => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
