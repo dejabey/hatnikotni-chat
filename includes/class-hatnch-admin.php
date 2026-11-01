@@ -335,9 +335,12 @@ final class HATNCH_Admin {
 										<td>
 											<div class="hatnch-actions">
 												<a href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a>
-												<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=hatnch_toggle_contact&id=' . (int) $contact['id'] ), 'hatnch_toggle_contact_' . (int) $contact['id'] ) ); ?>">
-													<?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?>
-												</a>
+												<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+													<input type="hidden" name="action" value="hatnch_toggle_contact">
+													<input type="hidden" name="id" value="<?php echo esc_attr( (int) $contact['id'] ); ?>">
+													<?php wp_nonce_field( 'hatnch_toggle_contact_' . (int) $contact['id'], 'hatnch_nonce' ); ?>
+													<button type="submit" class="button-link"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?></button>
+												</form>
 											</div>
 										</td>
 									</tr>
@@ -446,9 +449,8 @@ final class HATNCH_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- ID is protected by the following action nonce.
-		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-		check_admin_referer( 'hatnch_toggle_contact_' . $id );
+		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		check_admin_referer( 'hatnch_toggle_contact_' . $id, 'hatnch_nonce' );
 
 		$updated = false;
 		if ( $id > 0 ) {
