@@ -80,32 +80,62 @@ final class HATNCH_Routing {
 		return $contacts[ count( $contacts ) - 1 ];
 	}
 
+	/**
+	 * Select and persist the next contact under a database advisory lock.
+	 *
+	 * MySQL/MariaDB named locks serialize routing requests across PHP workers.
+	 * If the lock cannot be acquired, fail closed instead of silently breaking
+	 * the configured round-robin order.
+	 *
+	 * @return array|null Selected active contact, or null when unavailable.
+	 */
 	private function resolve_round_robin(): ?array {
-		$contacts = HATNCH_Contacts::get_active();
+		global $wpdb;
 
-		if ( empty( $contacts ) ) {
+		// GET_LOCK names are limited to 64 characters on supported MySQL versions.
+		$lock_name = 'hatnch_rr_' . substr( hash( 'sha256', DB_NAME . '|' . $wpdb->prefix ), 0, 48 );
+		$acquired  = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
+
+		if ( 1 !== (int) $acquired ) {
 			return null;
 		}
 
-		$state   = get_option( self::STATE_OPTION, array() );
-		$last_id = is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0;
-		$next    = $contacts[0];
+		try {
+			// Read active contacts only after acquiring the lock so the selection
+			// and cursor advancement share one serialized critical section.
+			$contacts = HATNCH_Contacts::get_active();
+			if ( empty( $contacts ) ) {
+				return null;
+			}
 
-		if ( $last_id > 0 ) {
-			foreach ( $contacts as $index => $contact ) {
-				if ( $last_id === (int) $contact['id'] ) {
-					$next = $contacts[ ( $index + 1 ) % count( $contacts ) ];
-					break;
+			$state   = get_option( self::STATE_OPTION, array() );
+			$last_id = is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0;
+			$next    = $contacts[0];
+
+			if ( $last_id > 0 ) {
+				foreach ( $contacts as $index => $contact ) {
+					if ( $last_id === (int) $contact['id'] ) {
+						$next = $contacts[ ( $index + 1 ) % count( $contacts ) ];
+						break;
+					}
 				}
 			}
+
+			update_option(
+				self::STATE_OPTION,
+				array( 'last_contact_id' => (int) $next['id'] ),
+				false
+			);
+
+			// Verify persisted state before returning a routing decision.
+			$saved_state = get_option( self::STATE_OPTION, array() );
+			if ( ! is_array( $saved_state ) || (int) ( $saved_state['last_contact_id'] ?? 0 ) !== (int) $next['id'] ) {
+				return null;
+			}
+
+			return $next;
+		} finally {
+			$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 		}
-
-		update_option(
-			self::STATE_OPTION,
-			array( 'last_contact_id' => (int) $next['id'] ),
-			false
-		);
-
-		return $next;
 	}
 }
