@@ -129,4 +129,5 @@ grep -q "consentAccepted" includes/class-hatnch-whatsapp.php || fail "Localized 
 grep -q "consentRejected" includes/class-hatnch-whatsapp.php || fail "Localized JavaScript rejection string missing"
 test -f languages/hatnikotni-chat.pot || fail "Translation template missing"
 test -f languages/hatnikotni-chat-ms_MY.po || fail "Malay translation source missing"
+php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"
