@@ -338,6 +338,7 @@ final class HATNCH_Admin {
 												<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 													<input type="hidden" name="action" value="hatnch_toggle_contact">
 													<input type="hidden" name="id" value="<?php echo esc_attr( (int) $contact['id'] ); ?>">
+									<input type="hidden" name="status" value="<?php echo 1 === (int) $contact['status'] ? '0' : '1'; ?>">
 													<?php wp_nonce_field( 'hatnch_toggle_contact_' . (int) $contact['id'], 'hatnch_nonce' ); ?>
 													<button type="submit" class="button-link"><?php echo 1 === (int) $contact['status'] ? esc_html__( 'Deactivate', 'hatnikotni-chat' ) : esc_html__( 'Activate', 'hatnikotni-chat' ); ?></button>
 												</form>
@@ -449,13 +450,13 @@ final class HATNCH_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ) );
 		}
-		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
-		check_admin_referer( 'hatnch_toggle_contact_' . $id, 'hatnch_nonce' );
+		$id = isset( $_POST['		$target_status = isset( $_POST['status'] ) ? absint( $_POST['status'] ) : -1;
+		$updated       = false;
 
-		$updated = false;
-		if ( $id > 0 ) {
-			$contact = HATNCH_Contacts::get( $id );
-			if ( $contact ) {
+		if ( $id > 0 && in_array( $target_status, array( 0, 1 ), true ) ) {
+			$updated = HATNCH_Contacts::set_status( $id, 1 === $target_status );
+		}
+	if ( $contact ) {
 				$updated = HATNCH_Contacts::set_status( $id, 1 !== (int) $contact['status'] );
 			}
 		}
