@@ -33,10 +33,18 @@ Validate the release candidate on a real WordPress staging site before productio
 - [x] Direct selects active default contact
 - [ ] Invalid/inactive default fails safely
 - [ ] Random selects only active contacts
-- [ ] Round-robin follows sort order and wraps correctly
-- [ ] Inactive contacts are skipped
-- [ ] Round-robin state persists
+- [x] Sequential round-robin alternation observed with two active contacts (staging Ujian 3.19: PakYa → PakSu → PakYa)
+- [x] Round-robin state persisted across reload in earlier staging test
+- [ ] Inactive contacts are skipped (observed route to active default; skip behavior not isolated conclusively)
 - [ ] Concurrent requests produce valid routing
+
+### Purpose-based routing (staging observations)
+- [x] Purpose chooser enabled; configured mappings verified during Ujian 3.19
+- [x] Role-targeted routing: General Enquiries → PakYa; Customer Support → PakSu; Technical Support → PakYa (tests 3.6–3.10)
+- [x] No-match fallback: Sales & Partnerships routed to active default PakYa (test 3.8)
+- [x] Role-unassigned fallback to global Round robin observed: repeated General Enquiries yielded PakYa (`601172715154`) → PakSu (`601155898464`) → PakYa (`601172715154`) (Ujian 3.19)
+- [x] Contact and routing settings restored/verified against target baseline before Ujian 3.19
+- [ ] Concurrency/parallel routing not verified; sequential alternation is not proof of race safety
 
 ## WhatsApp action
 - [x] Global button works
@@ -131,3 +139,11 @@ Validate the release candidate on a real WordPress staging site before productio
 Release candidate proceeds only after critical tests pass, CI is green, privacy/cache/routing behavior is verified, WordPress.org preflight is complete, and a clean ZIP has been inspected.
 
 Production activation remains a separate approval step.
+
+## Staging test log — Ujian 3.19
+- Environment: `staging.perlis.xyz` only; production untouched.
+- Baseline contacts verified: PakYa (ID 1, active, default, role `unassigned`); PakSu (ID 3, active, not default, role `unassigned`); znz (ID 5, inactive).
+- Routing configuration verified: method `Round robin`; Purpose chooser enabled; mappings unchanged from the test plan.
+- Three consecutive `General Enquiries` routing outcomes: PakYa → PakSu → PakYa.
+- Result: **PASS** for observed sequential global fallback behavior.
+- Scope: functional sequential observation only; does not establish concurrent correctness, exhaustive error handling, or production readiness.
