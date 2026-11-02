@@ -147,3 +147,16 @@ Production activation remains a separate approval step.
 - Three consecutive `General Enquiries` routing outcomes: PakYa → PakSu → PakYa.
 - Result: **PASS** for observed sequential global fallback behavior.
 - Scope: functional sequential observation only; does not establish concurrent correctness, exhaustive error handling, or production readiness.
+
+
+## Ujian 3.20 — Routing dengan satu contact aktif
+
+**Keputusan: LULUS (ujian berurutan; bukan ujian concurrency).**
+
+- Baseline awal disahkan sepadan.
+- PakSu (ID 3) dinyahaktifkan sementara; PakYa (ID 1) kekal Active dan Default; znz (ID 5) kekal Inactive.
+- Dengan hanya PakYa aktif, routing **General Enquiries** memilih PakYa (`601172715154`) — Lulus.
+- Dengan konfigurasi sama, routing **Customer Support** memilih PakYa (`601172715154`) — Lulus.
+- PakSu diaktifkan semula dan pengguna mengesahkan baseline dipulihkan — Lulus.
+
+**Interpretasi:** Kedua-dua senario yang diuji berjaya memilih satu-satunya contact aktif. Ini mengesahkan hasil bagi senario tersebut sahaja; tidak membuktikan semua laluan ralat, concurrency/race safety, atau keseluruhan kesiapsiagaan release.
