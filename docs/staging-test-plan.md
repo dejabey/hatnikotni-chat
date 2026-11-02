@@ -160,3 +160,18 @@ Production activation remains a separate approval step.
 - PakSu diaktifkan semula dan pengguna mengesahkan baseline dipulihkan — Lulus.
 
 **Interpretasi:** Kedua-dua senario yang diuji berjaya memilih satu-satunya contact aktif. Ini mengesahkan hasil bagi senario tersebut sahaja; tidak membuktikan semua laluan ralat, concurrency/race safety, atau keseluruhan kesiapsiagaan release.
+
+
+## Ujian 3.21 — Pengesahan identiti build v0.1.25
+
+**Keputusan: LULUS untuk identiti ZIP (SHA-256 exact match).**
+
+- Environment: `staging.perlis.xyz` sahaja; production tidak disentuh.
+- WordPress Installed Plugins menunjukkan Hatnikotni Chat versi `0.1.25`, status Active.
+- Plugin header dalam `hatnikotni-chat.php`: `Version: 0.1.25`.
+- Constant dalam fail utama: `HATCH_VERSION = 0.1.25`; `HATCH_DB_VERSION = 1.2.0`.
+- Pengguna mengeksport folder plugin terpasang sebagai `hatnikotni-chat-installed-qa.zip` dan memuat naik arkib untuk pemeriksaan.
+- SHA-256 ZIP diperiksa: `78a83dd9db41ff6636bc4366a8a9e73514f531e92d5da349cd295836015c751e`.
+- SHA-256 tersebut sepadan tepat dengan rekod SHA-256 ZIP stable v0.1.25 yang diperiksa terdahulu: `78a83dd9db41ff6636bc4366a8a9e73514f531e92d5da349cd295836015c751e`.
+
+**Interpretasi/skop:** Identiti arkib ZIP terpasang sepadan byte-for-byte dengan ZIP stable yang dirujuk. Ini mengesahkan padanan arkib bagi bahan yang dibandingkan; ia bukan bukti tersendiri bahawa semua fungsi telah diuji, concurrency/race safety selamat, atau release/production sudah diluluskan.
