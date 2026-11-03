@@ -9,7 +9,19 @@ defined( 'ABSPATH' ) || exit;
 
 final class HATNCH_Routing {
 
-	private const STATE_OPTION = 'hatnch_routing_state';
+	private const STATE_OPTION       = 'hatnch_routing_state';
+	private const DIAGNOSTICS_OPTION = 'hatnch_routing_diagnostics';
+
+	/** Write staging-only routing diagnostics when explicitly enabled. */
+	private static function diagnostic( string $event, array $context = array() ): void {
+		if ( ! (bool) get_option( self::DIAGNOSTICS_OPTION, false ) ) {
+			return;
+		}
+
+		error_log(
+			'[Hatnikotni Chat RR] ' . $event . ' ' . wp_json_encode( $context, JSON_UNESCAPED_SLASHES )
+		);
+	}
 
 	public function resolve(): ?array {
 		$method = HATNCH_Settings::get( 'routing_method', 'direct' );
@@ -96,6 +108,14 @@ final class HATNCH_Routing {
 		$lock_name = 'hatnch_rr_' . substr( hash( 'sha256', DB_NAME . '|' . $wpdb->prefix ), 0, 48 );
 		$acquired  = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
 
+		self::diagnostic(
+			'lock_result',
+			array(
+				'acquired' => $acquired,
+				'db_error' => $wpdb->last_error,
+			)
+		);
+
 		if ( 1 !== (int) $acquired ) {
 			return null;
 		}
@@ -105,12 +125,21 @@ final class HATNCH_Routing {
 			// and cursor advancement share one serialized critical section.
 			$contacts = HATNCH_Contacts::get_active();
 			if ( empty( $contacts ) ) {
+				self::diagnostic( 'no_active_contacts' );
 				return null;
 			}
 
 			$state   = get_option( self::STATE_OPTION, array() );
 			$last_id = is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0;
 			$next    = $contacts[0];
+
+			self::diagnostic(
+				'selection_input',
+				array(
+					'active_contact_ids' => array_map( 'absint', wp_list_pluck( $contacts, 'id' ) ),
+					'last_contact_id'    => $last_id,
+				)
+			);
 
 			if ( $last_id > 0 ) {
 				foreach ( $contacts as $index => $contact ) {
@@ -129,13 +158,25 @@ final class HATNCH_Routing {
 
 			// Verify persisted state before returning a routing decision.
 			$saved_state = get_option( self::STATE_OPTION, array() );
-			if ( ! is_array( $saved_state ) || (int) ( $saved_state['last_contact_id'] ?? 0 ) !== (int) $next['id'] ) {
+			$verified    = is_array( $saved_state ) && (int) ( $saved_state['last_contact_id'] ?? 0 ) === (int) $next['id'];
+
+			self::diagnostic(
+				'selection_result',
+				array(
+					'selected_contact_id' => (int) $next['id'],
+					'saved_last_id'       => is_array( $saved_state ) ? absint( $saved_state['last_contact_id'] ?? 0 ) : null,
+					'verified'            => $verified,
+				)
+			);
+
+			if ( ! $verified ) {
 				return null;
 			}
 
 			return $next;
 		} finally {
-			$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
+			$released = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
+			self::diagnostic( 'lock_released', array( 'released' => $released ) );
 		}
 	}
 }
