@@ -238,7 +238,7 @@ final class HATNCH_Admin {
 						<td><label><input type="checkbox" name="purpose_routing_enabled" value="1" <?php checked( ! empty( $settings['purpose_routing_enabled'] ) ); ?>> <?php echo esc_html__( 'Enable the purpose chooser for the floating button', 'hatnikotni-chat' ); ?></label><p class="description"><?php echo esc_html__( 'When disabled, the existing global routing and button behavior remain in effect.', 'hatnikotni-chat' ); ?></p></td>
 					</tr>
 					<?php
-					$purpose_map = is_array( $settings['purpose_roles'] ?? null ) ? $settings['purpose_roles'] : array();
+					$purpose_map  = is_array( $settings['purpose_roles'] ?? null ) ? $settings['purpose_roles'] : array();
 					$role_choices = array(
 						'general_enquiries' => __( 'General Enquiries', 'hatnikotni-chat' ),
 						'business_support'  => __( 'Business Support', 'hatnikotni-chat' ),
@@ -316,7 +316,7 @@ final class HATNCH_Admin {
 			'show_mobile'             => isset( $_POST['show_mobile'] ),
 			'routing_method'          => $method,
 			'purpose_routing_enabled' => isset( $_POST['purpose_routing_enabled'] ),
-			'purpose_roles'            => array(),
+			'purpose_roles'           => array(),
 			'support_email'           => isset( $_POST['support_email'] ) ? sanitize_email( wp_unslash( $_POST['support_email'] ) ) : '',
 			'support_url'             => isset( $_POST['support_url'] ) ? esc_url_raw( wp_unslash( $_POST['support_url'] ), array( 'http', 'https' ) ) : '',
 		);
@@ -326,8 +326,10 @@ final class HATNCH_Admin {
 			? map_deep( wp_unslash( $_POST['purpose_roles'] ), 'sanitize_key' )
 			: array();
 		foreach ( array( 'general_enquiries', 'listing_assistance', 'business_partnerships', 'technical_question' ) as $purpose_id ) {
-			$selected_role = isset( $posted_routes[ $purpose_id ] ) && is_scalar( $posted_routes[ $purpose_id ] ) ? sanitize_key( $posted_routes[ $purpose_id ] ) : '';
-			$settings['purpose_roles'][ $purpose_id ] = in_array( $selected_role, $allowed_roles, true ) ? $selected_role : 'general_enquiries';
+			$settings['purpose_roles'][ $purpose_id ] = self::sanitize_purpose_role(
+				$posted_routes[ $purpose_id ] ?? '',
+				$allowed_roles
+			);
 		}
 		update_option( 'hatnch_settings', $settings, false );
 
@@ -335,8 +337,33 @@ final class HATNCH_Admin {
 		if ( ! in_array( $active_tab, array( 'setup', 'routing', 'integrations' ), true ) ) {
 			$active_tab = 'setup';
 		}
-		wp_safe_redirect( add_query_arg( array( 'page' => 'hatnch', 'updated' => '1', 'tab' => $active_tab ), admin_url( 'admin.php' ) ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => 'hatnch',
+					'updated' => '1',
+					'tab'     => $active_tab,
+				),
+				admin_url( 'admin.php' )
+			)
+		);
 		exit;
+	}
+
+	/**
+	 * Return an allowed purpose role or the safe default.
+	 *
+	 * @param mixed    $candidate    Submitted role value.
+	 * @param string[] $allowed_roles Allowed role identifiers.
+	 * @return string
+	 */
+	private static function sanitize_purpose_role( $candidate, array $allowed_roles ): string {
+		if ( ! is_scalar( $candidate ) ) {
+			return 'general_enquiries';
+		}
+
+		$role = sanitize_key( (string) $candidate );
+		return in_array( $role, $allowed_roles, true ) ? $role : 'general_enquiries';
 	}
 
 	public static function render_contacts(): void {
@@ -345,12 +372,12 @@ final class HATNCH_Admin {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only edit-form selector; mutations require a separate nonce-protected POST.
-		$edit_id  = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
-		$editing  = $edit_id ? HATNCH_Contacts::get( $edit_id ) : null;
-		$contacts = HATNCH_Contacts::get_all();
+		$edit_id            = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+		$editing            = $edit_id ? HATNCH_Contacts::get( $edit_id ) : null;
+		$contacts           = HATNCH_Contacts::get_all();
 		$default_contact_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selector; mutations require a separate nonce-protected POST.
-		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
+		$is_new             = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap hatnch-admin">
 			<header class="hatnch-page-header">
