@@ -128,10 +128,6 @@ final class HATNCH_Contacts {
 		$table = self::table_name();
 
 		if ( $id > 0 ) {
-			if ( null === self::get( $id ) ) {
-				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
-			}
-
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
 			$updated = $wpdb->update(
 				$table,
@@ -152,11 +148,6 @@ final class HATNCH_Contacts {
 
 			if ( false === $updated ) {
 				return new WP_Error( 'db_update_failed', __( 'The contact could not be updated.', 'hatnikotni-chat' ) );
-			}
-
-			// A concurrent deletion after the existence check must not report success.
-			if ( 0 === $updated && null === self::get( $id ) ) {
-				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists. Refresh the contact list and try again.', 'hatnikotni-chat' ) );
 			}
 
 			return $id;
@@ -202,15 +193,108 @@ final class HATNCH_Contacts {
 		return false === $count ? strlen( $value ) : $count;
 	}
 
-	public static function set_status( int $id, bool $active ): bool {
+	/**
+	 * Delete a contact while retaining analytics events without contact attribution.
+	 *
+	 * Both plugin tables must support transactions. If that cannot be established,
+	 * deletion is refused rather than risking partial analytics changes.
+	 *
+	 * @param int $id Contact ID.
+	 * @return bool True on successful deletion; false otherwise.
+	 */
+	public static function delete_preserving_analytics( int $id ): bool {
 		global $wpdb;
 
-		if ( $id < 1 || null === self::get( $id ) ) {
+		if ( $id < 1 ) {
 			return false;
 		}
 
+		$contacts_table  = self::table_name();
+		$analytics_table = HATNCH_Analytics::table_name();
+
+		// Confirm both plugin-owned tables support rollback before changing data.
+		foreach ( array( $contacts_table, $analytics_table ) as $table ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Inspect storage engine for plugin-owned table.
+			$status = $wpdb->get_row(
+				$wpdb->prepare( 'SHOW TABLE STATUS WHERE Name = %s', $table ),
+				ARRAY_A
+			);
+
+			if ( ! is_array( $status ) || empty( $status['Engine'] ) || 'innodb' !== strtolower( (string) $status['Engine'] ) ) {
+				return false;
+			}
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control has no cacheable result.
+		if ( false === $wpdb->query( 'START TRANSACTION' ) ) {
+			return false;
+		}
+
+		// Lock the selected contact row to prevent concurrent modifications.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prepared plugin-table locking read.
+		$contact_id = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT id FROM %i WHERE id = %d FOR UPDATE',
+				$contacts_table,
+				$id
+			)
+		);
+
+		if ( null === $contact_id || (int) $contact_id !== $id || '' !== (string) $wpdb->last_error ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control has no cacheable result.
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		// Keep historical events while removing their association to this contact.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prepared plugin-table update.
+		$updated = $wpdb->query(
+			$wpdb->prepare(
+				'UPDATE %i SET contact_reference = COALESCE(contact_reference, contact_id), contact_id = NULL WHERE contact_id = %d',
+				$analytics_table,
+				$id
+			)
+		);
+
+		if ( false === $updated ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control has no cacheable result.
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		// Delete exactly the locked contact record.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prepared plugin-table delete.
+		$deleted = $wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE id = %d',
+				$contacts_table,
+				$id
+			)
+		);
+
+		if ( 1 !== (int) $deleted ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control has no cacheable result.
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		// A failed COMMIT is treated as an unknown outcome; attempt rollback and
+		// return failure so the caller does not claim the deletion succeeded.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control has no cacheable result.
+		if ( false === $wpdb->query( 'COMMIT' ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Best-effort transaction cleanup.
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		return true;
+	}
+
+	public static function set_status( int $id, bool $active ): bool {
+		global $wpdb;
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
-		$updated = $wpdb->update(
+		return false !== $wpdb->update(
 			self::table_name(),
 			array(
 				'status'     => $active ? 1 : 0,
@@ -220,12 +304,5 @@ final class HATNCH_Contacts {
 			array( '%d', '%s' ),
 			array( '%d' )
 		);
-
-		if ( false === $updated ) {
-			return false;
-		}
-
-		// Zero affected rows is valid when status is unchanged, unless the row vanished.
-		return 0 !== $updated || null !== self::get( $id );
 	}
 }
