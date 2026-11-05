@@ -115,14 +115,12 @@ final class HATNCH_Routing {
 		global $wpdb;
 
 		if ( empty( $contacts ) ) {
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'initial_contacts_empty', 'state_key' => $state_key ) ) );
 			return null;
 		}
 
 		$lock_name = 'hatnch_rr_' . substr( hash( 'sha256', DB_NAME . '|' . $wpdb->prefix . '|' . $state_key ), 0, 48 );
 		$acquired  = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
 		if ( 1 !== (int) $acquired ) {
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'lock_failed', 'state_key' => $state_key, 'acquired' => $acquired, 'db_error' => $wpdb->last_error ) ) );
 			return null;
 		}
 
@@ -137,12 +135,12 @@ final class HATNCH_Routing {
 				} ) );
 			}
 			if ( empty( $contacts ) ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'refreshed_contacts_empty', 'state_key' => $state_key ) ) );
 				return null;
 			}
 
 			// Read the cursor directly from the database. The Options API may serve a
 			// stale value from a persistent object cache across concurrent requests.
+			$wpdb->last_error = '';
 			$state_row = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
@@ -151,7 +149,6 @@ final class HATNCH_Routing {
 				ARRAY_A
 			);
 			if ( null === $state_row && '' !== $wpdb->last_error ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_read_failed', 'state_key' => $state_key, 'db_error' => $wpdb->last_error ) ) );
 				return null;
 			}
 			$state = null !== $state_row
@@ -179,7 +176,6 @@ final class HATNCH_Routing {
 				)
 			);
 			if ( false === $write_result ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_write_failed', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'db_error' => $wpdb->last_error ) ) );
 				return null;
 			}
 
@@ -188,6 +184,7 @@ final class HATNCH_Routing {
 			wp_cache_delete( 'alloptions', 'options' );
 			wp_cache_delete( 'notoptions', 'options' );
 
+			$wpdb->last_error = '';
 			$persisted_row = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
@@ -200,15 +197,12 @@ final class HATNCH_Routing {
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
 			if ( $persisted_id !== (int) $next['id'] ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_verify_failed', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'persisted_id' => $persisted_id, 'db_error' => $wpdb->last_error ) ) );
 				return null;
 			}
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'resolved', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'previous_id' => $last_id ) ) );
 			return $next;
 		} finally {
 			$release_result = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 			if ( 1 !== (int) $release_result ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'release_unexpected', 'state_key' => $state_key, 'released' => $release_result, 'db_error' => $wpdb->last_error ) ) );
 			}
 		}
 	}
