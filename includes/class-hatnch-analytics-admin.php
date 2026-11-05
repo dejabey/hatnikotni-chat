@@ -126,7 +126,21 @@ final class HATNCH_Analytics_Admin {
 						<input type="hidden" name="action" value="hatnch_export_analytics">
 						<?php wp_nonce_field( 'hatnch_export_analytics' ); ?>
 						<label for="hatnch-export-days"><?php echo esc_html__( 'Reporting period', 'hatnikotni-chat' ); ?></label>
-						<select id="hatnch-export-days" name="days"><?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?><option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>><?php echo esc_html( sprintf( _n( '%d day', '%d days', $period, 'hatnikotni-chat' ), $period ) ); ?></option><?php endforeach; ?></select>
+						<select id="hatnch-export-days" name="days">
+							<?php foreach ( array( 7, 30, 90, 180 ) as $period ) : ?>
+								<option value="<?php echo esc_attr( $period ); ?>" <?php selected( $days, $period ); ?>>
+									<?php
+									echo esc_html(
+										sprintf(
+											/* translators: %d: number of days in the reporting period. */
+											_n( '%d day', '%d days', $period, 'hatnikotni-chat' ),
+											$period
+										)
+									);
+									?>
+								</option>
+							<?php endforeach; ?>
+						</select>
 						<?php submit_button( __( 'Export CSV', 'hatnikotni-chat' ), 'secondary', 'submit', false ); ?>
 					</form>
 				</div>
@@ -174,16 +188,15 @@ final class HATNCH_Analytics_Admin {
 		}
 	}
 
-	private static function authorize_action( string $nonce_action ): void {
+	private static function authorize_action(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
-		check_admin_referer( $nonce_action );
 	}
 
 	public static function export_csv(): void {
-		self::authorize_action( 'hatnch_export_analytics' );
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified with check_admin_referer above.
+		self::authorize_action();
+		check_admin_referer( 'hatnch_export_analytics' );
 		$days = isset( $_POST['days'] ) ? absint( $_POST['days'] ) : 30;
 		if ( ! in_array( $days, array( 7, 30, 90, 180 ), true ) ) {
 			wp_die( esc_html__( 'Invalid reporting period.', 'hatnikotni-chat' ), '', array( 'response' => 400 ) );
@@ -192,10 +205,12 @@ final class HATNCH_Analytics_Admin {
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=UTF-8' );
 		header( 'Content-Disposition: attachment; filename="hatnikotni-chat-analytics-' . gmdate( 'Y-m-d' ) . '.csv"' );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- CSV is streamed directly to the HTTP response; WP_Filesystem is not applicable to php://output.
 		$output = fopen( 'php://output', 'w' );
 		if ( false === $output ) {
 			wp_die( esc_html__( 'Could not create the report export.', 'hatnikotni-chat' ) );
 		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Write the UTF-8 BOM to the response stream, not a filesystem path.
 		fwrite( $output, "\xEF\xBB\xBF" );
 		fputcsv( $output, array( 'Section', 'Value', 'Clicks' ) );
 		foreach ( $rows as $row ) {
@@ -205,13 +220,14 @@ final class HATNCH_Analytics_Admin {
 			}
 			fputcsv( $output, array( $row['section'], $value, is_numeric( $row['clicks'] ) ? (int) $row['clicks'] : '' ) );
 		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Close the HTTP response stream opened above.
 		fclose( $output );
 		exit;
 	}
 
 	public static function delete_range(): void {
-		self::authorize_action( 'hatnch_delete_analytics_range' );
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified with check_admin_referer above.
+		self::authorize_action();
+		check_admin_referer( 'hatnch_delete_analytics_range' );
 		$confirmed = isset( $_POST['confirm_range'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['confirm_range'] ) );
 		$start = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
 		$end   = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
@@ -224,8 +240,8 @@ final class HATNCH_Analytics_Admin {
 	}
 
 	public static function delete_all(): void {
-		self::authorize_action( 'hatnch_delete_analytics_all' );
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified with check_admin_referer above.
+		self::authorize_action();
+		check_admin_referer( 'hatnch_delete_analytics_all' );
 		$confirmation = isset( $_POST['confirm_text'] ) ? sanitize_text_field( wp_unslash( $_POST['confirm_text'] ) ) : '';
 		if ( 'DELETE' !== $confirmation || is_wp_error( HATNCH_Analytics::count_events() ) ) {
 			self::redirect_notice( 'error' );
@@ -286,7 +302,11 @@ final class HATNCH_Analytics_Admin {
 					<?php
 					$reference = absint( $row['contact_reference'] ?? 0 );
 					$contact   = $reference ? HATNCH_Contacts::get( $reference ) : null;
-					$label     = $contact['name'] ?? ( $reference ? sprintf( __( 'Removed contact #%d', 'hatnikotni-chat' ), $reference ) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
+					$label     = $contact['name'] ?? ( $reference ? sprintf(
+						/* translators: %d: ID of a contact that no longer exists. */
+						__( 'Removed contact #%d', 'hatnikotni-chat' ),
+						$reference
+					) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
 					?>
 					<tr>
 						<td><?php echo esc_html( $label ); ?></td>
