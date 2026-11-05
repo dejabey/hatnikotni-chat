@@ -177,5 +177,40 @@ jobs:
           php "$RUNNER_TEMP/wp-cli.phar" --path="$WP_PATH" plugin activate hatnikotni-chat
           echo "WP_PATH=$WP_PATH" >> "$GITHUB_ENV"
           echo "WP_CLI=$RUNNER_TEMP/wp-cli.phar" >> "$GITHUB_ENV"
+      - name: Run concurrent Round Robin integration test
+        run: |
+          set -eu
+          PLUGIN_TESTS="$WP_PATH/wp-content/plugins/hatnikotni-chat/tests"
+          php "$WP_CLI" --quiet --path="$WP_PATH" eval-file "$PLUGIN_TESTS/round-robin-concurrency-setup.php"
+          RESULTS="$RUNNER_TEMP/hatnch-rr-results"
+          mkdir -p "$RESULTS"
+          pids=""
+          for worker in $(seq 1 12); do
+            php "$WP_CLI" --quiet --path="$WP_PATH" eval-file "$PLUGIN_TESTS/round-robin-concurrency-worker.php" > "$RESULTS/$worker.txt" &
+            pids="$pids $!"
+          done
+          worker_failed=0
+          for pid in $pids; do
+            if ! wait "$pid"; then
+              worker_failed=1
+            fi
+          done
+          if [ "$worker_failed" -ne 0 ]; then
+            echo "At least one concurrent Round Robin worker failed." >&2
+            exit 1
+          fi
+          mapfile -t selections < <(cat "$RESULTS"/*.txt | grep -E '^[0-9]+)
+          if [ "${#selections[@]}" -ne 12 ]; then
+            echo "Expected 12 successful contact selections; got ${#selections[@]}." >&2
+            exit 1
+          fi
+          printf '%s\\n' "${selections[@]}" | sort | uniq -c > "$RESULTS/counts.txt"
+          cat "$RESULTS/counts.txt"
+          if [ "$(wc -l < "$RESULTS/counts.txt")" -ne 2 ] || ! awk '$1 != 6 { exit 1 }' "$RESULTS/counts.txt"; then
+            echo "Round Robin did not distribute 12 concurrent selections evenly across two contacts." >&2
+            exit 1
+          fi
+          echo "PASS: 12 concurrent Round Robin requests selected each active contact exactly 6 times."
+
       - name: Run WordPress-backed migration lifecycle tests
         run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/wordpress-migration-integration.php"
