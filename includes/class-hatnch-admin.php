@@ -381,7 +381,7 @@ final class HATNCH_Admin {
 								<?php foreach ( $contacts as $contact ) : ?>
 									<tr>
 										<td><span class="hatnch-contact-id"><?php echo esc_html( (string) $contact['id'] ); ?></span></td>
-										<td><?php if ( $default_contact_id === absint( $contact['id'] ) ) : ?>
+										<td><?php if ( absint( $contact['id'] ) === $default_contact_id ) : ?>
 								<span class="hatnch-default-badge"><?php echo esc_html__( 'Default', 'hatnikotni-chat' ); ?></span>
 							<?php endif; ?>
 							<strong class="hatnch-contact-name" title="<?php echo esc_attr( $contact['name'] ); ?>"><?php echo esc_html( $contact['name'] ); ?></strong>
@@ -390,7 +390,7 @@ final class HATNCH_Admin {
 											<?php endif; ?>
 											<div class="hatnch-row-actions">
 												<a href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a>
-												<?php if ( $default_contact_id !== absint( $contact['id'] ) && 1 === (int) $contact['status'] ) : ?>
+												<?php if ( absint( $contact['id'] ) !== $default_contact_id && 1 === (int) $contact['status'] ) : ?>
 													<span aria-hidden="true">|</span>
 													<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="hatnch-row-action-form" onsubmit="return window.confirm(<?php echo esc_attr( wp_json_encode( sprintf(
 													/* translators: %1$s: contact name. */
