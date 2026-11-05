@@ -253,8 +253,8 @@ final class HATNCH_Analytics_Admin {
 	private static function redirect_notice( string $notice ): void {
 		$url = add_query_arg(
 			array(
-				'page'           => 'hatnch-analytics',
-				'hatnch_notice'  => $notice,
+				'page'          => 'hatnch-analytics',
+				'hatnch_notice' => $notice,
 			),
 			admin_url( 'admin.php' )
 		);
