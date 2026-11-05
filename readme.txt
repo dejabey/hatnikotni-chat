@@ -12,6 +12,10 @@ Lightweight WhatsApp contact routing with explicit visitor analytics choices and
 
 = 0.1.26 =
 * Fix status-update handling when a contact record no longer exists.
+* Persist and verify Round Robin cursors atomically in the database while holding the routing advisory lock, avoiding stale option-cache reads.
+* Add a concurrent WordPress/MySQL regression test for twelve simultaneous Round Robin requests.
+* Sanitize purpose-role input and harden analytics action verification and admin HTTP error responses.
+* Remove temporary Round Robin QA diagnostics.
 
 == Description ==
 
