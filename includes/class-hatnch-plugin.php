@@ -310,12 +310,12 @@ final class HATNCH_Plugin {
 			'sort_order' => array( 'sort_order' ),
 		);
 		$events_indexes   = array(
-			'PRIMARY'       => array( 'id' ),
-			'created_at'    => array( 'created_at' ),
-			'contact_date'  => array( 'contact_id', 'created_at' ),
+			'PRIMARY'                => array( 'id' ),
+			'created_at'             => array( 'created_at' ),
+			'contact_date'           => array( 'contact_id', 'created_at' ),
 			'contact_reference_date' => array( 'contact_reference', 'created_at' ),
-			'page_date'     => array( 'page_id', 'page_type', 'created_at' ),
-			'campaign_date' => array( 'utm_campaign', 'created_at' ),
+			'page_date'              => array( 'page_id', 'page_type', 'created_at' ),
+			'campaign_date'          => array( 'utm_campaign', 'created_at' ),
 		);
 
 		return self::table_has_columns( $contacts_table, $contacts_columns )
