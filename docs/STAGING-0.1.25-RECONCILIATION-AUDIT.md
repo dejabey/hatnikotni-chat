@@ -45,3 +45,28 @@ The previous near-simultaneous staging run recorded `state_verify_failed` events
 - Reconcile the full 40-file staging source into a dedicated recovery branch only after per-file provenance and tests are recorded.
 - Validate direct, random, purpose-based, sequential round-robin, and genuinely concurrent round-robin behavior against the target database before release.
 - Keep production release on HOLD until runtime, privacy/consent, accessibility, browser, Plugin Check, and package-provenance gates pass.
+
+
+## Detailed routing source review — 2026-11-05
+
+The supplied 0.1.25 `includes/class-hatnch-routing.php` implements:
+- Global Direct, Random and Round Robin routing.
+- Purpose-to-role allow-list mapping with global fallback for unknown purposes or empty eligible roles.
+- Role-specific round-robin cursor keys (`hatnch_rr_<role>`) separate from the global cursor (`hatnch_routing_state`).
+- MySQL/MariaDB advisory locks via `GET_LOCK(..., 5)` and `RELEASE_LOCK(...)`, with lock failure returning no contact.
+- Cursor persistence and verification through WordPress `get_option()` / `update_option()`.
+- QA logging through `error_log('[HATNCH_QA322] ...')` at empty-contact, lock-failure, state-verification, resolved and release-unexpected stages.
+
+### Concurrency review
+
+The advisory lock serializes the critical section only when all requests use the same database connection/session semantics and the database supports named locks. The source then reads and writes cursor state through the WordPress Options API. Because the staging test observed a selected cursor that differed from the value returned by the subsequent read, object-cache interaction and persistence behavior require isolation testing. This is a diagnostic hypothesis, not a proven cause. The source also does not check the return value of `update_option()`; the subsequent read is its only verification.
+
+The current evidence does not justify claiming that the round-robin defect is fixed. A correction should be tested against the actual staging database with cache enabled/disabled and real parallel requests. Do not change the live cursor or clear the diagnostic log during these tests.
+
+### Purpose routing behavior
+
+The supplied purpose-routing documentation says Random chooses an eligible contact at random and Round Robin rotates independently per role. In the supplied PHP source, global Random uses weighted selection, while purpose-role Random uses uniform `wp_rand(0, count - 1)` selection. This is a behavior difference worth explicitly deciding and documenting; it must not be silently changed during concurrency remediation.
+
+## Changelog provenance discrepancy
+
+The supplied archive's `CHANGELOG.md` labels its 0.1.8 entry as an Analytics visual refresh and includes an unreleased Analytics Management section describing schema 1.2.0. Conversation-recovered version notes separately associate 0.1.8 with Analytics Management and 0.1.9 with visual refresh. These records conflict. Preserve both pieces of evidence and do not publish the version-history table as a verified canonical changelog until the original versioned artifacts/commits or dated handoffs resolve the discrepancy.
