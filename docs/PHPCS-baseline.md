@@ -1,23 +1,17 @@
-# WordPress Coding Standards baseline
+# WordPress Coding Standards
 
-## Snapshot
+## Current status
 
-The full-repository PHPCS run in GitHub Actions Build #753 (5 November 2026) reported existing findings in files outside the 0.1.26 contact-status patch:
+The full-repository PHPCS audit completed with **zero errors and zero warnings** in GitHub Actions run #833 on 5 November 2026.
 
-| File | Errors | Warnings |
-|---|---:|---:|
-| `includes/class-hatnch-analytics.php` | 10 | 10 |
-| `includes/class-hatnch-routing.php` | 21 | 15 |
-| `includes/class-hatnch-analytics-admin.php` | 8 | 9 |
-| `includes/class-hatnch-admin.php` | 46 | 21 |
-| `includes/class-hatnch-whatsapp.php` | 6 | 7 |
-| `includes/class-hatnch-plugin.php` | 0 | 5 |
-| **Total** | **91** | **67** |
+The previous 91-error / 67-warning baseline from Build #753 has been resolved. No legacy PHPCS baseline is being carried forward.
 
-These findings include formatting violations and substantive issues such as output escaping, nonce verification, sanitization, prepared SQL, and translator comments. They must not be silenced or mass-reformatted without reviewing the affected code and its behavior.
+## Continuous enforcement
 
-## Incremental enforcement
+- The workflow runs PHPCS against all production PHP files on PHP 8.1.
+- The full-repository PHPCS step is a required CI gate; any error or warning fails the job.
+- The incremental changed-line check also runs across the PHP 8.1–8.5 matrix.
+- No broad PHPCS exclusions or blanket suppressions are used.
+- Any justified exception for an operation that cannot use the WordPress Filesystem API must include a local explanation.
 
-The validation workflow now runs PHPCS against changed production PHP files in each pull request. This prevents unrelated legacy findings from blocking a narrowly scoped patch while ensuring newly changed production PHP is checked.
-
-This is an incremental gate, not a claim that the whole plugin currently passes WordPress Coding Standards. The full-repository backlog remains open and should be resolved in separately scoped, reviewed changes. Do not add broad PHPCS exclusions to hide these findings.
+This document records the current clean baseline. Update it only after a full-repository PHPCS run confirms a new clean state.
