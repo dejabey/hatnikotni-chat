@@ -316,7 +316,7 @@ final class HATNCH_Contacts {
 		}
 
 		// A zero-row update can mean an unchanged value or a missing contact.
-		// Verify existence so callers do not report a vanished contact as updated.
+		// Verify existence so callers never report a missing contact as updated.
 		return 0 !== $result || null !== self::get( $id );
 	}
 }
