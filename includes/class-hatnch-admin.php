@@ -390,7 +390,7 @@ final class HATNCH_Admin {
 		$contacts           = HATNCH_Contacts::get_all();
 		$default_contact_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selector; mutations require a separate nonce-protected POST.
-		$is_new             = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
+		$is_new = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) );
 		?>
 		<div class="wrap hatnch-admin">
 			<header class="hatnch-page-header">
@@ -467,8 +467,8 @@ final class HATNCH_Admin {
 							<?php else : ?>
 								<?php foreach ( $contacts as $contact ) : ?>
 									<?php
-									$contact_id = absint( $contact['id'] );
-									$is_default = $contact_id === $default_contact_id;
+									$contact_id               = absint( $contact['id'] );
+									$is_default                = $contact_id === $default_contact_id;
 									$set_default_confirmation = sprintf(
 										/* translators: %1$s: contact name. */
 										__( 'Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active.', 'hatnikotni-chat' ),
