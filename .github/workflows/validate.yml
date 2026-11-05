@@ -110,6 +110,10 @@ jobs:
           if ignored_legacy:
               print(f"Existing findings on untouched lines: {ignored_legacy} (tracked as legacy baseline).")
           PY
+      - name: Audit full repository PHPCS baseline
+        if: matrix.php-version == '8.1'
+        continue-on-error: true
+        run: vendor/bin/phpcs --standard=phpcs.xml.dist --report=full || true
 
   package:
     name: Build production package
