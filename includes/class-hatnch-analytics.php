@@ -242,7 +242,7 @@ final class HATNCH_Analytics {
 				__( 'Removed contact #%d', 'hatnikotni-chat' ),
 				$ref
 			) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
-			$rows[]  = array(
+			$rows[] = array(
 				'section' => 'By Contact',
 				'value'   => $label,
 				'clicks'  => (int) $row['total'],
