@@ -201,8 +201,9 @@ final class HATNCH_Routing {
 				: (int) $next['id'];
 			$write_result = $wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'no' ) ON DUPLICATE KEY UPDATE option_value = VALUES( option_value ), autoload = VALUES( autoload )",
+					"INSERT INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'no' ) ON DUPLICATE KEY UPDATE option_value = %s, autoload = 'no'",
 					$state_key,
+					maybe_serialize( $saved ),
 					maybe_serialize( $saved )
 				)
 			);
