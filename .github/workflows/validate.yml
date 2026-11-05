@@ -199,12 +199,12 @@ jobs:
             echo "At least one concurrent Round Robin worker failed." >&2
             exit 1
           fi
-          mapfile -t selections < <(cat "$RESULTS"/*.txt | grep -E '^[0-9]+)
+          mapfile -t selections < <(awk 'NF == 1 && $1 ~ /^[0-9][0-9]*$/ { print $1 }' "$RESULTS"/*.txt)
           if [ "${#selections[@]}" -ne 12 ]; then
             echo "Expected 12 successful contact selections; got ${#selections[@]}." >&2
             exit 1
           fi
-          printf '%s\\n' "${selections[@]}" | sort | uniq -c > "$RESULTS/counts.txt"
+          printf '%s\n' "${selections[@]}" | sort | uniq -c > "$RESULTS/counts.txt"
           cat "$RESULTS/counts.txt"
           if [ "$(wc -l < "$RESULTS/counts.txt")" -ne 2 ] || ! awk '$1 != 6 { exit 1 }' "$RESULTS/counts.txt"; then
             echo "Round Robin did not distribute 12 concurrent selections evenly across two contacts." >&2
