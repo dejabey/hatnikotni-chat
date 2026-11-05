@@ -188,12 +188,19 @@ final class HATNCH_Analytics {
 	public static function delete_events( ?array $range = null ): int|WP_Error {
 		global $wpdb;
 		if ( null === $range ) {
-			$sql = $wpdb->prepare( 'DELETE FROM %i', self::table_name() );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
+			$deleted = $wpdb->query( $wpdb->prepare( 'DELETE FROM %i', self::table_name() ) );
 		} else {
-			$sql = $wpdb->prepare( 'DELETE FROM %i WHERE created_at >= %s AND created_at < %s', self::table_name(), $range['start'], $range['end'] );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
+			$deleted = $wpdb->query(
+				$wpdb->prepare(
+					'DELETE FROM %i WHERE created_at >= %s AND created_at < %s',
+					self::table_name(),
+					$range['start'],
+					$range['end']
+				)
+			);
 		}
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
-		$deleted = $wpdb->query( $sql );
 		return false === $deleted ? new WP_Error( 'analytics_delete_failed', __( 'Analytics records could not be deleted.', 'hatnikotni-chat' ) ) : (int) $deleted;
 	}
 
