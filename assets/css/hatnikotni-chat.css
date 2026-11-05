@@ -44,6 +44,8 @@
 }
 
 .hatnch-floating {
+	position: relative;
+	z-index: 1;
 	background: #25d366;
 	border-radius: 999px;
 	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
@@ -74,31 +76,30 @@
 
 .hatnch-privacy-toggle {
 	align-items: center;
-	background: rgba(255, 255, 255, .96);
-	border: 1px solid #d8dee7;
-	border-radius: 50%;
-	box-shadow: 0 3px 10px rgba(15, 23, 42, .12);
-	color: #596273;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	color: #172033;
 	cursor: pointer;
 	display: inline-flex;
-	flex: 0 0 36px;
-	height: 36px;
+	flex: 0 0 48px;
+	height: 48px;
+	position: relative;
+	z-index: 0;
+	margin-right: -24px;
 	justify-content: center;
 	padding: 0;
-	transition: color .15s ease, background-color .15s ease, box-shadow .15s ease;
-	width: 36px;
+	transition: color .15s ease;
+	width: 48px;
 }
-
-.hatnch-privacy-toggle:hover {
-	background: #fff;
-	box-shadow: 0 4px 12px rgba(15, 23, 42, .16);
-	color: #243044;
-}
+.hatnch-privacy-toggle:hover { color: #000; }
 
 .hatnch-privacy-toggle__icon {
 	display: block;
 	fill: none;
-	height: 18px;
+	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .45));
+	height: 22px;
 	stroke: currentColor;
 	stroke-linecap: round;
 	stroke-linejoin: round;
@@ -123,7 +124,7 @@
 	margin-bottom: 0;
 	max-height: min(60vh, 240px);
 	overflow-y: auto;
-	padding: 7px 5px;
+	padding: 7px 10px;
 	width: min(240px, calc(100vw - 24px));
 }
 
@@ -134,10 +135,11 @@
 .hatnch-privacy-links {
 	align-items: center;
 	display: flex;
-	font-size: 10px;
-	justify-content: space-between;
+	font-size: 11px;
+	justify-content: flex-start;
+	gap: 14px;
 	line-height: 1.3;
-	margin-top: 7px;
+	margin-top: 2px;
 }
 
 .hatnch-privacy-read-more {
@@ -155,11 +157,10 @@
 }
 
 .hatnch-privacy-explanation {
-	font-size: 10px !important;
-	line-height: 1.35 !important;
-	margin: 7px 0 0 !important;
-	text-align: justify;
-	text-justify: inter-word;
+	font-size: 11px !important;
+	line-height: 1.4 !important;
+	margin: 5px 0 0 !important;
+	text-align: left;
 }
 
 .hatnch-privacy-consent {
@@ -301,4 +302,85 @@
 	.hatnch-button {
 		transition: none;
 	}
+}
+
+/* Purpose chooser */
+.hatnch-purpose-panel{position:fixed;z-index:99998;right:24px;bottom:92px;width:min(340px,calc(100vw - 32px));padding:18px;background:#fff;color:#222;border:1px solid rgba(0,0,0,.12);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.hatnch-purpose-panel[hidden]{display:none}
+.hatnch-purpose-panel__header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hatnch-purpose-panel__header h2{font-size:18px;line-height:1.3;margin:0}
+.hatnch-purpose-panel__header button{font-size:24px;line-height:1;border:0;background:transparent;cursor:pointer;padding:4px 8px}
+.hatnch-purpose-option{display:block;margin:8px 0;padding:11px 12px;border:1px solid #ddd;border-radius:8px;color:inherit;text-decoration:none;font-weight:600}
+.hatnch-purpose-option:hover,.hatnch-purpose-option:focus{border-color:#25a85a;outline-offset:2px}
+.hatnch-purpose-note{font-size:12px;line-height:1.5;color:#555}
+@media (max-width:480px){.hatnch-purpose-panel{right:16px;bottom:84px}}
+
+/* Privacy control tucks behind the primary WhatsApp action while retaining a usable hit area. */
+.hatnch-widget--left .hatnch-privacy-toggle { margin-right: -24px; margin-left: 0; }
+.hatnch-widget--left .hatnch-floating { order: 2; }
+.hatnch-widget--left .hatnch-privacy-toggle { order: 1; }
+.hatnch-widget--right .hatnch-privacy-toggle { order: 1; }
+.hatnch-widget--right .hatnch-floating { order: 2; }
+@media (max-width: 480px) {
+  .hatnch-privacy-toggle { flex-basis: 40px; height: 40px; width: 40px; margin-right: -20px; }
+  .hatnch-widget--left .hatnch-privacy-toggle { margin-right: -20px; }
+}
+
+/* 0.1.23 visual refinement: keep the WhatsApp action clean and the privacy control legible. */
+.hatnch-floating {
+	border: 0 !important;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
+}
+.hatnch-floating:hover,
+.hatnch-floating:focus-visible {
+	border: 0 !important;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, .2);
+}
+.hatnch-privacy-toggle {
+	color: #111827;
+	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35));
+}
+.hatnch-privacy-toggle__icon {
+	height: 28px;
+	width: 25px;
+	stroke-width: 2.1;
+}
+.hatnch-privacy-toggle:hover { color: #000; }
+.hatnch-privacy-links {
+	gap: 10px;
+	justify-content: space-between;
+}
+.hatnch-privacy-explanation { max-width: 34ch; }
+.hatnch-purpose-panel {
+	box-sizing: border-box;
+	max-height: min(76dvh, 680px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+.hatnch-purpose-option {
+	line-height: 1.35;
+	margin: 7px 0;
+	padding: 12px 14px;
+}
+.hatnch-purpose-note { margin: 10px 0 0; }
+.hatnch-purpose-support { margin: 8px 0 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+	.hatnch-purpose-panel {
+		left: 12px;
+		right: 12px;
+		bottom: max(12px, env(safe-area-inset-bottom));
+		width: auto;
+		max-height: min(76dvh, 680px);
+		padding: 16px;
+		border-radius: 16px;
+	}
+	.hatnch-purpose-panel__header h2 { font-size: 20px; }
+	.hatnch-purpose-option { min-height: 48px; display: flex; align-items: center; }
+	.hatnch-widget { bottom: max(16px, env(safe-area-inset-bottom)); }
+	.hatnch-widget--right { right: 14px; }
+	.hatnch-widget--left { left: 14px; }
+	.hatnch-privacy-toggle__icon { height: 27px; width: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.hatnch-floating { transition: none; }
 }

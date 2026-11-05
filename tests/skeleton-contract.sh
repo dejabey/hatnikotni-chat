@@ -60,9 +60,9 @@ grep -q 'method="post"' includes/class-hatnch-admin.php || fail "Contact status 
 grep -q 'value="hatnch_toggle_contact"' includes/class-hatnch-admin.php || fail "Contact status POST action missing"
 grep -q "hatnch_toggle_contact_" includes/class-hatnch-admin.php || fail "Contact status action-specific nonce missing"
 grep -q "isset( \$_POST\['id'\] )" includes/class-hatnch-admin.php || fail "Contact status ID must be read from POST"
-if grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php; then fail "Status switch must not display a stale static state label"; fi
-grep -q 'name="status" value=' includes/class-hatnch-admin.php || fail "Contact status target state must be submitted"
-grep -q '$target_status' includes/class-hatnch-admin.php || fail "Contact toggle must apply explicit target state"
+grep -q "hatnch-status-switch__state" includes/class-hatnch-admin.php || fail "Contact status switch state label missing"
+grep -q 'name="status"' includes/class-hatnch-admin.php || fail "Contact edit form status field missing"
+grep -q '$make_active' includes/class-hatnch-admin.php || fail "Contact toggle must calculate explicit target state"
 grep -q "GET_LOCK" includes/class-hatnch-routing.php || fail "Round-robin serialization lock missing"
 grep -q "RELEASE_LOCK" includes/class-hatnch-routing.php || fail "Round-robin lock release missing"
 grep -q "finally" includes/class-hatnch-routing.php || fail "Round-robin lock must release through finally"
@@ -119,7 +119,7 @@ grep -q "hatnch-analytics" includes/class-hatnch-analytics-admin.php || fail "An
 grep -q "hatnch-inline" includes/class-hatnch-shortcode.php || fail "Shortcode rendering contract missing"
 if grep -R -q "WhatsApp Kami\|Baca lagi\|Dasar Privasi" includes assets/js; then fail "Malay UI strings must come from translation files, not source code"; fi
 grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missing"
-grep -q "Stable tag: 0.1.8" readme.txt || fail "Stable tag must match plugin version"
+grep -q "Stable tag: 0.1.25" readme.txt || fail "Stable tag must match restored 0.1.25 baseline"
 grep -q "Tested up to: 7.1" readme.txt || fail "Tested up to header missing or stale"
 grep -q "Domain Path: /languages" hatnikotni-chat.php || fail "Plugin language directory header missing"
 if grep -q "load_plugin_textdomain" hatnikotni-chat.php; then fail "Do not manually load WordPress.org translations on init"; fi

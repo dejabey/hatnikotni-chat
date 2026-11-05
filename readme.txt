@@ -2,7 +2,7 @@
 Requires at least: 6.6
 Requires PHP: 8.1
 Tested up to: 7.1
-Stable tag: 0.1.8
+Stable tag: 0.1.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Features include:
 
 * Floating WhatsApp button.
 * Shortcode: [hatnikotni_chat]
-* Contact management.
+* Contact management with edit, activation controls and permanent deletion.
 * Direct, random and round-robin routing.
 * Explicit opt-in/opt-out controls for first-party WhatsApp click analytics.
 * UTM campaign attribution when analytics consent is granted.
@@ -55,6 +55,14 @@ The plugin also provides suggested privacy-policy text through WordPress's Priva
 4. Configure the default contact, message, button and routing settings.
 5. Test the privacy choices, WhatsApp button and routing on staging before production use.
 
+== Contact management ==
+
+Contact changes are restricted to administrators with the required capability. Contact creation, editing, activation/deactivation and deletion use nonce-protected administrative requests.
+
+Permanent deletion cannot be undone. Historical analytics events are retained, but their association with the deleted contact is removed. If the deleted contact is configured as Default Contact, that setting is cleared; the plugin does not silently choose another recipient. Direct routing then remains without a recipient until an administrator selects another active contact.
+
+The current Default Contact cannot be deactivated. Select another active Default Contact before deactivating it. The delete confirmation calls out the routing consequence when deleting the current Default Contact.
+
 == Frequently Asked Questions ==
 
 = Does analytics run automatically? =
@@ -89,6 +97,25 @@ No. WooCommerce is a future optional integration and is not required by the core
 4. WhatsApp interaction analytics.
 
 == Changelog ==
+
+= 0.1.24 =
+* Removed redundant table-scroll guidance beneath the Contacts table while preserving its real horizontal scrolling behavior.
+* Tightened Analytics table layout: two-column reports wrap long values within their cards and no longer expose unnecessary horizontal scrolling.
+* Retained the existing admin workspace navigation and all routing, consent, and analytics behavior.
+
+
+= 0.1.23 =
+* Refined mobile purpose chooser sizing, safe-area spacing, scroll behavior, and option touch targets.
+* Improved privacy shield visibility and compacted privacy links.
+* Removed theme-derived border styling from the primary WhatsApp action while preserving visible keyboard focus.
+
+
+= 0.1.19 =
+* Added optional purpose-based routing for the floating WhatsApp button.
+* Added standardized contact roles, purpose-to-role mapping, and optional support email.
+* Preserved legacy shortcode and global routing behavior when the feature is disabled.
+
+
 
 = 0.1.8 =
 * Fixed production ZIP structure so the archive contains the stable `hatnikotni-chat/` plugin directory.
@@ -144,3 +171,52 @@ Fixes the ZIP directory structure so WordPress can identify the package as an up
 
 = 0.1.6 =
 Fixes the Contact Us critical error and further compacts the privacy controls. Validate the WhatsApp redirect and both consent states on staging before production use.
+
+
+== Analytics management ==
+
+Administrators can export aggregate CSV reports for 7, 30, 90, or 180 days. Exports omit contact phone numbers, raw event IDs, and visitor identifiers.
+
+Analytics events can be deleted by inclusive date range (WordPress site timezone) or cleared entirely after typing DELETE. These operations do not remove contacts or routing settings. Analytics retention remains 180 days.
+
+When a contact is permanently deleted, future event attribution retains a numeric, non-identifying contact reference and displays Removed contact #ID. Historical events that were already anonymized without a reference remain Unknown / removed.
+
+
+## 0.1.18 — Open WhatsApp destination in a new tab (staging candidate)
+- Set the inline shortcode Contact Us link and floating WhatsApp button to open the click-tracking endpoint in a new tab.
+- Added `rel="noopener noreferrer"` to outbound-opening anchors.
+- Kept the existing server-side routing, consent-aware analytics recording, and destination selection unchanged.
+- The click opens the local WordPress tracking endpoint in a new tab, which then redirects that tab to WhatsApp.
+- Round Robin functional verification remains pending.
+
+
+== Extension points ==
+
+Hatnikotni Chat is a reusable contact-routing core. Optional companion plugins can extend supported behavior without editing core files.
+
+- `hatnch_purpose_definitions`: Filter visitor-facing purpose definitions. Return an associative array keyed by sanitized purpose ID, each containing a non-empty `label`.
+- `hatnch_purpose_role_routes`: Filter purpose ID to contact-role routing mappings. Keys must correspond to registered purpose IDs; values are role IDs.
+- `hatnch_allowed_contact_roles`: Filter permitted contact role IDs for purpose routing.
+- `hatnch_admin_extension_panels`: Filter extension settings panel descriptors. Each descriptor may contain `title` and a trusted callable `callback` that renders escaped settings markup.
+
+Extension modules must perform their own capability checks, nonce validation, input validation, output escaping, uninstall/data-retention policy, and compatibility checks. Do not trust purpose, role, phone, or contact destination values supplied in public request parameters.
+
+Purpose routing currently provides a configurable route map for the built-in purpose IDs. Registering a custom visitor purpose alone does not add custom admin mapping controls or a form workflow. Extensions supplying new purposes must also provide a valid role route and any required UI/configuration independently.
+
+== Changelog ==
+
+= 0.1.20 =
+* Generalized purpose chooser language for broader plugin reuse.
+* Added compact keyboard-operable settings tabs and an Extensions settings surface.
+* Added filters for purpose definitions, purpose-to-role mappings, permitted roles, and extension admin panels.
+* No database schema changes.
+
+
+= 0.1.21 =
+
+* Added consistent workspace navigation between General, Contacts and Analytics screens.
+* Preserved the active Setup, Routing or Extensions tab after settings are saved.
+* Refined the privacy notice spacing and shortened its explanatory copy.
+* Adjusted the floating privacy control to sit partially behind the WhatsApp action.
+* Kept existing consent choice behavior and global routing implementation.
+* Added keyboard-operable workspace links and retained existing admin page slugs.
