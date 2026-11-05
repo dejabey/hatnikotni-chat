@@ -39,11 +39,11 @@ final class HATNCH_WhatsApp {
 
 		// Only a fixed allow-list is accepted; the request never supplies a destination or role.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click-through route selector; allow-listed below.
-		$purpose = isset( $_GET['hatnch_purpose'] ) && is_scalar( $_GET['hatnch_purpose'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_purpose'] ) ) : '';
-		$purpose_ids = array_keys( self::purpose_definitions() );
+		$purpose         = isset( $_GET['hatnch_purpose'] ) && is_scalar( $_GET['hatnch_purpose'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_purpose'] ) ) : '';
+		$purpose_ids     = array_keys( self::purpose_definitions() );
 		$purpose_enabled = (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false );
-		$routing = new HATNCH_Routing();
-		$contact = $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? $routing->resolve_purpose( $purpose ) : $routing->resolve();
+		$routing         = new HATNCH_Routing();
+		$contact         = $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? $routing->resolve_purpose( $purpose ) : $routing->resolve();
 
 		if ( ! is_array( $contact ) || empty( $contact['phone'] ) ) {
 			wp_safe_redirect( home_url( '/' ) );
@@ -230,7 +230,19 @@ final class HATNCH_WhatsApp {
 						<a class="hatnch-purpose-option" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( add_query_arg( 'hatnch_purpose', $purpose_id, $url ) ); ?>"><?php echo esc_html( $purpose_definition['label'] ); ?></a>
 					<?php endforeach; ?>
 					<p class="hatnch-purpose-note"><?php echo esc_html__( 'For complex matters, use the support channel provided by this website.', 'hatnikotni-chat' ); ?></p>
-					<?php $support_url = esc_url( (string) HATNCH_Settings::get( 'support_url', '' ), array( 'http', 'https' ) ); $support_email = sanitize_email( (string) HATNCH_Settings::get( 'support_email', '' ) ); if ( $support_url ) : ?><p class="hatnch-purpose-support"><a href="<?php echo esc_url( $support_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Open Support Page', 'hatnikotni-chat' ); ?></a></p><?php elseif ( $support_email ) : ?><p class="hatnch-purpose-support"><a href="<?php echo esc_url( 'mailto:' . $support_email ); ?>"><?php echo esc_html( $support_email ); ?></a></p><?php endif; ?>
+					<?php
+					$support_url   = esc_url( (string) HATNCH_Settings::get( 'support_url', '' ), array( 'http', 'https' ) );
+					$support_email = sanitize_email( (string) HATNCH_Settings::get( 'support_email', '' ) );
+					?>
+					<?php if ( $support_url ) : ?>
+						<p class="hatnch-purpose-support">
+							<a href="<?php echo esc_url( $support_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Open Support Page', 'hatnikotni-chat' ); ?></a>
+						</p>
+					<?php elseif ( $support_email ) : ?>
+						<p class="hatnch-purpose-support">
+							<a href="<?php echo esc_url( 'mailto:' . $support_email ); ?>"><?php echo esc_html( $support_email ); ?></a>
+						</p>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -245,17 +257,21 @@ final class HATNCH_WhatsApp {
 	 */
 	public static function purpose_definitions(): array {
 		$definitions = array(
-			'general_enquiries' => array( 'label' => __( 'General Enquiries', 'hatnikotni-chat' ) ),
-			'listing_assistance' => array( 'label' => __( 'Customer Support', 'hatnikotni-chat' ) ),
+			'general_enquiries'     => array( 'label' => __( 'General Enquiries', 'hatnikotni-chat' ) ),
+			'listing_assistance'    => array( 'label' => __( 'Customer Support', 'hatnikotni-chat' ) ),
 			'business_partnerships' => array( 'label' => __( 'Sales & Partnerships', 'hatnikotni-chat' ) ),
-			'technical_question' => array( 'label' => __( 'Technical Support', 'hatnikotni-chat' ) ),
+			'technical_question'    => array( 'label' => __( 'Technical Support', 'hatnikotni-chat' ) ),
 		);
 		$definitions = apply_filters( 'hatnch_purpose_definitions', $definitions );
-		if ( ! is_array( $definitions ) ) { return array(); }
+		if ( ! is_array( $definitions ) ) {
+			return array();
+		}
 		$safe = array();
 		foreach ( $definitions as $key => $definition ) {
 			$key = is_string( $key ) ? sanitize_key( $key ) : '';
-			if ( '' === $key || ! is_array( $definition ) || empty( $definition['label'] ) || ! is_scalar( $definition['label'] ) ) { continue; }
+			if ( '' === $key || ! is_array( $definition ) || empty( $definition['label'] ) || ! is_scalar( $definition['label'] ) ) {
+				continue;
+			}
 			$safe[ $key ] = array( 'label' => sanitize_text_field( (string) $definition['label'] ) );
 		}
 		return $safe;
