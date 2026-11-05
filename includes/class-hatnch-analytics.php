@@ -170,17 +170,19 @@ final class HATNCH_Analytics {
 	public static function count_events( ?array $range = null ): int|WP_Error {
 		global $wpdb;
 		if ( null === $range ) {
-			$sql = $wpdb->prepare( 'SELECT COUNT(*) FROM %i', self::table_name() );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
+			$count = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', self::table_name() ) );
 		} else {
-			$sql = $wpdb->prepare(
-				'SELECT COUNT(*) FROM %i WHERE created_at >= %s AND created_at < %s',
-				self::table_name(),
-				$range['start'],
-				$range['end']
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					'SELECT COUNT(*) FROM %i WHERE created_at >= %s AND created_at < %s',
+					self::table_name(),
+					$range['start'],
+					$range['end']
+				)
 			);
 		}
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
-		$count = $wpdb->get_var( $sql );
 		return '' !== (string) $wpdb->last_error ? new WP_Error( 'analytics_count_failed', __( 'Could not count analytics records.', 'hatnikotni-chat' ) ) : (int) $count;
 	}
 
