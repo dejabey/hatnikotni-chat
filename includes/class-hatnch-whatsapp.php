@@ -60,7 +60,11 @@ final class HATNCH_WhatsApp {
 		$message = isset( $_GET['hatnch_message'] ) && is_scalar( $_GET['hatnch_message'] )
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; sanitize before building the WhatsApp URL.
 			? sanitize_text_field( wp_unslash( $_GET['hatnch_message'] ) )
-			: ( $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? sprintf( __( 'Hello, I would like to contact your team regarding %s. Can you assist me?', 'hatnikotni-chat' ), self::purpose_label( $purpose ) ) : (string) HATNCH_Settings::get( 'default_message', '' ) );
+			: ( $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? sprintf(
+				/* translators: %s: visitor-selected enquiry purpose. */
+				__( 'Hello, I would like to contact your team regarding %s. Can you assist me?', 'hatnikotni-chat' ),
+				self::purpose_label( $purpose )
+			) : (string) HATNCH_Settings::get( 'default_message', '' ) );
 
 		HATNCH_Analytics::record_click(
 			array(
