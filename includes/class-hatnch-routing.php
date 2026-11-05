@@ -172,7 +172,7 @@ final class HATNCH_Routing {
 			// Read the cursor directly from the database. The Options API may serve a
 			// stale value from a persistent object cache across concurrent requests.
 			$wpdb->last_error = '';
-			$state_row = $wpdb->get_row(
+			$state_row        = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
 					$state_key
@@ -182,13 +182,13 @@ final class HATNCH_Routing {
 			if ( null === $state_row && '' !== $wpdb->last_error ) {
 				return null;
 			}
-			$state = null !== $state_row
+			$state   = null !== $state_row
 				? maybe_unserialize( $state_row['option_value'] )
 				: ( $structured_state ? array() : 0 );
 			$last_id = $structured_state
 				? ( is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $state );
-			$next = $contacts[0];
+			$next    = $contacts[0];
 			foreach ( $contacts as $index => $contact ) {
 				if ( $last_id === (int) $contact['id'] ) {
 					$next = $contacts[ ( $index + 1 ) % count( $contacts ) ];
@@ -216,15 +216,15 @@ final class HATNCH_Routing {
 			wp_cache_delete( 'notoptions', 'options' );
 
 			$wpdb->last_error = '';
-			$persisted_row = $wpdb->get_row(
+			$persisted_row  = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
 					$state_key
 				),
 				ARRAY_A
 			);
-			$persisted    = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
-			$persisted_id = $structured_state
+			$persisted        = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
+			$persisted_id     = $structured_state
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
 			if ( $persisted_id !== (int) $next['id'] ) {
