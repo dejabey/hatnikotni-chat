@@ -7,6 +7,7 @@ on:
       - 'dev/**'
       - 'feature/**'
       - 'release/**'
+      - 'fix/**'
       - 'wordpress-org-compliance'
   pull_request:
 
