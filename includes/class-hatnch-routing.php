@@ -34,44 +34,70 @@ final class HATNCH_Routing {
 
 	/** Resolve an allow-listed support role, preserving the global fallback. */
 	public function resolve_purpose( string $purpose ): ?array {
-		$routes = apply_filters( 'hatnch_purpose_role_routes', array(
-			'general_enquiries' => 'general_enquiries',
-			'listing_assistance' => 'business_support',
-			'business_partnerships' => 'partnerships',
-			'technical_question' => 'business_support',
-		) );
-		if ( ! is_array( $routes ) ) { return $this->resolve(); }
+		$routes = apply_filters(
+			'hatnch_purpose_role_routes',
+			array(
+				'general_enquiries'     => 'general_enquiries',
+				'listing_assistance'    => 'business_support',
+				'business_partnerships' => 'partnerships',
+				'technical_question'    => 'business_support',
+			)
+		);
+
+		if ( ! is_array( $routes ) ) {
+			return $this->resolve();
+		}
+
 		$routes = array_filter( $routes, 'is_string' );
 		if ( ! isset( $routes[ $purpose ] ) ) {
 			return $this->resolve();
 		}
-		$map = HATNCH_Settings::get( 'purpose_roles', array() );
+
+		$map  = HATNCH_Settings::get( 'purpose_roles', array() );
 		$role = is_array( $map ) && isset( $map[ $purpose ] ) ? sanitize_key( $map[ $purpose ] ) : $routes[ $purpose ];
-		$allowed_roles = apply_filters( 'hatnch_allowed_contact_roles', array( 'general_enquiries', 'business_support', 'partnerships' ) );
-		if ( ! is_array( $allowed_roles ) ) { $allowed_roles = array(); }
+
+		$allowed_roles = apply_filters(
+			'hatnch_allowed_contact_roles',
+			array( 'general_enquiries', 'business_support', 'partnerships' )
+		);
+		if ( ! is_array( $allowed_roles ) ) {
+			$allowed_roles = array();
+		}
+
 		$allowed_roles = array_map( 'sanitize_key', $allowed_roles );
 		if ( ! in_array( $role, $allowed_roles, true ) ) {
 			return $this->resolve();
 		}
-		$eligible = array_values( array_filter( HATNCH_Contacts::get_active(), static function ( $contact ) use ( $role ) {
-			return isset( $contact['role'] ) && $role === $contact['role'];
-		} ) );
+
+		$eligible = array_values(
+			array_filter(
+				HATNCH_Contacts::get_active(),
+				static function ( $contact ) use ( $role ) {
+					return isset( $contact['role'] ) && $role === $contact['role'];
+				}
+			)
+		);
+
 		if ( empty( $eligible ) ) {
 			return $this->resolve();
 		}
+
 		$method = HATNCH_Settings::get( 'routing_method', 'direct' );
 		if ( 'random' === $method ) {
 			return $eligible[ wp_rand( 0, count( $eligible ) - 1 ) ];
 		}
+
 		if ( 'round_robin' === $method ) {
 			return $this->resolve_round_robin_from_set( $eligible, 'hatnch_rr_' . $role, false );
 		}
+
 		$default_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
 		foreach ( $eligible as $contact ) {
 			if ( $default_id === (int) $contact['id'] ) {
 				return $contact;
 			}
 		}
+
 		return $eligible[0];
 	}
 
@@ -115,14 +141,12 @@ final class HATNCH_Routing {
 		global $wpdb;
 
 		if ( empty( $contacts ) ) {
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'initial_contacts_empty', 'state_key' => $state_key ) ) );
 			return null;
 		}
 
 		$lock_name = 'hatnch_rr_' . substr( hash( 'sha256', DB_NAME . '|' . $wpdb->prefix . '|' . $state_key ), 0, 48 );
 		$acquired  = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
 		if ( 1 !== (int) $acquired ) {
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'lock_failed', 'state_key' => $state_key, 'acquired' => $acquired, 'db_error' => $wpdb->last_error ) ) );
 			return null;
 		}
 
@@ -131,21 +155,40 @@ final class HATNCH_Routing {
 			if ( self::STATE_OPTION === $state_key ) {
 				$contacts = HATNCH_Contacts::get_active();
 			} else {
-				$role = substr( $state_key, strlen( 'hatnch_rr_' ) );
-				$contacts = array_values( array_filter( HATNCH_Contacts::get_active(), static function ( $contact ) use ( $role ) {
-					return isset( $contact['role'] ) && $role === $contact['role'];
-				} ) );
+				$role     = substr( $state_key, strlen( 'hatnch_rr_' ) );
+				$contacts = array_values(
+					array_filter(
+						HATNCH_Contacts::get_active(),
+						static function ( $contact ) use ( $role ) {
+							return isset( $contact['role'] ) && $role === $contact['role'];
+						}
+					)
+				);
 			}
 			if ( empty( $contacts ) ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'refreshed_contacts_empty', 'state_key' => $state_key ) ) );
 				return null;
 			}
 
-			$state = get_option( $state_key, $structured_state ? array() : 0 );
+			// Read the cursor directly from the database. The Options API may serve a
+			// stale value from a persistent object cache across concurrent requests.
+			$wpdb->last_error = '';
+			$state_row        = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
+					$state_key
+				),
+				ARRAY_A
+			);
+			if ( null === $state_row && '' !== $wpdb->last_error ) {
+				return null;
+			}
+			$state   = null !== $state_row
+				? maybe_unserialize( $state_row['option_value'] )
+				: ( $structured_state ? array() : 0 );
 			$last_id = $structured_state
 				? ( is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $state );
-			$next = $contacts[0];
+			$next    = $contacts[0];
 			foreach ( $contacts as $index => $contact ) {
 				if ( $last_id === (int) $contact['id'] ) {
 					$next = $contacts[ ( $index + 1 ) % count( $contacts ) ];
@@ -153,25 +196,46 @@ final class HATNCH_Routing {
 				}
 			}
 
-			$saved = $structured_state
+			$saved        = $structured_state
 				? array( 'last_contact_id' => (int) $next['id'] )
 				: (int) $next['id'];
-			update_option( $state_key, $saved, false );
+			$write_result = $wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'no' ) ON DUPLICATE KEY UPDATE option_value = %s, autoload = 'no'",
+					$state_key,
+					maybe_serialize( $saved ),
+					maybe_serialize( $saved )
+				)
+			);
+			if ( false === $write_result ) {
+				return null;
+			}
 
-			$persisted = get_option( $state_key, $structured_state ? array() : 0 );
-			$persisted_id = $structured_state
+			// Keep WordPress' option caches coherent after the direct database write.
+			wp_cache_delete( $state_key, 'options' );
+			wp_cache_delete( 'alloptions', 'options' );
+			wp_cache_delete( 'notoptions', 'options' );
+
+			$wpdb->last_error = '';
+			$persisted_row    = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
+					$state_key
+				),
+				ARRAY_A
+			);
+			$persisted        = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
+			$persisted_id     = $structured_state
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
 			if ( $persisted_id !== (int) $next['id'] ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_verify_failed', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'persisted_id' => $persisted_id, 'db_error' => $wpdb->last_error ) ) );
 				return null;
 			}
-			error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'resolved', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'previous_id' => $last_id ) ) );
 			return $next;
 		} finally {
 			$release_result = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 			if ( 1 !== (int) $release_result ) {
-				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'release_unexpected', 'state_key' => $state_key, 'released' => $release_result, 'db_error' => $wpdb->last_error ) ) );
+				do_action( 'hatnch_routing_lock_release_failed', $state_key, $release_result );
 			}
 		}
 	}

@@ -150,6 +150,12 @@ final class HATNCH_Contacts {
 				return new WP_Error( 'db_update_failed', __( 'The contact could not be updated.', 'hatnikotni-chat' ) );
 			}
 
+			// A zero-row update is valid for an unchanged record, but not when the
+			// contact was deleted between the form check and this write.
+			if ( 0 === $updated && null === self::get( $id ) ) {
+				return new WP_Error( 'contact_not_found', __( 'The contact no longer exists.', 'hatnikotni-chat' ) );
+			}
+
 			return $id;
 		}
 
@@ -294,7 +300,7 @@ final class HATNCH_Contacts {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
-		return false !== $wpdb->update(
+		$result = $wpdb->update(
 			self::table_name(),
 			array(
 				'status'     => $active ? 1 : 0,
@@ -304,5 +310,13 @@ final class HATNCH_Contacts {
 			array( '%d', '%s' ),
 			array( '%d' )
 		);
+
+		if ( false === $result ) {
+			return false;
+		}
+
+		// A zero-row update can mean an unchanged value or a missing contact.
+		// Verify existence so callers never report a missing contact as updated.
+		return 0 !== $result || null !== self::get( $id );
 	}
 }

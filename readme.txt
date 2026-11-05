@@ -2,11 +2,20 @@
 Requires at least: 6.6
 Requires PHP: 8.1
 Tested up to: 7.1
-Stable tag: 0.1.25
+Stable tag: 0.1.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Lightweight WhatsApp contact routing with explicit visitor analytics choices and first-party campaign attribution.
+
+== Changelog ==
+
+= 0.1.26 =
+* Fix status-update handling when a contact record no longer exists.
+* Persist and verify Round Robin cursors atomically in the database while holding the routing advisory lock, avoiding stale option-cache reads.
+* Add a concurrent WordPress/MySQL regression test for twelve simultaneous Round Robin requests.
+* Sanitize purpose-role input and harden analytics action verification and admin HTTP error responses.
+* Remove temporary Round Robin QA diagnostics.
 
 == Description ==
 
@@ -198,6 +207,7 @@ Hatnikotni Chat is a reusable contact-routing core. Optional companion plugins c
 - `hatnch_purpose_role_routes`: Filter purpose ID to contact-role routing mappings. Keys must correspond to registered purpose IDs; values are role IDs.
 - `hatnch_allowed_contact_roles`: Filter permitted contact role IDs for purpose routing.
 - `hatnch_admin_extension_panels`: Filter extension settings panel descriptors. Each descriptor may contain `title` and a trusted callable `callback` that renders escaped settings markup.
+- `hatnch_routing_lock_release_failed`: Action fired if the Round Robin MySQL advisory lock cannot be confirmed as released. Receives the routing state key and the raw `RELEASE_LOCK()` result. Use it for operational monitoring; do not perform routing or database mutations from this callback.
 
 Extension modules must perform their own capability checks, nonce validation, input validation, output escaping, uninstall/data-retention policy, and compatibility checks. Do not trust purpose, role, phone, or contact destination values supplied in public request parameters.
 

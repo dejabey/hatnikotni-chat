@@ -7,6 +7,7 @@ on:
       - 'dev/**'
       - 'feature/**'
       - 'release/**'
+      - 'fix/**'
       - 'wordpress-org-compliance'
   pull_request:
 
@@ -21,6 +22,8 @@ jobs:
         php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
@@ -35,8 +38,81 @@ jobs:
         run: bash tests/skeleton-contract.sh
       - name: Install development dependencies
         run: composer install --no-interaction --prefer-dist
-      - name: Run WordPress Coding Standards
-        run: vendor/bin/phpcs --standard=phpcs.xml.dist
+      - name: Run WordPress Coding Standards on changed PHP files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if [ -z "$BASE_SHA" ]; then
+            BASE_BRANCH="$(gh pr view "$GITHUB_REF_NAME" --json baseRefName --jq .baseRefName 2>/dev/null || true)"
+            if [ -n "$BASE_BRANCH" ]; then
+              git fetch --no-tags origin "$BASE_BRANCH"
+              BASE_SHA="$(git merge-base "origin/$BASE_BRANCH" HEAD)"
+            else
+              BASE_SHA="$(git rev-parse HEAD^)"
+            fi
+          fi
+          mapfile -t changed_php < <(git diff --name-only "$BASE_SHA"...HEAD -- '*.php')
+          if [ "${#changed_php[@]}" -eq 0 ]; then
+            echo "No PHP files changed; PHPCS check not required."
+            exit 0
+          fi
+          printf '%s\n' "${changed_php[@]}"
+          REPORT="$RUNNER_TEMP/phpcs-report.json"
+          CHANGED_FILES="$RUNNER_TEMP/changed-php-files.txt"
+          printf '%s\n' "${changed_php[@]}" > "$CHANGED_FILES"
+          phpcs_status=0
+          vendor/bin/phpcs --standard=phpcs.xml.dist --report=json "${changed_php[@]}" > "$REPORT" || phpcs_status=$?
+          export BASE_SHA REPORT CHANGED_FILES
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+
+          base = os.environ["BASE_SHA"]
+          with open(os.environ["REPORT"], encoding="utf-8") as report_file:
+              report = json.load(report_file)
+          with open(os.environ["CHANGED_FILES"], encoding="utf-8") as files_file:
+              changed_files = [line.strip() for line in files_file if line.strip()]
+
+          introduced = []
+          ignored_legacy = 0
+          for path in changed_files:
+              diff = subprocess.run(
+                  ["git", "diff", "--unified=0", f"{base}...HEAD", "--", path],
+                  check=True, capture_output=True, text=True,
+              ).stdout
+              added_ranges = []
+              for match in re.finditer(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@", diff, re.MULTILINE):
+                  start = int(match.group(1))
+                  count = int(match.group(2) or "1")
+                  if count:
+                      added_ranges.append((start, start + count - 1))
+
+              file_report = report.get("files", {}).get(path, {})
+              for message in file_report.get("messages", []):
+                  line = int(message.get("line", 0))
+                  if any(start <= line <= end for start, end in added_ranges):
+                      introduced.append((path, line, message.get("type"), message.get("message")))
+                  else:
+                      ignored_legacy += 1
+
+          if introduced:
+              for path, line, kind, message in introduced:
+                  print(f"{path}:{line}: {kind}: {message}", file=sys.stderr)
+              print(f"PHPCS found {len(introduced)} finding(s) on added/changed lines.", file=sys.stderr)
+              sys.exit(1)
+
+          print("PHPCS: no findings on added/changed lines.")
+          if ignored_legacy:
+              print(f"Existing findings on untouched lines: {ignored_legacy} (tracked as legacy baseline).")
+          PY
+      - name: Run full repository PHPCS
+        if: matrix.php-version == '8.1'
+        run: vendor/bin/phpcs --standard=phpcs.xml.dist --report=full
 
   package:
     name: Build production package
@@ -161,5 +237,40 @@ jobs:
           php "$RUNNER_TEMP/wp-cli.phar" --path="$WP_PATH" plugin activate hatnikotni-chat
           echo "WP_PATH=$WP_PATH" >> "$GITHUB_ENV"
           echo "WP_CLI=$RUNNER_TEMP/wp-cli.phar" >> "$GITHUB_ENV"
+      - name: Run concurrent Round Robin integration test
+        run: |
+          set -eu
+          PLUGIN_TESTS="$WP_PATH/wp-content/plugins/hatnikotni-chat/tests"
+          php "$WP_CLI" --quiet --path="$WP_PATH" eval-file "$PLUGIN_TESTS/round-robin-concurrency-setup.php"
+          RESULTS="$RUNNER_TEMP/hatnch-rr-results"
+          mkdir -p "$RESULTS"
+          pids=""
+          for worker in $(seq 1 12); do
+            php "$WP_CLI" --quiet --path="$WP_PATH" eval-file "$PLUGIN_TESTS/round-robin-concurrency-worker.php" > "$RESULTS/$worker.txt" &
+            pids="$pids $!"
+          done
+          worker_failed=0
+          for pid in $pids; do
+            if ! wait "$pid"; then
+              worker_failed=1
+            fi
+          done
+          if [ "$worker_failed" -ne 0 ]; then
+            echo "At least one concurrent Round Robin worker failed." >&2
+            exit 1
+          fi
+          mapfile -t selections < <(awk 'NF == 1 && $1 ~ /^[0-9][0-9]*$/ { print $1 }' "$RESULTS"/*.txt)
+          if [ "${#selections[@]}" -ne 12 ]; then
+            echo "Expected 12 successful contact selections; got ${#selections[@]}." >&2
+            exit 1
+          fi
+          printf '%s\n' "${selections[@]}" | sort | uniq -c > "$RESULTS/counts.txt"
+          cat "$RESULTS/counts.txt"
+          if [ "$(wc -l < "$RESULTS/counts.txt")" -ne 2 ] || ! awk '$1 != 6 { exit 1 }' "$RESULTS/counts.txt"; then
+            echo "Round Robin did not distribute 12 concurrent selections evenly across two contacts." >&2
+            exit 1
+          fi
+          echo "PASS: 12 concurrent Round Robin requests selected each active contact exactly 6 times."
+
       - name: Run WordPress-backed migration lifecycle tests
         run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/wordpress-migration-integration.php"

@@ -67,18 +67,18 @@ final class HATNCH_Analytics {
 		$inserted = $wpdb->insert(
 			self::table_name(),
 			array(
-				'event_type'   => 'whatsapp_click',
-				'created_at'   => current_time( 'mysql' ),
+				'event_type'        => 'whatsapp_click',
+				'created_at'        => current_time( 'mysql' ),
 				'contact_id'        => $contact_id > 0 ? $contact_id : null,
 				'contact_reference' => $contact_id > 0 ? $contact_id : null,
-				'page_id'      => $page_id > 0 ? $page_id : null,
-				'page_type'    => '' !== $page_type ? $page_type : null,
-				'device'       => $device,
-				'utm_source'   => $attribution['utm_source'],
-				'utm_medium'   => $attribution['utm_medium'],
-				'utm_campaign' => $attribution['utm_campaign'],
-				'utm_term'     => $attribution['utm_term'],
-				'utm_content'  => $attribution['utm_content'],
+				'page_id'           => $page_id > 0 ? $page_id : null,
+				'page_type'         => '' !== $page_type ? $page_type : null,
+				'device'            => $device,
+				'utm_source'        => $attribution['utm_source'],
+				'utm_medium'        => $attribution['utm_medium'],
+				'utm_campaign'      => $attribution['utm_campaign'],
+				'utm_term'          => $attribution['utm_term'],
+				'utm_content'       => $attribution['utm_content'],
 			),
 			array( '%s', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
@@ -169,16 +169,20 @@ final class HATNCH_Analytics {
 	/** Count retained click events within a validated range. */
 	public static function count_events( ?array $range = null ): int|WP_Error {
 		global $wpdb;
-		$where = '1=1';
-		$args  = array();
-		if ( null !== $range ) {
-			$where .= ' AND created_at >= %s AND created_at < %s';
-			$args[] = $range['start'];
-			$args[] = $range['end'];
+		if ( null === $range ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
+			$count = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', self::table_name() ) );
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					'SELECT COUNT(*) FROM %i WHERE created_at >= %s AND created_at < %s',
+					self::table_name(),
+					$range['start'],
+					$range['end']
+				)
+			);
 		}
-		$sql = $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE ' . $where, array_merge( array( self::table_name() ), $args ) );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
-		$count = $wpdb->get_var( $sql );
 		return '' !== (string) $wpdb->last_error ? new WP_Error( 'analytics_count_failed', __( 'Could not count analytics records.', 'hatnikotni-chat' ) ) : (int) $count;
 	}
 
@@ -186,12 +190,19 @@ final class HATNCH_Analytics {
 	public static function delete_events( ?array $range = null ): int|WP_Error {
 		global $wpdb;
 		if ( null === $range ) {
-			$sql = $wpdb->prepare( 'DELETE FROM %i', self::table_name() );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
+			$deleted = $wpdb->query( $wpdb->prepare( 'DELETE FROM %i', self::table_name() ) );
 		} else {
-			$sql = $wpdb->prepare( 'DELETE FROM %i WHERE created_at >= %s AND created_at < %s', self::table_name(), $range['start'], $range['end'] );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
+			$deleted = $wpdb->query(
+				$wpdb->prepare(
+					'DELETE FROM %i WHERE created_at >= %s AND created_at < %s',
+					self::table_name(),
+					$range['start'],
+					$range['end']
+				)
+			);
 		}
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional deletion of plugin-owned analytics rows after admin capability, nonce and confirmation checks.
-		$deleted = $wpdb->query( $sql );
 		return false === $deleted ? new WP_Error( 'analytics_delete_failed', __( 'Analytics records could not be deleted.', 'hatnikotni-chat' ) ) : (int) $deleted;
 	}
 
@@ -199,21 +210,53 @@ final class HATNCH_Analytics {
 	public static function get_export_rows( int $days ): array {
 		$summary = self::get_summary( $days );
 		$rows    = array(
-			array( 'section' => 'Report', 'value' => sprintf( __( 'Last %d days', 'hatnikotni-chat' ), $days ), 'clicks' => '' ),
-			array( 'section' => 'Summary', 'value' => 'WhatsApp clicks', 'clicks' => $summary['total'] ),
+			array(
+				'section' => 'Report',
+				'value'   => sprintf(
+					/* translators: %d: number of days in the reporting period. */
+					__( 'Last %d days', 'hatnikotni-chat' ),
+					$days
+				),
+				'clicks'  => '',
+			),
+			array(
+				'section' => 'Summary',
+				'value'   => 'WhatsApp clicks',
+				'clicks'  => $summary['total'],
+			),
 		);
+
 		foreach ( $summary['by_device'] as $row ) {
-			$rows[] = array( 'section' => 'By Device', 'value' => (string) ( $row['device'] ?? __( 'Unattributed', 'hatnikotni-chat' ) ), 'clicks' => (int) $row['total'] );
+			$rows[] = array(
+				'section' => 'By Device',
+				'value'   => (string) ( $row['device'] ?? __( 'Unattributed', 'hatnikotni-chat' ) ),
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		foreach ( $summary['by_contact'] as $row ) {
 			$ref     = absint( $row['contact_reference'] ?? 0 );
 			$contact = $ref ? HATNCH_Contacts::get( $ref ) : null;
-			$label   = $contact['name'] ?? ( $ref ? sprintf( __( 'Removed contact #%d', 'hatnikotni-chat' ), $ref ) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
-			$rows[]  = array( 'section' => 'By Contact', 'value' => $label, 'clicks' => (int) $row['total'] );
+			$label   = $contact['name'] ?? ( $ref ? sprintf(
+				/* translators: %d: ID of a contact that no longer exists. */
+				__( 'Removed contact #%d', 'hatnikotni-chat' ),
+				$ref
+			) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
+			$rows[] = array(
+				'section' => 'By Contact',
+				'value'   => $label,
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		foreach ( $summary['by_campaign'] as $row ) {
-			$rows[] = array( 'section' => 'By Campaign', 'value' => (string) $row['utm_campaign'], 'clicks' => (int) $row['total'] );
+			$rows[] = array(
+				'section' => 'By Campaign',
+				'value'   => (string) $row['utm_campaign'],
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		return $rows;
 	}
 
