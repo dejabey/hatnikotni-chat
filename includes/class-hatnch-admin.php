@@ -59,9 +59,18 @@ final class HATNCH_Admin {
 	/** Render persistent top-level workspace navigation. */
 	public static function render_workspace_nav( string $active ): void {
 		$items = array(
-			'general' => array( 'label' => __( 'General', 'hatnikotni-chat' ), 'url' => admin_url( 'admin.php?page=hatnch' ) ),
-			'contacts' => array( 'label' => __( 'Contacts', 'hatnikotni-chat' ), 'url' => admin_url( 'admin.php?page=hatnch-contacts' ) ),
-			'analytics' => array( 'label' => __( 'Analytics', 'hatnikotni-chat' ), 'url' => admin_url( 'admin.php?page=hatnch-analytics' ) ),
+			'general'   => array(
+				'label' => __( 'General', 'hatnikotni-chat' ),
+				'url'   => admin_url( 'admin.php?page=hatnch' ),
+			),
+			'contacts'  => array(
+				'label' => __( 'Contacts', 'hatnikotni-chat' ),
+				'url'   => admin_url( 'admin.php?page=hatnch-contacts' ),
+			),
+			'analytics' => array(
+				'label' => __( 'Analytics', 'hatnikotni-chat' ),
+				'url'   => admin_url( 'admin.php?page=hatnch-analytics' ),
+			),
 		);
 		echo '<nav class="hatnch-workspace-nav" aria-label="' . esc_attr__( 'Hatnikotni Chat workspace', 'hatnikotni-chat' ) . '">';
 		foreach ( $items as $key => $item ) {
@@ -236,7 +245,15 @@ final class HATNCH_Admin {
 						'partnerships'      => __( 'Sales & Partnerships', 'hatnikotni-chat' ),
 					);
 					?>
-					<?php foreach ( array( 'general_enquiries' => __( 'General Enquiries', 'hatnikotni-chat' ), 'listing_assistance' => __( 'Customer Support', 'hatnikotni-chat' ), 'business_partnerships' => __( 'Sales & Partnerships', 'hatnikotni-chat' ), 'technical_question' => __( 'Technical Support', 'hatnikotni-chat' ) ) as $purpose_key => $purpose_name ) : ?>
+					<?php
+					$purpose_names = array(
+						'general_enquiries'     => __( 'General Enquiries', 'hatnikotni-chat' ),
+						'listing_assistance'    => __( 'Customer Support', 'hatnikotni-chat' ),
+						'business_partnerships' => __( 'Sales & Partnerships', 'hatnikotni-chat' ),
+						'technical_question'    => __( 'Technical Support', 'hatnikotni-chat' ),
+					);
+					?>
+					<?php foreach ( $purpose_names as $purpose_key => $purpose_name ) : ?>
 						<tr><th scope="row"><label for="hatnch-purpose-<?php echo esc_attr( $purpose_key ); ?>"><?php echo esc_html( $purpose_name ); ?></label></th><td><select id="hatnch-purpose-<?php echo esc_attr( $purpose_key ); ?>" name="purpose_roles[<?php echo esc_attr( $purpose_key ); ?>]"><?php foreach ( $role_choices as $role_key => $role_name ) : ?><option value="<?php echo esc_attr( $role_key ); ?>" <?php selected( $purpose_map[ $purpose_key ] ?? '', $role_key ); ?>><?php echo esc_html( $role_name ); ?></option><?php endforeach; ?></select></td></tr>
 					<?php endforeach; ?>
 					<tr><th scope="row"><label for="hatnch-support-email"><?php echo esc_html__( 'Support Email', 'hatnikotni-chat' ); ?></label></th><td><input class="regular-text" id="hatnch-support-email" name="support_email" type="email" maxlength="254" value="<?php echo esc_attr( $settings['support_email'] ?? '' ); ?>"><p class="description"><?php echo esc_html__( 'Optional alternative support email for complex matters or payment investigations.', 'hatnikotni-chat' ); ?></p></td></tr>
@@ -250,10 +267,20 @@ final class HATNCH_Admin {
 						<div class="hatnch-panel__header"><div><h2><?php echo esc_html__( 'Extension modules', 'hatnikotni-chat' ); ?></h2><p><?php echo esc_html__( 'Optional modules can add site-specific features without changing the core plugin.', 'hatnikotni-chat' ); ?></p></div></div>
 						<?php $extension_panels = apply_filters( 'hatnch_admin_extension_panels', array() ); ?>
 						<?php if ( is_array( $extension_panels ) && ! empty( $extension_panels ) ) : ?>
-							<?php foreach ( $extension_panels as $extension_panel ) : if ( ! is_array( $extension_panel ) || empty( $extension_panel['callback'] ) || ! is_callable( $extension_panel['callback'] ) ) { continue; } ?>
-								<section class="hatnch-extension-panel"><h3><?php echo esc_html( $extension_panel['title'] ?? __( 'Extension', 'hatnikotni-chat' ) ); ?></h3><?php call_user_func( $extension_panel['callback'] ); ?></section>
-							<?php endforeach; ?>
-						<?php else : ?><p class="description"><?php echo esc_html__( 'No extension modules are currently providing settings.', 'hatnikotni-chat' ); ?></p><?php endif; ?>
+							<?php foreach ( $extension_panels as $extension_panel ) : ?>
+							<?php
+							if ( ! is_array( $extension_panel ) || empty( $extension_panel['callback'] ) || ! is_callable( $extension_panel['callback'] ) ) {
+								continue;
+							}
+							?>
+							<section class="hatnch-extension-panel">
+								<h3><?php echo esc_html( $extension_panel['title'] ?? __( 'Extension', 'hatnikotni-chat' ) ); ?></h3>
+								<?php call_user_func( $extension_panel['callback'] ); ?>
+							</section>
+						<?php endforeach; ?>
+						<?php else : ?>
+							<p class="description"><?php echo esc_html__( 'No extension modules are currently providing settings.', 'hatnikotni-chat' ); ?></p>
+						<?php endif; ?>
 					</section>
 				</div><!-- /.hatnch-tab-panel integrations -->
 				<div class="hatnch-form-actions">
@@ -280,18 +307,18 @@ final class HATNCH_Admin {
 		}
 
 		$settings = array(
-			'enabled'         => isset( $_POST['enabled'] ),
-			'default_contact' => $contact && 1 === (int) $contact['status'] ? $contact_id : 0,
-			'default_message' => isset( $_POST['default_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['default_message'] ) ) : '',
-			'button_label'    => isset( $_POST['button_label'] ) ? sanitize_text_field( wp_unslash( $_POST['button_label'] ) ) : 'Contact Us',
-			'button_position' => isset( $_POST['button_position'] ) && 'left' === sanitize_key( wp_unslash( $_POST['button_position'] ) ) ? 'left' : 'right',
-			'show_desktop'    => isset( $_POST['show_desktop'] ),
-			'show_mobile'     => isset( $_POST['show_mobile'] ),
-			'routing_method'  => $method,
+			'enabled'                 => isset( $_POST['enabled'] ),
+			'default_contact'         => $contact && 1 === (int) $contact['status'] ? $contact_id : 0,
+			'default_message'         => isset( $_POST['default_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['default_message'] ) ) : '',
+			'button_label'            => isset( $_POST['button_label'] ) ? sanitize_text_field( wp_unslash( $_POST['button_label'] ) ) : 'Contact Us',
+			'button_position'         => isset( $_POST['button_position'] ) && 'left' === sanitize_key( wp_unslash( $_POST['button_position'] ) ) ? 'left' : 'right',
+			'show_desktop'            => isset( $_POST['show_desktop'] ),
+			'show_mobile'             => isset( $_POST['show_mobile'] ),
+			'routing_method'          => $method,
 			'purpose_routing_enabled' => isset( $_POST['purpose_routing_enabled'] ),
-			'purpose_roles' => array(),
-			'support_email' => isset( $_POST['support_email'] ) ? sanitize_email( wp_unslash( $_POST['support_email'] ) ) : '',
-			'support_url' => isset( $_POST['support_url'] ) ? esc_url_raw( wp_unslash( $_POST['support_url'] ), array( 'http', 'https' ) ) : '',
+			'purpose_roles'            => array(),
+			'support_email'           => isset( $_POST['support_email'] ) ? sanitize_email( wp_unslash( $_POST['support_email'] ) ) : '',
+			'support_url'             => isset( $_POST['support_url'] ) ? esc_url_raw( wp_unslash( $_POST['support_url'] ), array( 'http', 'https' ) ) : '',
 		);
 
 		$allowed_roles = array( 'general_enquiries', 'business_support', 'partnerships' );
@@ -546,15 +573,29 @@ final class HATNCH_Admin {
 	}
 
 	public static function delete_contact(): void {
-		if ( ! current_user_can( 'manage_options' ) ) { wp_die( esc_html__( 'You do not have permission to delete contacts.', 'hatnikotni-chat' ), 403 ); }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to delete contacts.', 'hatnikotni-chat' ), 403 );
+		}
 		$id = isset( $_POST['contact_id'] ) ? absint( $_POST['contact_id'] ) : 0;
 		$nonce = isset( $_POST['hatnch_delete_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['hatnch_delete_nonce'] ) ) : '';
-		if ( $id < 1 || ! wp_verify_nonce( $nonce, 'hatnch_delete_contact_' . $id ) ) { wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), 403 ); }
-		if ( ! HATNCH_Contacts::get( $id ) ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=contact_not_found' ) ); exit; }
+		if ( $id < 1 || ! wp_verify_nonce( $nonce, 'hatnch_delete_contact_' . $id ) ) {
+			wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), 403 );
+		}
+		if ( ! HATNCH_Contacts::get( $id ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=contact_not_found' ) );
+			exit;
+		}
 		$settings = HATNCH_Settings::all();
-		if ( absint( $settings['default_contact'] ?? 0 ) === $id ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_required' ) ); exit; }
-		if ( ! HATNCH_Contacts::delete_preserving_analytics( $id ) ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=delete_failed' ) ); exit; }
-		wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&deleted=1' ) ); exit;
+		if ( absint( $settings['default_contact'] ?? 0 ) === $id ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_required' ) );
+			exit;
+		}
+		if ( ! HATNCH_Contacts::delete_preserving_analytics( $id ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=delete_failed' ) );
+			exit;
+		}
+		wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&deleted=1' ) );
+		exit;
 	}
 
 	/** Assign an active contact as the Default Contact. */
@@ -568,12 +609,21 @@ final class HATNCH_Admin {
 			wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), 403 );
 		}
 		$contact = HATNCH_Contacts::get( $id );
-		if ( ! $contact ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=contact_not_found' ) ); exit; }
-		if ( 1 !== (int) $contact['status'] ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_failed' ) ); exit; }
+		if ( ! $contact ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=contact_not_found' ) );
+			exit;
+		}
+		if ( 1 !== (int) $contact['status'] ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_failed' ) );
+			exit;
+		}
 		$settings = HATNCH_Settings::all();
 		$settings['default_contact'] = $id;
 		$saved = update_option( 'hatnch_settings', $settings, false );
-		if ( ! $saved && absint( HATNCH_Settings::get( 'default_contact', 0 ) ) !== $id ) { wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_failed' ) ); exit; }
+		if ( ! $saved && absint( HATNCH_Settings::get( 'default_contact', 0 ) ) !== $id ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=default_contact_failed' ) );
+			exit;
+		}
 		wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&default_changed=1' ) );
 		exit;
 	}
@@ -612,4 +662,5 @@ final class HATNCH_Admin {
 
 		wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&updated=1' ) );
 		exit;
-	}}
+	}
+}
