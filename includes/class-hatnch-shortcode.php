@@ -33,7 +33,7 @@ final class HATNCH_Shortcode {
 		$url       = HATNCH_WhatsApp::action_url( $message, (int) $page_id, $page_type );
 
 		return sprintf(
-			'<a class="hatnch-button hatnch-inline" href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%2$s</a>',
+			'<a class="hatnch-button hatnch-inline" href="%1$s" aria-label="%2$s">%2$s</a>',
 			esc_url( $url ),
 			esc_html( $label )
 		);

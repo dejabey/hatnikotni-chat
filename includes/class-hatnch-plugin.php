@@ -290,7 +290,6 @@ final class HATNCH_Plugin {
 			'event_type',
 			'created_at',
 			'contact_id',
-			'contact_reference',
 			'page_id',
 			'page_type',
 			'device',
@@ -313,7 +312,6 @@ final class HATNCH_Plugin {
 			'PRIMARY'       => array( 'id' ),
 			'created_at'    => array( 'created_at' ),
 			'contact_date'  => array( 'contact_id', 'created_at' ),
-			'contact_reference_date' => array( 'contact_reference', 'created_at' ),
 			'page_date'     => array( 'page_id', 'page_type', 'created_at' ),
 			'campaign_date' => array( 'utm_campaign', 'created_at' ),
 		);
