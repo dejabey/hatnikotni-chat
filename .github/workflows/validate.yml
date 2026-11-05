@@ -41,10 +41,17 @@ jobs:
       - name: Run WordPress Coding Standards on changed PHP files
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -eu
           if [ -z "$BASE_SHA" ]; then
-            BASE_SHA="$(git rev-parse HEAD^)"
+            BASE_BRANCH="$(gh pr view "$GITHUB_REF_NAME" --json baseRefName --jq .baseRefName 2>/dev/null || true)"
+            if [ -n "$BASE_BRANCH" ]; then
+              git fetch --no-tags origin "$BASE_BRANCH"
+              BASE_SHA="$(git merge-base "origin/$BASE_BRANCH" HEAD)"
+            else
+              BASE_SHA="$(git rev-parse HEAD^)"
+            fi
           fi
           mapfile -t changed_php < <(git diff --name-only "$BASE_SHA"...HEAD -- '*.php')
           if [ "${#changed_php[@]}" -eq 0 ]; then
