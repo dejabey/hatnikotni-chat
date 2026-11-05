@@ -294,7 +294,7 @@ final class HATNCH_Contacts {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Intentional operation on plugin-owned custom tables; queries are prepared or use wpdb CRUD APIs.
-		return false !== $wpdb->update(
+		$result = $wpdb->update(
 			self::table_name(),
 			array(
 				'status'     => $active ? 1 : 0,
@@ -304,5 +304,13 @@ final class HATNCH_Contacts {
 			array( '%d', '%s' ),
 			array( '%d' )
 		);
+
+		if ( false === $result ) {
+			return false;
+		}
+
+		// A zero-row update can mean an unchanged value or a missing contact.
+		// Verify existence so callers do not report a vanished contact as updated.
+		return 0 !== $result || null !== self::get( $id );
 	}
 }
