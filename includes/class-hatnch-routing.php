@@ -227,8 +227,9 @@ final class HATNCH_Routing {
 			}
 			return $next;
 		} finally {
-			$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
+			$release_result = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 			if ( 1 !== (int) $release_result ) {
+				do_action( 'hatnch_routing_lock_release_failed', $state_key, $release_result );
 			}
 		}
 	}
