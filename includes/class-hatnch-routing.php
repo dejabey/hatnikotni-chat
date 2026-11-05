@@ -216,7 +216,7 @@ final class HATNCH_Routing {
 			wp_cache_delete( 'notoptions', 'options' );
 
 			$wpdb->last_error = '';
-			$persisted_row  = $wpdb->get_row(
+			$persisted_row    = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
 					$state_key
