@@ -37,7 +37,7 @@ jobs:
         run: bash tests/skeleton-contract.sh
       - name: Install development dependencies
         run: composer install --no-interaction --prefer-dist
-      - name: Run WordPress Coding Standards on changed production PHP files
+      - name: Run WordPress Coding Standards on changed PHP files
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
@@ -45,7 +45,13 @@ jobs:
           if [ -z "$BASE_SHA" ]; then
             BASE_SHA="$(git rev-parse HEAD^)"
           fi
-          mapfile -t changed_php < <(git diff --name-only "$BASE_SHA"...HEAD -- '*.php' | grep -E '^(hatnikotni-chat\.php|uninstall\.php|includes/.*\.php)
+          mapfile -t changed_php < <(git diff --name-only "$BASE_SHA"...HEAD -- '*.php')
+          if [ "${#changed_php[@]}" -eq 0 ]; then
+            echo "No PHP files changed; PHPCS check not required."
+            exit 0
+          fi
+          printf '%s\n' "${changed_php[@]}"
+          vendor/bin/phpcs --standard=phpcs.xml.dist "${changed_php[@]}"
 
   package:
     name: Build production package
