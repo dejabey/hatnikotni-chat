@@ -468,7 +468,7 @@ final class HATNCH_Admin {
 								<?php foreach ( $contacts as $contact ) : ?>
 									<?php
 									$contact_id               = absint( $contact['id'] );
-									$is_default                = $contact_id === $default_contact_id;
+									$is_default               = $contact_id === $default_contact_id;
 									$set_default_confirmation = sprintf(
 										/* translators: %1$s: contact name. */
 										__( 'Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active.', 'hatnikotni-chat' ),
