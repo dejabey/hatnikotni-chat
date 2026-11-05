@@ -67,7 +67,7 @@ final class HATNCH_Admin {
 		foreach ( $items as $key => $item ) {
 			$class = 'hatnch-workspace-nav__link' . ( $active === $key ? ' is-active' : '' );
 			$aria  = $active === $key ? ' aria-current="page"' : '';
-			echo '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $item['url'] ) . '"' . $aria . '>' . esc_html( $item['label'] ) . '</a>';
+			echo '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $item['url'] ) . '"' . esc_attr( $aria ) . '>' . esc_html( $item['label'] ) . '</a>';
 		}
 		echo '</nav>';
 	}
@@ -228,7 +228,14 @@ final class HATNCH_Admin {
 						<th scope="row"><?php echo esc_html__( 'Purpose-based routing', 'hatnikotni-chat' ); ?></th>
 						<td><label><input type="checkbox" name="purpose_routing_enabled" value="1" <?php checked( ! empty( $settings['purpose_routing_enabled'] ) ); ?>> <?php echo esc_html__( 'Enable the purpose chooser for the floating button', 'hatnikotni-chat' ); ?></label><p class="description"><?php echo esc_html__( 'When disabled, the existing global routing and button behavior remain in effect.', 'hatnikotni-chat' ); ?></p></td>
 					</tr>
-					<?php $purpose_map = is_array( $settings['purpose_roles'] ?? null ) ? $settings['purpose_roles'] : array(); $role_choices = array( 'general_enquiries' => __( 'General Enquiries', 'hatnikotni-chat' ), 'business_support' => __( 'Business Support', 'hatnikotni-chat' ), 'partnerships' => __( 'Sales & Partnerships', 'hatnikotni-chat' ) ); ?>
+					<?php
+					$purpose_map = is_array( $settings['purpose_roles'] ?? null ) ? $settings['purpose_roles'] : array();
+					$role_choices = array(
+						'general_enquiries' => __( 'General Enquiries', 'hatnikotni-chat' ),
+						'business_support'  => __( 'Business Support', 'hatnikotni-chat' ),
+						'partnerships'      => __( 'Sales & Partnerships', 'hatnikotni-chat' ),
+					);
+					?>
 					<?php foreach ( array( 'general_enquiries' => __( 'General Enquiries', 'hatnikotni-chat' ), 'listing_assistance' => __( 'Customer Support', 'hatnikotni-chat' ), 'business_partnerships' => __( 'Sales & Partnerships', 'hatnikotni-chat' ), 'technical_question' => __( 'Technical Support', 'hatnikotni-chat' ) ) as $purpose_key => $purpose_name ) : ?>
 						<tr><th scope="row"><label for="hatnch-purpose-<?php echo esc_attr( $purpose_key ); ?>"><?php echo esc_html( $purpose_name ); ?></label></th><td><select id="hatnch-purpose-<?php echo esc_attr( $purpose_key ); ?>" name="purpose_roles[<?php echo esc_attr( $purpose_key ); ?>]"><?php foreach ( $role_choices as $role_key => $role_name ) : ?><option value="<?php echo esc_attr( $role_key ); ?>" <?php selected( $purpose_map[ $purpose_key ] ?? '', $role_key ); ?>><?php echo esc_html( $role_name ); ?></option><?php endforeach; ?></select></td></tr>
 					<?php endforeach; ?>
@@ -288,7 +295,9 @@ final class HATNCH_Admin {
 		);
 
 		$allowed_roles = array( 'general_enquiries', 'business_support', 'partnerships' );
-		$posted_routes = isset( $_POST['purpose_roles'] ) && is_array( $_POST['purpose_roles'] ) ? wp_unslash( $_POST['purpose_roles'] ) : array();
+		$posted_routes = isset( $_POST['purpose_roles'] ) && is_array( $_POST['purpose_roles'] )
+			? map_deep( wp_unslash( $_POST['purpose_roles'] ), 'sanitize_key' )
+			: array();
 		foreach ( array( 'general_enquiries', 'listing_assistance', 'business_partnerships', 'technical_question' ) as $purpose_id ) {
 			$selected_role = isset( $posted_routes[ $purpose_id ] ) && is_scalar( $posted_routes[ $purpose_id ] ) ? sanitize_key( $posted_routes[ $purpose_id ] ) : '';
 			$settings['purpose_roles'][ $purpose_id ] = in_array( $selected_role, $allowed_roles, true ) ? $selected_role : 'general_enquiries';
@@ -383,7 +392,11 @@ final class HATNCH_Admin {
 												<a href="<?php echo esc_url( admin_url( 'admin.php?page=hatnch-contacts&edit=' . (int) $contact['id'] ) ); ?>"><?php echo esc_html__( 'Edit', 'hatnikotni-chat' ); ?></a>
 												<?php if ( $default_contact_id !== absint( $contact['id'] ) && 1 === (int) $contact['status'] ) : ?>
 													<span aria-hidden="true">|</span>
-													<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="hatnch-row-action-form" onsubmit="return window.confirm(<?php echo esc_attr( wp_json_encode( sprintf( __( 'Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active.', 'hatnikotni-chat' ), $contact['name'] ) ) ); ?>);">
+													<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="hatnch-row-action-form" onsubmit="return window.confirm(<?php echo esc_attr( wp_json_encode( sprintf(
+													/* translators: %1$s: contact name. */
+													__( 'Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active.', 'hatnikotni-chat' ),
+													$contact['name']
+												) ) ); ?>);">
 														<input type="hidden" name="action" value="hatnch_set_default_contact">
 														<input type="hidden" name="contact_id" value="<?php echo esc_attr( (string) $contact['id'] ); ?>">
 														<?php wp_nonce_field( 'hatnch_set_default_contact_' . (int) $contact['id'], 'hatnch_default_nonce' ); ?>
