@@ -2,11 +2,16 @@
 Requires at least: 6.6
 Requires PHP: 8.1
 Tested up to: 7.1
-Stable tag: 0.1.25
+Stable tag: 0.1.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Lightweight WhatsApp contact routing with explicit visitor analytics choices and first-party campaign attribution.
+
+== Changelog ==
+
+= 0.1.26 =
+* Fix status-update handling when a contact record no longer exists.
 
 == Description ==
 
