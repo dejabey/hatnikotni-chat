@@ -343,12 +343,12 @@ final class HATNCH_Admin {
 
 	public static function delete_contact(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die(  esc_html__( 'You do not have permission to delete contacts.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to delete contacts.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
-		$id = isset( $_POST['contact_id'] ) ? absint( $_POST['contact_id'] ) : 0;
+		$id    = isset( $_POST['contact_id'] ) ? absint( $_POST['contact_id'] ) : 0;
 		$nonce = isset( $_POST['hatnch_delete_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['hatnch_delete_nonce'] ) ) : '';
 		if ( $id < 1 || ! wp_verify_nonce( $nonce, 'hatnch_delete_contact_' . $id ) ) {
-			wp_die(  esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
 		if ( ! HATNCH_Contacts::get( $id ) ) {
 			wp_safe_redirect( admin_url( 'admin.php?page=hatnch-contacts&error=contact_not_found' ) );
@@ -370,12 +370,12 @@ final class HATNCH_Admin {
 	/** Assign an active contact as the Default Contact. */
 	public static function set_default_contact(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die(  esc_html__( 'You do not have permission to change the Default Contact.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to change the Default Contact.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
 		$id    = isset( $_POST['contact_id'] ) ? absint( $_POST['contact_id'] ) : 0;
 		$nonce = isset( $_POST['hatnch_default_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['hatnch_default_nonce'] ) ) : '';
 		if ( $id < 1 || ! wp_verify_nonce( $nonce, 'hatnch_set_default_contact_' . $id ) ) {
-			wp_die(  esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
 		$contact = HATNCH_Contacts::get( $id );
 		if ( ! $contact ) {
@@ -399,14 +399,14 @@ final class HATNCH_Admin {
 
 	public static function toggle_contact(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die(  esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
 
 		$id    = isset( $_POST['contact_id'] ) ? absint( $_POST['contact_id'] ) : 0;
 		$nonce = isset( $_POST['hatnch_toggle_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['hatnch_toggle_nonce'] ) ) : '';
 
 		if ( $id < 1 || ! wp_verify_nonce( $nonce, 'hatnch_toggle_contact_' . $id ) ) {
-			wp_die(  esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Security check failed. Reload and try again.', 'hatnikotni-chat' ), '', array( 'response' => 403 ) );
 		}
 
 		$contact = HATNCH_Contacts::get( $id );
