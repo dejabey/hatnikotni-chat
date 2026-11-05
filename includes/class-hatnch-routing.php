@@ -37,10 +37,10 @@ final class HATNCH_Routing {
 		$routes = apply_filters(
 			'hatnch_purpose_role_routes',
 			array(
-				'general_enquiries'    => 'general_enquiries',
-				'listing_assistance'   => 'business_support',
+				'general_enquiries'     => 'general_enquiries',
+				'listing_assistance'    => 'business_support',
 				'business_partnerships' => 'partnerships',
-				'technical_question'   => 'business_support',
+				'technical_question'    => 'business_support',
 			)
 		);
 
@@ -155,10 +155,15 @@ final class HATNCH_Routing {
 			if ( self::STATE_OPTION === $state_key ) {
 				$contacts = HATNCH_Contacts::get_active();
 			} else {
-				$role = substr( $state_key, strlen( 'hatnch_rr_' ) );
-				$contacts = array_values( array_filter( HATNCH_Contacts::get_active(), static function ( $contact ) use ( $role ) {
-					return isset( $contact['role'] ) && $role === $contact['role'];
-				} ) );
+				$role     = substr( $state_key, strlen( 'hatnch_rr_' ) );
+				$contacts = array_values(
+					array_filter(
+						HATNCH_Contacts::get_active(),
+						static function ( $contact ) use ( $role ) {
+							return isset( $contact['role'] ) && $role === $contact['role'];
+						}
+					)
+				);
 			}
 			if ( empty( $contacts ) ) {
 				return null;
@@ -191,7 +196,7 @@ final class HATNCH_Routing {
 				}
 			}
 
-			$saved = $structured_state
+			$saved        = $structured_state
 				? array( 'last_contact_id' => (int) $next['id'] )
 				: (int) $next['id'];
 			$write_result = $wpdb->query(
@@ -218,7 +223,7 @@ final class HATNCH_Routing {
 				),
 				ARRAY_A
 			);
-			$persisted = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
+			$persisted    = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
 			$persisted_id = $structured_state
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
