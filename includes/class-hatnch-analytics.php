@@ -67,18 +67,18 @@ final class HATNCH_Analytics {
 		$inserted = $wpdb->insert(
 			self::table_name(),
 			array(
-				'event_type'   => 'whatsapp_click',
-				'created_at'   => current_time( 'mysql' ),
-				'contact_id'        => $contact_id > 0 ? $contact_id : null,
-				'contact_reference' => $contact_id > 0 ? $contact_id : null,
-				'page_id'      => $page_id > 0 ? $page_id : null,
-				'page_type'    => '' !== $page_type ? $page_type : null,
-				'device'       => $device,
-				'utm_source'   => $attribution['utm_source'],
-				'utm_medium'   => $attribution['utm_medium'],
-				'utm_campaign' => $attribution['utm_campaign'],
-				'utm_term'     => $attribution['utm_term'],
-				'utm_content'  => $attribution['utm_content'],
+				'event_type'         => 'whatsapp_click',
+				'created_at'         => current_time( 'mysql' ),
+				'contact_id'         => $contact_id > 0 ? $contact_id : null,
+				'contact_reference'  => $contact_id > 0 ? $contact_id : null,
+				'page_id'             => $page_id > 0 ? $page_id : null,
+				'page_type'           => '' !== $page_type ? $page_type : null,
+				'device'              => $device,
+				'utm_source'          => $attribution['utm_source'],
+				'utm_medium'          => $attribution['utm_medium'],
+				'utm_campaign'        => $attribution['utm_campaign'],
+				'utm_term'            => $attribution['utm_term'],
+				'utm_content'         => $attribution['utm_content'],
 			),
 			array( '%s', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
@@ -210,16 +210,30 @@ final class HATNCH_Analytics {
 	public static function get_export_rows( int $days ): array {
 		$summary = self::get_summary( $days );
 		$rows    = array(
-			array( 'section' => 'Report', 'value' => sprintf(
-				/* translators: %d: number of days in the reporting period. */
-				__( 'Last %d days', 'hatnikotni-chat' ),
-				$days
-			), 'clicks' => '' ),
-			array( 'section' => 'Summary', 'value' => 'WhatsApp clicks', 'clicks' => $summary['total'] ),
+			array(
+				'section' => 'Report',
+				'value'   => sprintf(
+					/* translators: %d: number of days in the reporting period. */
+					__( 'Last %d days', 'hatnikotni-chat' ),
+					$days
+				),
+				'clicks'  => '',
+			),
+			array(
+				'section' => 'Summary',
+				'value'   => 'WhatsApp clicks',
+				'clicks'  => $summary['total'],
+			),
 		);
+
 		foreach ( $summary['by_device'] as $row ) {
-			$rows[] = array( 'section' => 'By Device', 'value' => (string) ( $row['device'] ?? __( 'Unattributed', 'hatnikotni-chat' ) ), 'clicks' => (int) $row['total'] );
+			$rows[] = array(
+				'section' => 'By Device',
+				'value'   => (string) ( $row['device'] ?? __( 'Unattributed', 'hatnikotni-chat' ) ),
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		foreach ( $summary['by_contact'] as $row ) {
 			$ref     = absint( $row['contact_reference'] ?? 0 );
 			$contact = $ref ? HATNCH_Contacts::get( $ref ) : null;
@@ -228,11 +242,21 @@ final class HATNCH_Analytics {
 				__( 'Removed contact #%d', 'hatnikotni-chat' ),
 				$ref
 			) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
-			$rows[]  = array( 'section' => 'By Contact', 'value' => $label, 'clicks' => (int) $row['total'] );
+			$rows[]  = array(
+				'section' => 'By Contact',
+				'value'   => $label,
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		foreach ( $summary['by_campaign'] as $row ) {
-			$rows[] = array( 'section' => 'By Campaign', 'value' => (string) $row['utm_campaign'], 'clicks' => (int) $row['total'] );
+			$rows[] = array(
+				'section' => 'By Campaign',
+				'value'   => (string) $row['utm_campaign'],
+				'clicks'  => (int) $row['total'],
+			);
 		}
+
 		return $rows;
 	}
 
