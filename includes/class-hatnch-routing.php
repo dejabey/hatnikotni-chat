@@ -141,7 +141,22 @@ final class HATNCH_Routing {
 				return null;
 			}
 
-			$state = get_option( $state_key, $structured_state ? array() : 0 );
+			// Read the cursor directly from the database. The Options API may serve a
+			// stale value from a persistent object cache across concurrent requests.
+			$state_row = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
+					$state_key
+				),
+				ARRAY_A
+			);
+			if ( null === $state_row && '' !== $wpdb->last_error ) {
+				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_read_failed', 'state_key' => $state_key, 'db_error' => $wpdb->last_error ) ) );
+				return null;
+			}
+			$state = null !== $state_row
+				? maybe_unserialize( $state_row['option_value'] )
+				: ( $structured_state ? array() : 0 );
 			$last_id = $structured_state
 				? ( is_array( $state ) ? absint( $state['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $state );
@@ -156,9 +171,31 @@ final class HATNCH_Routing {
 			$saved = $structured_state
 				? array( 'last_contact_id' => (int) $next['id'] )
 				: (int) $next['id'];
-			update_option( $state_key, $saved, false );
+			$write_result = $wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'no' ) ON DUPLICATE KEY UPDATE option_value = VALUES( option_value ), autoload = VALUES( autoload )",
+					$state_key,
+					maybe_serialize( $saved )
+				)
+			);
+			if ( false === $write_result ) {
+				error_log( '[HATNCH_QA322] ' . wp_json_encode( array( 'stage' => 'state_write_failed', 'state_key' => $state_key, 'selected_id' => (int) $next['id'], 'db_error' => $wpdb->last_error ) ) );
+				return null;
+			}
 
-			$persisted = get_option( $state_key, $structured_state ? array() : 0 );
+			// Keep WordPress' option caches coherent after the direct database write.
+			wp_cache_delete( $state_key, 'options' );
+			wp_cache_delete( 'alloptions', 'options' );
+			wp_cache_delete( 'notoptions', 'options' );
+
+			$persisted_row = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
+					$state_key
+				),
+				ARRAY_A
+			);
+			$persisted = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
 			$persisted_id = $structured_state
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
