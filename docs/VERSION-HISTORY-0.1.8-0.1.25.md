@@ -1,6 +1,6 @@
 # Hatnikotni Chat development history: 0.1.8–0.1.25
 
-This record preserves the version purposes recovered from project conversation history. It is not a claim that every historical ZIP or build artifact has been independently recovered.
+This record preserves version purposes recovered from project conversation history, but is NOT yet a canonical verified changelog. The supplied 0.1.25 archive's own CHANGELOG.md conflicts with some conversation-recovered labels: the archive labels 0.1.8 as an Analytics visual refresh and places Analytics Management under an Unreleased heading, while conversation notes associate 0.1.8 with Analytics Management and 0.1.9 with the visual refresh. Keep this discrepancy visible until original versioned artifacts or dated commits resolve it. Do not silently overwrite either source.
 
 | Version | Development purpose |
 |---|---|
