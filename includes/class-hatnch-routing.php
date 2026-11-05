@@ -34,44 +34,70 @@ final class HATNCH_Routing {
 
 	/** Resolve an allow-listed support role, preserving the global fallback. */
 	public function resolve_purpose( string $purpose ): ?array {
-		$routes = apply_filters( 'hatnch_purpose_role_routes', array(
-			'general_enquiries' => 'general_enquiries',
-			'listing_assistance' => 'business_support',
-			'business_partnerships' => 'partnerships',
-			'technical_question' => 'business_support',
-		) );
-		if ( ! is_array( $routes ) ) { return $this->resolve(); }
+		$routes = apply_filters(
+			'hatnch_purpose_role_routes',
+			array(
+				'general_enquiries'    => 'general_enquiries',
+				'listing_assistance'   => 'business_support',
+				'business_partnerships' => 'partnerships',
+				'technical_question'   => 'business_support',
+			)
+		);
+
+		if ( ! is_array( $routes ) ) {
+			return $this->resolve();
+		}
+
 		$routes = array_filter( $routes, 'is_string' );
 		if ( ! isset( $routes[ $purpose ] ) ) {
 			return $this->resolve();
 		}
-		$map = HATNCH_Settings::get( 'purpose_roles', array() );
+
+		$map  = HATNCH_Settings::get( 'purpose_roles', array() );
 		$role = is_array( $map ) && isset( $map[ $purpose ] ) ? sanitize_key( $map[ $purpose ] ) : $routes[ $purpose ];
-		$allowed_roles = apply_filters( 'hatnch_allowed_contact_roles', array( 'general_enquiries', 'business_support', 'partnerships' ) );
-		if ( ! is_array( $allowed_roles ) ) { $allowed_roles = array(); }
+
+		$allowed_roles = apply_filters(
+			'hatnch_allowed_contact_roles',
+			array( 'general_enquiries', 'business_support', 'partnerships' )
+		);
+		if ( ! is_array( $allowed_roles ) ) {
+			$allowed_roles = array();
+		}
+
 		$allowed_roles = array_map( 'sanitize_key', $allowed_roles );
 		if ( ! in_array( $role, $allowed_roles, true ) ) {
 			return $this->resolve();
 		}
-		$eligible = array_values( array_filter( HATNCH_Contacts::get_active(), static function ( $contact ) use ( $role ) {
-			return isset( $contact['role'] ) && $role === $contact['role'];
-		} ) );
+
+		$eligible = array_values(
+			array_filter(
+				HATNCH_Contacts::get_active(),
+				static function ( $contact ) use ( $role ) {
+					return isset( $contact['role'] ) && $role === $contact['role'];
+				}
+			)
+		);
+
 		if ( empty( $eligible ) ) {
 			return $this->resolve();
 		}
+
 		$method = HATNCH_Settings::get( 'routing_method', 'direct' );
 		if ( 'random' === $method ) {
 			return $eligible[ wp_rand( 0, count( $eligible ) - 1 ) ];
 		}
+
 		if ( 'round_robin' === $method ) {
 			return $this->resolve_round_robin_from_set( $eligible, 'hatnch_rr_' . $role, false );
 		}
+
 		$default_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
 		foreach ( $eligible as $contact ) {
 			if ( $default_id === (int) $contact['id'] ) {
 				return $contact;
 			}
 		}
+
 		return $eligible[0];
 	}
 
@@ -201,7 +227,7 @@ final class HATNCH_Routing {
 			}
 			return $next;
 		} finally {
-			$release_result = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
+			$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 			if ( 1 !== (int) $release_result ) {
 			}
 		}
