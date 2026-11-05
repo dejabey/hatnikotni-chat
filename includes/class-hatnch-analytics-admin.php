@@ -175,12 +175,12 @@ final class HATNCH_Analytics_Admin {
 
 	private static function render_action_notice(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display only an opaque outcome code after a POST/redirect/GET action.
-		$notice = isset( $_GET['hatnch_notice'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_notice'] ) ) : '';
+		$notice  = isset( $_GET['hatnch_notice'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_notice'] ) ) : '';
 		$allowed = array(
-			'exported' => __( 'Analytics report exported.', 'hatnikotni-chat' ),
+			'exported'      => __( 'Analytics report exported.', 'hatnikotni-chat' ),
 			'deleted_range' => __( 'Analytics records in the selected date range were deleted.', 'hatnikotni-chat' ),
-			'deleted_all' => __( 'All analytics records were deleted.', 'hatnikotni-chat' ),
-			'error' => __( 'The requested analytics action could not be completed. No success was reported.', 'hatnikotni-chat' ),
+			'deleted_all'   => __( 'All analytics records were deleted.', 'hatnikotni-chat' ),
+			'error'         => __( 'The requested analytics action could not be completed. No success was reported.', 'hatnikotni-chat' ),
 		);
 		if ( isset( $allowed[ $notice ] ) ) {
 			$class = 'error' === $notice ? 'notice-error' : 'notice-success';
@@ -229,9 +229,9 @@ final class HATNCH_Analytics_Admin {
 		self::authorize_action();
 		check_admin_referer( 'hatnch_delete_analytics_range' );
 		$confirmed = isset( $_POST['confirm_range'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['confirm_range'] ) );
-		$start = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
-		$end   = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
-		$range = HATNCH_Analytics::validate_date_range( $start, $end );
+		$start     = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
+		$end       = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
+		$range     = HATNCH_Analytics::validate_date_range( $start, $end );
 		if ( ! $confirmed || is_wp_error( $range ) || is_wp_error( HATNCH_Analytics::count_events( $range ) ) ) {
 			self::redirect_notice( 'error' );
 		}
@@ -251,7 +251,13 @@ final class HATNCH_Analytics_Admin {
 	}
 
 	private static function redirect_notice( string $notice ): void {
-		$url = add_query_arg( array( 'page' => 'hatnch-analytics', 'hatnch_notice' => $notice ), admin_url( 'admin.php' ) );
+		$url = add_query_arg(
+			array(
+				'page'           => 'hatnch-analytics',
+				'hatnch_notice'  => $notice,
+			),
+			admin_url( 'admin.php' )
+		);
 		wp_safe_redirect( $url );
 		exit;
 	}
