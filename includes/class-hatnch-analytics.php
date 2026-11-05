@@ -169,14 +169,16 @@ final class HATNCH_Analytics {
 	/** Count retained click events within a validated range. */
 	public static function count_events( ?array $range = null ): int|WP_Error {
 		global $wpdb;
-		$where = '1=1';
-		$args  = array();
-		if ( null !== $range ) {
-			$where .= ' AND created_at >= %s AND created_at < %s';
-			$args[] = $range['start'];
-			$args[] = $range['end'];
+		if ( null === $range ) {
+			$sql = $wpdb->prepare( 'SELECT COUNT(*) FROM %i', self::table_name() );
+		} else {
+			$sql = $wpdb->prepare(
+				'SELECT COUNT(*) FROM %i WHERE created_at >= %s AND created_at < %s',
+				self::table_name(),
+				$range['start'],
+				$range['end']
+			);
 		}
-		$sql = $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE ' . $where, array_merge( array( self::table_name() ), $args ) );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Count plugin-owned analytics events for the explicit data-management operation.
 		$count = $wpdb->get_var( $sql );
 		return '' !== (string) $wpdb->last_error ? new WP_Error( 'analytics_count_failed', __( 'Could not count analytics records.', 'hatnikotni-chat' ) ) : (int) $count;
@@ -199,7 +201,11 @@ final class HATNCH_Analytics {
 	public static function get_export_rows( int $days ): array {
 		$summary = self::get_summary( $days );
 		$rows    = array(
-			array( 'section' => 'Report', 'value' => sprintf( __( 'Last %d days', 'hatnikotni-chat' ), $days ), 'clicks' => '' ),
+			array( 'section' => 'Report', 'value' => sprintf(
+				/* translators: %d: number of days in the reporting period. */
+				__( 'Last %d days', 'hatnikotni-chat' ),
+				$days
+			), 'clicks' => '' ),
 			array( 'section' => 'Summary', 'value' => 'WhatsApp clicks', 'clicks' => $summary['total'] ),
 		);
 		foreach ( $summary['by_device'] as $row ) {
@@ -208,7 +214,11 @@ final class HATNCH_Analytics {
 		foreach ( $summary['by_contact'] as $row ) {
 			$ref     = absint( $row['contact_reference'] ?? 0 );
 			$contact = $ref ? HATNCH_Contacts::get( $ref ) : null;
-			$label   = $contact['name'] ?? ( $ref ? sprintf( __( 'Removed contact #%d', 'hatnikotni-chat' ), $ref ) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
+			$label   = $contact['name'] ?? ( $ref ? sprintf(
+				/* translators: %d: ID of a contact that no longer exists. */
+				__( 'Removed contact #%d', 'hatnikotni-chat' ),
+				$ref
+			) : __( 'Unknown / removed', 'hatnikotni-chat' ) );
 			$rows[]  = array( 'section' => 'By Contact', 'value' => $label, 'clicks' => (int) $row['total'] );
 		}
 		foreach ( $summary['by_campaign'] as $row ) {
