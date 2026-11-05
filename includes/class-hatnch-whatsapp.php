@@ -37,7 +37,13 @@ final class HATNCH_WhatsApp {
 	public static function handle_click(): void {
 		nocache_headers();
 
-		$contact = ( new HATNCH_Routing() )->resolve();
+		// Only a fixed allow-list is accepted; the request never supplies a destination or role.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click-through route selector; allow-listed below.
+		$purpose = isset( $_GET['hatnch_purpose'] ) && is_scalar( $_GET['hatnch_purpose'] ) ? sanitize_key( wp_unslash( $_GET['hatnch_purpose'] ) ) : '';
+		$purpose_ids = array_keys( self::purpose_definitions() );
+		$purpose_enabled = (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false );
+		$routing = new HATNCH_Routing();
+		$contact = $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? $routing->resolve_purpose( $purpose ) : $routing->resolve();
 
 		if ( ! is_array( $contact ) || empty( $contact['phone'] ) ) {
 			wp_safe_redirect( home_url( '/' ) );
@@ -54,7 +60,7 @@ final class HATNCH_WhatsApp {
 		$message = isset( $_GET['hatnch_message'] ) && is_scalar( $_GET['hatnch_message'] )
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public click endpoint; sanitize before building the WhatsApp URL.
 			? sanitize_text_field( wp_unslash( $_GET['hatnch_message'] ) )
-			: (string) HATNCH_Settings::get( 'default_message', '' );
+			: ( $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? sprintf( __( 'Hello, I would like to contact your team regarding %s. Can you assist me?', 'hatnikotni-chat' ), self::purpose_label( $purpose ) ) : (string) HATNCH_Settings::get( 'default_message', '' ) );
 
 		HATNCH_Analytics::record_click(
 			array(
@@ -103,6 +109,16 @@ final class HATNCH_WhatsApp {
 			array(),
 			HATNCH_VERSION
 		);
+
+		if ( (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false ) ) {
+			wp_enqueue_script(
+				'hatnch-purpose',
+				HATNCH_PLUGIN_URL . 'assets/js/hatnikotni-chat-purpose.js',
+				array(),
+				HATNCH_VERSION,
+				true
+			);
+		}
 
 		wp_enqueue_script(
 			'hatnch-privacy',
@@ -180,22 +196,70 @@ final class HATNCH_WhatsApp {
 					<?php endif; ?>
 					<button class="hatnch-privacy-read-more" type="button" aria-expanded="false" aria-controls="hatnch-privacy-explanation"><?php echo esc_html__( 'Read More', 'hatnikotni-chat' ); ?></button>
 				</div>
-				<p class="hatnch-privacy-explanation" id="hatnch-privacy-explanation" hidden><?php echo esc_html__( 'If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way.', 'hatnikotni-chat' ); ?></p>
+				<p class="hatnch-privacy-explanation" id="hatnch-privacy-explanation" hidden><?php echo esc_html__( 'Analytics records clicks only if you accept. It does not record message content or IP addresses. WhatsApp works either way.', 'hatnikotni-chat' ); ?></p>
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
 			</section>
 			<div class="hatnch-widget__actions">
 				<button class="hatnch-privacy-toggle" type="button" aria-label="<?php echo esc_attr__( 'Privacy', 'hatnikotni-chat' ); ?>" title="<?php echo esc_attr__( 'Privacy', 'hatnikotni-chat' ); ?>" aria-expanded="false" aria-controls="hatnch-privacy-panel">
 					<svg class="hatnch-privacy-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 20 6v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
 				</button>
-				<a class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
+				<?php if ( (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false ) ) : ?>
+				<button class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" type="button" aria-haspopup="dialog" aria-controls="hatnch-purpose-panel" aria-expanded="false" aria-label="<?php echo esc_attr( $label ); ?>" data-hatnch-purpose-open>
+			<?php else : ?>
+				<a class="hatnch-button hatnch-floating hatnch-floating--<?php echo esc_attr( $position ); ?>" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $label ); ?>">
+			<?php endif; ?>
 					<svg class="hatnch-button__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 						<path d="M20.52 3.48A11.83 11.83 0 0 0 12.08 0C5.54 0 .22 5.31.22 11.86c0 2.09.55 4.13 1.59 5.93L.12 24l6.36-1.67a11.86 11.86 0 0 0 5.6 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.43-8.42Zm-8.44 18.26h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.82 9.82 0 0 1-1.51-5.24C2.2 6.42 6.62 2 12.08 2a9.87 9.87 0 0 1 7.02 2.92 9.85 9.85 0 0 1 2.9 7.01c0 5.46-4.45 9.81-9.92 9.81Zm5.41-7.36c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-1.76-.88-2.91-1.57-4.07-3.55-.31-.53.31-.49.88-1.63.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.88 1.22 3.08.15.2 2.11 3.22 5.11 4.52.71.31 1.27.49 1.7.63.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z"/>
 					</svg>
 					<span class="hatnch-button__label"><?php echo esc_html( $label ); ?></span>
+			<?php if ( (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false ) ) : ?>
+				</button>
+			<?php else : ?>
 				</a>
+			<?php endif; ?>
 			</div>
+			<?php if ( (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false ) ) : ?>
+				<div class="hatnch-purpose-panel" id="hatnch-purpose-panel" role="dialog" aria-modal="false" aria-labelledby="hatnch-purpose-title" hidden>
+					<div class="hatnch-purpose-panel__header"><h2 id="hatnch-purpose-title"><?php echo esc_html__( 'How can we help?', 'hatnikotni-chat' ); ?></h2><button type="button" data-hatnch-purpose-close aria-label="<?php echo esc_attr__( 'Close', 'hatnikotni-chat' ); ?>">×</button></div>
+					<p><?php echo esc_html__( 'Choose a topic to continue to WhatsApp.', 'hatnikotni-chat' ); ?></p>
+					<?php foreach ( self::purpose_definitions() as $purpose_id => $purpose_definition ) : ?>
+						<a class="hatnch-purpose-option" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( add_query_arg( 'hatnch_purpose', $purpose_id, $url ) ); ?>"><?php echo esc_html( $purpose_definition['label'] ); ?></a>
+					<?php endforeach; ?>
+					<p class="hatnch-purpose-note"><?php echo esc_html__( 'For complex matters, use the support channel provided by this website.', 'hatnikotni-chat' ); ?></p>
+					<?php $support_url = esc_url( (string) HATNCH_Settings::get( 'support_url', '' ), array( 'http', 'https' ) ); $support_email = sanitize_email( (string) HATNCH_Settings::get( 'support_email', '' ) ); if ( $support_url ) : ?><p class="hatnch-purpose-support"><a href="<?php echo esc_url( $support_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Open Support Page', 'hatnikotni-chat' ); ?></a></p><?php elseif ( $support_email ) : ?><p class="hatnch-purpose-support"><a href="<?php echo esc_url( 'mailto:' . $support_email ); ?>"><?php echo esc_html( $support_email ); ?></a></p><?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Public purpose registry. Extensions may add or replace definitions via filter.
+	 * Each item requires a safe purpose key and a visitor-facing label.
+	 *
+	 * @return array<string,array{label:string}>
+	 */
+	public static function purpose_definitions(): array {
+		$definitions = array(
+			'general_enquiries' => array( 'label' => __( 'General Enquiries', 'hatnikotni-chat' ) ),
+			'listing_assistance' => array( 'label' => __( 'Customer Support', 'hatnikotni-chat' ) ),
+			'business_partnerships' => array( 'label' => __( 'Sales & Partnerships', 'hatnikotni-chat' ) ),
+			'technical_question' => array( 'label' => __( 'Technical Support', 'hatnikotni-chat' ) ),
+		);
+		$definitions = apply_filters( 'hatnch_purpose_definitions', $definitions );
+		if ( ! is_array( $definitions ) ) { return array(); }
+		$safe = array();
+		foreach ( $definitions as $key => $definition ) {
+			$key = is_string( $key ) ? sanitize_key( $key ) : '';
+			if ( '' === $key || ! is_array( $definition ) || empty( $definition['label'] ) || ! is_scalar( $definition['label'] ) ) { continue; }
+			$safe[ $key ] = array( 'label' => sanitize_text_field( (string) $definition['label'] ) );
+		}
+		return $safe;
+	}
+
+	private static function purpose_label( string $purpose ): string {
+		$definitions = self::purpose_definitions();
+		return isset( $definitions[ $purpose ]['label'] ) ? $definitions[ $purpose ]['label'] : __( 'an enquiry', 'hatnikotni-chat' );
 	}
 
 	private static function frontend_enabled(): bool {

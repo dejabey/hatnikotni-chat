@@ -817,11 +817,6 @@
 	table-layout: fixed;
 }
 
-.hatnch-admin .hatnch-table-scroll-hint {
-	margin: 0 0 8px;
-	color: var(--hatnch-admin-muted);
-	font-size: 12px;
-}
 
 .hatnch-admin .hatnch-table-wrap:focus-visible {
 	outline: 2px solid var(--hatnch-admin-accent);
@@ -836,4 +831,526 @@
 	.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
 		margin-left: auto;
 	}
+}
+
+
+/* Contact management refinement: readable table columns and WhatsApp brand accent. */
+.hatnch-admin {
+	--hatnch-admin-accent: #25D366;
+	--hatnch-admin-accent-dark: #128C7E;
+}
+
+.hatnch-admin .hatnch-contacts-table {
+	width: max(100%, 1100px) !important;
+	min-width: 1100px !important;
+	max-width: none !important;
+	table-layout: fixed !important;
+}
+
+.hatnch-admin .hatnch-contacts-table th,
+.hatnch-admin .hatnch-contacts-table td {
+	box-sizing: border-box;
+}
+
+/* ID remains compact; long contact names are truncated on desktop. */
+.hatnch-admin .hatnch-contacts-table th:nth-child(1),
+.hatnch-admin .hatnch-contacts-table td:nth-child(1) {
+	width: 70px;
+	min-width: 70px;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(2),
+.hatnch-admin .hatnch-contacts-table td:nth-child(2) {
+	width: 270px;
+	min-width: 270px;
+}
+
+.hatnch-admin .hatnch-contact-name {
+	display: block;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(3),
+.hatnch-admin .hatnch-contacts-table td:nth-child(3) {
+	width: 165px;
+	min-width: 165px;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(4),
+.hatnch-admin .hatnch-contacts-table td:nth-child(4) {
+	width: 180px;
+	min-width: 180px;
+	overflow-wrap: anywhere;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(5),
+.hatnch-admin .hatnch-contacts-table td:nth-child(5) {
+	width: 125px;
+	min-width: 125px;
+	white-space: nowrap;
+}
+
+
+/* On narrow screens, allow the full name to wrap within its bounded column. */
+@media (max-width: 782px) {
+	.hatnch-admin .hatnch-contact-name {
+		height: auto;
+		overflow: visible;
+		text-overflow: clip;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+}
+
+.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+	align-items: center;
+}
+
+@media (max-width: 640px) {
+	.hatnch-admin .hatnch-contact-form .hatnch-form-actions {
+		flex-wrap: wrap;
+	}
+
+	.hatnch-admin .hatnch-contact-form .hatnch-status-switch {
+		order: 2;
+		flex: 0 0 100%;
+		justify-content: flex-start;
+		margin: 4px 0 0;
+	}
+}
+
+
+
+/* WordPress-style row actions are grouped directly beneath each contact name. */
+.hatnch-admin .hatnch-row-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 3px 7px;
+	margin-top: 5px;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.hatnch-admin .hatnch-row-actions form {
+	display: inline-flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+
+.hatnch-admin .hatnch-row-actions > span[aria-hidden="true"] {
+	color: #a7aaad;
+}
+
+.hatnch-admin .hatnch-row-actions a {
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-row-actions a:hover,
+.hatnch-admin .hatnch-row-actions a:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* Keep the destructive action distinct without competing with primary row actions. */
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact {
+	color: #b32d2e;
+}
+
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact:hover,
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact:focus-visible {
+	color: #8a2424;
+}
+
+
+/* Contact table intentionally overflows on narrow screens; keep the real scroll container. */
+.hatnch-admin .hatnch-contacts-table {
+	width: max(100%, 800px) !important;
+	min-width: 800px !important;
+	max-width: none !important;
+	table-layout: fixed !important;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(1),
+.hatnch-admin .hatnch-contacts-table td:nth-child(1) {
+	width: 52px !important;
+	min-width: 52px !important;
+	max-width: 52px !important;
+	padding-left: 8px;
+	padding-right: 6px;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(2),
+.hatnch-admin .hatnch-contacts-table td:nth-child(2) {
+	width: 260px;
+	min-width: 260px;
+}
+
+.hatnch-admin .hatnch-contacts-table th:nth-child(3),
+.hatnch-admin .hatnch-contacts-table td:nth-child(3) {
+	width: 155px !important;
+	min-width: 155px !important;
+	max-width: 155px !important;
+	padding-left: 10px;
+	padding-right: 8px;
+	white-space: nowrap;
+}
+
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact {
+	appearance: none;
+	-webkit-appearance: none;
+	display: inline;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	color: #b32d2e;
+	font: inherit;
+	line-height: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact:hover,
+.hatnch-admin .hatnch-row-actions .hatnch-delete-contact:focus-visible {
+	background: transparent;
+	box-shadow: none;
+	color: #8a2424;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+
+/* Render state-changing row actions as WordPress-style text links. */
+.hatnch-admin .hatnch-row-actions .hatnch-row-action-link {
+	appearance: none;
+	-webkit-appearance: none;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	color: #2271b1;
+	font: inherit;
+	line-height: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.hatnch-admin .hatnch-row-actions .hatnch-row-action-link:hover,
+.hatnch-admin .hatnch-row-actions .hatnch-row-action-link:focus-visible {
+	color: #135e96;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.hatnch-admin .hatnch-row-actions .hatnch-row-action-form {
+	display: inline-flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* Analytics management controls and contact default indicator. */
+.hatnch-admin .hatnch-default-badge {
+	display: block;
+	width: fit-content;
+	margin: 0 0 3px;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: #008a5a;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.hatnch-admin .hatnch-analytics-management {
+	margin-top: 20px;
+}
+
+.hatnch-admin .hatnch-analytics-management__section {
+	padding: 16px 0;
+}
+
+.hatnch-admin .hatnch-analytics-management__section h3 {
+	margin-top: 0;
+}
+
+.hatnch-admin .hatnch-analytics-management__section form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 12px;
+}
+
+.hatnch-admin .hatnch-analytics-management__section form p {
+	margin: 0;
+}
+
+.hatnch-admin .hatnch-analytics-management__section form label {
+	font-weight: 500;
+}
+
+@media (max-width: 782px) {
+	.hatnch-admin .hatnch-analytics-management__section form {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}
+
+
+/* Analytics dashboard visual refinement; scoped to Analytics only. */
+.hatnch-admin--analytics{--hatnch-admin-accent:#25d366;--hatnch-admin-accent-dark:#128c4a;--hatnch-analytics-ink:#10231b;max-width:1440px;padding-bottom:24px}
+.hatnch-admin--analytics .hatnch-page-header{margin:24px 0;padding:26px 28px;border:1px solid #dcebe1;border-radius:18px;background:radial-gradient(ellipse at 100% 0%,rgba(37,211,102,.13),transparent 42%),linear-gradient(120deg,#fff,#f8fdf9);box-shadow:0 12px 34px rgba(13,57,32,.055)}
+.hatnch-admin--analytics .hatnch-eyebrow{color:#08783d;letter-spacing:.12em}
+.hatnch-admin--analytics .hatnch-page-header h1{letter-spacing:-.035em}
+.hatnch-admin--analytics .hatnch-admin-intro{max-width:900px}
+.hatnch-admin--analytics .hatnch-analytics-top{grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);align-items:stretch;gap:18px;margin-bottom:18px}
+.hatnch-admin--analytics .hatnch-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.hatnch-admin--analytics .hatnch-stat-card{position:relative;min-height:132px;overflow:hidden;padding:22px 24px;border-color:#dcebe1;border-radius:16px;box-shadow:0 8px 26px rgba(13,57,32,.055)}
+.hatnch-admin--analytics .hatnch-stat-card--accent{border-color:#b9edcb;background:radial-gradient(ellipse at 100% 0%,rgba(37,211,102,.18),transparent 56%),linear-gradient(135deg,#fff,#f1fff5)}
+.hatnch-admin--analytics .hatnch-stat-card__label{display:block;color:#53675b;font-size:12px;font-weight:650;letter-spacing:.025em}
+.hatnch-admin--analytics .hatnch-stat-card__value{display:block;margin-top:12px;color:#10231b;font-size:clamp(30px,3vw,40px);font-weight:750;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.hatnch-admin--analytics .hatnch-stat-card__meta{display:block;margin-top:9px;color:#64786b;font-size:12px}
+.hatnch-admin--analytics .hatnch-filter-panel{display:flex;align-items:center;margin:0;padding:22px 24px;border-color:#dcebe1;border-radius:16px;box-shadow:0 8px 26px rgba(13,57,32,.055)}
+.hatnch-admin--analytics .hatnch-filter-form{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px;width:100%}
+.hatnch-admin--analytics .hatnch-filter-form>div{display:grid;gap:7px;flex:1 1 140px}
+.hatnch-admin--analytics .hatnch-filter-form label,.hatnch-admin--analytics .hatnch-analytics-management label{color:#344b3d;font-size:12px;font-weight:650}
+.hatnch-admin--analytics .hatnch-filter-form select,.hatnch-admin--analytics .hatnch-analytics-management select,.hatnch-admin--analytics .hatnch-analytics-management input[type=date],.hatnch-admin--analytics .hatnch-analytics-management input[type=text]{box-sizing:border-box;min-height:40px;max-width:100%;border-color:#c9ddcf;border-radius:9px;background:#fff;box-shadow:none}
+.hatnch-admin--analytics .hatnch-data-grid{gap:18px;margin-bottom:18px}
+.hatnch-admin--analytics .hatnch-data-grid .hatnch-panel{padding:22px 24px;border-color:#e0ebe3;border-radius:16px;box-shadow:0 8px 26px rgba(13,57,32,.045)}
+.hatnch-admin--analytics .hatnch-panel__header{margin-bottom:14px}
+.hatnch-admin--analytics .hatnch-panel__header h2{font-size:15px;letter-spacing:-.01em}
+.hatnch-admin--analytics .hatnch-panel__header p{color:#718176;font-size:12px}
+.hatnch-admin--analytics .hatnch-analytics-table{border-collapse:separate;border-spacing:0}
+.hatnch-admin--analytics .hatnch-analytics-table th{padding:11px 13px;border-bottom:1px solid #e3eee6;background:#f3faf5;color:#52665a;font-size:11px;font-weight:700;letter-spacing:.045em;text-transform:uppercase}
+.hatnch-admin--analytics .hatnch-analytics-table td{padding:12px 13px;border-bottom:1px solid #edf3ee;color:#405348;font-size:13px}
+.hatnch-admin--analytics .hatnch-analytics-table tbody tr:last-child td{border-bottom:0}
+.hatnch-admin--analytics .hatnch-analytics-table tbody tr:hover td{background:#f8fcf9}
+.hatnch-admin--analytics .hatnch-analytics-table td:last-child{color:#123b24;font-weight:700;font-variant-numeric:tabular-nums}
+.hatnch-admin--analytics .hatnch-empty-state{margin:0;padding:16px 14px;border:1px dashed #d5e7da;border-radius:10px;background:#f8fcf9;color:#6c7d71;font-size:13px}
+.hatnch-admin--analytics .hatnch-analytics-management{padding:24px 26px;border-color:#dcebe1;border-radius:16px;box-shadow:0 8px 26px rgba(13,57,32,.045)}
+.hatnch-admin--analytics .hatnch-analytics-management>.hatnch-panel__header{margin-bottom:18px}
+.hatnch-admin--analytics .hatnch-analytics-management__section{padding:18px 20px;border:1px solid #e0ebe3;border-radius:13px;background:#fbfefc}
+.hatnch-admin--analytics .hatnch-analytics-management__section h3{margin:0 0 6px;color:#173b25;font-size:14px;font-weight:700;letter-spacing:-.01em}
+.hatnch-admin--analytics .hatnch-analytics-management__section>p{margin:0 0 14px;color:#687b6e;font-size:12px;line-height:1.65}
+.hatnch-admin--analytics .hatnch-analytics-management>hr{margin:14px 0;border:0;border-top:1px solid #e7f0e9}
+.hatnch-admin--analytics .hatnch-analytics-management__section form{display:flex;align-items:flex-end;flex-wrap:wrap;gap:10px 12px}
+.hatnch-admin--analytics .hatnch-analytics-management__section form p{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:0}
+.hatnch-admin--analytics .hatnch-analytics-management .button-secondary{min-height:40px;padding:0 14px;border-color:#b8d9c2;background:#fff;color:#14532d;font-weight:650}
+.hatnch-admin--analytics .hatnch-analytics-management .button-secondary:hover,.hatnch-admin--analytics .hatnch-analytics-management .button-secondary:focus{border-color:#25a85a;background:#f1fff5;color:#104725}
+.hatnch-admin--analytics .hatnch-analytics-management .button.delete{min-height:40px;padding:0 14px;border-color:#efb6b6;background:#fff;color:#b42318;font-weight:650}
+.hatnch-admin--analytics .hatnch-analytics-management .button.delete:hover,.hatnch-admin--analytics .hatnch-analytics-management .button.delete:focus{border-color:#d92d20;background:#fff5f4;color:#912018}
+.hatnch-admin--analytics .hatnch-admin-note{padding:13px 16px;border:1px solid #dcebe1;border-left:3px solid #25d366;border-radius:10px;background:#f8fcf9;color:#5e7265;font-size:12px;line-height:1.65}
+.hatnch-admin--analytics .notice{border-radius:10px;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+@media(max-width:960px){.hatnch-admin--analytics .hatnch-analytics-top{grid-template-columns:1fr}.hatnch-admin--analytics .hatnch-filter-panel{display:block}}
+@media(max-width:782px){.hatnch-admin--analytics .hatnch-page-header{padding:20px}.hatnch-admin--analytics .hatnch-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hatnch-admin--analytics .hatnch-data-grid{grid-template-columns:1fr}.hatnch-admin--analytics .hatnch-data-grid__wide{grid-column:auto}.hatnch-admin--analytics .hatnch-analytics-management{padding:16px}.hatnch-admin--analytics .hatnch-analytics-management__section{padding:15px}}
+@media(max-width:480px){.hatnch-admin--analytics .hatnch-stat-grid{grid-template-columns:1fr}.hatnch-admin--analytics .hatnch-stat-card{min-height:110px}.hatnch-admin--analytics .hatnch-analytics-management__section form{align-items:stretch;flex-direction:column}.hatnch-admin--analytics .hatnch-analytics-management__section form>*{max-width:100%}.hatnch-admin--analytics .hatnch-analytics-management__section form p{align-items:flex-start;flex-direction:column}}
+
+
+
+/* Analytics dashboard refinement: align with the compact WordPress reporting-dashboard pattern. */
+.hatnch-admin--analytics .hatnch-data-grid{width:100%;max-width:none;grid-template-columns:repeat(2,minmax(0,1fr))}
+.hatnch-admin--analytics .hatnch-analytics-management{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.hatnch-admin--analytics .hatnch-analytics-management>.hatnch-panel__header{grid-column:1/-1;margin:0}
+.hatnch-admin--analytics .hatnch-analytics-management__section{min-width:0;box-sizing:border-box}
+.hatnch-admin--analytics .hatnch-data-grid .hatnch-panel{min-width:0}
+.hatnch-admin--analytics .hatnch-table-wrap{max-width:100%;overflow-x:auto}
+.hatnch-admin--analytics .hatnch-analytics-table{width:100%;min-width:0}
+.hatnch-admin--analytics .hatnch-analytics-table th:first-child,.hatnch-admin--analytics .hatnch-analytics-table td:first-child{width:78%}
+.hatnch-admin--analytics .hatnch-analytics-table th:last-child,.hatnch-admin--analytics .hatnch-analytics-table td:last-child{width:22%;white-space:nowrap}
+.hatnch-admin--analytics .hatnch-analytics-management__section form{min-width:0}
+.hatnch-admin--analytics .hatnch-analytics-management__section input[type=date]{min-width:0}
+.hatnch-admin--analytics .hatnch-analytics-management__section--all{position:relative}
+.hatnch-admin--analytics .hatnch-analytics-management__section--all h3{color:#912018}
+.hatnch-admin--analytics .hatnch-analytics-management__section--all{grid-column:1/-1;border-color:#efc7c4;background:#fffafa}
+.hatnch-admin--analytics .hatnch-analytics-management>hr{display:none}
+@media(max-width:782px){.hatnch-admin--analytics .hatnch-analytics-management{grid-template-columns:minmax(0,1fr)}.hatnch-admin--analytics .hatnch-analytics-management__section--all{grid-column:auto}}
+
+
+/* Analytics summary: each KPI/filter panel is a direct item in the full-width grid. */
+.hatnch-admin--analytics .hatnch-analytics-top{
+	display:grid;
+	grid-template-columns:repeat(3,minmax(0,1fr));
+	align-items:stretch;
+	gap:14px;
+	width:100%;
+}
+.hatnch-admin--analytics .hatnch-analytics-top > .hatnch-stat-card,
+.hatnch-admin--analytics .hatnch-analytics-top > .hatnch-filter-panel{
+	box-sizing:border-box;
+	width:100%;
+	min-width:0;
+	margin:0;
+}
+.hatnch-admin--analytics .hatnch-analytics-top > .hatnch-stat-card{
+	display:flex;
+	flex-direction:column;
+}
+@media(max-width:782px){
+	.hatnch-admin--analytics .hatnch-analytics-top{grid-template-columns:minmax(0,1fr)}
+}
+
+
+/* 0.1.15: responsive Analytics layout corrections. Keep these rules last to override earlier desktop refinements. */
+@media (max-width: 782px) {
+  .hatnch-admin--analytics .hatnch-data-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+  }
+  .hatnch-admin--analytics .hatnch-data-grid > .hatnch-panel,
+  .hatnch-admin--analytics .hatnch-data-grid > .hatnch-data-grid__wide {
+    grid-column: 1 / -1 !important;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .hatnch-admin--analytics .hatnch-filter-panel {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .hatnch-admin--analytics .hatnch-filter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+  .hatnch-admin--analytics .hatnch-filter-form > div,
+  .hatnch-admin--analytics .hatnch-filter-form select,
+  .hatnch-admin--analytics .hatnch-filter-form .button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+  }
+  .hatnch-admin--analytics .hatnch-filter-form label {
+    display: block;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+  .hatnch-admin--analytics .hatnch-analytics-table {
+    table-layout: fixed;
+  }
+  .hatnch-admin--analytics .hatnch-analytics-table th,
+  .hatnch-admin--analytics .hatnch-analytics-table td {
+    overflow-wrap: anywhere;
+    padding: 10px 8px;
+  }
+}
+
+
+/* 0.1.16: force KPI summary row to use the full Analytics content width.
+ * Previous three-column sizing was correct, but the row remained narrower than
+ * the dashboard sections. Remove inherited width caps and explicitly stretch.
+ */
+.hatnch-admin.wrap.hatnch-admin--analytics .hatnch-analytics-top {
+	width: 100% !important;
+	max-width: none !important;
+	box-sizing: border-box;
+	grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+	align-items: stretch;
+}
+.hatnch-admin.wrap.hatnch-admin--analytics .hatnch-analytics-top > .hatnch-stat-card,
+.hatnch-admin.wrap.hatnch-admin--analytics .hatnch-analytics-top > .hatnch-filter-panel {
+	width: 100% !important;
+	max-width: none !important;
+	min-width: 0;
+	box-sizing: border-box;
+}
+@media (max-width: 782px) {
+	.hatnch-admin.wrap.hatnch-admin--analytics .hatnch-analytics-top {
+		grid-template-columns: minmax(0, 1fr) !important;
+	}
+}
+
+/* 0.1.17: neutral status text for protected Default Contact row. */
+.hatnch-admin .hatnch-row-actions .hatnch-protected-note {
+	color: #646970;
+	font-size: 11px;
+	font-style: italic;
+}
+
+/* Compact, keyboard-accessible settings workspace. */
+.hatnch-settings-tabs{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:22px 0 16px;padding:6px;background:#e9edf3;border:1px solid #dce2eb;border-radius:14px;width:fit-content;max-width:100%}
+.hatnch-settings-tab{appearance:none;border:1px solid transparent;background:transparent;color:#48546a;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:650;line-height:1.4;cursor:pointer;transition:background .15s ease,color .15s ease,box-shadow .15s ease}
+.hatnch-settings-tab:hover{background:rgba(255,255,255,.65);color:#172033}
+.hatnch-settings-tab.is-active{background:#fff;color:#172033;border-color:#e3e8f0;box-shadow:0 2px 8px rgba(24,39,75,.09)}
+.hatnch-settings-tab:focus-visible{outline:2px solid #2271b1;outline-offset:2px}
+.hatnch-tab-panel[hidden]{display:none!important}
+.hatnch-tab-panel{animation:hatnch-panel-in .16s ease-out}
+.hatnch-extension-panel{padding:14px 0;border-top:1px solid #edf0f5}
+.hatnch-extension-panel:first-of-type{border-top:0}
+@keyframes hatnch-panel-in{from{opacity:.55;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:782px){.hatnch-settings-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:4px}.hatnch-settings-tab{padding:10px 7px;text-align:center}.hatnch-settings-form .hatnch-panel{padding:16px}}
+@media(prefers-reduced-motion:reduce){.hatnch-tab-panel{animation:none}.hatnch-settings-tab{transition:none}}
+
+/* Workspace navigation: clear text links, not a segmented control. */
+.hatnch-workspace-nav {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 24px;
+	width: fit-content;
+	max-width: 100%;
+	margin: 0 0 20px;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+}
+.hatnch-workspace-nav__link {
+	display: inline-flex;
+	align-items: center;
+	min-height: 38px;
+	padding: 0;
+	border-bottom: 2px solid transparent;
+	color: #526174;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+}
+.hatnch-workspace-nav__link:hover { color: #0f172a; }
+.hatnch-workspace-nav__link.is-active { color: #0f172a; border-bottom-color: #20c968; }
+.hatnch-workspace-nav__link:focus-visible { outline: 2px solid #2271b1; outline-offset: 3px; }
+@media (max-width: 600px) {
+	.hatnch-workspace-nav { gap: 18px; }
+	.hatnch-workspace-nav__link { min-height: 36px; }
+}
+
+
+/* Analytics tables have two columns and should not advertise horizontal scrolling. */
+.hatnch-admin--analytics .hatnch-table-wrap {
+	overflow-x: hidden;
+}
+
+.hatnch-admin--analytics .hatnch-analytics-table {
+	table-layout: fixed;
+	width: 100%;
+	max-width: 100%;
+}
+
+.hatnch-admin--analytics .hatnch-analytics-table th,
+.hatnch-admin--analytics .hatnch-analytics-table td {
+	min-width: 0;
+	white-space: normal;
+	overflow-wrap: anywhere;
+	word-break: normal;
 }
