@@ -1,0 +1,357 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hatnikotni Chat 0.1.7\n"
+"Language: ms_MY\n"
+"Language-Team: Malay\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: hatnikotni-chat\n"
+
+msgid "— Select —"
+msgstr "— Pilih —"
+
+#. Translators: %d is a number.
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d hari"
+msgstr[1] "%d hari"
+
+msgid "180 days"
+msgstr "180 hari"
+
+msgid "601234567890"
+msgstr "601234567890"
+
+msgid "A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent."
+msgstr "Klik tidak mengesahkan bahawa mesej WhatsApp telah dihantar. Analitik dan atribusi kempen memerlukan persetujuan pelawat."
+
+msgid "Accept"
+msgstr "Terima"
+
+msgid "Actions"
+msgstr "Tindakan"
+
+msgid "Activate"
+msgstr "Aktifkan"
+
+msgid "Active"
+msgstr "Aktif"
+
+msgid "Add Contact"
+msgstr "Tambah kenalan"
+
+msgid "Allow analytics"
+msgstr "Benarkan analitik"
+
+msgid "Analytics"
+msgstr "Analitik"
+
+msgid "Analytics accepted."
+msgstr "Analitik diterima."
+
+msgid "Analytics data is not sent by Hatnikotni Chat to an external analytics service. When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp and that service receives information according to its own privacy policy and terms."
+msgstr "Hatnikotni Chat tidak menghantar data analitik kepada perkhidmatan analitik luaran. Apabila pelawat memilih untuk menghubungi laman melalui WhatsApp, pelayar akan dialihkan ke WhatsApp dan perkhidmatan itu menerima maklumat mengikut dasar privasi serta syaratnya sendiri."
+
+msgid "Analytics events are stored in the site WordPress database and are automatically deleted after 180 days. With analytics consent, the plugin may use the first-party hatnch_campaign cookie for up to 30 days to retain the latest supported UTM campaign attribution."
+msgstr "Peristiwa analitik disimpan dalam pangkalan data WordPress laman dan dipadam secara automatik selepas 180 hari. Dengan persetujuan analitik, plugin boleh menggunakan kuki pihak pertama hatnch_campaign sehingga 30 hari untuk mengekalkan atribusi kempen UTM terkini yang disokong."
+
+msgid "Analytics rejected. WhatsApp remains available."
+msgstr "Analitik ditolak. WhatsApp tetap tersedia."
+
+msgid "Analytics summary"
+msgstr "Ringkasan analitik"
+
+msgid "Apply"
+msgstr "Gunakan"
+
+msgid "Bottom left"
+msgstr "Bawah kiri"
+
+msgid "Bottom right"
+msgstr "Bawah kanan"
+
+msgid "Broad device categories only."
+msgstr "Kategori peranti umum sahaja."
+
+msgid "Button & message"
+msgstr "Butang dan mesej"
+
+msgid "Button Label"
+msgstr "Label butang"
+
+msgid "Button Position"
+msgstr "Kedudukan butang"
+
+msgid "By Campaign"
+msgstr "Mengikut kempen"
+
+msgid "By Contact"
+msgstr "Mengikut kenalan"
+
+msgid "By Device"
+msgstr "Mengikut peranti"
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Choose an active contact. The contact’s WhatsApp number is managed under Contacts."
+msgstr "Pilih kenalan yang aktif. Nombor WhatsApp kenalan diuruskan di bahagian Kenalan."
+
+msgid "Choose how active contacts are selected when a visitor starts a WhatsApp interaction."
+msgstr "Pilih cara kenalan aktif ditentukan apabila pelawat memulakan interaksi WhatsApp."
+
+msgid "Clicks"
+msgstr "Klik"
+
+msgid "Clicks attributed to each contact."
+msgstr "Klik yang dikaitkan dengan setiap kenalan."
+
+msgid "Configure how visitors reach your WhatsApp contacts and how the button appears across the site."
+msgstr "Tetapkan cara pelawat menghubungi kenalan WhatsApp anda dan rupa butang di seluruh laman."
+
+msgid "Contact"
+msgstr "Kenalan"
+
+msgid "Contact list"
+msgstr "Senarai kenalan"
+
+msgid "Contact management"
+msgstr "Pengurusan kenalan"
+
+msgid "Contact name is required."
+msgstr "Nama kenalan diperlukan."
+
+msgid "Contact saved."
+msgstr "Kenalan disimpan."
+
+msgid "Contact Us"
+msgstr "Hubungi Kami"
+
+msgid "Contacts"
+msgstr "Kenalan"
+
+msgid "Control whether the site-wide WhatsApp button is active and which contact receives visitors by default."
+msgstr "Kawal sama ada butang WhatsApp seluruh laman diaktifkan dan kenalan yang menerima pelawat secara lalai."
+
+msgid "Controls contact order in the admin and round-robin sequence. Lower numbers appear first."
+msgstr "Mengawal susunan kenalan dalam pentadbir dan giliran bergilir. Nombor lebih kecil dipaparkan dahulu."
+
+msgid "Core settings"
+msgstr "Tetapan utama"
+
+msgid "Deactivate"
+msgstr "Nyahaktifkan"
+
+msgid "Default Contact"
+msgstr "Kenalan lalai"
+
+msgid "Default Message"
+msgstr "Mesej lalai"
+
+msgid "Description"
+msgstr "Penerangan"
+
+msgid "Desktop"
+msgstr "Komputer"
+
+msgid "Details"
+msgstr "Butiran"
+
+msgid "Direct"
+msgstr "Terus"
+
+msgid "Disabled"
+msgstr "Dinyahaktifkan"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Edit Contact"
+msgstr "Edit kenalan"
+
+msgid "Enable"
+msgstr "Aktifkan"
+
+msgid "Enable Hatnikotni Chat frontend button"
+msgstr "Aktifkan butang Hatnikotni Chat pada laman"
+
+msgid "Enabled"
+msgstr "Diaktifkan"
+
+msgid "Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens."
+msgstr "Masukkan nombor WhatsApp antarabangsa menggunakan digit sahaja, tanpa tanda +, ruang atau tanda sempang."
+
+msgid "Example: Hello, I would like to ask about your services."
+msgstr "Contoh: Helo, saya ingin bertanya tentang perkhidmatan anda."
+
+msgid "General"
+msgstr "Umum"
+
+msgid "Hatnikotni Chat"
+msgstr "Hatnikotni Chat"
+
+msgid "Hatnikotni Chat provides a WhatsApp contact button and optional first-party interaction analytics. Analytics is disabled until a visitor explicitly allows it using the plugin privacy choices. Visitors can change their choice at any time using the privacy choices control."
+msgstr "Hatnikotni Chat menyediakan butang hubungan WhatsApp dan analitik interaksi pihak pertama secara pilihan. Analitik dinyahaktifkan sehingga pelawat membenarkannya secara jelas melalui pilihan privasi plugin. Pelawat boleh menukar pilihan pada bila-bila masa melalui kawalan privasi."
+
+msgid "If accepted, analytics records WhatsApp clicks, the page, device type and campaign tags—not messages or IP addresses. WhatsApp remains available either way."
+msgstr "Jika diterima, analitik merekod klik WhatsApp, halaman, jenis peranti dan tag kempen—bukan mesej atau alamat IP. WhatsApp tetap boleh digunakan."
+
+msgid "Inactive"
+msgstr "Tidak aktif"
+
+msgid "Inactive contacts remain available for historical analytics and can be activated again later."
+msgstr "Kenalan tidak aktif kekal untuk rujukan analitik terdahulu dan boleh diaktifkan semula kemudian."
+
+msgid "Keep contact details accurate so routing and analytics remain reliable."
+msgstr "Pastikan butiran kenalan tepat supaya penghalaan dan analitik kekal boleh dipercayai."
+
+#. Translators: %d is a number.
+msgid "Last %d day"
+msgid_plural "Last %d days"
+msgstr[0] "Hari terakhir: %d hari"
+msgstr[1] "Hari terakhir: %d hari"
+
+msgid "Last-touch UTM campaign attribution when consent is available."
+msgstr "Atribusi kempen UTM terakhir apabila persetujuan tersedia."
+
+msgid "Local database events"
+msgstr "Peristiwa dalam pangkalan data tempatan"
+
+msgid "Manage the people or teams who receive WhatsApp enquiries. Phone numbers use international digits-only format."
+msgstr "Urus individu atau pasukan yang menerima pertanyaan WhatsApp. Nombor telefon mesti menggunakan digit antarabangsa sahaja."
+
+msgid "Mobile"
+msgstr "Telefon bimbit"
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "No contacts yet."
+msgstr "Belum ada kenalan."
+
+msgid "No data for this period."
+msgstr "Tiada data untuk tempoh ini."
+
+msgid "Optional pre-filled message. Keep it short and relevant to a first contact."
+msgstr "Mesej prasedia pilihan. Pastikan ringkas dan sesuai untuk pertanyaan pertama."
+
+msgid "Performance overview"
+msgstr "Gambaran prestasi"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Read More"
+msgstr "Baca Lagi"
+
+msgid "Privacy"
+msgstr "Privasi"
+
+msgid "Privacy and analytics choices"
+msgstr "Pilihan privasi dan analitik"
+
+msgid "Privacy Policy"
+msgstr "Dasar Privasi"
+
+msgid "Random"
+msgstr "Rawak"
+
+msgid "Reject"
+msgstr "Tolak"
+
+msgid "Reporting period"
+msgstr "Tempoh laporan"
+
+msgid "Reserved for future weighted routing. Leave at 1 for V1."
+msgstr "Dikhaskan untuk penghalaan berwajaran pada masa hadapan. Kekalkan nilai 1 untuk versi pertama."
+
+msgid "Retention"
+msgstr "Tempoh penyimpanan"
+
+msgid "Review WhatsApp button interactions recorded with visitor consent. A click is an interaction event, not proof that a message was sent."
+msgstr "Semak interaksi butang WhatsApp yang direkodkan dengan persetujuan pelawat. Klik ialah peristiwa interaksi, bukan bukti bahawa mesej telah dihantar."
+
+msgid "Role"
+msgstr "Peranan"
+
+msgid "Round robin"
+msgstr "Giliran bergilir"
+
+msgid "Routing"
+msgstr "Penghalaan"
+
+msgid "Routing Method"
+msgstr "Kaedah penghalaan"
+
+msgid "Sales, Support, Orders"
+msgstr "Jualan, Sokongan, Pesanan"
+
+msgid "Save Settings"
+msgstr "Simpan tetapan"
+
+msgid "Set the visitor-facing label, optional pre-filled message and placement of the floating button."
+msgstr "Tetapkan label yang dilihat pelawat, mesej prasedia pilihan dan kedudukan butang terapung."
+
+msgid "Settings saved."
+msgstr "Tetapan disimpan."
+
+msgid "Short internal note about this contact."
+msgstr "Nota dalaman ringkas tentang kenalan ini."
+
+msgid "Sort Order"
+msgstr "Susunan"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Text visitors see on the WhatsApp button."
+msgstr "Teks yang dilihat pelawat pada butang WhatsApp."
+
+msgid "The contact could not be created."
+msgstr "Kenalan tidak dapat dibuat."
+
+msgid "The contact could not be updated."
+msgstr "Kenalan tidak dapat dikemas kini."
+
+msgid "Unattributed"
+msgstr "Tidak dikaitkan"
+
+msgid "Unknown / removed"
+msgstr "Tidak diketahui / telah dibuang"
+
+msgid "Update Contact"
+msgstr "Kemas kini kenalan"
+
+msgid "Use international digits only: country code + number, without +, spaces or hyphens. Example: 601234567890."
+msgstr "Gunakan digit antarabangsa sahaja: kod negara diikuti nombor, tanpa tanda +, ruang atau tanda sempang. Contoh: 601234567890."
+
+msgid "Value"
+msgstr "Nilai"
+
+msgid "Visibility"
+msgstr "Keterlihatan"
+
+msgid "Weight"
+msgstr "Berat"
+
+msgid "WhatsApp clicks"
+msgstr "Klik WhatsApp"
+
+msgid "WhatsApp contact layer"
+msgstr "Lapisan hubungan WhatsApp"
+
+msgid "WhatsApp Interaction Analytics"
+msgstr "Analitik interaksi WhatsApp"
+
+msgid "WhatsApp Number"
+msgstr "Nombor WhatsApp"
+
+msgid "When analytics consent is granted, the plugin may record a WhatsApp click event containing the selected contact, the WordPress page ID and page type, a broad device category (mobile, tablet or desktop), and supported UTM campaign values. The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content."
+msgstr "Apabila persetujuan analitik diberikan, plugin boleh merekod peristiwa klik WhatsApp yang mengandungi kenalan terpilih, ID dan jenis halaman WordPress, kategori peranti umum (telefon bimbit, tablet atau komputer) serta nilai kempen UTM yang disokong. Plugin tidak sengaja menyimpan alamat IP, nama pelawat, nombor telefon, alamat e-mel, rentetan user-agent penuh, cap jari digital, ID pelawat, sejarah pelayaran atau kandungan perbualan WhatsApp."
+
+msgid "You do not have permission to access this page."
+msgstr "Anda tidak mempunyai kebenaran untuk mengakses halaman ini."
+
+msgid "You do not have permission to perform this action."
+msgstr "Anda tidak mempunyai kebenaran untuk melakukan tindakan ini."

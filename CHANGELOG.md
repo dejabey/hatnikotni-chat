@@ -1,64 +1,116 @@
+## 0.1.25 — Round-robin serialization candidate
+
+- Serialize global and purpose-role round-robin cursor selection using database advisory locks.
+- Fail closed if a routing lane lock cannot be acquired.
+- Preserve purpose-routing behavior and existing cursor option formats.
+- Requires WordPress staging verification; not approved for production.
+
+## 0.1.24
+- Removed redundant table-scroll hint markup and obsolete responsive hint CSS. The Contacts table keeps its genuine horizontal overflow behavior for narrow viewports.
+- Constrained two-column Analytics tables to their panel width and wrapped long values to avoid unnecessary horizontal scroll cues.
+- No routing, persistence, consent, or analytics collection logic changed.
+
+## 0.1.23
+- Refined mobile purpose chooser sizing, safe-area spacing, scroll behavior, and option touch targets.
+- Improved privacy shield icon visibility and compacted privacy links.
+- Removed theme-derived border styling from the primary WhatsApp action while preserving visible keyboard focus.
+
 # Changelog
 
-## 0.1.8 — Unreleased
+## 0.1.19 — Purpose-based support routing
 
-- Fixed production ZIP structure so the archive contains the stable plugin directory.
-- Replaced the visible Privacy text control with a compact shield icon immediately left of the floating WhatsApp button.
-- Simplified the consent card to a compact Reject/Accept switch with Privacy Policy and Read More links.
-- Tightened horizontal padding in the privacy card and justified the expanded explanation text.
-- Replaced the personal phone example in the admin form with generic number 601234567890 without changing saved contacts.
-- Updated source contract checks, translations, and staging/release documentation.
-- Added PHP 8.5 to the automated syntax and WordPress Coding Standards matrix to match the staging runtime.
+- Added optional purpose chooser to the floating WhatsApp entry point.
+- Added four visitor purposes: General Enquiries, Listing Assistance, Business & Partnerships, and Technical Question (light support).
+- Added standardized contact routing roles: General Enquiries, Business Support, and Business & Partnerships.
+- Purpose routing selects active role-assigned contacts using the configured Direct, Random, or Round Robin method; Direct prefers the configured Default Contact when that contact belongs to the assigned role, otherwise the first eligible contact.
+- Purpose routes fall back to existing global routing when no active contact matches the assigned role.
+- Added optional support email display for complex technical issues and payment investigations.
+- Added an accessible chooser interaction with Escape and outside-click dismissal.
+- Preserved legacy shortcode behavior, click analytics schema, privacy consent handling, and new-tab WhatsApp handoff.
+- Existing contact free-text roles are retained in storage but need reassignment to a standardized role to participate in purpose routing.
 
-## 0.1.7 — Previous development build
 
-- Set English as the source language for frontend privacy controls.
-- Localized JavaScript consent status messages through PHP's translation system.
-- Added Malay translation source and text-domain loading for bundled translations.
-- Updated tests and package workflow to validate/include translation assets.
+- Refined Analytics content width and table sizing to use the available admin workspace more consistently.
+- Hardened responsive sizing for analytics panels, tabular data, and management controls.
+- Kept the existing KPI/filter layout, two-column By Device/By Contact, full-width By Campaign, two-column management actions, and separated Delete All panel.
+- No analytics queries, retention behavior, export/delete handlers, contacts, or routing logic changed.
+- Visual review and responsive browser testing are still required on staging.
 
-## 0.1.6 — Previous development build
 
-- Fixed the fatal class-name typo in the WhatsApp click handler (`HATNCH_Analitik` → `HATNCH_Analytics`).
-- Added a contract test to prevent regression of the analytics handler call.
-- Reduced privacy panel width to 250px maximum and tightened typography/padding.
-- Made the “Privasi” control quieter and renamed the disclosure to “Butiran”.
+## Unreleased — Analytics Management
 
-## 0.1.5 — Previous development build
+- Added aggregate CSV export for supported reporting periods (7, 30, 90 and 180 days).
+- Added administrator-only analytics event deletion by inclusive site-local date range and Delete All with explicit typed confirmation.
+- Added the non-identifying `contact_reference` field for new analytics events so future deleted-contact attribution can display `Removed contact #ID` without retaining contact names or phone numbers.
+- Updated contact attribution reporting and exports to show active contact names, removed-contact references, or `Unknown / removed` when historical attribution is unavailable.
+- Added a Default badge to the configured contact in Contact Management.
+- Bumped the database schema version to 1.2.0; dbDelta adds the nullable reference field and index without backfilling unknown historical identity.
 
-- Localized visible consent-panel labels and status messages in Malay.
-- Shortened the floating privacy control label to “Privasi”.
-- Reduced panel width, padding and spacing while keeping the expanded explanation readable.
+## 0.1.8 — Analytics visual refresh
+- Refined analytics overview, KPI cards, reporting filter, report tables, and data-management presentation.
+- Added responsive styling scoped to Analytics; no analytics data behavior was intentionally changed.
+- Added analytics dashboard design and staging verification notes.
 
-## 0.1.4 — Previous development build
+- Bumped plugin patch version to 0.1.9 for staging visual refresh and admin stylesheet cache invalidation.
 
-- Replaced separate Allow/Reject buttons with an accessible, compact analytics consent switch.
-- Added a Read more disclosure beside the Analytics heading.
-- Initialize the switch from the saved consent cookie; switching either way updates the stored choice immediately.
-- Kept analytics disabled by default and WhatsApp navigation independent of the choice.
-- Updated contract tests and staging test plan for the new control.
 
-## 0.1.3 — Previous development build
+## 0.1.10 — Contact identity indicators
+- Moved the Default indicator above the contact name and restyled it as green text without a pill, box, or background.
+- Preserved removed-contact analytics labels as `Removed contact #ID` whenever a non-identifying contact reference exists.
+- Clarified that events whose contact identity was already unavailable remain `Unknown / removed`; their original ID cannot be reconstructed safely.
+- Bumped the plugin patch version to invalidate cached admin styling.
 
-- Refined the native privacy panel with shorter copy, tighter spacing, smaller controls and responsive sizing.
-- Updated the privacy panel's introductory and expandable copy for easier scanning.
-- Added a staging check for compact layout and WhatsApp-button overlap.
-- Updated the clean-package workflow to derive ZIP and artifact names from the plugin header version.
 
-## 0.1.2 — Previous development build
+## 0.1.11 — Staging candidate
+- Added confirmed, nonce-protected `Set as Default` action for active contacts.
+- Updated routing default selection; former default remains active and analytics history is unchanged.
+- Blocked deletion of the current Default until replacement is selected.
+- Presented analytics data-management tools in two desktop columns; Delete All remains a separate full-width section; mobile stacks.
+- Updated architecture and staging test documentation.
+- Not release-approved; routing, concurrency and regression tests remain required.
 
-- Added a native, expandable Privacy choices panel beside the floating WhatsApp button.
-- Added explicit Allow analytics and Reject analytics actions with a 180-day first-party preference cookie.
-- Kept WhatsApp navigation independent from analytics consent.
-- Added a short data-use explanation and link to the site's WordPress Privacy Policy page when configured.
-- Updated privacy policy copy, readme, source contracts and clean package workflow.
+## 0.1.13
+- Expanded the Analytics summary row so WhatsApp Clicks, Retention, and Reporting Period each occupy an equal-width column across the available dashboard width.
+- Preserved stacked single-column behavior on narrow/mobile layouts.
 
-## 0.1.1 — WordPress.org review remediation
+## 0.1.14
+- Restructured Analytics summary markup so WhatsApp Clicks, Retention, and Reporting Period are direct grid children; each now occupies one equal-width column across the available dashboard width.
+- Removed reliance on `display: contents` for summary layout; retained mobile single-column breakpoint.
 
-- Migrated global declarations, hooks, admin page slugs, storage keys, table names, cookies and CSS handles/classes to the unique hatnch prefix.
-- Added migration for legacy settings, routing state and custom tables.
-- Enforced strict international digits-only phone input at the server validation layer.
-- Confirmed PHP syntax, contract checks and WordPress Coding Standards passed in GitHub Actions.
-- Added consent-aware visitor analytics and campaign attribution with default-deny behavior.
-- Added WordPress Privacy Policy Guide integration.
-- Added admin UI refinement, analytics reporting and 180-day event retention.
+## 0.1.15
+- Fixed narrow-screen Analytics data cards to stack By Device, By Contact, and By Campaign into one full-width column.
+- Improved mobile reporting-period filter layout and constrained analytics table cell wrapping.
+
+## 0.1.16
+- Explicitly stretch the Analytics KPI summary row to the full available content width and remove inherited max-width constraints; preserve 3-column desktop and 1-column mobile behavior.
+
+
+## 0.1.20 — Core architecture and settings workspace
+
+- Reframed visitor-facing purpose labels for reusable, non-industry-specific deployments.
+- Added compact Setup / Routing / Extensions settings tabs with keyboard navigation and responsive styling.
+- Added an Extensions admin panel surface through `hatnch_admin_extension_panels`.
+- Added purpose registry and role-route extension filters for optional site-specific modules.
+- Changed default purpose message language to refer generically to the website team.
+- No database schema change. Existing global routing remains the fallback when purpose routing is disabled or a purpose has no eligible contact.
+- Technical support form, entitlement verification, and full extension module implementation remain future work; this release does not claim those features.
+
+
+## 0.1.21 — Admin workspace and privacy UX refinement
+
+- Added consistent navigation links for General, Contacts and Analytics workspace screens.
+- Preserved the active Setup, Routing or Extensions tab across settings save using an allow-listed tab key.
+- Tightened privacy notice spacing and shortened the analytics explanation.
+- Layered the circular privacy control partially behind the WhatsApp action while retaining its own button semantics.
+- Existing admin screen slugs, consent semantics, analytics behavior and routing logic are intended to remain unchanged.
+- Static checks only; see `docs/TEST-REPORT-0.1.21.md` for verification scope and staging checks.
+
+
+## 0.1.22 — Support page and final privacy/navigation polish
+
+- Changed General, Contacts and Analytics workspace navigation from a pill container to plain text navigation with a restrained active underline.
+- Replaced the oversized white privacy disc with a compact shield icon control and subtle icon shadow, overlapping the WhatsApp action.
+- Reduced privacy explanation length and brought Privacy Policy and Read More closer together.
+- Added an optional Support Page URL setting; the chooser links to that page for complex matters, with support email as fallback.
+- Support URLs are restricted to HTTP/HTTPS and output-escaped.
+- Static verification only; manual WordPress/browser tests remain required.
