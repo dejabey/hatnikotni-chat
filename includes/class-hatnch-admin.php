@@ -523,10 +523,20 @@ final class HATNCH_Admin {
 						<div class="hatnch-panel__header"><div><h2><?php echo esc_html__( 'Extension modules', 'hatnikotni-chat' ); ?></h2><p><?php echo esc_html__( 'Optional modules can add site-specific features without changing the core plugin.', 'hatnikotni-chat' ); ?></p></div></div>
 						<?php $extension_panels = apply_filters( 'hatnch_admin_extension_panels', array() ); ?>
 						<?php if ( is_array( $extension_panels ) && ! empty( $extension_panels ) ) : ?>
-							<?php foreach ( $extension_panels as $extension_panel ) : if ( ! is_array( $extension_panel ) || empty( $extension_panel['callback'] ) || ! is_callable( $extension_panel['callback'] ) ) { continue; } ?>
-								<section class="hatnch-extension-panel"><h3><?php echo esc_html( $extension_panel['title'] ?? __( 'Extension', 'hatnikotni-chat' ) ); ?></h3><?php call_user_func( $extension_panel['callback'] ); ?></section>
+							<?php foreach ( $extension_panels as $extension_panel ) : ?>
+								<?php
+								if ( ! is_array( $extension_panel ) || empty( $extension_panel['callback'] ) || ! is_callable( $extension_panel['callback'] ) ) {
+									continue;
+								}
+								?>
+								<section class="hatnch-extension-panel">
+									<h3><?php echo esc_html( $extension_panel['title'] ?? __( 'Extension', 'hatnikotni-chat' ) ); ?></h3>
+									<?php call_user_func( $extension_panel['callback'] ); ?>
+								</section>
 							<?php endforeach; ?>
-						<?php else : ?><p class="description"><?php echo esc_html__( 'No extension modules are currently providing settings.', 'hatnikotni-chat' ); ?></p><?php endif; ?>
+						<?php else : ?>
+							<p class="description"><?php echo esc_html__( 'No extension modules are currently providing settings.', 'hatnikotni-chat' ); ?></p>
+						<?php endif; ?>
 					</section>
 				</div><!-- /.hatnch-tab-panel integrations -->
 				<div class="hatnch-form-actions">
