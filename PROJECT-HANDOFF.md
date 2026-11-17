@@ -1,6 +1,6 @@
 # CURRENT PROJECT STATE — 2026-11-17
 
-> **Read first:** the detailed Claude continuation brief is [docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md). This section supersedes older dated status statements below where they conflict; older sections are retained as historical records.
+> **Read first:** Claude must follow the repository-root [CLAUDE.md](CLAUDE.md), then read [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), and then the detailed [Claude continuation handoff](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md). This section supersedes older dated status statements below where they conflict; older sections are retained as historical records.
 
 - Repository: `dejabey/hatnikotni-chat`
 - Active candidate branch: `fix/contact-status-result-0.1.26`
