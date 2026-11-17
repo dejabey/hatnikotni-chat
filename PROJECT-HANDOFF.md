@@ -1,3 +1,27 @@
+# CURRENT PROJECT STATE — 2026-11-17
+
+> **Read first:** the detailed Claude continuation brief is [docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md). This section supersedes older dated status statements below where they conflict; older sections are retained as historical records.
+
+- Repository: `dejabey/hatnikotni-chat`
+- Active candidate branch: `fix/contact-status-result-0.1.26`
+- Candidate: Hatnikotni Chat 0.1.26
+- Current candidate commit: `25d0d40aa6b0d1ae3749dad5014a33d94932dab5`
+- PR #7: OPEN, DRAFT, NOT MERGED; base `recovery/staging-0.1.25-audit`.
+- PR #6: OPEN, DRAFT, NOT MERGED; recovery/documentation baseline for 0.1.25.
+- Latest observed GitHub Actions: #843 and #842 both SUCCESS on the candidate commit. This validates the CI environment, not staging runtime.
+- User reported on 2026-11-17 that 0.1.26 has been installed on `staging.perlis.xyz`. This is USER-REPORTED and still requires independent post-install verification; do not mark as confirmed until inspected.
+- Previous 0.1.25 staging test had reproduced `state_verify_failed` symptoms. Its concurrent HTTP test was inconclusive as not all helper responses proved that the routing handler had been reached.
+- Previous 0.1.25 inspection found `WP_CACHE=false`, default object cache, and no `object-cache.php` drop-in. These are historical observations only; re-check current 0.1.26 staging.
+- Current 0.1.26 staging Round Robin verification: PENDING.
+- WPVibe last reported 0 remaining calls on 2026-11-05, with one banked reset; this reading is stale. Re-check quota before using WPVibe. Do not spend a banked reset without user approval.
+- No PR merge, production deployment, or official release is authorized.
+
+## Immediate next action
+
+After checking WPVibe quota, verify the staging plugin version and source provenance read-only, capture current routing state/cache configuration/log tail, then run controlled sequential and genuinely concurrent Round Robin tests. Do not reset the cursor, clear logs, send WhatsApp messages, merge PRs, or deploy to production. See the Claude continuation handoff for the full test method, evidence requirements, prior findings, and decision log.
+
+---
+
 # PROJECT HANDOFF — Hatnikotni Chat
 
 **Updated:** 2026-10-03  
