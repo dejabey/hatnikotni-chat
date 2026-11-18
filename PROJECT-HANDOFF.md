@@ -21,7 +21,12 @@
   - Concurrent: 6/6.
   - All responses `302` with `X-Redirect-By: Hatnikotni Chat`; no `NOT_WA`; never `85c7679204c7` (inactive ID 5).
   - Cursor after: 1.
-- **Installed ZIP hash vs CI #842 artifact: PENDING** (user to run `certutil -hashfile <zip> SHA256`).
+- **Package provenance (2026-11-18 ~11:53 UTC):**
+  - User-run PowerShell `Get-FileHash`: the user's downloaded `hatnikotni-chat-0.1.26-ci842.zip` (63,513 bytes) = `78B31A78…1FBA`, matching the CI #842 artifact digest exactly.
+  - That artifact contains one file, `hatnikotni-chat-0.1.26.zip` (67,654 bytes), SHA-256 `5F59A39EF32BEB4C302F8571AB564D1FF0B75BFE237AEEFCF11BCDB3D95442AD`. It is byte-identical to the user's standalone `Downloads\hatnikotni-chat-0.1.26.zip`.
+  - The entry listing shows 21 source files with byte sizes identical to commit `25d0d40`, plus the CI-generated `.mo`; there are no extra files. This is not the unofficial prototype.
+  - That this exact ZIP is the one uploaded to staging is **USER-REPORTED** (confirmation requested). It is consistent with the staging file listing and the line-for-line routing source match.
+  - Status: **CONFIRMED for artifact chain**; staging upload identity is user-reported.
 - **Privacy note for review:** `docs/staging-test-plan.md` (Ujian 3.19/3.20 logs inherited from `main`) contains full contact phone numbers in a public repository. They were not altered by the merge. Redact them in a separate commit only with user approval, since it edits historical evidence.
 - PRs #1–#7 remain open and untouched. Closing or superseding them requires explicit approval.
 
