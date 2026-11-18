@@ -168,3 +168,10 @@ Do these in order, after checking WPVibe quota and current GitHub state:
 - CI #843: https://github.com/dejabey/hatnikotni-chat/actions/runs/41997762597
 - CI #842: https://github.com/dejabey/hatnikotni-chat/actions/runs/41997753909
 - Staging: https://staging.perlis.xyz/
+
+## 9. Addendum — 2026-11-18
+
+- WPVibe quota on 2026-11-17: 81/100 remaining; banked reset unused.
+- Staging state was verified read-only; see `PROJECT-HANDOFF.md` (2026-11-18). Version 0.1.26 is active and routing source matches. Round Robin runtime remains **PENDING**.
+- The prior HTTP method is replaced by `tests/staging-rr-http-check.sh`, which records status, `X-Redirect-By` and the hashed `Location` without following redirects. It must run from a machine that can reach staging; the cloud workspace gets proxy 403.
+- With user approval, `release/0.1.26` was created from `main` and PR #8 (Draft) was opened as the direct path to `main`. PR #7's branch remains as-is. CI #856/#857 passed all 8 jobs on `998820c` after the incremental-PHPCS deleted-file fix.

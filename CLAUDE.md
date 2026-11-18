@@ -41,7 +41,7 @@ If documents conflict, prefer the newest explicitly dated current-state section 
 These are hard constraints:
 
 - PR #4 and PR #5 must not be merged.
-- PR #6 and PR #7 must not be merged without explicit user approval.
+- PR #6, PR #7 and PR #8 must not be merged without explicit user approval. Since 2026-11-18, PR #8 (`release/0.1.26` → `main`) is the active release path; see `PROJECT-HANDOFF.md`.
 - PR #7 is a Draft candidate; do not mark it ready for review or merge it without approval.
 - Do not deploy the unofficial 0.1.26 cache-isolation prototype.
 - Do not deploy to production or publish to WordPress.org without explicit approval.

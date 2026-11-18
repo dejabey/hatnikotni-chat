@@ -1,4 +1,37 @@
-# CURRENT PROJECT STATE — 2026-11-17
+# CURRENT PROJECT STATE — 2026-11-18
+
+> **Read first:** [CLAUDE.md](CLAUDE.md), [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then [docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md) including its 2026-11-18 addendum. This section supersedes the 2026-11-17 section below where they conflict.
+
+- **Active release branch:** `release/0.1.26`, based on `main`. **PR #8** → `main`: OPEN, DRAFT, NOT MERGED. User approved creating this path on 2026-11-18. Merge still requires separate explicit approval.
+- **Why:** the earlier stacked chain `#7 → #6 → #4 (ui-compact-contact-form) → #3 → #2 → main` could never reach `main`, because PR #4 must not be merged. PR #8 contains the full candidate in one diff (66 files vs `main`).
+- `release/0.1.26` = `main` `fb8aa6c` + candidate `4327a2b` (merge `e91d148`), plus CI fix `998820c`. Plugin runtime code is identical to the 0.1.26 runtime candidate `25d0d40`.
+- **CI:** Builds #854/#855 (`e91d148`) FAILED in the incremental PHPCS step. Root cause: the changed-file list included deleted `class-hkc-*.php` paths, so phpcs emitted non-JSON output. Fixed with `--diff-filter=d` in `998820c`. **Builds #856 (push, run `44291258757`) and #857 (PR, run `44291267670`) passed all 8 jobs** on `998820c`, including the 12-worker concurrent Round Robin test in disposable WP 6.6/MySQL 8.0. Build #856 artifact `hatnikotni-chat-0.1.26`, ID `14421323121`, 63,530 bytes, `sha256:597ce9924af23e53e03b65e54e32027ff69d1af4b28234af8444259799ca608d`. This is a new build. Staging provenance must still be compared against the **CI #842** artifact digest `78b31a78…1fba`, which is the ZIP the user installed.
+- **Correction to the 2026-11-17 section:** PR #7's head moved to `4327a2b` through documentation-only commits; CI #850–#853 passed there. The recorded `25d0d40` / #842–#843 remain correct for runtime code.
+- **Staging (tool-verified read-only via WPVibe, 2026-11-17 ~07:16 UTC):**
+  - Environment: WordPress 7.1.4, PHP 8.4.27; Hatnikotni Chat **0.1.26 active**; `hatnch_db_version` 1.2.0.
+  - Installed `class-hatnch-routing.php` matches the repository line-for-line. This is source-level only, not a ZIP hash.
+  - Cache: `WP_CACHE=false`; object cache `default`, no drop-in.
+  - Routing: method `round_robin`; purpose routing disabled.
+  - Contacts: active PakYa (ID 1, sort 1) and PakSu (ID 3, sort 2); inactive znz (ID 5).
+  - Cursor: `last_contact_id=1`, re-read unchanged on 2026-11-18 ~11:00 UTC.
+  - `debug.log` tail (to 2026-11-15 10:33 UTC) has no Hatnikotni entries.
+- **Observability gap:** 0.1.26 redirects silently to the home page on lock or verify failure and logs nothing. Staging failures are only detectable through the HTTP `Location` header. Proposed for 0.1.27, not 0.1.26: fallback contact, a PII-free failure counter, and a failure action hook.
+- **Staging Round Robin runtime test: PENDING.** The cloud workspace cannot reach staging (proxy 403), and device folder access was denied. `tests/staging-rr-http-check.sh` must be run by the user. It runs 4 sequential and 12 concurrent requests, never follows redirects, and prints only a SHA-256 prefix of the destination number. Expected from cursor 1:
+  - Sequential: 3, 1, 3, 1 (hash prefixes ID 3 `3ddfc822c932`, ID 1 `5be82a43464d`).
+  - Concurrent: 6/6.
+  - All responses `302` with `X-Redirect-By: Hatnikotni Chat`; no `NOT_WA`; never `85c7679204c7` (inactive ID 5).
+  - Cursor after: 1.
+- **Installed ZIP hash vs CI #842 artifact: PENDING** (user to run `certutil -hashfile <zip> SHA256`).
+- **Privacy note for review:** `docs/staging-test-plan.md` (Ujian 3.19/3.20 logs inherited from `main`) contains full contact phone numbers in a public repository. They were not altered by the merge. Redact them in a separate commit only with user approval, since it edits historical evidence.
+- PRs #1–#7 remain open and untouched. Closing or superseding them requires explicit approval.
+
+## Immediate next action
+
+The user runs `tests/staging-rr-http-check.sh` and hashes the installed ZIP; Claude then reads the cursor after the run, correlates the results, and records them here. After that, the remaining gates on PR #8 are Plugin Check against the candidate artifact, the manual browser matrix, and an owner merge decision.
+
+---
+
+# PROJECT STATE — 2026-11-17 (superseded by 2026-11-18 above where they conflict)
 
 > **Read first:** Claude must follow the repository-root [CLAUDE.md](CLAUDE.md), then read [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), and then the detailed [Claude continuation handoff](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md). This section supersedes older dated status statements below where they conflict; older sections are retained as historical records.
 
