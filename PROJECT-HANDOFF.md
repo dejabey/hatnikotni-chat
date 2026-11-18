@@ -16,11 +16,20 @@
   - Cursor: `last_contact_id=1`, re-read unchanged on 2026-11-18 ~11:00 UTC.
   - `debug.log` tail (to 2026-11-15 10:33 UTC) has no Hatnikotni entries.
 - **Observability gap:** 0.1.26 redirects silently to the home page on lock or verify failure and logs nothing. Staging failures are only detectable through the HTTP `Location` header. Proposed for 0.1.27, not 0.1.26: fallback contact, a PII-free failure counter, and a failure action hook.
-- **Staging Round Robin runtime test: PENDING.** The cloud workspace cannot reach staging (proxy 403), and device folder access was denied. `tests/staging-rr-http-check.sh` must be run by the user. It runs 4 sequential and 12 concurrent requests, never follows redirects, and prints only a SHA-256 prefix of the destination number. Expected from cursor 1:
-  - Sequential: 3, 1, 3, 1 (hash prefixes ID 3 `3ddfc822c932`, ID 1 `5be82a43464d`).
-  - Concurrent: 6/6.
-  - All responses `302` with `X-Redirect-By: Hatnikotni Chat`; no `NOT_WA`; never `85c7679204c7` (inactive ID 5).
-  - Cursor after: 1.
+- **Staging Round Robin runtime test (0.1.26): CONFIRMED (sequential + concurrent HTTP)** on 2026-11-18.
+  - Method: `tests/staging-rr-http-check.sh`, run by the user from Git Bash on Windows (`curl`, no redirect following; output saved to `rr-result.txt`). Recorded 11:59:37–11:59:53 UTC.
+  - Preconditions (WPVibe, read-only): routing `round_robin`; purpose routing disabled; active IDs 1 and 3; ID 5 inactive; cursor `last_contact_id=1`; `WP_CACHE=false`; default object cache; server `LiteSpeed`.
+  - Sequential, 4 requests: ID 3 → 1 → 3 → 1, as expected.
+  - Concurrent, 12 requests: launched within a 109 ms window (11:59:45.592–.701). Result: ID 1 ×6 (c1, c2, c3, c5, c11, c12) and ID 3 ×6 (c4, c6–c10). Exactly 6/6.
+  - All 16 responses: `HTTP 302`, `X-Redirect-By: Hatnikotni Chat` (proves the plugin handler ran), `Location` to wa.me. No `NOT_WA` / home-page fallback. Inactive ID 5 never selected. Response headers carried `Cache-Control: no-cache, no-store` with no cache hit.
+  - After the test: cursor `last_contact_id=1`, matching the expected end state after 16 alternating selections from 1. Purpose-lane cursors unchanged (`general_enquiries`=1, `business_support`=3). Contact statuses unchanged.
+  - An earlier aborted attempt at 11:41 UTC completed only `s1`=ID 3 and `s2`=ID 1, which was also correct and also returned the cursor to 1.
+  - **What this does not prove:**
+    - Whether the 12 requests overlapped inside the PHP handler or were serialized earlier by LiteSpeed/PHP worker limits. The responses spanned ~8 s, so lock contention specifically was not isolated.
+    - The absence of third-party clicks during the window. The exact 6/6 and expected cursor make interference unlikely, but this was not proven.
+    - Behaviour with a persistent object cache or with purpose routing enabled.
+    - That the 302 responses also mean WhatsApp opened. No message was sent and redirects were not followed.
+- Upload identity: the user confirmed on 2026-11-18 that `hatnikotni-chat-0.1.26.zip` (`5F59A39E…42AD`) is the file uploaded to staging (**USER-REPORTED**).
 - **Package provenance (2026-11-18 ~11:53 UTC):**
   - User-run PowerShell `Get-FileHash`: the user's downloaded `hatnikotni-chat-0.1.26-ci842.zip` (63,513 bytes) = `78B31A78…1FBA`, matching the CI #842 artifact digest exactly.
   - That artifact contains one file, `hatnikotni-chat-0.1.26.zip` (67,654 bytes), SHA-256 `5F59A39EF32BEB4C302F8571AB564D1FF0B75BFE237AEEFCF11BCDB3D95442AD`. It is byte-identical to the user's standalone `Downloads\hatnikotni-chat-0.1.26.zip`.
@@ -32,7 +41,12 @@
 
 ## Immediate next action
 
-The user runs `tests/staging-rr-http-check.sh` and hashes the installed ZIP; Claude then reads the cursor after the run, correlates the results, and records them here. After that, the remaining gates on PR #8 are Plugin Check against the candidate artifact, the manual browser matrix, and an owner merge decision.
+Round Robin staging verification and package provenance are complete for 0.1.26. Remaining gates on PR #8:
+1. Plugin Check against the installed 0.1.26 build.
+2. Manual browser matrix: consent/privacy, mobile, keyboard, shortcode, WooCommerce pages, JS-disabled.
+3. A decision on redacting phone numbers in `docs/staging-test-plan.md`.
+4. A decision on superseding PRs #1–#7.
+5. The owner's explicit merge decision.
 
 ---
 

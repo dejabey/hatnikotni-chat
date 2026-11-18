@@ -32,7 +32,7 @@ Validate contact CRUD, state transitions, routing, and historical analytics on s
 - [x] Sequential round-robin alternation observed with two active contacts (staging Ujian 3.19: PakYa → PakSu → PakYa)
 - [x] Round-robin state persisted across reload in earlier staging test
 - [ ] Inactive contacts are skipped (observed route to active default; skip behavior not isolated conclusively)
-- [ ] Concurrent requests produce valid routing
+- [x] Concurrent requests produce valid routing (0.1.26, 2026-11-18: 12 concurrent HTTP requests → 6/6, all handler-confirmed 302; see log below)
 
 ### Purpose-based routing (staging observations)
 - [x] Purpose chooser enabled; configured mappings verified during Ujian 3.19
@@ -203,3 +203,18 @@ Production activation remains a separate approval step.
 - SHA-256 tersebut sepadan tepat dengan rekod SHA-256 ZIP stable v0.1.25 yang diperiksa terdahulu: `78a83dd9db41ff6636bc4366a8a9e73514f531e92d5da349cd295836015c751e`.
 
 **Interpretasi/skop:** Identiti arkib ZIP terpasang sepadan byte-for-byte dengan ZIP stable yang dirujuk. Ini mengesahkan padanan arkib bagi bahan yang dibandingkan; ia bukan bukti tersendiri bahawa semua fungsi telah diuji, concurrency/race safety selamat, atau release/production sudah diluluskan.
+
+
+## Ujian 0.1.26-RR — Round Robin sequential + concurrent (HTTP, 2026-11-18)
+
+**Result: PASS (sequential and concurrent distribution); lock-contention isolation not established.**
+
+- Build: Hatnikotni Chat 0.1.26. Installed ZIP `hatnikotni-chat-0.1.26.zip`, SHA-256 `5F59A39E…42AD`. This is the inner ZIP of CI #842 artifact `78b31a78…1fba`, built from source `25d0d40`.
+- Environment: `staging.perlis.xyz`, WordPress 7.1.4, PHP 8.4.27, LiteSpeed, `WP_CACHE=false`, default object cache.
+- Method: `tests/staging-rr-http-check.sh` via `curl` from the user's PC, without following redirects. The destination is recorded only as a 12-character SHA-256 prefix (ID 1 `5be82a43464d`, ID 3 `3ddfc822c932`).
+- Before: active IDs 1, 3; inactive 5; `last_contact_id=1`.
+- Sequential 4: 3, 1, 3, 1.
+- Concurrent 12, launched within 109 ms: ID 1 ×6, ID 3 ×6.
+- All responses were `302` with `X-Redirect-By: Hatnikotni Chat`. There was no fallback to the home page.
+- After: `last_contact_id=1`, as expected.
+- Limits: requests may have been serialized by the server before reaching the handler. No WhatsApp messages were sent.
