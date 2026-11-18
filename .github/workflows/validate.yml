@@ -53,7 +53,7 @@ jobs:
               BASE_SHA="$(git rev-parse HEAD^)"
             fi
           fi
-          mapfile -t changed_php < <(git diff --name-only "$BASE_SHA"...HEAD -- '*.php')
+          mapfile -t changed_php < <(git diff --name-only --diff-filter=d "$BASE_SHA"...HEAD -- '*.php')
           if [ "${#changed_php[@]}" -eq 0 ]; then
             echo "No PHP files changed; PHPCS check not required."
             exit 0
