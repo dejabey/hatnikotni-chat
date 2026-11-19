@@ -9,8 +9,10 @@
   3. Keep writes idempotent: one handoff section per turn, and update it rather than adding a second one.
   - Owner side: send each message once; if the app shows an error or keeps loading, wait a minute before resending; do not keep this chat open on two devices or tabs at once; do not edit-and-resend while a reply is still running. Report a duplicate with the thumbs-down button.
 
+- **Checklist Sheet for "Ujian 0.1.29"** (private Claude Sheet, same layout as the 0.1.27 one): https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN. It has 22 rows; row 1 (package) is pre-filled "Lulus". Baseline: 53 events, cursor 1. Steps 15 and 18–21 change settings and tell the owner to restore them. The UTM test uses `utm_campaign=c0129`.
+
 ## Immediate next action
-Owner runs "Ujian 0.1.29" (`docs/staging-test-plan.md`, 22 steps) and reports results. Claude then does one batched WPVibe read to cross-check events, cursor and the failure counter.
+Owner runs "Ujian 0.1.29" (Sheet above; also `docs/staging-test-plan.md`) and reports results. Claude then does one batched WPVibe read to cross-check events, cursor and the failure counter.
 
 ---
 
