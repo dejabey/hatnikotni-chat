@@ -1,3 +1,22 @@
+## 0.1.29 — in development (not released; plugin header still says 0.1.28)
+
+### Front-end redesign: concept B
+- The floating button is now a round 60 px WhatsApp bubble (56 px on phones) with an optional label chip beside it. The plugin's own WhatsApp glyph is kept.
+- **Contrast fix:** the glyph and the inline shortcode text are now dark green `#0b2e1a` on `#25d366` (7.46:1; hover `#1ebe5d`, 6.04:1). The previous white text on `#25d366` was 1.98:1 and failed WCAG AA.
+- The privacy control is a shield badge on the bubble's outer top corner: a 28 px dark disc with a 2 px white ring inside a 44 px hit area. It stays visible on dark pages (white ring on `#1e293b`: 14.63:1; the previous dark-only shield measured 1.11:1). It remains a separate button, never nested inside the WhatsApp link, and still comes first in Tab order.
+- Focus rings use a white-dark-white ring so focus is visible on light and dark pages.
+- New setting **Show the label beside the button** (`button_show_label`, default on, so existing sites keep a visible label). The chip is hidden below 481 px wide. The accessible name is the label in every case; an empty label falls back to "Contact Us".
+- **Compact consent card** (232 px): title, a one-line summary, a Reject/Accept segmented control (32 px high), Privacy Policy and Details links, and a close button. The full explanation stays behind Details (previously "Read More").
+- Consent semantics are unchanged: the same `hatnch_analytics_consent` cookie (`yes`/`no`), the same campaign capture on accept and cookie clearing on reject, and WhatsApp works either way. One improvement: with no saved choice, neither option is shown as selected (the old switch looked like "rejected").
+- Keyboard: opening the card focuses the selected choice (or Reject when none); Escape and the new close button return focus to the shield badge. With JavaScript off, the WhatsApp link still works and the badge does nothing, as before.
+- Theme-proofing: the widget resets inherited `a`/`button` styles (padding, borders, text-transform, min-height).
+
+### Translations
+- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close" (108 translated, 98 untranslated).
+
+### Tests
+- `tests/skeleton-contract.sh` now asserts the bubble, the badge, the label setting (rendered and saved), both consent choices with `aria-pressed`, the close handler and focus return, that the badge precedes the WhatsApp action instead of being nested in it, and that white text on `#25d366` is not reintroduced. The obsolete `role="switch"` assertion is replaced by a check that the old switch is gone.
+
 ## 0.1.28 — Campaign attribution fix
 
 - **Fix:** UTM campaign attribution was never stored on click events, from its introduction in `5617257` (2026-09-23) through 0.1.27. `HATNCH_Campaign::get_attribution()` ran `sanitize_text_field()` on the cookie before `rawurldecode()`. `sanitize_text_field()` strips percent-encoded octets, so the JSON payload was destroyed and every event was stored with NULL UTM fields. The cookie is now decoded first and each field sanitized and length-limited, as before.

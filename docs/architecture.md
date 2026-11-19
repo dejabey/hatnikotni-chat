@@ -16,13 +16,13 @@
 
 1. Global floating WhatsApp button.
 2. Shortcode: [hatnikotni_chat].
-3. Small shield-shaped privacy icon immediately left of the floating WhatsApp button; it opens a compact consent card.
+3. Shield badge on the round floating WhatsApp button (concept B, 0.1.29): a 28 px disc inside a 44 px hit area, a separate button that precedes the WhatsApp action in DOM and Tab order; it opens a compact consent card. An optional label chip (`button_show_label`, default on, hidden below 481 px) sits beside the bubble.
 
 The WhatsApp action remains a normal link to the public WordPress admin-post.php action. The handler resolves a contact, records a click only when analytics consent is available, then redirects to https://wa.me/<number>. The privacy panel uses a small local JavaScript file; no external JavaScript or analytics service is required.
 
 ## Privacy and consent
 
-The global floating widget exposes a small shield-shaped privacy icon. Selecting it opens a compact consent card with a Reject/Accept switch, a Privacy Policy link when configured, and a Read More disclosure. The expanded explanation uses justified text and the card uses compact horizontal padding.
+The global floating widget exposes a shield badge. Selecting it opens a compact consent card (232 px; since 0.1.29) with a title, a one-line summary, a Reject/Accept segmented control (`button` elements with `aria-pressed`, `data-hatnch-consent="no|yes"`; neither pressed when no choice is saved), a Privacy Policy link when configured, a Details disclosure for the full explanation, and a close button. Escape and the close button return focus to the badge. The stored value is still the `hatnch_analytics_consent` cookie (`yes`/`no`).
 
 The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor selects Accept. A no value or missing cookie means analytics remains disabled. Visitors can reopen the card and change their choice. The WhatsApp link itself is never gated by this choice.
 

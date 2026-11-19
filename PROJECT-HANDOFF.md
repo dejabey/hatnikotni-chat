@@ -1,3 +1,30 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~12:40 MYT (0.1.29 in development: concept B front end)
+
+> Read [CLAUDE.md](CLAUDE.md) and [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md) first. This section supersedes the next one where they conflict.
+
+- **Branch / PR:** `dev/0.1.29`, PR #9 → `main` (open, not merged). Plugin header is still **0.1.28**. The version bump to 0.1.29 happens only when the release candidate is cut.
+- **Done in this checkpoint: 0.1.29 scope item 1 (concept B button), except concept C.** See CHANGELOG `0.1.29`. Files: `assets/css/hatnikotni-chat.css` (rewritten floating/consent sections), `assets/js/hatnikotni-chat-privacy.js` (segmented choices, close button, focus), `includes/class-hatnch-whatsapp.php` (markup), `includes/class-hatnch-settings.php` and `includes/class-hatnch-admin.php` (new `button_show_label`, default on), POT/ms_MY.po, `tests/skeleton-contract.sh`, `readme.txt`, `docs/architecture.md`.
+- **Design decisions made without asking (owner may redirect):**
+  - Consent card width **232 px**, as the handoff states. The design canvas artboard "MobileB" still draws 190 px; the handoff value was treated as authoritative.
+  - The label chip is **hidden below 481 px** (matches MobileB, which has no chip). The setting turns it off everywhere.
+  - "Read More" became **"Details"** ("Butiran"), as agreed for the full text.
+  - With no saved choice, **neither** Reject nor Accept is pressed. The old switch rendered "off", which looked like a rejection. The stored cookie is unchanged.
+  - The inline shortcode button also gets dark text (same 1.98:1 failure).
+- **Evidence (cloud workspace; NOT runtime acceptance):**
+  - `tests/skeleton-contract.sh` PASS. The new guards fail against the 0.1.28 CSS (white-on-green regex matches the old file).
+  - PHPCS (`phpcs.xml.dist`, WPCS cloned from GitHub because Packagist is blocked here): 0 errors, 0 warnings on the changed PHP files. `node --check` OK. POT via WP-CLI 2.12.0 `make-pot`; PO compiled with polib as a sanity check (no `msgfmt` here; CI runs `msgfmt --check`).
+  - Headless Chrome on a stubbed render of `render_floating_button()`: geometry matches the canvas (bubble 60 px / 56 px on phones; badge hit area 44 px at -16 px offset; disc 28 px; card 232 px; choices 32 px high; no overlap between chip and badge hit area), both positions, light and dark pages, purpose-routing variant. Keyboard: Tab order badge → WhatsApp; opening focuses the choice; Escape and close return focus to the badge. Cookie `yes`/`no` written and restored after reload (served over local HTTP).
+  - Does **not** prove: real themes, real WordPress output, mobile Safari, screen readers, or caching. Staging: **PENDING**.
+- **Not started:** concept C (opt-in greeting card), Round Robin fallback/observability, the remaining 98 Malay strings, the `Contributors:` line (needs the owner's WordPress.org username).
+- **Concurrent-write note:** `1e9aa2f` (docs, 11:59 MYT) landed on `dev/0.1.29` after this checkpoint's work began; it was fast-forwarded before committing. Always fetch and compare HEAD before pushing.
+
+## Immediate next action
+1. Check CI on the pushed HEAD of PR #9 (all 8 jobs).
+2. Owner review of the concept B look (screenshots in chat). If accepted, continue with concept C (opt-in, off by default), then the Round Robin fallback.
+3. Staging test of concept B only after a candidate ZIP is built and the owner authorises installing it.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 12:00 MYT (0.1.28 merged to main; next: 0.1.29)
 
 > **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.

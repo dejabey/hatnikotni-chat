@@ -13,9 +13,8 @@ grep -q "hatnch_has_analytics_consent" includes/class-hatnch-privacy.php || fail
 grep -q "hatnch_analytics_consent" includes/class-hatnch-privacy.php || fail "Native consent cookie missing"
 grep -q "wp_add_privacy_policy_content" includes/class-hatnch-privacy.php || fail "Privacy policy integration missing"
 grep -q "hatnch-privacy-toggle" includes/class-hatnch-whatsapp.php || fail "Privacy choices control missing"
-grep -q "hatnch-privacy-consent-input" includes/class-hatnch-whatsapp.php || fail "Analytics consent switch missing"
-grep -q "role=\"switch\"" includes/class-hatnch-whatsapp.php || fail "Accessible switch role missing"
-grep -q "'Read More'" includes/class-hatnch-whatsapp.php || fail "English source Read More label missing"
+grep -q "hatnch-privacy-consent-input" includes/class-hatnch-whatsapp.php || fail "Analytics consent choices missing"
+grep -q "'Details'" includes/class-hatnch-whatsapp.php || fail "English source Details label missing"
 grep -q "hatnch-widget__actions" includes/class-hatnch-whatsapp.php || fail "Privacy and WhatsApp actions row missing"
 grep -q "hatnch-privacy-toggle__icon" includes/class-hatnch-whatsapp.php || fail "Privacy icon missing"
 grep -q "601234567890" includes/class-hatnch-admin.php || fail "Generic phone example missing"
@@ -131,5 +130,20 @@ grep -q "consentAccepted" includes/class-hatnch-whatsapp.php || fail "Localized 
 grep -q "consentRejected" includes/class-hatnch-whatsapp.php || fail "Localized JavaScript rejection string missing"
 test -f languages/hatnikotni-chat.pot || fail "Translation template missing"
 test -f languages/hatnikotni-chat-ms_MY.po || fail "Malay translation source missing"
+# 0.1.29 concept B front end.
+grep -q "hatnch-floating__bubble" includes/class-hatnch-whatsapp.php || fail "Concept B round bubble missing"
+grep -q "hatnch-privacy-toggle__disc" includes/class-hatnch-whatsapp.php || fail "Concept B shield badge missing"
+grep -q "button_show_label" includes/class-hatnch-whatsapp.php || fail "Optional label chip setting not honoured"
+grep -q "'button_show_label'" includes/class-hatnch-admin.php || fail "Label chip setting not saved"
+grep -q 'data-hatnch-consent="yes"' includes/class-hatnch-whatsapp.php || fail "Accept choice missing"
+grep -q 'data-hatnch-consent="no"' includes/class-hatnch-whatsapp.php || fail "Reject choice missing"
+grep -q 'aria-pressed' includes/class-hatnch-whatsapp.php || fail "Segmented consent state not exposed"
+if grep -q 'role="switch"' includes/class-hatnch-whatsapp.php; then fail "Old consent switch still present"; fi
+grep -q "hatnch-privacy-close" assets/js/hatnikotni-chat-privacy.js || fail "Consent card close handler missing"
+grep -q "toggle.focus()" assets/js/hatnikotni-chat-privacy.js || fail "Focus return to privacy badge missing"
+# The privacy badge must never be nested inside the WhatsApp link (invalid interactive nesting).
+php -r '$s=file_get_contents("includes/class-hatnch-whatsapp.php"); $a=strpos($s,"hatnch-privacy-toggle\""); $b=strpos($s,"hatnch-button hatnch-floating"); exit($a!==false && $b!==false && $a<$b ? 0 : 1);' || fail "Privacy badge must precede, not sit inside, the WhatsApp action"
+# Measured contrast fix: no white text on WhatsApp green.
+php -r '$c=file_get_contents("assets/css/hatnikotni-chat.css"); exit(preg_match("/background:\s*#25d366;[^}]*color:\s*#fff\b/i",$c)?1:0);' || fail "White text on #25d366 (1.98:1) reintroduced"
 php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"

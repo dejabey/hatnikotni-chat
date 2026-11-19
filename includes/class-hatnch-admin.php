@@ -190,6 +190,7 @@ final class HATNCH_Admin {
 							<td>
 								<input id="hatnch-button-label" name="button_label" type="text" class="regular-text" maxlength="80" placeholder="<?php echo esc_attr__( 'Contact Us', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['button_label'] ?? 'Contact Us' ); ?>">
 								<p class="description"><?php echo esc_html__( 'Text visitors see on the WhatsApp button.', 'hatnikotni-chat' ); ?></p>
+								<p><label class="hatnch-toggle-label"><input type="checkbox" name="button_show_label" value="1" <?php checked( ! array_key_exists( 'button_show_label', $settings ) || ! empty( $settings['button_show_label'] ) ); ?>> <span><?php echo esc_html__( 'Show the label beside the button (hidden on small phones)', 'hatnikotni-chat' ); ?></span></label></p>
 							</td>
 						</tr>
 						<tr>
@@ -324,6 +325,7 @@ final class HATNCH_Admin {
 			'default_contact'         => $contact && 1 === (int) $contact['status'] ? $contact_id : 0,
 			'default_message'         => isset( $_POST['default_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['default_message'] ) ) : '',
 			'button_label'            => isset( $_POST['button_label'] ) ? sanitize_text_field( wp_unslash( $_POST['button_label'] ) ) : 'Contact Us',
+			'button_show_label'       => isset( $_POST['button_show_label'] ),
 			'button_position'         => isset( $_POST['button_position'] ) && 'left' === sanitize_key( wp_unslash( $_POST['button_position'] ) ) ? 'left' : 'right',
 			'show_desktop'            => isset( $_POST['show_desktop'] ),
 			'show_mobile'             => isset( $_POST['show_mobile'] ),
