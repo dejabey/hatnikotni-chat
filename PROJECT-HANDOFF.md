@@ -1,4 +1,28 @@
-# CURRENT PROJECT STATE — 2026-11-19 (candidate 0.1.27)
+# CURRENT PROJECT STATE — 2026-11-19 10:30 MYT (candidate 0.1.28)
+
+> Supersedes the 0.1.27 section below where they conflict.
+
+- **Browser matrix on 0.1.27 (owner-run, 2026-11-19 09:30–10:12 MYT; checklist in private Claude Sheet https://claude.ai/artifact/PRxngfHf9Qq99CeaTDD6p7):** the owner marked 21/21 steps "Lulus". Claude cross-checked the analytics table via WPVibe.
+  - **Consistent with expectations:** step 4 (Accept, 09:36) → event #50, contact 3. Step 6 (Reject, 09:38) → no event. Steps 17, 19 and 20 (consent rejected) → no events.
+  - **Step 9: FAILED (tool-verified).** Event #51 (09:50:26) was recorded with `utm_campaign` NULL, although step 8 showed the `hatnch_campaign` cookie present and HttpOnly. Every one of the 51 staging events since 2026-09-30 has NULL UTM fields.
+  - Other owner observations: with JS disabled the WhatsApp button worked and the shield did not (expected). Row 25 asks whether a click log/engagement list is needed; that is a product question and is not filed as a defect.
+- **Root cause:** `HATNCH_Campaign::get_attribution()` called `sanitize_text_field()` before `rawurldecode()`. WordPress's `_sanitize_text_fields()` strips `%xx` octets, and `setcookie()` re-encodes the already `rawurlencode()`d payload, so `$_COOKIE` holds `%7B%22…` and the JSON was destroyed. Reproduced with WordPress's real `_sanitize_text_fields()` source. The defect has existed since `5617257` (2026-09-23).
+- **Fix: 0.1.28** (`3f22fdc`) decodes first, then sanitizes and length-limits each field; a non-string cookie yields empty attribution.
+  - Regression test `tests/campaign-attribution-integration.php` (WordPress-backed, in the lifecycle job) was committed first in `d0acb55`, and CI #878/#879 **failed** on the old code exactly as on staging (`utm_source:null…`).
+  - With the fix, CI #880 (run `44443391627`) and #881 passed all 8 jobs.
+  - The #880 artifact `hatnikotni-chat-0.1.28` (ID `14492291635`, `sha256:2d547da9…be519`) is **not the final candidate**: the readme/POT clean-up below changes the package.
+- **Decision update:** since 0.1.28 needs a full staging re-verification anyway, the readme.txt/POT WordPress.org clean-up joins **0.1.28** instead of later. The Round Robin fallback/observability work moves to **0.1.29**.
+- **Merge note:** PR #8 should not be merged at 0.1.27, which has a known broken advertised feature (campaign attribution).
+
+## Immediate next action
+
+1. Claude: readme.txt structure and POT clean-up in 0.1.28, then CI.
+2. Owner installs the final 0.1.28 artifact (inner ZIP) on staging.
+3. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
+
+---
+
+# PROJECT STATE — 2026-11-19 (candidate 0.1.27; superseded where it conflicts with 0.1.28 above)
 
 > Supersedes the 2026-11-18 section below where they conflict. Read [CLAUDE.md](CLAUDE.md) and [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md) first.
 
