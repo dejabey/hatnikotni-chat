@@ -22,11 +22,11 @@ Active development. The plugin is being prepared for WordPress.org Plugin Direct
 
 Analytics is opt-in at the visitor level.
 
-Hatnikotni Chat does not provide its own consent banner. Analytics and campaign attribution remain disabled unless the site provides an explicit consent signal through the hkc_has_analytics_consent filter.
+Hatnikotni Chat does not provide its own consent banner. Analytics and campaign attribution remain disabled unless the site provides an explicit consent signal through the hatnch_has_analytics_consent filter.
 
 When consent is granted, analytics stores only contact, page, broad device category, and supported UTM attribution in the local WordPress database. The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history, or WhatsApp conversation content.
 
-Analytics events are retained for 180 days. The first-party hkc_campaign cookie is retained for up to 30 days when consent is granted.
+Analytics events are retained for 180 days. The first-party hatnch_campaign cookie is retained for up to 30 days when consent is granted.
 
 The plugin also adds suggested privacy-policy text through the WordPress Privacy Policy Guide.
 
@@ -37,7 +37,7 @@ The plugin also adds suggested privacy-policy text through the WordPress Privacy
 - Consent-aware first-party analytics
 - WordPress-native APIs and hooks
 - Secure, accessible, cache-friendly frontend
-- Backward-compatible database migrations
+- Backward-compatible database migrations and namespace migration
 - GitHub-managed source and release history
 - WordPress.org-ready licensing and documentation
 

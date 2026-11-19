@@ -1,5 +1,7 @@
 # AI Development Protocol — Hatnikotni Chat
 
+> **Claude:** Read the repository-root [CLAUDE.md](CLAUDE.md) before starting work. It contains the project-specific development, testing, security, GitHub, and approval instructions. This protocol remains the concise workflow contract; `PROJECT-HANDOFF.md` remains the current-state authority.
+
 This is the development workflow contract for AI-assisted work.
 
 ## Core rule

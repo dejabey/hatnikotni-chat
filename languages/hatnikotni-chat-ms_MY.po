@@ -1,0 +1,914 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hatnikotni Chat 0.1.28\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: Malay\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-19T02:47:44+00:00\n"
+"PO-Revision-Date: 2026-11-19T02:47:44+00:00\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: hatnikotni-chat\n"
+
+#: includes/class-hatnch-admin.php:160
+msgid "— Select —"
+msgstr "— Pilih —"
+
+#. Translators: %d is the number of days in the selected analytics period.
+#. translators: %d: number of days in the reporting period.
+#: includes/class-hatnch-analytics-admin.php:77
+#: includes/class-hatnch-analytics-admin.php:136
+#, php-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d hari"
+msgstr[1] "%d hari"
+
+#: includes/class-hatnch-analytics-admin.php:63
+msgid "180 days"
+msgstr "180 hari"
+
+#: includes/class-hatnch-admin.php:570
+msgid "601234567890"
+msgstr "601234567890"
+
+#: includes/class-hatnch-analytics-admin.php:171
+msgid "A click does not confirm that a WhatsApp message was sent. Analytics and campaign attribution require visitor consent."
+msgstr "Klik tidak mengesahkan bahawa mesej WhatsApp telah dihantar. Analitik dan atribusi kempen memerlukan persetujuan pelawat."
+
+#: includes/class-hatnch-whatsapp.php:193
+msgid "Accept"
+msgstr "Terima"
+
+#: includes/class-hatnch-admin.php:507
+msgid "Activate"
+msgstr "Aktifkan"
+
+#: includes/class-hatnch-admin.php:525
+#: includes/class-hatnch-admin.php:616
+msgid "Active"
+msgstr "Aktif"
+
+#: includes/class-hatnch-admin.php:403
+#: includes/class-hatnch-admin.php:554
+#: includes/class-hatnch-admin.php:610
+msgid "Add Contact"
+msgstr "Tambah kenalan"
+
+#: includes/class-hatnch-whatsapp.php:190
+msgid "Allow analytics"
+msgstr "Benarkan analitik"
+
+#: includes/class-hatnch-admin.php:71
+#: includes/class-hatnch-analytics-admin.php:24
+#: includes/class-hatnch-analytics-admin.php:25
+msgid "Analytics"
+msgstr "Analitik"
+
+#: includes/class-hatnch-whatsapp.php:143
+msgid "Analytics accepted."
+msgstr "Analitik diterima."
+
+#: includes/class-hatnch-privacy.php:56
+msgid "Analytics data is not sent by Hatnikotni Chat to an external analytics service. When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp and that service receives information according to its own privacy policy and terms."
+msgstr "Hatnikotni Chat tidak menghantar data analitik kepada perkhidmatan analitik luaran. Apabila pelawat memilih untuk menghubungi laman melalui WhatsApp, pelayar akan dialihkan ke WhatsApp dan perkhidmatan itu menerima maklumat mengikut dasar privasi serta syaratnya sendiri."
+
+#: includes/class-hatnch-privacy.php:51
+msgid "Analytics events are stored in the site WordPress database and are automatically deleted after 180 days. With analytics consent, the plugin may use the first-party hatnch_campaign cookie for up to 30 days to retain the latest supported UTM campaign attribution."
+msgstr "Peristiwa analitik disimpan dalam pangkalan data WordPress laman dan dipadam secara automatik selepas 180 hari. Dengan persetujuan analitik, plugin boleh menggunakan kuki pihak pertama hatnch_campaign sehingga 30 hari untuk mengekalkan atribusi kempen UTM terkini yang disokong."
+
+#: includes/class-hatnch-whatsapp.php:144
+msgid "Analytics rejected. WhatsApp remains available."
+msgstr "Analitik ditolak. WhatsApp tetap tersedia."
+
+#: includes/class-hatnch-analytics-admin.php:83
+msgid "Apply"
+msgstr "Gunakan"
+
+#: includes/class-hatnch-admin.php:200
+msgid "Bottom left"
+msgstr "Bawah kiri"
+
+#: includes/class-hatnch-admin.php:199
+msgid "Bottom right"
+msgstr "Bawah kanan"
+
+#: includes/class-hatnch-analytics-admin.php:93
+msgid "Broad device categories only."
+msgstr "Kategori peranti umum sahaja."
+
+#: includes/class-hatnch-admin.php:176
+msgid "Button & message"
+msgstr "Butang dan mesej"
+
+#: includes/class-hatnch-admin.php:189
+msgid "Button Label"
+msgstr "Label butang"
+
+#: includes/class-hatnch-admin.php:196
+msgid "Button Position"
+msgstr "Kedudukan butang"
+
+#: includes/class-hatnch-analytics-admin.php:112
+msgid "By Campaign"
+msgstr "Mengikut kempen"
+
+#: includes/class-hatnch-analytics-admin.php:102
+msgid "By Contact"
+msgstr "Mengikut kenalan"
+
+#: includes/class-hatnch-analytics-admin.php:92
+msgid "By Device"
+msgstr "Mengikut peranti"
+
+#: includes/class-hatnch-admin.php:611
+msgid "Cancel"
+msgstr "Batal"
+
+#: includes/class-hatnch-admin.php:167
+msgid "Choose an active contact. The contact’s WhatsApp number is managed under Contacts."
+msgstr "Pilih kenalan yang aktif. Nombor WhatsApp kenalan diuruskan di bahagian Kenalan."
+
+#: includes/class-hatnch-analytics-admin.php:276
+#: includes/class-hatnch-analytics-admin.php:303
+msgid "Clicks"
+msgstr "Klik"
+
+#: includes/class-hatnch-analytics-admin.php:103
+msgid "Clicks attributed to each contact."
+msgstr "Klik yang dikaitkan dengan setiap kenalan."
+
+#: includes/class-hatnch-admin.php:97
+msgid "Configure how visitors reach your WhatsApp contacts and how the button appears across the site."
+msgstr "Tetapkan cara pelawat menghubungi kenalan WhatsApp anda dan rupa butang di seluruh laman."
+
+#: includes/class-hatnch-analytics-admin.php:302
+msgid "Contact"
+msgstr "Kenalan"
+
+#: includes/class-hatnch-admin.php:448
+msgid "Contact list"
+msgstr "Senarai kenalan"
+
+#: includes/class-hatnch-admin.php:398
+msgid "Contact management"
+msgstr "Pengurusan kenalan"
+
+#: includes/class-hatnch-admin.php:115
+#: includes/class-hatnch-contacts.php:108
+msgid "Contact name is required."
+msgstr "Nama kenalan diperlukan."
+
+#: includes/class-hatnch-admin.php:410
+msgid "Contact saved."
+msgstr "Kenalan disimpan."
+
+#: includes/class-hatnch-admin.php:191
+#: includes/class-hatnch-shortcode.php:28
+#: includes/class-hatnch-whatsapp.php:156
+msgid "Contact Us"
+msgstr "Hubungi Kami"
+
+#: includes/class-hatnch-admin.php:56
+#: includes/class-hatnch-admin.php:67
+#: includes/class-hatnch-admin.php:399
+msgid "Contacts"
+msgstr "Kenalan"
+
+#: includes/class-hatnch-admin.php:148
+msgid "Control whether the site-wide WhatsApp button is active and which contact receives visitors by default."
+msgstr "Kawal sama ada butang WhatsApp seluruh laman diaktifkan dan kenalan yang menerima pelawat secara lalai."
+
+#: includes/class-hatnch-admin.php:147
+msgid "Core settings"
+msgstr "Tetapan utama"
+
+#: includes/class-hatnch-admin.php:507
+msgid "Deactivate"
+msgstr "Nyahaktifkan"
+
+#: includes/class-hatnch-admin.php:157
+msgid "Default Contact"
+msgstr "Kenalan lalai"
+
+#: includes/class-hatnch-admin.php:182
+msgid "Default Message"
+msgstr "Mesej lalai"
+
+#: includes/class-hatnch-admin.php:578
+msgid "Description"
+msgstr "Penerangan"
+
+#: includes/class-hatnch-admin.php:208
+msgid "Desktop"
+msgstr "Komputer"
+
+#: includes/class-hatnch-admin.php:230
+msgid "Direct"
+msgstr "Terus"
+
+#: includes/class-hatnch-admin.php:101
+msgid "Disabled"
+msgstr "Dinyahaktifkan"
+
+#: includes/class-hatnch-admin.php:491
+msgid "Edit"
+msgstr "Edit"
+
+#: includes/class-hatnch-admin.php:554
+msgid "Edit Contact"
+msgstr "Edit kenalan"
+
+#: includes/class-hatnch-admin.php:153
+msgid "Enable"
+msgstr "Aktifkan"
+
+#: includes/class-hatnch-admin.php:154
+msgid "Enable Hatnikotni Chat frontend button"
+msgstr "Aktifkan butang Hatnikotni Chat pada laman"
+
+#: includes/class-hatnch-admin.php:101
+msgid "Enabled"
+msgstr "Diaktifkan"
+
+#: includes/class-hatnch-admin.php:116
+#: includes/class-hatnch-contacts.php:112
+msgid "Enter a valid WhatsApp number using international digits only, without +, spaces or hyphens."
+msgstr "Masukkan nombor WhatsApp antarabangsa menggunakan digit sahaja, tanpa tanda +, ruang atau tanda sempang."
+
+#: includes/class-hatnch-admin.php:184
+msgid "Example: Hello, I would like to ask about your services."
+msgstr "Contoh: Helo, saya ingin bertanya tentang perkhidmatan anda."
+
+#: includes/class-hatnch-admin.php:55
+#: includes/class-hatnch-admin.php:63
+msgid "General"
+msgstr "Umum"
+
+#. Plugin Name of the plugin
+#: hatnikotni-chat.php
+#: includes/class-hatnch-admin.php:46
+#: includes/class-hatnch-admin.php:47
+#: includes/class-hatnch-admin.php:96
+#: includes/class-hatnch-privacy.php:62
+msgid "Hatnikotni Chat"
+msgstr "Hatnikotni Chat"
+
+#: includes/class-hatnch-privacy.php:41
+msgid "Hatnikotni Chat provides a WhatsApp contact button and optional first-party interaction analytics. Analytics is disabled until a visitor explicitly allows it using the plugin privacy choices. Visitors can change their choice at any time using the privacy choices control."
+msgstr "Hatnikotni Chat menyediakan butang hubungan WhatsApp dan analitik interaksi pihak pertama secara pilihan. Analitik dinyahaktifkan sehingga pelawat membenarkannya secara jelas melalui pilihan privasi plugin. Pelawat boleh menukar pilihan pada bila-bila masa melalui kawalan privasi."
+
+#: includes/class-hatnch-admin.php:525
+#: includes/class-hatnch-admin.php:616
+msgid "Inactive"
+msgstr "Tidak aktif"
+
+#: includes/class-hatnch-admin.php:449
+msgid "Inactive contacts remain available for historical analytics and can be activated again later."
+msgstr "Kenalan tidak aktif kekal untuk rujukan analitik terdahulu dan boleh diaktifkan semula kemudian."
+
+#: includes/class-hatnch-admin.php:555
+msgid "Keep contact details accurate so routing and analytics remain reliable."
+msgstr "Pastikan butiran kenalan tepat supaya penghalaan dan analitik kekal boleh dipercayai."
+
+#. Translators: %d is the number of days in the selected analytics period.
+#: includes/class-hatnch-analytics-admin.php:59
+#, php-format
+msgid "Last %d day"
+msgid_plural "Last %d days"
+msgstr[0] "Hari terakhir: %d hari"
+msgstr[1] "Hari terakhir: %d hari"
+
+#: includes/class-hatnch-analytics-admin.php:113
+msgid "Last-touch UTM campaign attribution when consent is available."
+msgstr "Atribusi kempen UTM terakhir apabila persetujuan tersedia."
+
+#: includes/class-hatnch-analytics-admin.php:64
+msgid "Local database events"
+msgstr "Peristiwa dalam pangkalan data tempatan"
+
+#: includes/class-hatnch-admin.php:400
+msgid "Manage the people or teams who receive WhatsApp enquiries. Phone numbers use international digits-only format."
+msgstr "Urus individu atau pasukan yang menerima pertanyaan WhatsApp. Nombor telefon mesti menggunakan digit antarabangsa sahaja."
+
+#: includes/class-hatnch-admin.php:209
+msgid "Mobile"
+msgstr "Telefon bimbit"
+
+#: includes/class-hatnch-admin.php:459
+#: includes/class-hatnch-admin.php:565
+msgid "Name"
+msgstr "Nama"
+
+#: includes/class-hatnch-admin.php:467
+msgid "No contacts yet."
+msgstr "Belum ada kenalan."
+
+#: includes/class-hatnch-analytics-admin.php:267
+#: includes/class-hatnch-analytics-admin.php:294
+msgid "No data for this period."
+msgstr "Tiada data untuk tempoh ini."
+
+#: includes/class-hatnch-admin.php:185
+msgid "Optional pre-filled message. Keep it short and relevant to a first contact."
+msgstr "Mesej prasedia pilihan. Pastikan ringkas dan sesuai untuk pertanyaan pertama."
+
+#: includes/class-hatnch-analytics-admin.php:44
+msgid "Performance overview"
+msgstr "Gambaran prestasi"
+
+#: includes/class-hatnch-admin.php:460
+msgid "Phone"
+msgstr "Telefon"
+
+#: includes/class-hatnch-whatsapp.php:201
+msgid "Read More"
+msgstr "Baca Lagi"
+
+#: includes/class-hatnch-whatsapp.php:207
+msgid "Privacy"
+msgstr "Privasi"
+
+#: includes/class-hatnch-whatsapp.php:186
+msgid "Privacy and analytics choices"
+msgstr "Pilihan privasi dan analitik"
+
+#: includes/class-hatnch-whatsapp.php:197
+msgid "Privacy Policy"
+msgstr "Dasar Privasi"
+
+#: includes/class-hatnch-admin.php:231
+msgid "Random"
+msgstr "Rawak"
+
+#: includes/class-hatnch-whatsapp.php:188
+msgid "Reject"
+msgstr "Tolak"
+
+#: includes/class-hatnch-analytics-admin.php:71
+#: includes/class-hatnch-analytics-admin.php:128
+msgid "Reporting period"
+msgstr "Tempoh laporan"
+
+#: includes/class-hatnch-analytics-admin.php:62
+msgid "Retention"
+msgstr "Tempoh penyimpanan"
+
+#: includes/class-hatnch-analytics-admin.php:46
+msgid "Review WhatsApp button interactions recorded with visitor consent. A click is an interaction event, not proof that a message was sent."
+msgstr "Semak interaksi butang WhatsApp yang direkodkan dengan persetujuan pelawat. Klik ialah peristiwa interaksi, bukan bukti bahawa mesej telah dihantar."
+
+#: includes/class-hatnch-admin.php:461
+#: includes/class-hatnch-admin.php:574
+msgid "Role"
+msgstr "Peranan"
+
+#: includes/class-hatnch-admin.php:232
+msgid "Round robin"
+msgstr "Giliran bergilir"
+
+#: includes/class-hatnch-admin.php:135
+#: includes/class-hatnch-admin.php:221
+msgid "Routing"
+msgstr "Penghalaan"
+
+#: includes/class-hatnch-admin.php:227
+msgid "Routing Method"
+msgstr "Kaedah penghalaan"
+
+#: includes/class-hatnch-admin.php:300
+msgid "Save Settings"
+msgstr "Simpan tetapan"
+
+#: includes/class-hatnch-admin.php:177
+msgid "Set the visitor-facing label, optional pre-filled message and placement of the floating button."
+msgstr "Tetapkan label yang dilihat pelawat, mesej prasedia pilihan dan kedudukan butang terapung."
+
+#: includes/class-hatnch-admin.php:110
+msgid "Settings saved."
+msgstr "Tetapan disimpan."
+
+#: includes/class-hatnch-admin.php:579
+msgid "Short internal note about this contact."
+msgstr "Nota dalaman ringkas tentang kenalan ini."
+
+#: includes/class-hatnch-admin.php:582
+msgid "Sort Order"
+msgstr "Susunan"
+
+#: includes/class-hatnch-admin.php:462
+#: includes/class-hatnch-admin.php:613
+msgid "Status"
+msgstr "Status"
+
+#: includes/class-hatnch-admin.php:192
+msgid "Text visitors see on the WhatsApp button."
+msgstr "Teks yang dilihat pelawat pada butang WhatsApp."
+
+#: includes/class-hatnch-admin.php:121
+#: includes/class-hatnch-contacts.php:180
+msgid "The contact could not be created."
+msgstr "Kenalan tidak dapat dibuat."
+
+#: includes/class-hatnch-admin.php:120
+#: includes/class-hatnch-contacts.php:150
+msgid "The contact could not be updated."
+msgstr "Kenalan tidak dapat dikemas kini."
+
+#: includes/class-hatnch-analytics-admin.php:282
+#: includes/class-hatnch-analytics.php:232
+msgid "Unattributed"
+msgstr "Tidak dikaitkan"
+
+#: includes/class-hatnch-analytics-admin.php:315
+#: includes/class-hatnch-analytics.php:244
+msgid "Unknown / removed"
+msgstr "Tidak diketahui / telah dibuang"
+
+#: includes/class-hatnch-admin.php:610
+msgid "Update Contact"
+msgstr "Kemas kini kenalan"
+
+#: includes/class-hatnch-analytics-admin.php:275
+msgid "Value"
+msgstr "Nilai"
+
+#: includes/class-hatnch-admin.php:205
+msgid "Visibility"
+msgstr "Keterlihatan"
+
+#: includes/class-hatnch-analytics-admin.php:56
+msgid "WhatsApp clicks"
+msgstr "Klik WhatsApp"
+
+#: includes/class-hatnch-admin.php:95
+msgid "WhatsApp contact layer"
+msgstr "Lapisan hubungan WhatsApp"
+
+#: includes/class-hatnch-analytics-admin.php:45
+msgid "WhatsApp Interaction Analytics"
+msgstr "Analitik interaksi WhatsApp"
+
+#: includes/class-hatnch-admin.php:569
+msgid "WhatsApp Number"
+msgstr "Nombor WhatsApp"
+
+#: includes/class-hatnch-privacy.php:46
+msgid "When analytics consent is granted, the plugin may record a WhatsApp click event containing the selected contact, the WordPress page ID and page type, a broad device category (mobile, tablet or desktop), and supported UTM campaign values. The plugin does not intentionally store IP addresses, visitor names, phone numbers, email addresses, full user-agent strings, fingerprints, visitor IDs, browsing history or WhatsApp conversation content."
+msgstr "Apabila persetujuan analitik diberikan, plugin boleh merekod peristiwa klik WhatsApp yang mengandungi kenalan terpilih, ID dan jenis halaman WordPress, kategori peranti umum (telefon bimbit, tablet atau komputer) serta nilai kempen UTM yang disokong. Plugin tidak sengaja menyimpan alamat IP, nama pelawat, nombor telefon, alamat e-mel, rentetan user-agent penuh, cap jari digital, ID pelawat, sejarah pelayaran atau kandungan perbualan WhatsApp."
+
+#: includes/class-hatnch-admin.php:86
+#: includes/class-hatnch-admin.php:384
+#: includes/class-hatnch-analytics-admin.php:34
+msgid "You do not have permission to access this page."
+msgstr "Anda tidak mempunyai kebenaran untuk mengakses halaman ini."
+
+#: includes/class-hatnch-admin.php:309
+#: includes/class-hatnch-admin.php:626
+#: includes/class-hatnch-admin.php:710
+#: includes/class-hatnch-analytics-admin.php:193
+msgid "You do not have permission to perform this action."
+msgstr "Anda tidak mempunyai kebenaran untuk melakukan tindakan ini."
+
+#. Plugin URI of the plugin
+#: hatnikotni-chat.php
+msgid "https://github.com/dejabey/hatnikotni-chat"
+msgstr ""
+
+#. Description of the plugin
+#: hatnikotni-chat.php
+msgid "Lightweight WhatsApp contact routing and consent-aware first-party interaction analytics for WordPress."
+msgstr ""
+
+#. Author of the plugin
+#: hatnikotni-chat.php
+msgid "Hatnikotni"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:75
+msgid "Hatnikotni Chat workspace"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:117
+#: includes/class-hatnch-contacts.php:116
+msgid "Contact name must be 100 characters or fewer."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:118
+#: includes/class-hatnch-contacts.php:120
+msgid "Contact role must be 100 characters or fewer."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:119
+#: includes/class-hatnch-contacts.php:124
+msgid "Contact description must be 255 characters or fewer."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:122
+#: includes/class-hatnch-admin.php:432
+msgid "The contact could not be deleted. Analytics data was left intact."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:123
+#: includes/class-hatnch-admin.php:434
+#: includes/class-hatnch-contacts.php:156
+msgid "The contact no longer exists."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:133
+msgid "Settings sections"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:134
+msgid "Setup"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:136
+msgid "Extensions"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:222
+msgid "Choose how active contacts are selected. Optional modules can extend purpose and role behavior for this website."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:237
+msgid "Purpose-based routing"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:238
+msgid "Enable the purpose chooser for the floating button"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:238
+msgid "When disabled, the existing global routing and button behavior remain in effect."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:243
+#: includes/class-hatnch-admin.php:250
+#: includes/class-hatnch-admin.php:575
+#: includes/class-hatnch-whatsapp.php:260
+msgid "General Enquiries"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:244
+#: includes/class-hatnch-admin.php:575
+msgid "Business Support"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:245
+#: includes/class-hatnch-admin.php:252
+#: includes/class-hatnch-admin.php:575
+#: includes/class-hatnch-whatsapp.php:262
+msgid "Sales & Partnerships"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:251
+#: includes/class-hatnch-whatsapp.php:261
+msgid "Customer Support"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:253
+#: includes/class-hatnch-whatsapp.php:263
+msgid "Technical Support"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:272
+msgid "Support Email"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:272
+msgid "Optional alternative support email for complex matters or payment investigations."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:273
+msgid "Support Page URL"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:273
+msgid "Optional link to a contact form or dedicated support page. This is offered for complex matters or payment investigations."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:280
+#: includes/class-hatnch-admin.php:590
+msgid "Extension modules"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:280
+#: includes/class-hatnch-admin.php:590
+msgid "Optional modules can add site-specific features without changing the core plugin."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:290
+#: includes/class-hatnch-admin.php:600
+msgid "Extension"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:295
+#: includes/class-hatnch-admin.php:605
+msgid "No extension modules are currently providing settings."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:415
+msgid "Default Contact updated. Direct routing will use this active contact. Analytics history was not changed."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:426
+msgid "Contact deleted. Historical analytics events were retained without contact identification."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:436
+msgid "The Default Contact cannot be deactivated. Select another active Default Contact first."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:438
+msgid "The contact status could not be updated."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:440
+msgid "Choose another active Default Contact before deleting or deactivating this contact."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:442
+msgid "The Default Contact could not be changed."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:454
+msgid "Contact list; scroll horizontally to view all columns"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:458
+msgid "ID"
+msgstr ""
+
+#. translators: %1$s: contact name.
+#: includes/class-hatnch-admin.php:475
+#, php-format
+msgid "Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:478
+msgid "Permanently delete this contact? This cannot be undone. Historical analytics events will be retained but anonymized for this contact."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:484
+msgid "Default"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:498
+msgid "Set as Default"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:514
+msgid "Delete"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:517
+msgid "Protected while Default"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:562
+msgid "Required fields"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:565
+#: includes/class-hatnch-admin.php:569
+msgid "(required)"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:571
+msgid "International digits only, without +, spaces or hyphens."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:574
+#: includes/class-hatnch-admin.php:578
+#: includes/class-hatnch-admin.php:582
+msgid "Optional"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:575
+msgid "Unassigned"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:575
+msgid "Assign a routing role. Only active contacts assigned to the selected role are eligible for purpose routing."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:584
+msgid "Lower numbers appear first in the admin and round-robin sequence."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:614
+msgid "Active contact"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:654
+msgid "You do not have permission to delete contacts."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:659
+#: includes/class-hatnch-admin.php:686
+#: includes/class-hatnch-admin.php:717
+msgid "Security check failed. Reload and try again."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:681
+msgid "You do not have permission to change the Default Contact."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:121
+msgid "Analytics Data Management"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:121
+msgid "Export aggregate reports or remove analytics records. These actions do not change contacts or routing settings."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:123
+msgid "Export Reports"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:124
+msgid "Download an aggregate CSV report for the selected reporting period. Contact phone numbers and raw event identifiers are not included."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:144
+msgid "Export CSV"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:148
+msgid "Delete Analytics Records"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:149
+msgid "Delete all analytics events within an inclusive date range using the WordPress site timezone. This cannot be undone."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:153
+msgid "Start date"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:154
+msgid "End date"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:155
+msgid "I understand these analytics records will be permanently deleted."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:156
+msgid "Delete records in date range"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:160
+msgid "Delete All Analytics"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:161
+msgid "Permanently remove every analytics event. Contacts, routing configuration and plugin settings will remain unchanged."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:165
+msgid "Type DELETE to confirm"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:166
+msgid "Delete all analytics records"
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:180
+msgid "Analytics report exported."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:181
+msgid "Analytics records in the selected date range were deleted."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:182
+msgid "All analytics records were deleted."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:183
+msgid "The requested analytics action could not be completed. No success was reported."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:202
+msgid "Invalid reporting period."
+msgstr ""
+
+#: includes/class-hatnch-analytics-admin.php:211
+msgid "Could not create the report export."
+msgstr ""
+
+#. translators: %d: ID of a contact that no longer exists.
+#: includes/class-hatnch-analytics-admin.php:313
+#: includes/class-hatnch-analytics.php:242
+#, php-format
+msgid "Removed contact #%d"
+msgstr ""
+
+#: includes/class-hatnch-analytics.php:155
+msgid "Choose valid start and end dates."
+msgstr ""
+
+#: includes/class-hatnch-analytics.php:159
+msgid "The start date must not be later than the end date."
+msgstr ""
+
+#: includes/class-hatnch-analytics.php:186
+msgid "Could not count analytics records."
+msgstr ""
+
+#: includes/class-hatnch-analytics.php:206
+msgid "Analytics records could not be deleted."
+msgstr ""
+
+#. translators: %d: number of days in the reporting period.
+#: includes/class-hatnch-analytics.php:217
+#, php-format
+msgid "Last %d days"
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:77
+msgid "Hatnikotni Chat could not verify its database tables after installation. The database version was not advanced; check the database error log and try again."
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:84
+msgid "Hatnikotni Chat could not save its database version. The database version was not advanced; check the database permissions and try again."
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:109
+msgid "Hatnikotni Chat database migration paused:"
+msgstr ""
+
+#. translators: 1: legacy option name, 2: current option name.
+#: includes/class-hatnch-plugin.php:137
+#, php-format
+msgid "Both legacy option \"%1$s\" and current option \"%2$s\" exist with different values. Neither value was deleted or overwritten. Back up the database, reconcile the values, then retry."
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:163
+msgid "The database could not determine whether legacy tables exist. No legacy data was deleted. Check database permissions/connectivity and retry."
+msgstr ""
+
+#. translators: 1: legacy table name, 2: current table name.
+#: includes/class-hatnch-plugin.php:172
+#, php-format
+msgid "Both legacy table \"%1$s\" and current table \"%2$s\" exist. Automatic merging is paused to avoid losing rows or breaking event-to-contact references. Back up both tables and reconcile them before retrying."
+msgstr ""
+
+#. translators: 1: legacy table name, 2: current table name.
+#: includes/class-hatnch-plugin.php:200
+#, php-format
+msgid "Could not safely rename \"%1$s\" to \"%2$s\". The database version was not advanced and remaining legacy data was preserved. Correct the database error and retry."
+msgstr ""
+
+#. translators: 1: legacy option name, 2: current option name.
+#: includes/class-hatnch-plugin.php:224
+#, php-format
+msgid "Could not verify the copied value from \"%1$s\" to \"%2$s\". The legacy option was preserved; resolve the conflict and retry."
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:468
+msgid "Hatnikotni Chat could not verify its database tables after an upgrade. The database version was not advanced; check database errors and retry."
+msgstr ""
+
+#: includes/class-hatnch-plugin.php:475
+msgid "Hatnikotni Chat could not save its database version. The database version was not advanced; check database permissions and retry."
+msgstr ""
+
+#. translators: %s: visitor-selected enquiry purpose.
+#: includes/class-hatnch-whatsapp.php:65
+#, php-format
+msgid "Hello, I would like to contact your team regarding %s. Can you assist me?"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:203
+msgid "Analytics records clicks only if you accept. It does not record message content or IP addresses. WhatsApp works either way."
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:227
+msgid "How can we help?"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:227
+msgid "Close"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:228
+msgid "Choose a topic to continue to WhatsApp."
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:232
+msgid "For complex matters, use the support channel provided by this website."
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:239
+msgid "Open Support Page"
+msgstr ""
+
+#: includes/class-hatnch-whatsapp.php:282
+msgid "an enquiry"
+msgstr ""
