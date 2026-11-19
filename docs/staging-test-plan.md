@@ -218,3 +218,7 @@ Production activation remains a separate approval step.
 - All responses were `302` with `X-Redirect-By: Hatnikotni Chat`. There was no fallback to the home page.
 - After: `last_contact_id=1`, as expected.
 - Limits: requests may have been serialized by the server before reaching the handler. No WhatsApp messages were sent.
+
+## Ujian 0.1.27-RR — Round Robin re-check after the Plugin Check clean-up (2026-11-19)
+
+**Result: PASS.** Installed build: 0.1.27 from CI #868 artifact `8248a39e…` (inner ZIP `068B2081…176B`), source `7263a09`. Plugin Check (user-reported): no errors. Before: `last_contact_id=1`. Sequential: 3, 1, 3, 1. 12 concurrent requests (111 ms window): 6/6. All responses were `302` with `X-Redirect-By: Hatnikotni Chat`. After: `last_contact_id=1`. Limits are the same as Ujian 0.1.26-RR.

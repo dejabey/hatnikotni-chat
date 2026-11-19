@@ -14,8 +14,16 @@
   - `class-hatnch-routing.php` is token-identical to 0.1.26 under `php -w`. The admin change adds only an empty `<?php ?>` comment block.
   - CHANGELOG.md gains the missing 0.1.26 entry.
 - **CI:** #868 (push, run `44432791581`) and #869 (PR, run `44432801892`) passed all 8 jobs on `7263a09`. Candidate artifact (from #868): `hatnikotni-chat-0.1.27`, ID `14486959133`, 63,900 bytes, `sha256:8248a39ed6dd81d28430d1b1cccdf867bee335f974602c3f934dede403c86d95`. The #869 artifact has a different digest, `6ca42847…`, because ZIP timestamps differ. Use the #868 artifact.
-- **Staging runtime:** 0.1.26 evidence (Round Robin CONFIRMED; provenance CONFIRMED) carries over only as *behavioral* evidence, since routing logic is unchanged.
-  - 0.1.27 is **not installed** on staging. Installing the #868 artifact, re-hashing it and re-running Plugin Check plus `tests/staging-rr-http-check.sh` are **PENDING**.
+- **Staging runtime 0.1.27 (2026-11-19):**
+  - **Installed:** the owner installed 0.1.27. WPVibe shows version `0.1.27` active; `class-hatnch-routing.php` on staging carries the new `phpcs:ignore` lines (line 148 checked, 247 lines as in the repository); `hatnch_db_version` is 1.2.0; routing is `round_robin`; data was preserved through the upgrade.
+  - **Provenance:** the user's downloaded artifact `hatnikotni-chat-0.1.27.zip` hashes to `8248A39E…6D95`, which equals the CI #868 artifact digest. It contains a single inner ZIP `hatnikotni-chat-0.1.27.zip` (68,023 bytes, SHA-256 `068B2081783DD61BFC0250587933FABB400B5CA311048DD75BEC51625F7A176B`). Which of the two was uploaded to WordPress was not stated by the user; the installed version and source lines are consistent with this build. **CONFIRMED (artifact chain).**
+  - **Plugin Check (user-reported):** "Checks complete. No errors found."
+  - **Round Robin HTTP check:** **CONFIRMED.** User-run `tests/staging-rr-http-check.sh` (Git Bash), 2026-11-19 01:11:02–01:11:19 UTC.
+    - Sequential: ID 3, 1, 3, 1.
+    - 12 concurrent requests launched within 111 ms: ID 3 ×6 (c1, c2, c3, c6, c7, c10) and ID 1 ×6 (c4, c5, c8, c9, c11, c12).
+    - All 16 were `302` with `X-Redirect-By: Hatnikotni Chat` and a wa.me destination; no fallback; inactive ID 5 never selected.
+    - Cursor `last_contact_id` 1 → 1 (WPVibe); purpose-lane cursors unchanged; no object-cache drop-in.
+    - Same limits as the 0.1.26 run: server-side serialization before the handler cannot be excluded, and lock contention was not isolated.
 - **Verified after Plugin Check (WPVibe):** no `object-cache.php` drop-in was left behind (`drop_in: false`).
 - **Known WP.org readiness issues, not fixed in 0.1.27:**
   - `readme.txt` has three separate `== Changelog ==` sections; changelog precedes Description; there is no `Contributors:` header line.
@@ -25,9 +33,9 @@
 
 ## Immediate next action
 
-1. Owner installs the CI #868 artifact (0.1.27) on staging. This is a deployment to staging that the owner performs; Claude does not deploy.
-2. Hash the installed inner ZIP.
-3. Re-run Plugin Check (expect 0 warnings) and `tests/staging-rr-http-check.sh`.
+0.1.27 staging gates (install, provenance, Plugin Check, Round Robin) are complete. Remaining before the owner's merge decision on PR #8:
+1. Manual browser matrix: consent/privacy accept, reject and withdraw; mobile layout; keyboard/focus/Escape; shortcode; WooCommerce pages; JS disabled.
+2. Decide whether the readme/POT WordPress.org clean-up goes in before merging or as 0.1.28.
 
 ---
 
