@@ -239,9 +239,11 @@ Production activation remains a separate approval step.
 - Round Robin HTTP check: 3, 1, 3, 1; 12 concurrent requests → 6/6; all `302` with `X-Redirect-By: Hatnikotni Chat`; cursor 1 → 1.
 - Package hash correlation for 0.1.28 is still pending.
 
-## Ujian 0.1.29 — concept B UI, greeting card, Round Robin fallback (planned)
+## Ujian 0.1.29 — concept B UI, greeting card, Round Robin fallback
 
-**Status: PENDING.** Install only the **inner** ZIP from the 0.1.29 CI artifact, after hashing the outer artifact against the recorded digest. Record the cursor before and after. Do not force lock failures on staging.
+**Result (2026-11-19 14:45–15:30 MYT): 22/22 PASS (owner-run; checklist Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN), cross-checked by Claude with one WPVibe query. See the results section in `PROJECT-HANDOFF.md`.**
+
+Original plan: Install only the **inner** ZIP from the 0.1.29 CI artifact, after hashing the outer artifact against the recorded digest. Record the cursor before and after. Do not force lock failures on staging.
 
 Package and baseline
 1. Hash the outer artifact and the inner ZIP; compare with the CI digest in `PROJECT-HANDOFF.md`.

@@ -1,3 +1,32 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~15:40 MYT (0.1.29 staging acceptance: 22/22 PASS)
+
+> Supersedes the sections below where they conflict.
+
+- **Staging browser matrix for 0.1.29: CONFIRMED (22/22 "Lulus").** The owner ran the steps 14:45–15:30 MYT, in a desktop Chrome Incognito window, with devtools device emulation for step 14 (Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN, revision 30). Claude cross-checked with **one** WPVibe `db query` (~15:35 MYT):
+  - **Analytics events, baseline 53:**
+    - #54 14:53:23, contact 1, no UTM = step 8 (Accept).
+    - Step 10 (Reject, 14:54): no event, as expected.
+    - #55 15:03:38, contact 1, `ujian/qa/c0129` = step 11 (UTM after Accept).
+    - #56 15:18:04, contact 3, `c0129`. Consistent with step 16 (JS disabled, in the same Incognito session that had accepted consent and held the campaign cookie).
+    - #57 15:19:34, contact 1, no UTM. Consistent with step 17 (shortcode click in a browser with consent).
+    - Step 20 (greeting CTA, new Incognito, no consent, 15:23): no event, as expected.
+    - Total 57. Every event came from a consented click; there is no event for any unconsented click.
+  - **Round Robin HTTP check (owner, 07:26:52–07:27:08 UTC):**
+    - Sequential: alternating (s1, s3 to one contact; s2, s4 to the other).
+    - 12 concurrent: 6 + 6.
+    - All 16 responses: `302` with `X-Redirect-By: Hatnikotni Chat`, `Cache-Control: no-cache, no-store`.
+    - Cursor before the script: 3, inferred from the step 20 click after #57. Cursor after: `last_contact_id=3`, read via WPVibe. The 16 requests left it unchanged, as expected for an even count.
+    - Lane cursors unchanged (`business_support=3`, `general_enquiries=1`).
+  - **Failure counter:** `hatnch_routing_failures` absent. The admin shows "Tiada direkodkan." (owner's screen), which also confirms the Malay admin strings load.
+  - **Settings restored after steps 15 and 18–21:** `button_show_label` true, `button_position` right, `greeting_enabled` false, delay 5. 17 keys, saved by the 0.1.29 form.
+- **What this does not prove:** real phones and Safari/iOS (only devtools emulation), screen readers, other themes, page caching (staging has `WP_CACHE=false`), or forced Round Robin failures on staging (covered only by the CI integration test).
+- **Note:** the Sheet's Catatan column contains contact phone numbers typed by the owner. They are not copied into this repository.
+
+## Immediate next action
+Owner decision on PR #9 (0.1.29 → `main`): mark it ready for review and merge with a merge commit. Requires explicit approval. A merge does not tag, release or deploy to production; each of those needs separate approval.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~14:30 MYT (0.1.29 provenance CONFIRMED; staging tests pending)
 
 > Supersedes the sections below where they conflict.
