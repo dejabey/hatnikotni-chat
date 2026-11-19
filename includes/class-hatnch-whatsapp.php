@@ -124,6 +124,16 @@ final class HATNCH_WhatsApp {
 			);
 		}
 
+		if ( (bool) HATNCH_Settings::get( 'greeting_enabled', false ) ) {
+			wp_enqueue_script(
+				'hatnch-greeting',
+				HATNCH_PLUGIN_URL . 'assets/js/hatnikotni-chat-greeting.js',
+				array(),
+				HATNCH_VERSION,
+				true
+			);
+		}
+
 		wp_enqueue_script(
 			'hatnch-privacy',
 			HATNCH_PLUGIN_URL . 'assets/js/hatnikotni-chat-privacy.js',
@@ -183,6 +193,16 @@ final class HATNCH_WhatsApp {
 		$privacy_policy_url = get_privacy_policy_url();
 		$show_label         = (bool) HATNCH_Settings::get( 'button_show_label', true );
 		$purpose_enabled    = (bool) HATNCH_Settings::get( 'purpose_routing_enabled', false );
+		$greeting_enabled   = (bool) HATNCH_Settings::get( 'greeting_enabled', false );
+		$greeting_title     = trim( (string) HATNCH_Settings::get( 'greeting_title', '' ) );
+		$greeting_text      = trim( (string) HATNCH_Settings::get( 'greeting_text', '' ) );
+		$greeting_delay     = min( 60, absint( HATNCH_Settings::get( 'greeting_delay', 5 ) ) );
+		if ( '' === $greeting_title ) {
+			$greeting_title = __( 'Got a question?', 'hatnikotni-chat' );
+		}
+		if ( '' === $greeting_text ) {
+			$greeting_text = __( 'Chat with our team on WhatsApp.', 'hatnikotni-chat' );
+		}
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 			<section class="hatnch-privacy-panel" id="hatnch-privacy-panel" hidden aria-labelledby="hatnch-privacy-title">
@@ -208,6 +228,23 @@ final class HATNCH_WhatsApp {
 				<p class="hatnch-privacy-explanation" id="hatnch-privacy-explanation" hidden><?php echo esc_html__( 'Analytics records clicks only if you accept. It does not record message content or IP addresses. WhatsApp works either way.', 'hatnikotni-chat' ); ?></p>
 				<p class="hatnch-privacy-status" role="status" aria-live="polite"></p>
 			</section>
+			<?php if ( $greeting_enabled ) : ?>
+			<section class="hatnch-greeting" id="hatnch-greeting" hidden aria-labelledby="hatnch-greeting-title" data-hatnch-greeting-delay="<?php echo esc_attr( (string) $greeting_delay ); ?>">
+				<div class="hatnch-greeting__header">
+					<span class="hatnch-greeting__mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5Z"/></svg></span>
+					<button class="hatnch-greeting__close" type="button" aria-label="<?php echo esc_attr__( 'Close greeting', 'hatnikotni-chat' ); ?>">
+						<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+					</button>
+				</div>
+				<h2 class="hatnch-greeting__title" id="hatnch-greeting-title"><?php echo esc_html( $greeting_title ); ?></h2>
+				<p class="hatnch-greeting__text"><?php echo esc_html( $greeting_text ); ?></p>
+				<?php if ( $purpose_enabled ) : ?>
+					<button class="hatnch-greeting__cta" type="button" data-hatnch-greeting-cta><?php echo esc_html__( 'Start a WhatsApp chat', 'hatnikotni-chat' ); ?></button>
+				<?php else : ?>
+					<a class="hatnch-greeting__cta" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" data-hatnch-greeting-cta><?php echo esc_html__( 'Start a WhatsApp chat', 'hatnikotni-chat' ); ?></a>
+				<?php endif; ?>
+			</section>
+			<?php endif; ?>
 			<div class="hatnch-widget__actions">
 				<button class="hatnch-privacy-toggle" type="button" aria-label="<?php echo esc_attr__( 'Privacy and analytics choices', 'hatnikotni-chat' ); ?>" title="<?php echo esc_attr__( 'Privacy', 'hatnikotni-chat' ); ?>" aria-expanded="false" aria-controls="hatnch-privacy-panel">
 					<span class="hatnch-privacy-toggle__disc" aria-hidden="true"><svg class="hatnch-privacy-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 20 6v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-3Z"/></svg></span>

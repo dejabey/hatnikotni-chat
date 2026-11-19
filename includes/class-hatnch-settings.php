@@ -27,6 +27,10 @@ final class HATNCH_Settings {
 				'button_position'   => 'right',
 				'show_desktop'      => true,
 				'show_mobile'       => true,
+				'greeting_enabled'  => false,
+				'greeting_title'    => '',
+				'greeting_text'     => '',
+				'greeting_delay'    => 5,
 				'routing_method'    => 'direct',
 			)
 		);

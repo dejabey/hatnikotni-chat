@@ -211,6 +211,32 @@ final class HATNCH_Admin {
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<th scope="row"><?php echo esc_html__( 'Greeting card', 'hatnikotni-chat' ); ?></th>
+							<td>
+								<label class="hatnch-toggle-label"><input type="checkbox" name="greeting_enabled" value="1" <?php checked( ! empty( $settings['greeting_enabled'] ) ); ?>> <span><?php echo esc_html__( 'Show a greeting card above the button', 'hatnikotni-chat' ); ?></span></label>
+								<p class="description"><?php echo esc_html__( 'Off by default. The card appears once per browser session after the delay, and visitors can close it.', 'hatnikotni-chat' ); ?></p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-title"><?php echo esc_html__( 'Greeting title', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-title" name="greeting_title" type="text" class="regular-text" maxlength="60" placeholder="<?php echo esc_attr__( 'Got a question?', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['greeting_title'] ?? '' ); ?>">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-text"><?php echo esc_html__( 'Greeting text', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-text" name="greeting_text" type="text" class="large-text" maxlength="160" placeholder="<?php echo esc_attr__( 'Chat with our team on WhatsApp.', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['greeting_text'] ?? '' ); ?>">
+								<p class="description"><?php echo esc_html__( 'Leave empty to use the translated default. Only state reply times you can keep.', 'hatnikotni-chat' ); ?></p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-delay"><?php echo esc_html__( 'Greeting delay (seconds)', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-delay" name="greeting_delay" type="number" class="small-text" min="0" max="60" step="1" value="<?php echo esc_attr( (string) ( $settings['greeting_delay'] ?? 5 ) ); ?>">
+							</td>
+						</tr>
 					</table>
 				</section>
 
@@ -329,6 +355,10 @@ final class HATNCH_Admin {
 			'button_position'         => isset( $_POST['button_position'] ) && 'left' === sanitize_key( wp_unslash( $_POST['button_position'] ) ) ? 'left' : 'right',
 			'show_desktop'            => isset( $_POST['show_desktop'] ),
 			'show_mobile'             => isset( $_POST['show_mobile'] ),
+			'greeting_enabled'        => isset( $_POST['greeting_enabled'] ),
+			'greeting_title'          => isset( $_POST['greeting_title'] ) ? self::limit_text( sanitize_text_field( wp_unslash( $_POST['greeting_title'] ) ), 60 ) : '',
+			'greeting_text'           => isset( $_POST['greeting_text'] ) ? self::limit_text( sanitize_text_field( wp_unslash( $_POST['greeting_text'] ) ), 160 ) : '',
+			'greeting_delay'          => isset( $_POST['greeting_delay'] ) ? min( 60, absint( $_POST['greeting_delay'] ) ) : 5,
 			'routing_method'          => $method,
 			'purpose_routing_enabled' => isset( $_POST['purpose_routing_enabled'] ),
 			'purpose_roles'           => array(),
@@ -372,6 +402,17 @@ final class HATNCH_Admin {
 	 * @param string[] $allowed_roles Allowed role identifiers.
 	 * @return string
 	 */
+	/**
+	 * Truncates sanitized text to a character limit, multibyte-safe where available.
+	 */
+	private static function limit_text( string $value, int $limit ): string {
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $value, 0, $limit, 'UTF-8' );
+		}
+
+		return substr( $value, 0, $limit );
+	}
+
 	private static function sanitize_purpose_role( $candidate, array $allowed_roles ): string {
 		if ( ! is_scalar( $candidate ) ) {
 			return 'general_enquiries';

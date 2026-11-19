@@ -145,5 +145,14 @@ grep -q "toggle.focus()" assets/js/hatnikotni-chat-privacy.js || fail "Focus ret
 php -r '$s=file_get_contents("includes/class-hatnch-whatsapp.php"); $a=strpos($s,"hatnch-privacy-toggle\""); $b=strpos($s,"hatnch-button hatnch-floating"); exit($a!==false && $b!==false && $a<$b ? 0 : 1);' || fail "Privacy badge must precede, not sit inside, the WhatsApp action"
 # Measured contrast fix: no white text on WhatsApp green.
 php -r '$c=file_get_contents("assets/css/hatnikotni-chat.css"); exit(preg_match("/background:\s*#25d366;[^}]*color:\s*#fff\b/i",$c)?1:0);' || fail "White text on #25d366 (1.98:1) reintroduced"
+# 0.1.29 concept C greeting card: opt-in, off by default, no fake presence.
+grep -q "'greeting_enabled'  => false" includes/class-hatnch-settings.php || fail "Greeting card must default to off"
+grep -q "'greeting_enabled', false" includes/class-hatnch-whatsapp.php || fail "Greeting card must be off unless enabled"
+grep -q "hatnikotni-chat-greeting.js" includes/class-hatnch-whatsapp.php || fail "Greeting script enqueue missing"
+grep -q "'greeting_delay'" includes/class-hatnch-admin.php || fail "Greeting delay not saved"
+grep -q 'id="hatnch-greeting" hidden' includes/class-hatnch-whatsapp.php || fail "Greeting card must render hidden (no-JS safe)"
+grep -q "sessionStorage" assets/js/hatnikotni-chat-greeting.js || fail "Greeting once-per-session guard missing"
+if grep -q "document.cookie" assets/js/hatnikotni-chat-greeting.js; then fail "Greeting card must not set cookies"; fi
+if grep -qi "online\|dalam talian" includes/class-hatnch-whatsapp.php; then fail "No presence claims without real availability data"; fi
 php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"

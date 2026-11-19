@@ -11,8 +11,16 @@
 - Keyboard: opening the card focuses the selected choice (or Reject when none); Escape and the new close button return focus to the shield badge. With JavaScript off, the WhatsApp link still works and the badge does nothing, as before.
 - Theme-proofing: the widget resets inherited `a`/`button` styles (padding, borders, text-transform, min-height).
 
+### Greeting card: concept C (opt-in, off by default)
+- New setting **Greeting card** (`greeting_enabled`, default **off**) with optional title, text (empty uses the translated defaults "Got a question?" / "Chat with our team on WhatsApp.") and delay (0–60 s, default 5).
+- When enabled, a 292 px card appears above the button **once per browser session** after the delay. It never takes focus, sets no cookies (only a `sessionStorage` flag), stays hidden with JavaScript off, and does not appear if the privacy or purpose panel is already open.
+- The card's "Start a WhatsApp chat" button uses the same click endpoint as the floating button; with purpose routing on, it opens the purpose chooser instead. Close (44 px), Escape, or using the main button or the privacy badge retires it; focus returns to the WhatsApp button when the card had focus.
+- Deliberate departures from the design canvas: no "online" indicator (the plugin has no real availability data, so it would be a false claim), no staff initials (it would add a contacts query to every page and publish staff names), and no separate privacy link in the card (the shield badge stays visible).
+- CTA contrast: white on `#0f6b3a`, 6.59:1.
+- New script `assets/js/hatnikotni-chat-greeting.js`, enqueued only when the card is enabled. CI now runs `node --check` on every file in `assets/js/`.
+
 ### Translations
-- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close" (108 translated, 98 untranslated).
+- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close", plus the 11 greeting-card strings (119 translated, 98 untranslated).
 
 ### Tests
 - `tests/skeleton-contract.sh` now asserts the bubble, the badge, the label setting (rendered and saved), both consent choices with `aria-pressed`, the close handler and focus return, that the badge precedes the WhatsApp action instead of being nested in it, and that white text on `#25d366` is not reintroduced. The obsolete `role="switch"` assertion is replaced by a check that the old switch is gone.

@@ -1,3 +1,20 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~13:30 MYT (0.1.29 in development: concept B accepted, concept C added)
+
+> Supersedes the 12:40 section below where they conflict.
+
+- **Owner accepted the concept B look** on 2026-11-19 12:59 MYT ("ok saya terima"), from the headless-Chrome preview of commit `a065190`. This is a design acceptance only; staging runtime is still **PENDING**.
+- **Concept C (greeting card) implemented, opt-in, off by default.** See CHANGELOG `0.1.29` → "Greeting card". Settings: `greeting_enabled` (false), `greeting_title`, `greeting_text` (empty = translated defaults), `greeting_delay` (0–60 s, default 5).
+  - Departures from the canvas, decided by Claude and reported to the owner: no "Dalam talian" (online) dot, because the plugin has no availability data and the dot would be false; no staff-initial avatars (a contacts query on every page and public staff names); no in-card privacy link (the badge remains).
+  - The default text makes no reply-time promise. The canvas placeholder "[MASA BALASAN]" is left for the owner to write in the setting.
+- **Evidence (workspace; not runtime):** contract tests PASS, including new guards (default off, rendered hidden, sessionStorage only, no cookie, no presence claim); PHPCS 0/0; `node --check` on all JS. Headless Chrome (stubbed WordPress render, served over local HTTP): hidden at t=0, shown after a 1 s delay with focus untouched; the close button hides it and returns focus to the WhatsApp button; it stays hidden after reload in the same session; with purpose routing the CTA opens the chooser (focus on its Close button); if the privacy panel is opened before the delay, the card never appears; Escape hides it; at 390 px width the card is 292 px wide.
+- **Remaining 0.1.29 scope:** Round Robin fallback and observability (next), the remaining 98 Malay strings, the `Contributors:` line (owner's WordPress.org username needed).
+
+## Immediate next action
+1. Check CI on the pushed HEAD.
+2. Start the Round Robin fallback: replace the silent `wp_safe_redirect( home_url( '/' ) )` on lock/verify failure with a safe fallback contact, a PII-free failure counter and a failure action hook, with tests.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~12:40 MYT (0.1.29 in development: concept B front end)
 
 > Read [CLAUDE.md](CLAUDE.md) and [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md) first. This section supersedes the next one where they conflict.
