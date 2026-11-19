@@ -409,6 +409,7 @@ final class HATNCH_Admin {
 			<?php if ( isset( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html__( 'Contact saved.', 'hatnikotni-chat' ); ?></p></div>
 			<?php endif; ?>
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only status notice flag. ?>
 			<?php if ( isset( $_GET['default_changed'] ) ) : ?>
 				<div class="notice notice-success is-dismissible">
 					<p><?php echo esc_html__( 'Default Contact updated. Direct routing will use this active contact. Analytics history was not changed.', 'hatnikotni-chat' ); ?></p>

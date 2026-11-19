@@ -1,3 +1,18 @@
+## 0.1.27 — Plugin Check clean-up
+
+- Resolved all 10 Plugin Check warnings reported against 0.1.26 (9 in `class-hatnch-routing.php`, 1 in `class-hatnch-admin.php`) with narrowly scoped, justified `phpcs:ignore` comments. The direct database calls are required for the Round Robin advisory lock and cache-bypassing cursor persistence.
+- Removed the project-wide exclusions of `WordPress.DB.DirectDatabaseQuery.DirectQuery`, `.NoCaching` and `WordPress.Security.NonceVerification.Recommended` from `phpcs.xml.dist`, so CI now reports what Plugin Check reports.
+- No runtime behavior change: `class-hatnch-routing.php` is token-identical to 0.1.26 after stripping comments and whitespace.
+- CI: the incremental PHPCS step now ignores deleted files (`--diff-filter=d`).
+
+## 0.1.26 — Round Robin persistence and contact status result handling
+
+- Persist and verify Round Robin cursors atomically in the database while holding the routing advisory lock, avoiding stale option-cache reads; lock release failure fires `hatnch_routing_lock_release_failed`.
+- Distinguish an unchanged contact from a missing contact when updating status; handle concurrent deletion during save.
+- Sanitize purpose-role input; explicit analytics nonce checks and prepared statements; admin denials return HTTP 403.
+- Added a 12-worker concurrent Round Robin WordPress/MySQL CI test; removed temporary QA diagnostics.
+- (Entry added on 2026-11-19; it was previously recorded only in `readme.txt`.)
+
 ## 0.1.25 — Round-robin serialization candidate
 
 - Serialize global and purpose-role round-robin cursor selection using database advisory locks.

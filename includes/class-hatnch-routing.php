@@ -145,7 +145,8 @@ final class HATNCH_Routing {
 		}
 
 		$lock_name = 'hatnch_rr_' . substr( hash( 'sha256', DB_NAME . '|' . $wpdb->prefix . '|' . $state_key ), 0, 48 );
-		$acquired  = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- MySQL advisory lock; no WordPress API exists.
+		$acquired = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
 		if ( 1 !== (int) $acquired ) {
 			return null;
 		}
@@ -172,7 +173,8 @@ final class HATNCH_Routing {
 			// Read the cursor directly from the database. The Options API may serve a
 			// stale value from a persistent object cache across concurrent requests.
 			$wpdb->last_error = '';
-			$state_row        = $wpdb->get_row(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cursor must bypass the options/object cache under concurrency; see comment above.
+			$state_row = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
 					$state_key
@@ -196,9 +198,10 @@ final class HATNCH_Routing {
 				}
 			}
 
-			$saved        = $structured_state
+			$saved = $structured_state
 				? array( 'last_contact_id' => (int) $next['id'] )
 				: (int) $next['id'];
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Atomic upsert of the cursor; option caches are invalidated immediately below.
 			$write_result = $wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'no' ) ON DUPLICATE KEY UPDATE option_value = %s, autoload = 'no'",
@@ -217,15 +220,16 @@ final class HATNCH_Routing {
 			wp_cache_delete( 'notoptions', 'options' );
 
 			$wpdb->last_error = '';
-			$persisted_row    = $wpdb->get_row(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Read-back verification of the persisted cursor must bypass caches.
+			$persisted_row = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1",
 					$state_key
 				),
 				ARRAY_A
 			);
-			$persisted        = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
-			$persisted_id     = $structured_state
+			$persisted     = null !== $persisted_row ? maybe_unserialize( $persisted_row['option_value'] ) : null;
+			$persisted_id  = $structured_state
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
 			if ( $persisted_id !== (int) $next['id'] ) {
@@ -233,6 +237,7 @@ final class HATNCH_Routing {
 			}
 			return $next;
 		} finally {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Releases the advisory lock acquired above; no WordPress API exists.
 			$release_result = $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
 			if ( 1 !== (int) $release_result ) {
 				do_action( 'hatnch_routing_lock_release_failed', $state_key, $release_result );

@@ -9,11 +9,8 @@
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
 		<exclude name="Generic.Commenting.FileComment.MissingPackageTag" />
 
-		<!-- Custom database tables intentionally use $wpdb directly. -->
-		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
-		<exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
+		<!-- Custom tables use $wpdb with prepared statements; schema changes run through dbDelta(). Direct queries and nonce-free reads are justified per line instead of excluded globally. -->
 		<exclude name="WordPress.DB.DirectDatabaseQuery.SchemaChange" />
-		<exclude name="WordPress.Security.NonceVerification.Recommended" />
 	</rule>
 
 	<file>hatnikotni-chat.php</file>
