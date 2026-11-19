@@ -2,7 +2,9 @@
 
 > Supersedes the earlier 2026-11-19 sections below where they conflict.
 
-- **Owner reports 0.1.29 installed on staging** (13:45 MYT). USER-REPORTED; package provenance **PENDING** until the owner reports the outer and inner SHA-256 (the CI #913 outer digest is `f85ad689…c501e`).
+- **Owner reports 0.1.29 installed on staging** (13:45 MYT). USER-REPORTED.
+  - **Inner ZIP (owner-reported, 14:08 MYT):** `hatnikotni-chat-0.1.29.zip`, SHA-256 `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440`, extracted from the downloaded artifact.
+  - Package provenance stays **PENDING** until two things are confirmed: (a) the outer-file check printed LULUS, i.e. the download equals the CI #913 digest `f85ad689…c501e`; (b) this inner ZIP is the file that was uploaded to staging.
 - **WPVibe read-only check (one `db query`, 2026-11-19 ~13:50 MYT):**
   - WordPress's own update-check record lists `hatnikotni-chat/hatnikotni-chat.php` as **0.1.29**. This is indirect evidence of the installed header version.
   - Data preserved: `hatnch_db_version` 1.2.0; contacts `1:active, 3:active, 5:inactive`; cursor `last_contact_id=1`; 53 events, last #53 at 11:31:43 (no events since the upgrade).
