@@ -24,8 +24,15 @@
   - Version `0.1.28` active; installed `class-hatnch-campaign.php` contains the decode-before-sanitize fix (lines 116–125).
   - The owner reports steps 7–10 passed; steps 7, 8 and 10 are browser-observable.
   - Only one new event exists: #52 (11:20:03, contact 3, no UTM). It matches the owner's re-run of step 4, which had no UTM.
-  - **No event with `utm_campaign=c0127` exists yet**, so the attribution fix on staging is **PENDING** until a step-9 click is recorded.
-  - Package hashes for 0.1.28 have not been reported yet.
+  - **Campaign attribution on 0.1.28: CONFIRMED.** Owner repeated step 9 (UTM URL → Accept → click, ~11:32 MYT). WPVibe shows event **#53** (2026-11-19 11:31:43, contact 1, desktop) with `utm_source=ujian`, `utm_medium=qa`, `utm_campaign=c0127`. This is the first event on staging that ever carried UTM data.
+  - **Round Robin HTTP check on 0.1.28: CONFIRMED** (owner-run, 03:33:40–03:33:56 UTC).
+    - Cursor before: 1, consistent with event #53's selection of ID 1.
+    - Sequential: 3, 1, 3, 1.
+    - 12 concurrent requests (118 ms window): ID 1 ×6 (c1, c3, c4, c7, c8, c9) and ID 3 ×6 (c2, c5, c6, c10, c11, c12).
+    - All 16 responses were `302` with `X-Redirect-By: Hatnikotni Chat`.
+    - Cursor after: 1 (WPVibe); purpose-lane cursors unchanged.
+  - **Package hashes for 0.1.28: PENDING.** The owner's latest PowerShell output was for the 0.1.27 artifact (`068B2081…`), not 0.1.28. Installed code is source-verified: version 0.1.28 and the fix lines are present.
+  - Plugin Check on 0.1.28: not yet reported.
 - **Design decision (owner, 2026-11-19), for 0.1.29:**
   - Concept **B** (round button + shield badge) is the base. Concept **C** (team greeting card) becomes an opt-in setting, off by default.
   - Owner feedback: make the mobile consent card more compact, shorten Tolak/Terima, narrow the explanation. Revised in the private design canvas https://claude.ai/artifact/GzPqJ5guUP55XcZfhroKFQ: 232 px card, 32 px segmented control, one-line explanation.
@@ -36,7 +43,9 @@
 
 ## Immediate next action
 
-1. Owner repeats step 9 on 0.1.28: new Incognito window → UTM URL → Accept → click WhatsApp; note the time. Claude then verifies `utm_campaign=c0127`. The owner also reports the 0.1.28 package hashes.
+1. Owner reports the 0.1.28 package hashes (outer artifact should be `9c3cab14…0254`) and the Plugin Check result.
+2. Owner decides whether to merge PR #8 (0.1.28) into `main`.
+3. Then 0.1.29: the concept B redesign (with C as an opt-in setting), Round Robin fallback and observability, Malay translation of the 99 untranslated strings, and a `Contributors:` line (needs the owner's WordPress.org username).
 2. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
 
 ---

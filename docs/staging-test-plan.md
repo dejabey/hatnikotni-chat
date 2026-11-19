@@ -231,3 +231,10 @@ Production activation remains a separate approval step.
 - Keyboard Tab, Enter and Escape focus work.
 - Mobile, shortcode, WooCommerce pages and JS-disabled fallback all work.
 - **Step 9:** event #51 had `utm_campaign` NULL. Root cause and fix are in 0.1.28 (see `PROJECT-HANDOFF.md`). Re-test steps 7–10 on 0.1.28.
+
+## Ujian 0.1.28 — attribution fix and Round Robin (2026-11-19)
+
+**Result: PASS.**
+- Step 9 re-test: event #53 (11:31:43) carries `utm_source=ujian`, `utm_medium=qa`, `utm_campaign=c0127`. This is the first attributed event on staging.
+- Round Robin HTTP check: 3, 1, 3, 1; 12 concurrent requests → 6/6; all `302` with `X-Redirect-By: Hatnikotni Chat`; cursor 1 → 1.
+- Package hash correlation for 0.1.28 is still pending.
