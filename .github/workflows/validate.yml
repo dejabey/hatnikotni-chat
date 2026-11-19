@@ -272,5 +272,8 @@ jobs:
           fi
           echo "PASS: 12 concurrent Round Robin requests selected each active contact exactly 6 times."
 
+      - name: Run WordPress-backed campaign attribution test
+        run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/campaign-attribution-integration.php"
+
       - name: Run WordPress-backed migration lifecycle tests
         run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/wordpress-migration-integration.php"
