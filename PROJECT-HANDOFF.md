@@ -14,11 +14,16 @@
 - **Decision update:** since 0.1.28 needs a full staging re-verification anyway, the readme.txt/POT WordPress.org clean-up joins **0.1.28** instead of later. The Round Robin fallback/observability work moves to **0.1.29**.
 - **Merge note:** PR #8 should not be merged at 0.1.27, which has a known broken advertised feature (campaign attribution).
 
+- **0.1.28 readme/POT (`ed26d87`):**
+  - `readme.txt`: standard WordPress.org structure (single Changelog, Tags, subsections).
+  - POT regenerated (115 → 204 strings). ms_MY.po merged: 104 translated, 99 untranslated, 10 obsolete dropped.
+  - Still missing: a `Contributors:` line, which needs the owner's WordPress.org username.
+- **Final 0.1.28 candidate:** CI #884 (push, run `44446934827`) and #885 passed all 8 jobs on `ed26d87`, including the attribution regression test and `msgfmt --check`. Artifact `hatnikotni-chat-0.1.28`, ID `14493841538`, 70,220 bytes, `sha256:9c3cab14ec62b69c80513f0d31484a8286b6938d2e6d89388f879e274e010254`. The earlier #880 artifact is superseded.
+
 ## Immediate next action
 
-1. Claude: readme.txt structure and POT clean-up in 0.1.28, then CI.
-2. Owner installs the final 0.1.28 artifact (inner ZIP) on staging.
-3. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
+1. Owner installs the CI #884 artifact's inner ZIP on staging and reports both hashes.
+2. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
 
 ---
 
