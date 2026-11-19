@@ -1,3 +1,18 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~13:35 MYT (0.1.29 scope items 1–4 implemented)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Malay translation complete:** `hatnikotni-chat-ms_MY.po` has 226/226 strings translated (was 128/98). Placeholder parity checked by script; the delete-all confirmation keeps the literal `DELETE` token (contract-guarded). Translations were written by Claude and have **not** been reviewed by a native speaker; the owner should skim the admin screens in Malay during staging testing.
+- **`Contributors: zaryl`** added to `readme.txt`. The owner supplied the username on 2026-11-19 13:21 MYT; Claude confirmed that https://profiles.wordpress.org/zaryl/ exists (joined June 2009). Contract-guarded.
+- **0.1.29 scope status:** items 1 (concept B, owner-accepted look; concept C opt-in), 2 (Round Robin fallback), 3 (translation) and 4 (Contributors) are implemented. Item 5 (click log) stays deferred by product decision.
+- **Still required before any release:** bump the version to 0.1.29 (plugin header, `HATNCH_VERSION`, `Stable tag`, POT/PO `Project-Id-Version`, CHANGELOG heading, readme changelog and upgrade notice), CI on the bumped HEAD, then staging installation and the browser matrix for the new UI. Each step after CI needs the owner's approval.
+
+## Immediate next action
+1. Confirm CI on the pushed HEAD.
+2. Ask the owner whether to cut the 0.1.29 release candidate (version bump + candidate artifact) for staging testing.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~13:20 MYT (0.1.29 in development: Round Robin fallback)
 
 > Supersedes the earlier 2026-11-19 sections below where they conflict.

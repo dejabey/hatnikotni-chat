@@ -438,397 +438,397 @@ msgstr "Anda tidak mempunyai kebenaran untuk melakukan tindakan ini."
 #. Plugin URI of the plugin
 #: hatnikotni-chat.php
 msgid "https://github.com/dejabey/hatnikotni-chat"
-msgstr ""
+msgstr "https://github.com/dejabey/hatnikotni-chat"
 
 #. Description of the plugin
 #: hatnikotni-chat.php
 msgid "Lightweight WhatsApp contact routing and consent-aware first-party interaction analytics for WordPress."
-msgstr ""
+msgstr "Penghalaan kenalan WhatsApp yang ringan dan analitik interaksi pihak pertama berasaskan persetujuan untuk WordPress."
 
 #. Author of the plugin
 #: hatnikotni-chat.php
 msgid "Hatnikotni"
-msgstr ""
+msgstr "Hatnikotni"
 
 #: includes/class-hatnch-admin.php:75
 msgid "Hatnikotni Chat workspace"
-msgstr ""
+msgstr "Ruang kerja Hatnikotni Chat"
 
 #: includes/class-hatnch-admin.php:117 includes/class-hatnch-contacts.php:116
 msgid "Contact name must be 100 characters or fewer."
-msgstr ""
+msgstr "Nama kenalan mestilah tidak melebihi 100 aksara."
 
 #: includes/class-hatnch-admin.php:118 includes/class-hatnch-contacts.php:120
 msgid "Contact role must be 100 characters or fewer."
-msgstr ""
+msgstr "Peranan kenalan mestilah tidak melebihi 100 aksara."
 
 #: includes/class-hatnch-admin.php:119 includes/class-hatnch-contacts.php:124
 msgid "Contact description must be 255 characters or fewer."
-msgstr ""
+msgstr "Keterangan kenalan mestilah tidak melebihi 255 aksara."
 
 #: includes/class-hatnch-admin.php:122 includes/class-hatnch-admin.php:519
 msgid "The contact could not be deleted. Analytics data was left intact."
-msgstr ""
+msgstr "Kenalan tidak dapat dipadam. Data analitik tidak diubah."
 
 #: includes/class-hatnch-admin.php:123 includes/class-hatnch-admin.php:521 includes/class-hatnch-contacts.php:156
 msgid "The contact no longer exists."
-msgstr ""
+msgstr "Kenalan ini tidak lagi wujud."
 
 #: includes/class-hatnch-admin.php:133
 msgid "Settings sections"
-msgstr ""
+msgstr "Bahagian tetapan"
 
 #: includes/class-hatnch-admin.php:134
 msgid "Setup"
-msgstr ""
+msgstr "Persediaan"
 
 #: includes/class-hatnch-admin.php:136
 msgid "Extensions"
-msgstr ""
+msgstr "Sambungan"
 
 #: includes/class-hatnch-admin.php:249
 msgid "Choose how active contacts are selected. Optional modules can extend purpose and role behavior for this website."
-msgstr ""
+msgstr "Pilih cara kenalan aktif dipilih. Modul pilihan boleh melanjutkan tingkah laku tujuan dan peranan untuk laman web ini."
 
 #: includes/class-hatnch-admin.php:293
 msgid "Purpose-based routing"
-msgstr ""
+msgstr "Penghalaan mengikut tujuan"
 
 #: includes/class-hatnch-admin.php:294
 msgid "Enable the purpose chooser for the floating button"
-msgstr ""
+msgstr "Dayakan pemilih tujuan untuk butang terapung"
 
 #: includes/class-hatnch-admin.php:294
 msgid "When disabled, the existing global routing and button behavior remain in effect."
-msgstr ""
+msgstr "Apabila dinyahdayakan, penghalaan global dan tingkah laku butang sedia ada kekal berkuat kuasa."
 
 #: includes/class-hatnch-admin.php:299 includes/class-hatnch-admin.php:306 includes/class-hatnch-admin.php:662 includes/class-hatnch-whatsapp.php:308
 msgid "General Enquiries"
-msgstr ""
+msgstr "Pertanyaan Umum"
 
 #: includes/class-hatnch-admin.php:300 includes/class-hatnch-admin.php:662
 msgid "Business Support"
-msgstr ""
+msgstr "Sokongan Perniagaan"
 
 #: includes/class-hatnch-admin.php:301 includes/class-hatnch-admin.php:308 includes/class-hatnch-admin.php:662 includes/class-hatnch-whatsapp.php:310
 msgid "Sales & Partnerships"
-msgstr ""
+msgstr "Jualan & Kerjasama"
 
 #: includes/class-hatnch-admin.php:307 includes/class-hatnch-whatsapp.php:309
 msgid "Customer Support"
-msgstr ""
+msgstr "Khidmat Pelanggan"
 
 #: includes/class-hatnch-admin.php:309 includes/class-hatnch-whatsapp.php:311
 msgid "Technical Support"
-msgstr ""
+msgstr "Sokongan Teknikal"
 
 #: includes/class-hatnch-admin.php:328
 msgid "Support Email"
-msgstr ""
+msgstr "E-mel Sokongan"
 
 #: includes/class-hatnch-admin.php:328
 msgid "Optional alternative support email for complex matters or payment investigations."
-msgstr ""
+msgstr "E-mel sokongan alternatif (pilihan) untuk perkara rumit atau siasatan pembayaran."
 
 #: includes/class-hatnch-admin.php:329
 msgid "Support Page URL"
-msgstr ""
+msgstr "URL Halaman Sokongan"
 
 #: includes/class-hatnch-admin.php:329
 msgid "Optional link to a contact form or dedicated support page. This is offered for complex matters or payment investigations."
-msgstr ""
+msgstr "Pautan pilihan ke borang hubungan atau halaman sokongan khas. Ia ditawarkan untuk perkara rumit atau siasatan pembayaran."
 
 #: includes/class-hatnch-admin.php:336 includes/class-hatnch-admin.php:677
 msgid "Extension modules"
-msgstr ""
+msgstr "Modul sambungan"
 
 #: includes/class-hatnch-admin.php:336 includes/class-hatnch-admin.php:677
 msgid "Optional modules can add site-specific features without changing the core plugin."
-msgstr ""
+msgstr "Modul pilihan boleh menambah ciri khusus laman tanpa mengubah plugin teras."
 
 #: includes/class-hatnch-admin.php:346 includes/class-hatnch-admin.php:687
 msgid "Extension"
-msgstr ""
+msgstr "Sambungan"
 
 #: includes/class-hatnch-admin.php:351 includes/class-hatnch-admin.php:692
 msgid "No extension modules are currently providing settings."
-msgstr ""
+msgstr "Tiada modul sambungan yang menyediakan tetapan buat masa ini."
 
 #: includes/class-hatnch-admin.php:502
 msgid "Default Contact updated. Direct routing will use this active contact. Analytics history was not changed."
-msgstr ""
+msgstr "Kenalan lalai dikemas kini. Penghalaan Terus akan menggunakan kenalan aktif ini. Sejarah analitik tidak diubah."
 
 #: includes/class-hatnch-admin.php:513
 msgid "Contact deleted. Historical analytics events were retained without contact identification."
-msgstr ""
+msgstr "Kenalan dipadam. Peristiwa analitik lama dikekalkan tanpa pengenalan kenalan."
 
 #: includes/class-hatnch-admin.php:523
 msgid "The Default Contact cannot be deactivated. Select another active Default Contact first."
-msgstr ""
+msgstr "Kenalan lalai tidak boleh dinyahaktifkan. Pilih kenalan lalai aktif yang lain terlebih dahulu."
 
 #: includes/class-hatnch-admin.php:525
 msgid "The contact status could not be updated."
-msgstr ""
+msgstr "Status kenalan tidak dapat dikemas kini."
 
 #: includes/class-hatnch-admin.php:527
 msgid "Choose another active Default Contact before deleting or deactivating this contact."
-msgstr ""
+msgstr "Pilih kenalan lalai aktif yang lain sebelum memadam atau menyahaktifkan kenalan ini."
 
 #: includes/class-hatnch-admin.php:529
 msgid "The Default Contact could not be changed."
-msgstr ""
+msgstr "Kenalan lalai tidak dapat ditukar."
 
 #: includes/class-hatnch-admin.php:541
 msgid "Contact list; scroll horizontally to view all columns"
-msgstr ""
+msgstr "Senarai kenalan; tatal ke kiri dan kanan untuk melihat semua lajur"
 
 #: includes/class-hatnch-admin.php:545
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. translators: %1$s: contact name.
 #: includes/class-hatnch-admin.php:562
 #, php-format
 msgid "Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active."
-msgstr ""
+msgstr "Jadikan %1$s kenalan lalai? Interaksi baharu melalui penghalaan Terus akan dihantar kepada %1$s. Kenalan lalai sebelum ini akan kekal aktif."
 
 #: includes/class-hatnch-admin.php:565
 msgid "Permanently delete this contact? This cannot be undone. Historical analytics events will be retained but anonymized for this contact."
-msgstr ""
+msgstr "Padam kenalan ini secara kekal? Tindakan ini tidak boleh dibatalkan. Peristiwa analitik lama akan dikekalkan tetapi dinyahnamakan bagi kenalan ini."
 
 #: includes/class-hatnch-admin.php:571
 msgid "Default"
-msgstr ""
+msgstr "Lalai"
 
 #: includes/class-hatnch-admin.php:585
 msgid "Set as Default"
-msgstr ""
+msgstr "Jadikan lalai"
 
 #: includes/class-hatnch-admin.php:601
 msgid "Delete"
-msgstr ""
+msgstr "Padam"
 
 #: includes/class-hatnch-admin.php:604
 msgid "Protected while Default"
-msgstr ""
+msgstr "Dilindungi semasa menjadi lalai"
 
 #: includes/class-hatnch-admin.php:649
 msgid "Required fields"
-msgstr ""
+msgstr "Medan wajib"
 
 #: includes/class-hatnch-admin.php:652 includes/class-hatnch-admin.php:656
 msgid "(required)"
-msgstr ""
+msgstr "(wajib)"
 
 #: includes/class-hatnch-admin.php:658
 msgid "International digits only, without +, spaces or hyphens."
-msgstr ""
+msgstr "Digit format antarabangsa sahaja, tanpa +, ruang atau sengkang."
 
 #: includes/class-hatnch-admin.php:661 includes/class-hatnch-admin.php:665 includes/class-hatnch-admin.php:669
 msgid "Optional"
-msgstr ""
+msgstr "Pilihan"
 
 #: includes/class-hatnch-admin.php:662
 msgid "Unassigned"
-msgstr ""
+msgstr "Belum ditetapkan"
 
 #: includes/class-hatnch-admin.php:662
 msgid "Assign a routing role. Only active contacts assigned to the selected role are eligible for purpose routing."
-msgstr ""
+msgstr "Tetapkan peranan penghalaan. Hanya kenalan aktif yang ditetapkan kepada peranan yang dipilih layak untuk penghalaan mengikut tujuan."
 
 #: includes/class-hatnch-admin.php:671
 msgid "Lower numbers appear first in the admin and round-robin sequence."
-msgstr ""
+msgstr "Nombor yang lebih kecil dipaparkan dahulu dalam admin dan dalam giliran round robin."
 
 #: includes/class-hatnch-admin.php:701
 msgid "Active contact"
-msgstr ""
+msgstr "Kenalan aktif"
 
 #: includes/class-hatnch-admin.php:741
 msgid "You do not have permission to delete contacts."
-msgstr ""
+msgstr "Anda tidak mempunyai kebenaran untuk memadam kenalan."
 
 #: includes/class-hatnch-admin.php:746 includes/class-hatnch-admin.php:773 includes/class-hatnch-admin.php:804
 msgid "Security check failed. Reload and try again."
-msgstr ""
+msgstr "Semakan keselamatan gagal. Muat semula dan cuba lagi."
 
 #: includes/class-hatnch-admin.php:768
 msgid "You do not have permission to change the Default Contact."
-msgstr ""
+msgstr "Anda tidak mempunyai kebenaran untuk menukar kenalan lalai."
 
 #: includes/class-hatnch-analytics-admin.php:121
 msgid "Analytics Data Management"
-msgstr ""
+msgstr "Pengurusan Data Analitik"
 
 #: includes/class-hatnch-analytics-admin.php:121
 msgid "Export aggregate reports or remove analytics records. These actions do not change contacts or routing settings."
-msgstr ""
+msgstr "Eksport laporan agregat atau buang rekod analitik. Tindakan ini tidak mengubah kenalan atau tetapan penghalaan."
 
 #: includes/class-hatnch-analytics-admin.php:123
 msgid "Export Reports"
-msgstr ""
+msgstr "Eksport Laporan"
 
 #: includes/class-hatnch-analytics-admin.php:124
 msgid "Download an aggregate CSV report for the selected reporting period. Contact phone numbers and raw event identifiers are not included."
-msgstr ""
+msgstr "Muat turun laporan CSV agregat bagi tempoh laporan yang dipilih. Nombor telefon kenalan dan pengecam peristiwa mentah tidak disertakan."
 
 #: includes/class-hatnch-analytics-admin.php:144
 msgid "Export CSV"
-msgstr ""
+msgstr "Eksport CSV"
 
 #: includes/class-hatnch-analytics-admin.php:148
 msgid "Delete Analytics Records"
-msgstr ""
+msgstr "Padam Rekod Analitik"
 
 #: includes/class-hatnch-analytics-admin.php:149
 msgid "Delete all analytics events within an inclusive date range using the WordPress site timezone. This cannot be undone."
-msgstr ""
+msgstr "Padam semua peristiwa analitik dalam julat tarikh (termasuk tarikh mula dan akhir) mengikut zon waktu laman WordPress. Tindakan ini tidak boleh dibatalkan."
 
 #: includes/class-hatnch-analytics-admin.php:153
 msgid "Start date"
-msgstr ""
+msgstr "Tarikh mula"
 
 #: includes/class-hatnch-analytics-admin.php:154
 msgid "End date"
-msgstr ""
+msgstr "Tarikh akhir"
 
 #: includes/class-hatnch-analytics-admin.php:155
 msgid "I understand these analytics records will be permanently deleted."
-msgstr ""
+msgstr "Saya faham rekod analitik ini akan dipadam secara kekal."
 
 #: includes/class-hatnch-analytics-admin.php:156
 msgid "Delete records in date range"
-msgstr ""
+msgstr "Padam rekod dalam julat tarikh"
 
 #: includes/class-hatnch-analytics-admin.php:160
 msgid "Delete All Analytics"
-msgstr ""
+msgstr "Padam Semua Analitik"
 
 #: includes/class-hatnch-analytics-admin.php:161
 msgid "Permanently remove every analytics event. Contacts, routing configuration and plugin settings will remain unchanged."
-msgstr ""
+msgstr "Buang setiap peristiwa analitik secara kekal. Kenalan, konfigurasi penghalaan dan tetapan plugin tidak akan berubah."
 
 #: includes/class-hatnch-analytics-admin.php:165
 msgid "Type DELETE to confirm"
-msgstr ""
+msgstr "Taip DELETE untuk mengesahkan"
 
 #: includes/class-hatnch-analytics-admin.php:166
 msgid "Delete all analytics records"
-msgstr ""
+msgstr "Padam semua rekod analitik"
 
 #: includes/class-hatnch-analytics-admin.php:180
 msgid "Analytics report exported."
-msgstr ""
+msgstr "Laporan analitik dieksport."
 
 #: includes/class-hatnch-analytics-admin.php:181
 msgid "Analytics records in the selected date range were deleted."
-msgstr ""
+msgstr "Rekod analitik dalam julat tarikh yang dipilih telah dipadam."
 
 #: includes/class-hatnch-analytics-admin.php:182
 msgid "All analytics records were deleted."
-msgstr ""
+msgstr "Semua rekod analitik telah dipadam."
 
 #: includes/class-hatnch-analytics-admin.php:183
 msgid "The requested analytics action could not be completed. No success was reported."
-msgstr ""
+msgstr "Tindakan analitik yang diminta tidak dapat diselesaikan. Tiada kejayaan dilaporkan."
 
 #: includes/class-hatnch-analytics-admin.php:202
 msgid "Invalid reporting period."
-msgstr ""
+msgstr "Tempoh laporan tidak sah."
 
 #: includes/class-hatnch-analytics-admin.php:211
 msgid "Could not create the report export."
-msgstr ""
+msgstr "Eksport laporan tidak dapat dihasilkan."
 
 #. translators: %d: ID of a contact that no longer exists.
 #: includes/class-hatnch-analytics-admin.php:313 includes/class-hatnch-analytics.php:242
 #, php-format
 msgid "Removed contact #%d"
-msgstr ""
+msgstr "Kenalan #%d (dipadam)"
 
 #: includes/class-hatnch-analytics.php:155
 msgid "Choose valid start and end dates."
-msgstr ""
+msgstr "Pilih tarikh mula dan tarikh akhir yang sah."
 
 #: includes/class-hatnch-analytics.php:159
 msgid "The start date must not be later than the end date."
-msgstr ""
+msgstr "Tarikh mula tidak boleh lewat daripada tarikh akhir."
 
 #: includes/class-hatnch-analytics.php:186
 msgid "Could not count analytics records."
-msgstr ""
+msgstr "Rekod analitik tidak dapat dikira."
 
 #: includes/class-hatnch-analytics.php:206
 msgid "Analytics records could not be deleted."
-msgstr ""
+msgstr "Rekod analitik tidak dapat dipadam."
 
 #. translators: %d: number of days in the reporting period.
 #: includes/class-hatnch-analytics.php:217
 #, php-format
 msgid "Last %d days"
-msgstr ""
+msgstr "%d hari lepas"
 
 #: includes/class-hatnch-plugin.php:77
 msgid "Hatnikotni Chat could not verify its database tables after installation. The database version was not advanced; check the database error log and try again."
-msgstr ""
+msgstr "Hatnikotni Chat tidak dapat mengesahkan jadual pangkalan datanya selepas pemasangan. Versi pangkalan data tidak dinaikkan; semak log ralat pangkalan data dan cuba lagi."
 
 #: includes/class-hatnch-plugin.php:84
 msgid "Hatnikotni Chat could not save its database version. The database version was not advanced; check the database permissions and try again."
-msgstr ""
+msgstr "Hatnikotni Chat tidak dapat menyimpan versi pangkalan datanya. Versi pangkalan data tidak dinaikkan; semak kebenaran pangkalan data dan cuba lagi."
 
 #: includes/class-hatnch-plugin.php:109
 msgid "Hatnikotni Chat database migration paused:"
-msgstr ""
+msgstr "Migrasi pangkalan data Hatnikotni Chat dijeda:"
 
 #. translators: 1: legacy option name, 2: current option name.
 #: includes/class-hatnch-plugin.php:137
 #, php-format
 msgid "Both legacy option \"%1$s\" and current option \"%2$s\" exist with different values. Neither value was deleted or overwritten. Back up the database, reconcile the values, then retry."
-msgstr ""
+msgstr "Pilihan lama \"%1$s\" dan pilihan semasa \"%2$s\" kedua-duanya wujud dengan nilai berbeza. Tiada nilai dipadam atau ditulis ganti. Sandarkan pangkalan data, selaraskan nilai tersebut, kemudian cuba semula."
 
 #: includes/class-hatnch-plugin.php:163
 msgid "The database could not determine whether legacy tables exist. No legacy data was deleted. Check database permissions/connectivity and retry."
-msgstr ""
+msgstr "Pangkalan data tidak dapat menentukan sama ada jadual lama wujud. Tiada data lama dipadam. Semak kebenaran/sambungan pangkalan data dan cuba semula."
 
 #. translators: 1: legacy table name, 2: current table name.
 #: includes/class-hatnch-plugin.php:172
 #, php-format
 msgid "Both legacy table \"%1$s\" and current table \"%2$s\" exist. Automatic merging is paused to avoid losing rows or breaking event-to-contact references. Back up both tables and reconcile them before retrying."
-msgstr ""
+msgstr "Jadual lama \"%1$s\" dan jadual semasa \"%2$s\" kedua-duanya wujud. Penggabungan automatik dijeda untuk mengelakkan baris hilang atau rujukan peristiwa-ke-kenalan rosak. Sandarkan kedua-dua jadual dan selaraskannya sebelum mencuba semula."
 
 #. translators: 1: legacy table name, 2: current table name.
 #: includes/class-hatnch-plugin.php:200
 #, php-format
 msgid "Could not safely rename \"%1$s\" to \"%2$s\". The database version was not advanced and remaining legacy data was preserved. Correct the database error and retry."
-msgstr ""
+msgstr "Tidak dapat menamakan semula \"%1$s\" kepada \"%2$s\" dengan selamat. Versi pangkalan data tidak dinaikkan dan baki data lama dikekalkan. Betulkan ralat pangkalan data dan cuba semula."
 
 #. translators: 1: legacy option name, 2: current option name.
 #: includes/class-hatnch-plugin.php:224
 #, php-format
 msgid "Could not verify the copied value from \"%1$s\" to \"%2$s\". The legacy option was preserved; resolve the conflict and retry."
-msgstr ""
+msgstr "Tidak dapat mengesahkan nilai yang disalin daripada \"%1$s\" kepada \"%2$s\". Pilihan lama dikekalkan; selesaikan percanggahan dan cuba semula."
 
 #: includes/class-hatnch-plugin.php:468
 msgid "Hatnikotni Chat could not verify its database tables after an upgrade. The database version was not advanced; check database errors and retry."
-msgstr ""
+msgstr "Hatnikotni Chat tidak dapat mengesahkan jadual pangkalan datanya selepas naik taraf. Versi pangkalan data tidak dinaikkan; semak ralat pangkalan data dan cuba semula."
 
 #: includes/class-hatnch-plugin.php:475
 msgid "Hatnikotni Chat could not save its database version. The database version was not advanced; check database permissions and retry."
-msgstr ""
+msgstr "Hatnikotni Chat tidak dapat menyimpan versi pangkalan datanya. Versi pangkalan data tidak dinaikkan; semak kebenaran pangkalan data dan cuba semula."
 
 #. translators: %s: visitor-selected enquiry purpose.
 #: includes/class-hatnch-whatsapp.php:67
 #, php-format
 msgid "Hello, I would like to contact your team regarding %s. Can you assist me?"
-msgstr ""
+msgstr "Hai, saya ingin menghubungi pasukan anda berkenaan %s. Boleh bantu saya?"
 
 #: includes/class-hatnch-whatsapp.php:230
 msgid "Analytics records clicks only if you accept. It does not record message content or IP addresses. WhatsApp works either way."
-msgstr ""
+msgstr "Analitik merekod klik hanya jika anda setuju. Ia tidak merekod kandungan mesej atau alamat IP. WhatsApp tetap berfungsi."
 
 #: includes/class-hatnch-whatsapp.php:275
 msgid "How can we help?"
-msgstr ""
+msgstr "Apa yang boleh kami bantu?"
 
 #: includes/class-hatnch-whatsapp.php:213 includes/class-hatnch-whatsapp.php:275
 msgid "Close"
@@ -836,19 +836,19 @@ msgstr "Tutup"
 
 #: includes/class-hatnch-whatsapp.php:276
 msgid "Choose a topic to continue to WhatsApp."
-msgstr ""
+msgstr "Pilih topik untuk teruskan ke WhatsApp."
 
 #: includes/class-hatnch-whatsapp.php:280
 msgid "For complex matters, use the support channel provided by this website."
-msgstr ""
+msgstr "Untuk perkara rumit, gunakan saluran sokongan yang disediakan oleh laman web ini."
 
 #: includes/class-hatnch-whatsapp.php:287
 msgid "Open Support Page"
-msgstr ""
+msgstr "Buka Halaman Sokongan"
 
 #: includes/class-hatnch-whatsapp.php:330
 msgid "an enquiry"
-msgstr ""
+msgstr "satu pertanyaan"
 
 #: includes/class-hatnch-admin.php:193
 msgid "Show the label beside the button (hidden on small phones)"

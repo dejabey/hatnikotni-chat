@@ -1,4 +1,5 @@
 === Hatnikotni Chat ===
+Contributors: zaryl
 Tags: whatsapp, chat, contact, routing, analytics
 Requires at least: 6.6
 Tested up to: 7.1

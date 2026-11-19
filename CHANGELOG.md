@@ -28,7 +28,11 @@
 - Test: `tests/routing-fallback-integration.php` (WordPress + MySQL in CI) holds the lock from a second connection so `GET_LOCK` really times out, then checks the fallback contact, the unchanged cursor, the counter, the hook, the filter guard and resumed rotation. It was committed first (`7c603eb`) and run against the old code.
 
 ### Translations
-- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close", plus the 11 greeting-card strings and 9 routing-failure strings (128 translated, 98 untranslated).
+- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close", plus the 11 greeting-card strings and 9 routing-failure strings.
+- **Malay translation complete: 226/226 strings** (the 98 previously untranslated admin, migration and purpose-routing strings are now translated). Terms follow the existing catalogue ("kenalan lalai", "penghalaan", "peristiwa analitik"). The delete-all confirmation keeps the literal `DELETE` token that the code checks; a contract test guards this. Placeholders (`%s`, `%d`, `%1$s`, `%2$s`) were checked for parity on every string.
+
+### readme.txt
+- Added `Contributors: zaryl` (owner-supplied WordPress.org username; the profile exists, joined June 2009).
 
 ### Tests
 - `tests/skeleton-contract.sh` now asserts the bubble, the badge, the label setting (rendered and saved), both consent choices with `aria-pressed`, the close handler and focus return, that the badge precedes the WhatsApp action instead of being nested in it, and that white text on `#25d366` is not reintroduced. The obsolete `role="switch"` assertion is replaced by a check that the old switch is gone.

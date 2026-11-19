@@ -121,6 +121,7 @@ grep -q "=== Hatnikotni Chat ===" readme.txt || fail "WordPress.org readme missi
 plugin_version=$(sed -n '/^ \* Version:/s/^ \* Version: //p' hatnikotni-chat.php | head -n 1)
 stable_tag=$(sed -n '/^Stable tag:/s/^Stable tag: //p' readme.txt | head -n 1)
 [ -n "$plugin_version" ] && [ "$stable_tag" = "$plugin_version" ] || fail "Stable tag must match plugin header version ($plugin_version)"
+grep -qx "Contributors: zaryl" readme.txt || fail "readme.txt Contributors line missing"
 grep -q "Tested up to: 7.1" readme.txt || fail "Tested up to header missing or stale"
 grep -q "Domain Path: /languages" hatnikotni-chat.php || fail "Plugin language directory header missing"
 if grep -q "load_plugin_textdomain" hatnikotni-chat.php; then fail "Do not manually load WordPress.org translations on init"; fi
@@ -162,5 +163,6 @@ grep -q "do_action( 'hatnch_routing_failure'" includes/class-hatnch-routing.php 
 grep -q "report_failure( 'no_contact'" includes/class-hatnch-whatsapp.php || fail "No-contact redirect is not counted"
 grep -q "delete_option( 'hatnch_routing_failures' )" uninstall.php || fail "Uninstall must remove the failure counter"
 test -f tests/routing-fallback-integration.php || fail "Round Robin fallback integration test missing"
+grep -q 'msgstr "Taip DELETE untuk mengesahkan"' languages/hatnikotni-chat-ms_MY.po || fail "Malay confirmation text must keep the literal DELETE token the code checks"
 php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"
