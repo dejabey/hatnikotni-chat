@@ -18,7 +18,7 @@ If documents conflict, prefer the newest explicitly dated current-state section 
 
 - Plugin: **Hatnikotni Chat**, a standalone WordPress plugin.
 - Repository: https://github.com/dejabey/hatnikotni-chat
-- Current work at the time of the 2026-11-17 handoff: candidate **0.1.26**, branch `fix/contact-status-result-0.1.26`, PR #7.
+- Current work: `main` = **0.1.28** (PR #8 merged 2026-11-19). Next version **0.1.29** on branch `dev/0.1.29`. See `PROJECT-HANDOFF.md` (top section). The 0.1.26 notes in §8 below are historical.
 - It provides contact management and WhatsApp routing, including direct, random and Round Robin modes, plus consent-gated click analytics/campaign attribution and the `[hatnikotni_chat]` shortcode. Confirm current implementation in source; this summary is not a substitute for code inspection.
 - Respect the declared minimum WordPress and PHP versions in the plugin header/readme. Do not introduce APIs or syntax newer than the declared minimum without an intentional, documented compatibility decision.
 - Follow WordPress Plugin Handbook practices: capability checks, nonces, input validation/sanitization, output escaping, prepared SQL, internationalization, privacy-by-design, and least privilege.
@@ -41,7 +41,7 @@ If documents conflict, prefer the newest explicitly dated current-state section 
 These are hard constraints:
 
 - PR #4 and PR #5 must not be merged. PRs #1–#7 were closed unmerged on 2026-11-19 (superseded by #8); do not reopen or merge them without explicit approval.
-- PR #6, PR #7 and PR #8 must not be merged without explicit user approval. Since 2026-11-18, PR #8 (`release/0.1.26` → `main`) is the active release path; see `PROJECT-HANDOFF.md`.
+- No PR may be merged without explicit user approval. PR #8 (0.1.28) was merged with owner approval on 2026-11-19. Future work goes through `dev/<version>` branches and PRs to `main`.
 - PR #7 is a Draft candidate; do not mark it ready for review or merge it without approval.
 - Do not deploy the unofficial 0.1.26 cache-isolation prototype.
 - Do not deploy to production or publish to WordPress.org without explicit approval.

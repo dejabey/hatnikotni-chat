@@ -1,3 +1,49 @@
+# CURRENT PROJECT STATE — 2026-11-19 12:00 MYT (0.1.28 merged to main; next: 0.1.29)
+
+> **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.
+
+## Where things stand
+- **`main` = Hatnikotni Chat 0.1.28.**
+  - PR #8 was merged on 2026-11-19 03:48 UTC as merge commit `4360ea3`, after owner approval ("if every angle has been checked and it is the best path, go ahead") and Claude's pre-merge checks.
+  - `main`'s tree equals the verified PR head `de6d383` (tree `2b3352f`).
+  - CI #898 on `main` passed.
+- **0.1.28 verification, all on staging.perlis.xyz:**
+  - Package provenance **CONFIRMED**: `ed26d87` → CI #884 artifact `9c3cab14…0254` (hash matched by the owner) → inner ZIP `4B7331F8…5BA5`, which the owner uploaded.
+  - Plugin Check: no errors (owner-reported).
+  - Round Robin HTTP check, twice: 3,1,3,1 and 12 concurrent → 6/6; cursor 1→1.
+  - Campaign attribution **CONFIRMED**: event #53 carries `utm_campaign=c0127`.
+  - Browser matrix: 21/21 after the fix.
+- **Not done, and none authorized:** no git tag, no GitHub release, no production deployment, no WordPress.org submission. Each needs separate explicit approval.
+- **PRs:** #1–#7 closed as superseded; #8 merged. The active development branch is **`dev/0.1.29`** (from `main` @ `4360ea3`).
+- **Process note:** on 2026-11-19 two Claude sessions wrote to this repository concurrently (`8ea1b32` and `de6d383` came from a parallel session). No damage was done, but use **one session at a time**, and always `git pull` and re-check HEAD before writing.
+- **CI minutes:** the repository is **public**, and GitHub-hosted Actions minutes are free for public repositories. The owner's 2,000-minute free quota (resets 1 Dec) applies to private repositories. CI kept running normally on 2026-11-19 (#884–#898). If runs ever queue with a billing message, stop and tell the owner instead of retrying.
+
+## 0.1.29 scope (agreed with the owner)
+1. **Front-end redesign: concept B.** A round WhatsApp button with a shield badge (44 px hit area) and an optional label chip.
+   - Concept **C** (team greeting card) as an opt-in setting, off by default.
+   - Compact mobile consent card: about 232 px wide; Tolak/Terima segmented control 32 px high; one-line explanation; the full text stays behind "Butiran".
+   - Design canvas (private): https://claude.ai/artifact/GzPqJ5guUP55XcZfhroKFQ (artboards 0, A, B, C, and an interactive mobile B).
+   - Fix the measured contrast failures: white text on `#25D366` is 1.98:1; the dark shield on dark backgrounds is 1.11:1. Keep the plugin's own WhatsApp icon; the mockups use a generic glyph.
+   - Keep keyboard behaviour (Tab, Enter, Escape focus return), JS-off fallback and consent semantics unchanged.
+2. **Round Robin fallback and observability.** Today, a lock or verify failure silently redirects to the home page. Add a safe fallback (for example, the first active contact), a PII-free failure counter, and a failure action hook. Tests are required.
+3. **Malay translation** of the 99 untranslated strings in `languages/hatnikotni-chat-ms_MY.po`.
+4. **`Contributors:` line in `readme.txt`**: needs the owner's WordPress.org username. Ask; never invent one.
+5. **Product question, deferred:** the owner asked about a click log/engagement list. Claude recommended against raw per-click logs for privacy and suggested revisiting after a few weeks of real attributed data.
+
+## Staging baseline (WPVibe, 2026-11-19)
+- WordPress 7.1.4, PHP 8.4.27, LiteSpeed.
+- `WP_CACHE=false`; default object cache, no drop-in.
+- Routing `round_robin`; purpose routing off.
+- Active contacts: ID 1 and ID 3. ID 5 is inactive; its role field holds leftover 100×"R" test data, which can be cleaned only with approval.
+- Cursor `last_contact_id=1`.
+- Analytics: 53 events; #53 is the first with UTM data.
+- Tools:
+  - `tests/staging-rr-http-check.sh` runs from the owner's PC (Git Bash). The cloud workspace cannot reach staging.
+  - Browser checklist: private Claude Sheet https://claude.ai/artifact/PRxngfHf9Qq99CeaTDD6p7.
+  - Installing a CI artifact: upload the **inner** ZIP. The outer artifact ZIP is a wrapper that WordPress reports as empty.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 10:30 MYT (candidate 0.1.28)
 
 > Supersedes the 0.1.27 section below where they conflict.
