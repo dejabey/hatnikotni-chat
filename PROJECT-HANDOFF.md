@@ -31,9 +31,9 @@
     - 12 concurrent requests (118 ms window): ID 1 ×6 (c1, c3, c4, c7, c8, c9) and ID 3 ×6 (c2, c5, c6, c10, c11, c12).
     - All 16 responses were `302` with `X-Redirect-By: Hatnikotni Chat`.
     - Cursor after: 1 (WPVibe); purpose-lane cursors unchanged.
-  - **Package hashes for 0.1.28: partly reported (2026-11-19 11:39 MYT).** The inner ZIP extracted from the user's `hatnikotni-chat-0.1.28.zip` is `hatnikotni-chat-0.1.28.zip`, 74,277 bytes, SHA-256 `4B7331F85D91109AD27E5219B33164EF16DD23C02AB37DDC43107C49ED545BA5`. The outer artifact hash, expected `9C3CAB14…0254` (CI #884), is still not reported, so the inner ZIP is not yet tied cryptographically to CI #884. Installed code is source-verified.
+  - **Package hashes for 0.1.28: partly reported (2026-11-19 11:39 MYT).** The inner ZIP extracted from the user's `hatnikotni-chat-0.1.28.zip` is `hatnikotni-chat-0.1.28.zip`, 74,277 bytes, SHA-256 `4B7331F85D91109AD27E5219B33164EF16DD23C02AB37DDC43107C49ED545BA5`. The user's outer `hatnikotni-chat-0.1.28.zip` hashes to `9C3CAB14EC62B69C80513F0D31484A8286B6938D2E6D89388F879E274E010254`, which equals the CI #884 artifact digest. **Package provenance for 0.1.28: CONFIRMED** (commit `ed26d87` → CI #884 → artifact `9c3cab14…` → inner ZIP `4B7331F8…`, which the user uploaded).
   - Second Round Robin HTTP check (03:38:07–03:38:23 UTC): sequential 3, 1, 3, 1; 12 concurrent → ID 3 ×6, ID 1 ×6; all handler-confirmed 302; cursor 1 → 1 (WPVibe).
-  - Plugin Check on 0.1.28: not yet reported.
+  - **Plugin Check on 0.1.28 (user-reported, 2026-11-19 11:44 MYT): "Checks complete. No errors found."**
 - **Design decision (owner, 2026-11-19), for 0.1.29:**
   - Concept **B** (round button + shield badge) is the base. Concept **C** (team greeting card) becomes an opt-in setting, off by default.
   - Owner feedback: make the mobile consent card more compact, shorten Tolak/Terima, narrow the explanation. Revised in the private design canvas https://claude.ai/artifact/GzPqJ5guUP55XcZfhroKFQ: 232 px card, 32 px segmented control, one-line explanation.
@@ -44,8 +44,12 @@
 
 ## Immediate next action
 
-1. Owner reports the 0.1.28 package hashes (outer artifact should be `9c3cab14…0254`) and the Plugin Check result.
-2. Owner decides whether to merge PR #8 (0.1.28) into `main`.
+1. **Merge of PR #8 approved by the owner on 2026-11-19 11:44 MYT** ("if every angle has been checked and it is the best path, go ahead").
+   - Pre-merge checks: `main` unchanged at `fb8aa6c`; PR `mergeable_state: clean`; CI #894/#895 green on `53d1613`.
+   - The only workflow is `validate.yml`; there is no deployment workflow.
+   - The 70-file diff contains no binaries, archives, env files or secrets.
+   - Merge method: merge commit, so history is preserved.
+   - The merge does **not** deploy to production, tag or release anything; each of those still needs separate approval.
 3. Then 0.1.29: the concept B redesign (with C as an opt-in setting), Round Robin fallback and observability, Malay translation of the 99 untranslated strings, and a `Contributors:` line (needs the owner's WordPress.org username).
 
 ---
