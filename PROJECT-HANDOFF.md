@@ -46,7 +46,6 @@
 1. Owner reports the 0.1.28 package hashes (outer artifact should be `9c3cab14…0254`) and the Plugin Check result.
 2. Owner decides whether to merge PR #8 (0.1.28) into `main`.
 3. Then 0.1.29: the concept B redesign (with C as an opt-in setting), Round Robin fallback and observability, Malay translation of the 99 untranslated strings, and a `Contributors:` line (needs the owner's WordPress.org username).
-2. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
 
 ---
 
