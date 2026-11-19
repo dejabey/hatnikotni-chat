@@ -38,7 +38,7 @@ Validate contact CRUD, state transitions, routing, and historical analytics on s
 - [x] Purpose chooser enabled; configured mappings verified during Ujian 3.19
 - [x] Role-targeted routing: General Enquiries → PakYa; Customer Support → PakSu; Technical Support → PakYa (tests 3.6–3.10)
 - [x] No-match fallback: Sales & Partnerships routed to active default PakYa (test 3.8)
-- [x] Role-unassigned fallback to global Round robin observed: repeated General Enquiries yielded PakYa (`601172715154`) → PakSu (`601155898464`) → PakYa (`601172715154`) (Ujian 3.19)
+- [x] Role-unassigned fallback to global Round robin observed: repeated General Enquiries yielded PakYa (ID 1) → PakSu (ID 3) → PakYa (ID 1) (Ujian 3.19)
 - [x] Contact and routing settings restored/verified against target baseline before Ujian 3.19
 - [ ] Concurrency/parallel routing not verified; sequential alternation is not proof of race safety
 
@@ -183,8 +183,8 @@ Production activation remains a separate approval step.
 
 - Baseline awal disahkan sepadan.
 - PakSu (ID 3) dinyahaktifkan sementara; PakYa (ID 1) kekal Active dan Default; znz (ID 5) kekal Inactive.
-- Dengan hanya PakYa aktif, routing **General Enquiries** memilih PakYa (`601172715154`) — Lulus.
-- Dengan konfigurasi sama, routing **Customer Support** memilih PakYa (`601172715154`) — Lulus.
+- Dengan hanya PakYa aktif, routing **General Enquiries** memilih PakYa (ID 1) — Lulus.
+- Dengan konfigurasi sama, routing **Customer Support** memilih PakYa (ID 1) — Lulus.
 - PakSu diaktifkan semula dan pengguna mengesahkan baseline dipulihkan — Lulus.
 
 **Interpretasi:** Kedua-dua senario yang diuji berjaya memilih satu-satunya contact aktif. Ini mengesahkan hasil bagi senario tersebut sahaja; tidak membuktikan semua laluan ralat, concurrency/race safety, atau keseluruhan kesiapsiagaan release.
