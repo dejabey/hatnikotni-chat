@@ -1,3 +1,20 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~14:20 MYT (0.1.29 on staging: artifact identified as CI #916)
+
+> Supersedes the 13:45 and both 13:55 sections below where they conflict.
+
+- **Outer-artifact check (owner, 14:12 MYT):** the downloaded `hatnikotni-chat-0.1.29.zip` hashes to `E20BE52FA9385503FAC737113C8213454BBB0C2A89D57E1D1DB395B1D0ABA4C9`, so the check against CI #913 printed "GAGAL".
+- **Root cause:** the owner downloaded the artifact of **CI #916**, not #913. #916 is the `pull_request` run for the docs-only commit `8a4a4e8`: artifact ID `14502292000`, created 05:37:32 UTC, digest `sha256:e20be52f…aba4c9`, which matches exactly. Every docs commit on the branch triggers two runs and a new 0.1.29 artifact with its own digest (#913–#922). Claude named the candidate run but gave no direct link at the time, so a later run was easy to pick.
+- **Why the file is still valid:** `git diff 2361579 7e0838b -- hatnikotni-chat.php uninstall.php readme.txt assets includes languages` is empty, so all 0.1.29 artifacts contain identical plugin source. `main` (`4360ea3`) is an ancestor of `8a4a4e8`, so the PR merge ref used by #916 has the same tree.
+- **Provenance chain:** `8a4a4e8` (PR merge ref) → CI #916 → outer `E20BE52F…` (hash matched, tool-verified against the GitHub API digest) → inner `hatnikotni-chat-0.1.29.zip` `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440` (owner-reported). **CONFIRMED** once the owner confirms that this inner ZIP is the file uploaded at about 13:42; until then **PENDING**.
+- **Duplicate execution again:** commit `12a062b` (13:43:57 MYT) was made in this same workspace and session (reflog), from a duplicated execution of the 13:42 turn. It added `tests/verify-artifact.sh` (Git Bash; that turn reports a synthetic self-test) and the second "~13:55" section below. That duplicated turn also reports its own WPVibe read, so **probably two WPVibe calls were spent instead of one** on the post-install check. Both "~13:55" sections are kept as history; they agree on the state. Both verifiers are kept: `tests/verify-artifact.ps1` (PowerShell) and `tests/verify-artifact.sh` (Git Bash).
+- **Process fix:** give the direct run URL (`https://github.com/dejabey/hatnikotni-chat/actions/runs/<run id>`) together with the digest for that exact run. When docs commits have moved HEAD, either say which run to use or update the link to the latest run and its digest.
+
+## Immediate next action
+1. Owner confirms that the uploaded file was the inner ZIP `8AF6ABC9…`.
+2. Owner runs "Ujian 0.1.29" (`docs/staging-test-plan.md`).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~13:55 MYT (0.1.29 installed on staging; testing pending)
 
 > Supersedes the earlier 2026-11-19 sections below where they conflict.
