@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Hatnikotni Chat 0.1.29\n"
+"Project-Id-Version: Hatnikotni Chat 0.1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-19T02:47:44+00:00\n"
 "PO-Revision-Date: 2026-11-19T02:47:44+00:00\n"
@@ -40,7 +40,7 @@ msgstr "Klik tidak mengesahkan bahawa mesej WhatsApp telah dihantar. Analitik da
 
 #: includes/class-hatnch-whatsapp.php:221
 msgid "Accept"
-msgstr "Terima"
+msgstr "Setuju"
 
 #: includes/class-hatnch-admin.php:594
 msgid "Activate"
@@ -64,7 +64,7 @@ msgstr "Analitik"
 
 #: includes/class-hatnch-whatsapp.php:155
 msgid "Analytics accepted."
-msgstr "Analitik diterima."
+msgstr "Anda bersetuju dengan analitik."
 
 #: includes/class-hatnch-privacy.php:56
 msgid "Analytics data is not sent by Hatnikotni Chat to an external analytics service. When a visitor chooses to contact the site through WhatsApp, the browser is redirected to WhatsApp and that service receives information according to its own privacy policy and terms."

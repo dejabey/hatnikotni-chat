@@ -1,3 +1,89 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~17:30 MYT (0.1.30 on staging; WordPress.org reply drafted)
+
+> Supersedes the sections below where they conflict.
+
+- **0.1.30 package provenance: CONFIRMED.** Chain: `c3297c8` → CI **#939** (push, run `44487286987`, 8/8 jobs) → outer artifact `9F8F6C8D…37886` (owner's check printed LULUS) → inner `hatnikotni-chat-0.1.30.zip` `0DCA652BCD34D64CB08E2DB1B11288FF3415A5868D9B21C661F22EBB2D07B136`, installed on staging (owner, 17:09 MYT). #940 (PR run) has digest `b9f59e56…` and is not the candidate.
+- **Staging check of the wording fix (owner-reported "lulus", 17:09 MYT):** the MS card shows Tolak | Setuju; with GTranslate on EN, the button no longer reads "Thank you". Runtime for 0.1.30: **CONFIRMED** for these checks. The rest is code-identical to the 22/22-tested 0.1.29.
+- **WordPress.org:**
+  - Competitor comparison: `docs/wordpress-org-competitor-comparison-2026-11-19.md` (Joinchat, Click to Chat, Social Chat, Chaty, WP Chat App; from their WordPress.org pages).
+  - Draft reply: `docs/wordpress-org-reply-draft.md`. **Not sent**; it needs the owner's approval.
+  - Upload file: the 0.1.30 inner ZIP `0DCA652B…`.
+- **Production:** the owner can now install the 0.1.30 inner ZIP (`0DCA652B…`) instead of 0.1.29. It is the same code plus the Malay wording fix and is the file submitted to WordPress.org. The iPhone/Safari check is planned for 2026-11-20.
+
+## Immediate next action
+1. Owner: iPhone Safari check (Sheet steps 4, 6, 8, 12, 14) on staging, 2026-11-20.
+2. Owner: if it passes, install `0DCA652B…` on production; upload the same ZIP on https://wordpress.org/plugins/developers/add/ as `zaryl`; send the approved reply in the same email thread before about 2026-12-27.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~16:35 MYT (0.1.30: Malay consent wording fix)
+
+> Supersedes the sections below where they conflict.
+
+- **The owner has not replied to the WordPress.org review email** (confirmed 16:17 MYT). The deadline is about 2026-12-27.
+- **iPhone/Safari test moved to 2026-11-20:** the owner does not have an iPhone and will borrow one.
+- **Staging finding (owner, 16:21 MYT):** the site uses **GTranslate** (client-side machine translation, MS/EN switcher). With EN selected, the Malay consent button "Terima" was shown as **"Thank you"**. The English text shown was machine-translated from Malay, not the plugin's English source.
+  - Fix in 0.1.30, approved by the owner: ms_MY "Accept" → **"Setuju"**; "Analytics accepted." → "Anda bersetuju dengan analitik.". A contract test guards it.
+  - Not done: marking the widget `translate="no"`. That would leave GTranslate-EN visitors seeing Malay. The longer-term option, if the owner wants exact English, is a multilingual plugin that switches the WordPress locale.
+- **Superseded artifact:** CI #937 (`8151a225…`, commit `82311cf`) is replaced by the next 0.1.30 build. Do not install #937.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~16:30 MYT (0.1.30: WordPress.org readiness)
+
+> Supersedes the sections below where they conflict.
+
+- **WordPress.org review email (2026-09-27) received from the owner** and summarised in `docs/wordpress-org-review-2026-09-27.md`.
+  - **Rejection deadline is about 2026-12-27** (three months after the email), unless the owner uploads a fix and replies in the same thread.
+  - Prefix issue: addressed (full audit). Plugin URI: addressed (HTTP 200).
+  - Differentiation: still a judgement call; a competitor comparison is pending.
+- **0.1.30 on `dev/0.1.30`:** adds the `readme.txt` "External services" section (WhatsApp/wa.me, data sent, terms and privacy links) and bumps version strings. **No code change**: the diff against `53fcf40` touches no file under `includes/` or `assets/`, nor `uninstall.php`.
+- **Production plan unchanged:** the owner tests on iPhone Safari, then installs the staging-tested 0.1.29 inner ZIP (`8AF6ABC9…`). 0.1.30 is for the WordPress.org upload (and can replace 0.1.29 later; it has the same runtime code).
+
+## Immediate next action
+1. Check CI on the 0.1.30 commit; record the artifact run link and digest.
+2. Claude: current competitor comparison (WordPress.org WhatsApp plugins), then a short reply draft for the review thread.
+3. Owner: upload the 0.1.30 inner ZIP on the "Add your plugin" page and reply in the same thread, after approving the draft.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~16:05 MYT (0.1.29 merged to main)
+
+> **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.
+
+## Where things stand
+- **`main` = Hatnikotni Chat 0.1.29.**
+  - PR #9 was merged on 2026-11-19 07:53:56 UTC as merge commit `53fcf40` (parents `4360ea3`, `b46fea4`). The owner approved at 15:53 MYT ("gabung"), after Claude's recommendation.
+  - The merge was locked to the reviewed head `b46fea4`. `main`'s tree equals that head's tree (`b157f7d`).
+  - Pre-merge checks:
+    - CI #933/#934 green on `b46fea4`.
+    - 22 files changed, no binaries, no secrets.
+    - Plugin source identical to the staging-tested build.
+  - CI **#935** on `main` (run `44483161744`) passed all 8 jobs.
+- **0.1.29 verification:**
+  - **Package provenance CONFIRMED:** CI #916 → outer `E20BE52F…` → inner `8AF6ABC9…DC36440` (uploaded by the owner).
+  - **Staging browser matrix CONFIRMED, 22/22:** desktop Chrome and a real Android phone (Brave). Cross-checked against events #54–#57.
+  - Round Robin HTTP check 6/6; no routing failures.
+  - Details are in the 15:40 section below.
+- **Not done, and none authorized:** no git tag, no GitHub release, no production deployment, no WordPress.org submission. Each needs separate explicit approval.
+- **Claude's recommendations for production (owner to decide):**
+  1. Test once on an iPhone (Safari/WebKit): steps 4, 6, 8, 12 and 14 of the Sheet. Only Chromium engines have been tested.
+  2. Install exactly the staging-tested inner ZIP (`8AF6ABC9…`, from CI #916). A new artifact built from `main` contains the same source but has a different hash, which would restart provenance.
+  3. If production uses page caching, clear it after installing and re-check the button and the consent card.
+- **Branch:** `dev/0.1.30` was created from `main` @ `53fcf40` with this handoff. No 0.1.30 scope is agreed. Deferred product question: a click log or engagement list (Claude recommends against raw per-click logs; revisit once there is real attributed data).
+
+## Duplicate executions: cause found
+- The owner explained (15:50 MYT) that they sometimes **edit a sent message and send it again**. The app then re-runs the turn, but GitHub, staging and WPVibe are not rolled back, so commits and WPVibe calls happen twice. This matches every duplicate seen on 2026-11-19 (`8ea1b32`/`de6d383`, `12a062b`, `96c8030`).
+- Agreed practice: do not edit sent messages; send a new short "Pembetulan: …" message instead.
+- Claude keeps the start-of-turn check: `git log -5` plus the top handoff section; if the work already exists, report it and do not redo it.
+
+## Owner working preferences (standing)
+- Give the direct GitHub Actions run link and that run's digest whenever an artifact is to be downloaded, together with the PowerShell SHA-256 check (`tests/verify-artifact.ps1`).
+- The WPVibe free plan has a daily limit: one batched read per check, and none for what the owner can see directly.
+- Staging checklists go in a Claude Sheet with the same columns as before (No, Keputusan, Bahagian, Langkah, Hasil dijangka, Catatan).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~15:40 MYT (0.1.29 staging acceptance: 22/22 PASS)
 
 > Supersedes the sections below where they conflict.

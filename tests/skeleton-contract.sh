@@ -164,5 +164,9 @@ grep -q "report_failure( 'no_contact'" includes/class-hatnch-whatsapp.php || fai
 grep -q "delete_option( 'hatnch_routing_failures' )" uninstall.php || fail "Uninstall must remove the failure counter"
 test -f tests/routing-fallback-integration.php || fail "Round Robin fallback integration test missing"
 grep -q 'msgstr "Taip DELETE untuk mengesahkan"' languages/hatnikotni-chat-ms_MY.po || fail "Malay confirmation text must keep the literal DELETE token the code checks"
+grep -q "^== External services ==" readme.txt || fail "readme.txt must document external services (WordPress.org requirement)"
+grep -q "https://www.whatsapp.com/legal/privacy-policy" readme.txt || fail "External services section must link WhatsApp's privacy policy"
+# Malay consent wording must survive machine translation (GTranslate turned "Terima" into "Thank you", 2026-11-19).
+grep -q -A1 '^msgid "Accept"$' languages/hatnikotni-chat-ms_MY.po && grep -A1 '^msgid "Accept"$' languages/hatnikotni-chat-ms_MY.po | grep -q 'msgstr "Setuju"' || fail "Malay Accept must be 'Setuju' (unambiguous under machine translation)"
 php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"
