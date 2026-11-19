@@ -37,16 +37,20 @@
   - That this exact ZIP is the one uploaded to staging is **USER-REPORTED** (confirmation requested). It is consistent with the staging file listing and the line-for-line routing source match.
   - Status: **CONFIRMED for artifact chain**; staging upload identity is user-reported.
 - **Privacy note for review:** `docs/staging-test-plan.md` (Ujian 3.19/3.20 logs inherited from `main`) contains full contact phone numbers in a public repository. They were not altered by the merge. Redact them in a separate commit only with user approval, since it edits historical evidence.
-- PRs #1–#7 remain open and untouched. Closing or superseding them requires explicit approval.
+- **2026-11-19 owner-approved actions:**
+  - Real contact phone numbers were redacted from `docs/staging-test-plan.md` (commit `1073adb`; replaced with ID 1 / ID 3). They remain in older git history; removing them from history would need a separately approved rewrite.
+  - PRs #1–#7 were **closed unmerged** with a "Superseded by #8" comment. Branches were kept, and every PR can be reopened.
+  - Supersession check:
+    - #2, #3, #4, #6 and #7 are ancestors of `release/0.1.26`.
+    - #1 (`review/wporg-remediation`, `d288c84`, 2026-09-27) is an early 0.1.0 HKC→HATNCH prefix attempt. It was later redone in the main chain, and current code uses `HATNCH_`.
+    - #5 (`diagnostics/rr-lock-staging`, `52d7268`) is opt-in staging diagnostics that was never intended for merge.
 
 ## Immediate next action
 
 Round Robin staging verification and package provenance are complete for 0.1.26. Remaining gates on PR #8:
 1. Plugin Check against the installed 0.1.26 build.
 2. Manual browser matrix: consent/privacy, mobile, keyboard, shortcode, WooCommerce pages, JS-disabled.
-3. A decision on redacting phone numbers in `docs/staging-test-plan.md`.
-4. A decision on superseding PRs #1–#7.
-5. The owner's explicit merge decision.
+3. The owner's explicit merge decision.
 
 ---
 

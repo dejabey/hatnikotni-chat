@@ -40,7 +40,7 @@ If documents conflict, prefer the newest explicitly dated current-state section 
 
 These are hard constraints:
 
-- PR #4 and PR #5 must not be merged.
+- PR #4 and PR #5 must not be merged. PRs #1–#7 were closed unmerged on 2026-11-19 (superseded by #8); do not reopen or merge them without explicit approval.
 - PR #6, PR #7 and PR #8 must not be merged without explicit user approval. Since 2026-11-18, PR #8 (`release/0.1.26` → `main`) is the active release path; see `PROJECT-HANDOFF.md`.
 - PR #7 is a Draft candidate; do not mark it ready for review or merge it without approval.
 - Do not deploy the unofficial 0.1.26 cache-isolation prototype.
