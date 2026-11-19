@@ -31,7 +31,8 @@
     - 12 concurrent requests (118 ms window): ID 1 ×6 (c1, c3, c4, c7, c8, c9) and ID 3 ×6 (c2, c5, c6, c10, c11, c12).
     - All 16 responses were `302` with `X-Redirect-By: Hatnikotni Chat`.
     - Cursor after: 1 (WPVibe); purpose-lane cursors unchanged.
-  - **Package hashes for 0.1.28: PENDING.** The owner's latest PowerShell output was for the 0.1.27 artifact (`068B2081…`), not 0.1.28. Installed code is source-verified: version 0.1.28 and the fix lines are present.
+  - **Package hashes for 0.1.28: partly reported (2026-11-19 11:39 MYT).** The inner ZIP extracted from the user's `hatnikotni-chat-0.1.28.zip` is `hatnikotni-chat-0.1.28.zip`, 74,277 bytes, SHA-256 `4B7331F85D91109AD27E5219B33164EF16DD23C02AB37DDC43107C49ED545BA5`. The outer artifact hash, expected `9C3CAB14…0254` (CI #884), is still not reported, so the inner ZIP is not yet tied cryptographically to CI #884. Installed code is source-verified.
+  - Second Round Robin HTTP check (03:38:07–03:38:23 UTC): sequential 3, 1, 3, 1; 12 concurrent → ID 3 ×6, ID 1 ×6; all handler-confirmed 302; cursor 1 → 1 (WPVibe).
   - Plugin Check on 0.1.28: not yet reported.
 - **Design decision (owner, 2026-11-19), for 0.1.29:**
   - Concept **B** (round button + shield badge) is the base. Concept **C** (team greeting card) becomes an opt-in setting, off by default.
