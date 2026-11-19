@@ -1,3 +1,8 @@
+## 0.1.30 — readme "External services" section (release candidate; not released)
+
+- `readme.txt` gains an `== External services ==` section, as WordPress.org reviewers require for any third-party service. It says when visitors are redirected to WhatsApp (`wa.me`), what the URL carries (the routed contact's number and the optional pre-filled message), that the visitor's browser makes the request, that analytics stay in the WordPress database, and links to WhatsApp's Terms of Service and Privacy Policy (both URLs checked on 2026-11-19).
+- No PHP, JavaScript, CSS or translation changes: the plugin behaves exactly as 0.1.29 (version header, constant, Stable tag and POT/PO headers bumped only).
+
 ## 0.1.29 — Concept B front end, greeting card, Round Robin fallback (release candidate; not released)
 
 ### Front-end redesign: concept B

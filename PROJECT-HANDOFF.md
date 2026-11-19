@@ -1,3 +1,21 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~16:30 MYT (0.1.30: WordPress.org readiness)
+
+> Supersedes the sections below where they conflict.
+
+- **WordPress.org review email (2026-09-27) received from the owner** and summarised in `docs/wordpress-org-review-2026-09-27.md`.
+  - **Rejection deadline is about 2026-12-27** (three months after the email), unless the owner uploads a fix and replies in the same thread.
+  - Prefix issue: addressed (full audit). Plugin URI: addressed (HTTP 200).
+  - Differentiation: still a judgement call; a competitor comparison is pending.
+- **0.1.30 on `dev/0.1.30`:** adds the `readme.txt` "External services" section (WhatsApp/wa.me, data sent, terms and privacy links) and bumps version strings. **No code change**: the diff against `53fcf40` touches no file under `includes/` or `assets/`, nor `uninstall.php`.
+- **Production plan unchanged:** the owner tests on iPhone Safari, then installs the staging-tested 0.1.29 inner ZIP (`8AF6ABC9…`). 0.1.30 is for the WordPress.org upload (and can replace 0.1.29 later; it has the same runtime code).
+
+## Immediate next action
+1. Check CI on the 0.1.30 commit; record the artifact run link and digest.
+2. Claude: current competitor comparison (WordPress.org WhatsApp plugins), then a short reply draft for the review thread.
+3. Owner: upload the 0.1.30 inner ZIP on the "Add your plugin" page and reply in the same thread, after approving the draft.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~16:05 MYT (0.1.29 merged to main)
 
 > **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.
