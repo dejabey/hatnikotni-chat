@@ -1,3 +1,18 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~13:45 MYT (0.1.29 release candidate cut)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Version bumped to 0.1.29** on `dev/0.1.29`, with owner approval (2026-11-19 13:31 MYT: "ok jalan terus jika itu adalah langkah terbaik"). Updated: plugin header, `HATNCH_VERSION`, readme `Stable tag`, readme Description feature list, readme Changelog and Upgrade Notice, POT/PO `Project-Id-Version`, CHANGELOG heading.
+- **Staging test plan:** `docs/staging-test-plan.md` → "Ujian 0.1.29" (22 steps: package hash, button, consent card, keyboard/no-JS, greeting card, Round Robin, Malay wording).
+- **Candidate artifact:** see the CI record added after this commit (run number, artifact ID, digest). Use only that artifact; install the **inner** ZIP.
+- **Not authorized:** merge of PR #9, tag, GitHub release, production deployment, WordPress.org submission. Installing on staging is the owner's action and changes staging; Claude does not install it.
+
+## Immediate next action
+1. Owner downloads the 0.1.29 artifact, verifies the digest, installs the inner ZIP on staging and runs "Ujian 0.1.29".
+2. Claude cross-checks read-only via WPVibe (version, cursor, analytics events, failure counter) after the owner reports.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~13:35 MYT (0.1.29 scope items 1–4 implemented)
 
 > Supersedes the earlier 2026-11-19 sections below where they conflict.

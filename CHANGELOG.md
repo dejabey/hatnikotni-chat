@@ -1,4 +1,4 @@
-## 0.1.29 — in development (not released; plugin header still says 0.1.28)
+## 0.1.29 — Concept B front end, greeting card, Round Robin fallback (release candidate; not released)
 
 ### Front-end redesign: concept B
 - The floating button is now a round 60 px WhatsApp bubble (56 px on phones) with an optional label chip beside it. The plugin's own WhatsApp glyph is kept.
