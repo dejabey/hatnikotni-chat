@@ -1,3 +1,27 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~13:55 MYT (0.1.29 installed on staging; testing pending)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Owner reports (13:42 MYT) that 0.1.29 is installed on staging.** Hashes of the downloaded artifact and the inner ZIP are not reported yet, so **package provenance for 0.1.29: PENDING**.
+- **Post-install state (WPVibe, read-only, 2026-11-19 ~13:50 MYT):** plugin `0.1.29` active; `hatnch_db_version` 1.2.0; routing `round_robin`, purpose routing off; contacts unchanged (ID 1 and 3 active, ID 5 inactive with the 100×"R" role); cursor `last_contact_id=1`; lane cursors `business_support=3`, `general_enquiries=1` (unchanged); 53 analytics events (latest #53, 11:31:43); **no `hatnch_routing_failures` option** (no failure recorded). The saved settings predate 0.1.29, so `button_show_label` and the `greeting_*` keys are absent: the label shows (default on) and the greeting card is off, as designed.
+- **New helper `tests/verify-artifact.sh`:** checks the outer artifact's SHA-256 against the recorded digest, extracts the inner ZIP, and prints its SHA-256 and plugin version. Self-tested in the workspace with a synthetic artifact (match exits 0; mismatch exits 1 with "Do not install"). A PowerShell equivalent is in the chat answer of 2026-11-19 13:55 MYT and below.
+- **Owner instruction (2026-11-19 13:42 MYT), standing for this project:** whenever an artifact is to be downloaded, give the direct GitHub Actions run link (for example https://github.com/dejabey/hatnikotni-chat/actions/runs/44465896794 for the 0.1.29 candidate, CI #913; artifacts are at the bottom of the run page) together with the expected digest and the verification command.
+
+PowerShell (Windows) check, run in the Downloads folder:
+```powershell
+$expected = 'f85ad689b589c51ddf055de400e189faade95689b5c0724b44c74e1fab1989a7'
+$actual = (Get-FileHash .\hatnikotni-chat-0.1.29.zip -Algorithm SHA256).Hash.ToLower()
+if ($actual -eq $expected) { 'OK: matches CI #913' } else { "FAIL: $actual" }
+Expand-Archive .\hatnikotni-chat-0.1.29.zip -DestinationPath .\hatnch-0.1.29 -Force
+Get-FileHash .\hatnch-0.1.29\*.zip -Algorithm SHA256
+```
+
+## Immediate next action
+1. Owner reports both hashes and runs "Ujian 0.1.29" (`docs/staging-test-plan.md`).
+2. Claude cross-checks each consent step against the events table (read-only; 53 events now).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~13:45 MYT (0.1.29 release candidate cut)
 
 > Supersedes the earlier 2026-11-19 sections below where they conflict.
