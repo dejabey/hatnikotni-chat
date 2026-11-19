@@ -4,6 +4,9 @@
 - Found by the 0.1.27 staging browser matrix (step 9, 2026-11-19): event #51 had `utm_campaign` NULL while the `hatnch_campaign` cookie was present. All 51 staging events had NULL UTM fields.
 - Added `tests/campaign-attribution-integration.php`, a WordPress-backed CI test covering consented capture, the cookie round-trip as PHP and WordPress deliver it, the stored click event, malformed cookies and withdrawn consent.
 - Historical events cannot be repaired: the attribution was never stored.
+- `readme.txt` restructured into the standard WordPress.org order. There is now a single `== Changelog ==` (previously three, one placed before Description) plus a `Tags:` line; Privacy, Contact management, Analytics management and Extension points are now `= subsections =` of Description; a stray Markdown `## 0.1.18` section was folded into the changelog; and an Upgrade Notice was added for 0.1.28. All other content is unchanged.
+- Translation template regenerated with `wp i18n make-pot`: 115 → 204 strings (the POT had been stale since 0.1.7). `hatnikotni-chat-ms_MY.po` merged with `wp i18n update-po`. 104 Malay translations are kept; 10 obsolete strings no longer in source were dropped; **99 strings are untranslated** and show in English until translated.
+- No `Contributors:` line yet: it needs the owner's WordPress.org username.
 
 ## 0.1.27 — Plugin Check clean-up
 
