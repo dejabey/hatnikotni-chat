@@ -4,7 +4,9 @@
 
 - **Version bumped to 0.1.29** on `dev/0.1.29`, with owner approval (2026-11-19 13:31 MYT: "ok jalan terus jika itu adalah langkah terbaik"). Updated: plugin header, `HATNCH_VERSION`, readme `Stable tag`, readme Description feature list, readme Changelog and Upgrade Notice, POT/PO `Project-Id-Version`, CHANGELOG heading.
 - **Staging test plan:** `docs/staging-test-plan.md` → "Ujian 0.1.29" (22 steps: package hash, button, consent card, keyboard/no-JS, greeting card, Round Robin, Malay wording).
-- **Candidate artifact:** see the CI record added after this commit (run number, artifact ID, digest). Use only that artifact; install the **inner** ZIP.
+- **Candidate artifact (use this one):** commit `2361579`, CI **#913** (push, run `44465896794`, all 8 jobs green; #914 PR run also green). Artifact `hatnikotni-chat-0.1.29`, ID `14502725441`, 85,319 bytes, `sha256:f85ad689b589c51ddf055de400e189faade95689b5c0724b44c74e1fab1989a7`. The #914 artifact (`1746a61a…`) differs only by ZIP timestamps; do not use it. Later documentation-only commits do not change the plugin package contents, but their CI artifacts will have other digests: always install the #913 artifact.
+  - Package contents (from the CI build log, 40 entries): plugin PHP, assets incl. `hatnikotni-chat-greeting.js`, `languages/` with the `msgfmt --check`-compiled `hatnikotni-chat-ms_MY.mo`; no `tests/`, `docs/` or vendor files.
+  - Claude could not download the artifact from the cloud workspace (GitHub's blob storage is blocked here), so the inner ZIP hash is not yet recorded. The owner should report both hashes after downloading.
 - **Not authorized:** merge of PR #9, tag, GitHub release, production deployment, WordPress.org submission. Installing on staging is the owner's action and changes staging; Claude does not install it.
 
 ## Immediate next action
