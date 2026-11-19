@@ -15,8 +15,8 @@
   - Browser matrix: 21/21 after the fix.
 - **Not done, and none authorized:** no git tag, no GitHub release, no production deployment, no WordPress.org submission. Each needs separate explicit approval.
 - **PRs:** #1–#7 closed as superseded; #8 merged. The active development branch is **`dev/0.1.29`** (from `main` @ `4360ea3`).
-- **Process note:** on 2026-11-19 two Claude sessions wrote to this repository concurrently (`8ea1b32` and `de6d383` came from a parallel session). No damage was done, but use **one session at a time**, and always `git pull` and re-check HEAD before writing.
-- **CI minutes:** the repository is **public**, and GitHub-hosted Actions minutes are free for public repositories. The owner's 2,000-minute free quota (resets 1 Dec) applies to private repositories. CI kept running normally on 2026-11-19 (#884–#898). If runs ever queue with a billing message, stop and tell the owner instead of retrying.
+- **Process note (corrected 2026-11-19 12:05 MYT):** `8ea1b32` (11:35) and `de6d383` (11:44) were first attributed to a separate Claude session. That was wrong: both carry this same session's trailer (`session_018NR6…`), and the project has had only one Claude chat since 2026-11-10. They were a duplicate execution of the same turn within this session, coinciding with the owner's messages at 11:35 and 11:45. The content was consistent and nothing conflicted. Mitigation: always `git pull` and re-check HEAD before writing, and lock merges to an explicit head SHA (done for PR #8).
+- **CI minutes:** the repository is **public**, and this repository's workflow uses only standard `ubuntu-latest` runners, which GitHub bills at zero for public repositories. The owner's 2,000-minute free quota (resets 1 Dec) applies to private repositories. CI kept running normally on 2026-11-19 (#884–#898). If runs ever queue with a billing message, stop and tell the owner instead of retrying.
 
 ## 0.1.29 scope (agreed with the owner)
 1. **Front-end redesign: concept B.** A round WhatsApp button with a shield badge (44 px hit area) and an optional label chip.
