@@ -1,4 +1,37 @@
-# CURRENT PROJECT STATE — 2026-11-18
+# CURRENT PROJECT STATE — 2026-11-19 (candidate 0.1.27)
+
+> Supersedes the 2026-11-18 section below where they conflict. Read [CLAUDE.md](CLAUDE.md) and [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md) first.
+
+- **Candidate:** Hatnikotni Chat **0.1.27** on `release/0.1.26` (branch name retained), PR #8 → `main`: OPEN, DRAFT, NOT MERGED. Merge requires explicit owner approval.
+- **Plugin Check on staging (0.1.26, 2026-11-19 08:50 MYT, report supplied by user):** 0 errors, 10 warnings.
+  - 9 warnings in `class-hatnch-routing.php`: DirectQuery/NoCaching at lines 148/175/202/220/236.
+  - 1 warning in `class-hatnch-admin.php:412`: NonceVerification.Recommended.
+- **Root cause:** `phpcs.xml.dist` excluded those sniffs project-wide, so CI never reported them. Reproduced locally (WPCS from GitHub, since Packagist is blocked from the workspace): exactly the same 10.
+- **Fix (`7263a09`, version 0.1.27):**
+  - Per-line justified `phpcs:ignore` comments.
+  - Global excludes removed; `SchemaChange` stays excluded for dbDelta.
+  - Alignment re-flowed by phpcbf.
+  - `class-hatnch-routing.php` is token-identical to 0.1.26 under `php -w`. The admin change adds only an empty `<?php ?>` comment block.
+  - CHANGELOG.md gains the missing 0.1.26 entry.
+- **CI:** #868 (push, run `44432791581`) and #869 (PR, run `44432801892`) passed all 8 jobs on `7263a09`. Candidate artifact (from #868): `hatnikotni-chat-0.1.27`, ID `14486959133`, 63,900 bytes, `sha256:8248a39ed6dd81d28430d1b1cccdf867bee335f974602c3f934dede403c86d95`. The #869 artifact has a different digest, `6ca42847…`, because ZIP timestamps differ. Use the #868 artifact.
+- **Staging runtime:** 0.1.26 evidence (Round Robin CONFIRMED; provenance CONFIRMED) carries over only as *behavioral* evidence, since routing logic is unchanged.
+  - 0.1.27 is **not installed** on staging. Installing the #868 artifact, re-hashing it and re-running Plugin Check plus `tests/staging-rr-http-check.sh` are **PENDING**.
+- **Verified after Plugin Check (WPVibe):** no `object-cache.php` drop-in was left behind (`drop_in: false`).
+- **Known WP.org readiness issues, not fixed in 0.1.27:**
+  - `readme.txt` has three separate `== Changelog ==` sections; changelog precedes Description; there is no `Contributors:` header line.
+  - POT/PO `Project-Id-Version` still says 0.1.7.
+  - These need a dedicated readme/i18n clean-up before any WordPress.org submission.
+- **Roadmap:** the Round Robin failure fallback/observability work moves from 0.1.27 to **0.1.28**.
+
+## Immediate next action
+
+1. Owner installs the CI #868 artifact (0.1.27) on staging. This is a deployment to staging that the owner performs; Claude does not deploy.
+2. Hash the installed inner ZIP.
+3. Re-run Plugin Check (expect 0 warnings) and `tests/staging-rr-http-check.sh`.
+
+---
+
+# PROJECT STATE — 2026-11-18 (superseded where it conflicts with 2026-11-19)
 
 > **Read first:** [CLAUDE.md](CLAUDE.md), [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then [docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md](docs/CLAUDE-CONTINUATION-HANDOFF-2026-11-17.md) including its 2026-11-18 addendum. This section supersedes the 2026-11-17 section below where they conflict.
 
