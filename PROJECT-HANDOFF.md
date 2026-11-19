@@ -1,3 +1,21 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~17:30 MYT (0.1.30 on staging; WordPress.org reply drafted)
+
+> Supersedes the sections below where they conflict.
+
+- **0.1.30 package provenance: CONFIRMED.** Chain: `c3297c8` → CI **#939** (push, run `44487286987`, 8/8 jobs) → outer artifact `9F8F6C8D…37886` (owner's check printed LULUS) → inner `hatnikotni-chat-0.1.30.zip` `0DCA652BCD34D64CB08E2DB1B11288FF3415A5868D9B21C661F22EBB2D07B136`, installed on staging (owner, 17:09 MYT). #940 (PR run) has digest `b9f59e56…` and is not the candidate.
+- **Staging check of the wording fix (owner-reported "lulus", 17:09 MYT):** the MS card shows Tolak | Setuju; with GTranslate on EN, the button no longer reads "Thank you". Runtime for 0.1.30: **CONFIRMED** for these checks. The rest is code-identical to the 22/22-tested 0.1.29.
+- **WordPress.org:**
+  - Competitor comparison: `docs/wordpress-org-competitor-comparison-2026-11-19.md` (Joinchat, Click to Chat, Social Chat, Chaty, WP Chat App; from their WordPress.org pages).
+  - Draft reply: `docs/wordpress-org-reply-draft.md`. **Not sent**; it needs the owner's approval.
+  - Upload file: the 0.1.30 inner ZIP `0DCA652B…`.
+- **Production:** the owner can now install the 0.1.30 inner ZIP (`0DCA652B…`) instead of 0.1.29. It is the same code plus the Malay wording fix and is the file submitted to WordPress.org. The iPhone/Safari check is planned for 2026-11-20.
+
+## Immediate next action
+1. Owner: iPhone Safari check (Sheet steps 4, 6, 8, 12, 14) on staging, 2026-11-20.
+2. Owner: if it passes, install `0DCA652B…` on production; upload the same ZIP on https://wordpress.org/plugins/developers/add/ as `zaryl`; send the approved reply in the same email thread before about 2026-12-27.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~16:35 MYT (0.1.30: Malay consent wording fix)
 
 > Supersedes the sections below where they conflict.
