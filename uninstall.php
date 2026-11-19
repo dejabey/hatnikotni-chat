@@ -31,6 +31,7 @@ $wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $hatnch_legacy_events_t
 delete_option( 'hatnch_settings' );
 delete_option( 'hatnch_db_version' );
 delete_option( 'hatnch_routing_state' );
+delete_option( 'hatnch_routing_failures' );
 delete_option( $hatnch_legacy_prefix . 'settings' );
 delete_option( $hatnch_legacy_prefix . 'db_version' );
 delete_option( $hatnch_legacy_prefix . 'routing_state' );

@@ -19,8 +19,16 @@
 - CTA contrast: white on `#0f6b3a`, 6.59:1.
 - New script `assets/js/hatnikotni-chat-greeting.js`, enqueued only when the card is enabled. CI now runs `node --check` on every file in `assets/js/`.
 
+### Round Robin fallback and observability
+- **Fix:** when the Round Robin advisory lock timed out, or the cursor could not be read, saved or verified, `resolve()` returned null and the visitor was **silently redirected to the home page**. The visitor is now routed to a fallback contact from the same eligible set: the default contact if it is active and eligible, otherwise the first one. The cursor is not moved, so normal rotation resumes once the failure clears.
+- A purpose lane whose contacts all become inactive during the lock now falls back to global routing instead of the home page.
+- New PII-free failure counter (`hatnch_routing_failures` option, not autoloaded): totals per reason and first/latest timestamps only. Reasons: `lock_unavailable`, `state_read_failed`, `state_write_failed`, `state_verify_failed`, `no_contact` (the click endpoint had no active contact at all). Shown under **Routing → Routing failures** in the admin. Increments are best effort and can under-count when failures race. Removed on uninstall.
+- New action `hatnch_routing_failure( $reason, $lane, $fallback_contact_id )` (`$lane` is `global` or the purpose role; ID 0 means the visitor got no contact) and filter `hatnch_routing_fallback_contact( $contact, $contacts, $reason, $lane )`; a filtered contact outside the eligible set is ignored.
+- Trade-off: during a sustained failure, all traffic goes to one contact. The counter makes that visible.
+- Test: `tests/routing-fallback-integration.php` (WordPress + MySQL in CI) holds the lock from a second connection so `GET_LOCK` really times out, then checks the fallback contact, the unchanged cursor, the counter, the hook, the filter guard and resumed rotation. It was committed first (`7c603eb`) and run against the old code.
+
 ### Translations
-- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close", plus the 11 greeting-card strings (119 translated, 98 untranslated).
+- POT regenerated (`wp i18n make-pot`). New strings: "Optional analytics", "Clicks are counted only if you accept. WhatsApp works either way.", "Details", and the label-chip setting text; "Read More" removed. Malay added for these four and for "Close", plus the 11 greeting-card strings and 9 routing-failure strings (128 translated, 98 untranslated).
 
 ### Tests
 - `tests/skeleton-contract.sh` now asserts the bubble, the badge, the label setting (rendered and saved), both consent choices with `aria-pressed`, the close handler and focus return, that the badge precedes the WhatsApp action instead of being nested in it, and that white text on `#25d366` is not reintroduced. The obsolete `role="switch"` assertion is replaced by a check that the old switch is gone.

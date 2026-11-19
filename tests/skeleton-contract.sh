@@ -154,5 +154,13 @@ grep -q 'id="hatnch-greeting" hidden' includes/class-hatnch-whatsapp.php || fail
 grep -q "sessionStorage" assets/js/hatnikotni-chat-greeting.js || fail "Greeting once-per-session guard missing"
 if grep -q "document.cookie" assets/js/hatnikotni-chat-greeting.js; then fail "Greeting card must not set cookies"; fi
 if grep -qi "online\|dalam talian" includes/class-hatnch-whatsapp.php; then fail "No presence claims without real availability data"; fi
+# 0.1.29 Round Robin fallback and observability.
+grep -q "fallback( \$contacts, 'lock_unavailable'" includes/class-hatnch-routing.php || fail "Lock failure must use the fallback contact"
+grep -q "fallback( \$contacts, 'state_write_failed'" includes/class-hatnch-routing.php || fail "Cursor write failure must use the fallback contact"
+grep -q "fallback( \$contacts, 'state_verify_failed'" includes/class-hatnch-routing.php || fail "Cursor verify failure must use the fallback contact"
+grep -q "do_action( 'hatnch_routing_failure'" includes/class-hatnch-routing.php || fail "Routing failure hook missing"
+grep -q "report_failure( 'no_contact'" includes/class-hatnch-whatsapp.php || fail "No-contact redirect is not counted"
+grep -q "delete_option( 'hatnch_routing_failures' )" uninstall.php || fail "Uninstall must remove the failure counter"
+test -f tests/routing-fallback-integration.php || fail "Round Robin fallback integration test missing"
 php tests/contacts-regression.php
 echo "PASS: Hatnikotni Chat contracts"

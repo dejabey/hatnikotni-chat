@@ -1,3 +1,21 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~13:20 MYT (0.1.29 in development: Round Robin fallback)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **0.1.29 scope item 2 (Round Robin fallback and observability) implemented.** See CHANGELOG `0.1.29` → "Round Robin fallback and observability".
+  - Lock timeout, cursor read failure, cursor write failure and read-back mismatch now return a fallback contact (active default, else first eligible). The cursor is not moved; the failure is counted in `hatnch_routing_failures` (counts and timestamps only) and `hatnch_routing_failure` fires. The click endpoint counts `no_contact` before its home-page redirect. Admin: Routing → Routing failures.
+  - Purpose lane emptied inside the lock now falls back to global routing.
+- **Test-first evidence:** `7c603eb` added `tests/routing-fallback-integration.php` and a CI step without the fix. CI #907 (push, run `44463298104`) and #908 **failed** in the WordPress lifecycle job with `FAIL: Lock timeout still returned no contact (visitor would be sent to the home page).` about 5 s after the concurrency test, which shows the second-connection lock really forced the timeout. The fix commit follows; check its CI.
+- **Not covered by tests:** read, write and verify failures are not forced in CI (no safe way to make MySQL fail those statements on demand). They share the same `fallback()` path as the lock case and are covered by contract greps only.
+- **Staging:** PENDING. Do not try to force a lock failure on staging without explicit authorization. The safe check is the admin "Routing failures" row (expected: "None recorded.") plus the existing HTTP check script.
+- **Remaining 0.1.29 scope:** the 98 remaining Malay strings and the `Contributors:` line (owner's WordPress.org username).
+
+## Immediate next action
+1. Confirm CI is green on the fix commit (the fallback test must pass).
+2. Translate the remaining 98 Malay strings.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~13:30 MYT (0.1.29 in development: concept B accepted, concept C added)
 
 > Supersedes the 12:40 section below where they conflict.

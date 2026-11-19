@@ -46,6 +46,8 @@ final class HATNCH_WhatsApp {
 		$contact         = $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? $routing->resolve_purpose( $purpose ) : $routing->resolve();
 
 		if ( ! is_array( $contact ) || empty( $contact['phone'] ) ) {
+			// No active contact could be chosen (for example none is active, or Direct has no default).
+			HATNCH_Routing::report_failure( 'no_contact', $purpose_enabled && in_array( $purpose, $purpose_ids, true ) ? $purpose : 'global', 0 );
 			wp_safe_redirect( home_url( '/' ) );
 			exit;
 		}

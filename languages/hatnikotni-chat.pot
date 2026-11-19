@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-19T05:01:57+00:00\n"
+"POT-Creation-Date: 2026-11-19T05:10:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: hatnikotni-chat\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: includes/class-hatnch-admin.php:56
 #: includes/class-hatnch-admin.php:67
-#: includes/class-hatnch-admin.php:442
+#: includes/class-hatnch-admin.php:486
 msgid "Contacts"
 msgstr ""
 
@@ -60,7 +60,7 @@ msgid "Hatnikotni Chat workspace"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:86
-#: includes/class-hatnch-admin.php:427
+#: includes/class-hatnch-admin.php:471
 #: includes/class-hatnch-analytics-admin.php:34
 msgid "You do not have permission to access this page."
 msgstr ""
@@ -121,12 +121,12 @@ msgid "The contact could not be created."
 msgstr ""
 
 #: includes/class-hatnch-admin.php:122
-#: includes/class-hatnch-admin.php:475
+#: includes/class-hatnch-admin.php:519
 msgid "The contact could not be deleted. Analytics data was left intact."
 msgstr ""
 
 #: includes/class-hatnch-admin.php:123
-#: includes/class-hatnch-admin.php:477
+#: includes/class-hatnch-admin.php:521
 #: includes/class-hatnch-contacts.php:156
 msgid "The contact no longer exists."
 msgstr ""
@@ -202,7 +202,7 @@ msgstr ""
 
 #: includes/class-hatnch-admin.php:191
 #: includes/class-hatnch-shortcode.php:28
-#: includes/class-hatnch-whatsapp.php:166
+#: includes/class-hatnch-whatsapp.php:168
 msgid "Contact Us"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgid "Greeting title"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:224
-#: includes/class-hatnch-whatsapp.php:201
+#: includes/class-hatnch-whatsapp.php:203
 msgid "Got a question?"
 msgstr ""
 
@@ -264,7 +264,7 @@ msgid "Greeting text"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:230
-#: includes/class-hatnch-whatsapp.php:204
+#: includes/class-hatnch-whatsapp.php:206
 msgid "Chat with our team on WhatsApp."
 msgstr ""
 
@@ -296,305 +296,343 @@ msgstr ""
 msgid "Round robin"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:264
+#: includes/class-hatnch-admin.php:265
+msgid "Routing failures"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:268
+msgid "None recorded."
+msgstr ""
+
+#. translators: 1: number of failures, 2: date and time of the first failure, 3: date and time of the latest failure.
+#: includes/class-hatnch-admin.php:275
+#, php-format
+msgid "%1$d recorded since %2$s. Latest: %3$s."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:289
+msgid "Counts only, with no visitor data. When Round Robin cannot update its rotation, visitors still reach a contact: the default contact if it is active, otherwise the first active contact."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:293
 msgid "Purpose-based routing"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:265
+#: includes/class-hatnch-admin.php:294
 msgid "Enable the purpose chooser for the floating button"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:265
+#: includes/class-hatnch-admin.php:294
 msgid "When disabled, the existing global routing and button behavior remain in effect."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:270
-#: includes/class-hatnch-admin.php:277
-#: includes/class-hatnch-admin.php:618
-#: includes/class-hatnch-whatsapp.php:306
+#: includes/class-hatnch-admin.php:299
+#: includes/class-hatnch-admin.php:306
+#: includes/class-hatnch-admin.php:662
+#: includes/class-hatnch-whatsapp.php:308
 msgid "General Enquiries"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:271
-#: includes/class-hatnch-admin.php:618
+#: includes/class-hatnch-admin.php:300
+#: includes/class-hatnch-admin.php:662
 msgid "Business Support"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:272
-#: includes/class-hatnch-admin.php:279
-#: includes/class-hatnch-admin.php:618
-#: includes/class-hatnch-whatsapp.php:308
+#: includes/class-hatnch-admin.php:301
+#: includes/class-hatnch-admin.php:308
+#: includes/class-hatnch-admin.php:662
+#: includes/class-hatnch-whatsapp.php:310
 msgid "Sales & Partnerships"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:278
-#: includes/class-hatnch-whatsapp.php:307
+#: includes/class-hatnch-admin.php:307
+#: includes/class-hatnch-whatsapp.php:309
 msgid "Customer Support"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:280
-#: includes/class-hatnch-whatsapp.php:309
+#: includes/class-hatnch-admin.php:309
+#: includes/class-hatnch-whatsapp.php:311
 msgid "Technical Support"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:299
+#: includes/class-hatnch-admin.php:328
 msgid "Support Email"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:299
+#: includes/class-hatnch-admin.php:328
 msgid "Optional alternative support email for complex matters or payment investigations."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:300
+#: includes/class-hatnch-admin.php:329
 msgid "Support Page URL"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:300
+#: includes/class-hatnch-admin.php:329
 msgid "Optional link to a contact form or dedicated support page. This is offered for complex matters or payment investigations."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:307
-#: includes/class-hatnch-admin.php:633
+#: includes/class-hatnch-admin.php:336
+#: includes/class-hatnch-admin.php:677
 msgid "Extension modules"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:307
-#: includes/class-hatnch-admin.php:633
+#: includes/class-hatnch-admin.php:336
+#: includes/class-hatnch-admin.php:677
 msgid "Optional modules can add site-specific features without changing the core plugin."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:317
-#: includes/class-hatnch-admin.php:643
+#: includes/class-hatnch-admin.php:346
+#: includes/class-hatnch-admin.php:687
 msgid "Extension"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:322
-#: includes/class-hatnch-admin.php:648
+#: includes/class-hatnch-admin.php:351
+#: includes/class-hatnch-admin.php:692
 msgid "No extension modules are currently providing settings."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:327
+#: includes/class-hatnch-admin.php:356
 msgid "Save Settings"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:336
-#: includes/class-hatnch-admin.php:669
-#: includes/class-hatnch-admin.php:753
+#: includes/class-hatnch-admin.php:365
+#: includes/class-hatnch-admin.php:713
+#: includes/class-hatnch-admin.php:797
 #: includes/class-hatnch-analytics-admin.php:193
 msgid "You do not have permission to perform this action."
 msgstr ""
 
+#: includes/class-hatnch-admin.php:439
+msgid "Rotation lock unavailable"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:440
+msgid "Rotation state could not be read"
+msgstr ""
+
 #: includes/class-hatnch-admin.php:441
-msgid "Contact management"
+msgid "Rotation state could not be saved"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:442
+msgid "Saved rotation state did not verify"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:443
-msgid "Manage the people or teams who receive WhatsApp enquiries. Phone numbers use international digits-only format."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:446
-#: includes/class-hatnch-admin.php:597
-#: includes/class-hatnch-admin.php:653
-msgid "Add Contact"
-msgstr ""
-
-#: includes/class-hatnch-admin.php:453
-msgid "Contact saved."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:458
-msgid "Default Contact updated. Direct routing will use this active contact. Analytics history was not changed."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:469
-msgid "Contact deleted. Historical analytics events were retained without contact identification."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:479
-msgid "The Default Contact cannot be deactivated. Select another active Default Contact first."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:481
-msgid "The contact status could not be updated."
-msgstr ""
-
-#: includes/class-hatnch-admin.php:483
-msgid "Choose another active Default Contact before deleting or deactivating this contact."
+msgid "No active contact available"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:485
-msgid "The Default Contact could not be changed."
+msgid "Contact management"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:491
-msgid "Contact list"
+#: includes/class-hatnch-admin.php:487
+msgid "Manage the people or teams who receive WhatsApp enquiries. Phone numbers use international digits-only format."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:492
-msgid "Inactive contacts remain available for historical analytics and can be activated again later."
+#: includes/class-hatnch-admin.php:490
+#: includes/class-hatnch-admin.php:641
+#: includes/class-hatnch-admin.php:697
+msgid "Add Contact"
 msgstr ""
 
 #: includes/class-hatnch-admin.php:497
-msgid "Contact list; scroll horizontally to view all columns"
-msgstr ""
-
-#: includes/class-hatnch-admin.php:501
-msgid "ID"
+msgid "Contact saved."
 msgstr ""
 
 #: includes/class-hatnch-admin.php:502
-#: includes/class-hatnch-admin.php:608
+msgid "Default Contact updated. Direct routing will use this active contact. Analytics history was not changed."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:513
+msgid "Contact deleted. Historical analytics events were retained without contact identification."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:523
+msgid "The Default Contact cannot be deactivated. Select another active Default Contact first."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:525
+msgid "The contact status could not be updated."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:527
+msgid "Choose another active Default Contact before deleting or deactivating this contact."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:529
+msgid "The Default Contact could not be changed."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:535
+msgid "Contact list"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:536
+msgid "Inactive contacts remain available for historical analytics and can be activated again later."
+msgstr ""
+
+#: includes/class-hatnch-admin.php:541
+msgid "Contact list; scroll horizontally to view all columns"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:545
+msgid "ID"
+msgstr ""
+
+#: includes/class-hatnch-admin.php:546
+#: includes/class-hatnch-admin.php:652
 msgid "Name"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:503
+#: includes/class-hatnch-admin.php:547
 msgid "Phone"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:504
-#: includes/class-hatnch-admin.php:617
+#: includes/class-hatnch-admin.php:548
+#: includes/class-hatnch-admin.php:661
 msgid "Role"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:505
-#: includes/class-hatnch-admin.php:656
+#: includes/class-hatnch-admin.php:549
+#: includes/class-hatnch-admin.php:700
 msgid "Status"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:510
+#: includes/class-hatnch-admin.php:554
 msgid "No contacts yet."
 msgstr ""
 
 #. translators: %1$s: contact name.
-#: includes/class-hatnch-admin.php:518
+#: includes/class-hatnch-admin.php:562
 #, php-format
 msgid "Set %1$s as the Default Contact? New Direct-routing interactions will go to %1$s. The previous Default Contact will remain active."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:521
+#: includes/class-hatnch-admin.php:565
 msgid "Permanently delete this contact? This cannot be undone. Historical analytics events will be retained but anonymized for this contact."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:527
+#: includes/class-hatnch-admin.php:571
 msgid "Default"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:534
+#: includes/class-hatnch-admin.php:578
 msgid "Edit"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:541
+#: includes/class-hatnch-admin.php:585
 msgid "Set as Default"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:550
+#: includes/class-hatnch-admin.php:594
 msgid "Deactivate"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:550
+#: includes/class-hatnch-admin.php:594
 msgid "Activate"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:557
+#: includes/class-hatnch-admin.php:601
 msgid "Delete"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:560
+#: includes/class-hatnch-admin.php:604
 msgid "Protected while Default"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:568
-#: includes/class-hatnch-admin.php:659
+#: includes/class-hatnch-admin.php:612
+#: includes/class-hatnch-admin.php:703
 msgid "Active"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:568
-#: includes/class-hatnch-admin.php:659
+#: includes/class-hatnch-admin.php:612
+#: includes/class-hatnch-admin.php:703
 msgid "Inactive"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:597
+#: includes/class-hatnch-admin.php:641
 msgid "Edit Contact"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:598
+#: includes/class-hatnch-admin.php:642
 msgid "Keep contact details accurate so routing and analytics remain reliable."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:605
+#: includes/class-hatnch-admin.php:649
 msgid "Required fields"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:608
-#: includes/class-hatnch-admin.php:612
+#: includes/class-hatnch-admin.php:652
+#: includes/class-hatnch-admin.php:656
 msgid "(required)"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:612
+#: includes/class-hatnch-admin.php:656
 msgid "WhatsApp Number"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:613
+#: includes/class-hatnch-admin.php:657
 msgid "601234567890"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:614
+#: includes/class-hatnch-admin.php:658
 msgid "International digits only, without +, spaces or hyphens."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:617
-#: includes/class-hatnch-admin.php:621
-#: includes/class-hatnch-admin.php:625
+#: includes/class-hatnch-admin.php:661
+#: includes/class-hatnch-admin.php:665
+#: includes/class-hatnch-admin.php:669
 msgid "Optional"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:618
+#: includes/class-hatnch-admin.php:662
 msgid "Unassigned"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:618
+#: includes/class-hatnch-admin.php:662
 msgid "Assign a routing role. Only active contacts assigned to the selected role are eligible for purpose routing."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:621
+#: includes/class-hatnch-admin.php:665
 msgid "Description"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:622
+#: includes/class-hatnch-admin.php:666
 msgid "Short internal note about this contact."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:625
+#: includes/class-hatnch-admin.php:669
 msgid "Sort Order"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:627
+#: includes/class-hatnch-admin.php:671
 msgid "Lower numbers appear first in the admin and round-robin sequence."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:653
+#: includes/class-hatnch-admin.php:697
 msgid "Update Contact"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:654
+#: includes/class-hatnch-admin.php:698
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:657
+#: includes/class-hatnch-admin.php:701
 msgid "Active contact"
 msgstr ""
 
-#: includes/class-hatnch-admin.php:697
+#: includes/class-hatnch-admin.php:741
 msgid "You do not have permission to delete contacts."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:702
-#: includes/class-hatnch-admin.php:729
-#: includes/class-hatnch-admin.php:760
+#: includes/class-hatnch-admin.php:746
+#: includes/class-hatnch-admin.php:773
+#: includes/class-hatnch-admin.php:804
 msgid "Security check failed. Reload and try again."
 msgstr ""
 
-#: includes/class-hatnch-admin.php:724
+#: includes/class-hatnch-admin.php:768
 msgid "You do not have permission to change the Default Contact."
 msgstr ""
 
@@ -887,89 +925,89 @@ msgid "Analytics data is not sent by Hatnikotni Chat to an external analytics se
 msgstr ""
 
 #. translators: %s: visitor-selected enquiry purpose.
-#: includes/class-hatnch-whatsapp.php:65
+#: includes/class-hatnch-whatsapp.php:67
 #, php-format
 msgid "Hello, I would like to contact your team regarding %s. Can you assist me?"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:153
+#: includes/class-hatnch-whatsapp.php:155
 msgid "Analytics accepted."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:154
+#: includes/class-hatnch-whatsapp.php:156
 msgid "Analytics rejected. WhatsApp remains available."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:210
+#: includes/class-hatnch-whatsapp.php:212
 msgid "Optional analytics"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:211
-#: includes/class-hatnch-whatsapp.php:273
+#: includes/class-hatnch-whatsapp.php:213
+#: includes/class-hatnch-whatsapp.php:275
 msgid "Close"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:215
+#: includes/class-hatnch-whatsapp.php:217
 msgid "Clicks are counted only if you accept. WhatsApp works either way."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:217
+#: includes/class-hatnch-whatsapp.php:219
 msgid "Allow analytics"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:218
+#: includes/class-hatnch-whatsapp.php:220
 msgid "Reject"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:219
+#: includes/class-hatnch-whatsapp.php:221
 msgid "Accept"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:223
+#: includes/class-hatnch-whatsapp.php:225
 msgid "Privacy Policy"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:225
+#: includes/class-hatnch-whatsapp.php:227
 msgid "Details"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:228
+#: includes/class-hatnch-whatsapp.php:230
 msgid "Analytics records clicks only if you accept. It does not record message content or IP addresses. WhatsApp works either way."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:235
+#: includes/class-hatnch-whatsapp.php:237
 msgid "Close greeting"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:242
 #: includes/class-hatnch-whatsapp.php:244
+#: includes/class-hatnch-whatsapp.php:246
 msgid "Start a WhatsApp chat"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:249
+#: includes/class-hatnch-whatsapp.php:251
 msgid "Privacy and analytics choices"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:249
+#: includes/class-hatnch-whatsapp.php:251
 msgid "Privacy"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:273
+#: includes/class-hatnch-whatsapp.php:275
 msgid "How can we help?"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:274
+#: includes/class-hatnch-whatsapp.php:276
 msgid "Choose a topic to continue to WhatsApp."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:278
+#: includes/class-hatnch-whatsapp.php:280
 msgid "For complex matters, use the support channel provided by this website."
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:285
+#: includes/class-hatnch-whatsapp.php:287
 msgid "Open Support Page"
 msgstr ""
 
-#: includes/class-hatnch-whatsapp.php:328
+#: includes/class-hatnch-whatsapp.php:330
 msgid "an enquiry"
 msgstr ""

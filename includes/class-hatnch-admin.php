@@ -260,6 +260,35 @@ final class HATNCH_Admin {
 								</select>
 							</td>
 						</tr>
+						<?php $hatnch_failures = HATNCH_Routing::failure_summary(); ?>
+						<tr>
+							<th scope="row"><?php echo esc_html__( 'Routing failures', 'hatnikotni-chat' ); ?></th>
+							<td>
+								<?php if ( 0 === $hatnch_failures['total'] ) : ?>
+									<p class="description"><?php echo esc_html__( 'None recorded.', 'hatnikotni-chat' ); ?></p>
+								<?php else : ?>
+									<p>
+										<?php
+										echo esc_html(
+											sprintf(
+												/* translators: 1: number of failures, 2: date and time of the first failure, 3: date and time of the latest failure. */
+												__( '%1$d recorded since %2$s. Latest: %3$s.', 'hatnikotni-chat' ),
+												$hatnch_failures['total'],
+												wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $hatnch_failures['first_at'] ),
+												wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $hatnch_failures['last_at'] )
+											)
+										);
+										?>
+									</p>
+									<ul class="hatnch-failure-list">
+										<?php foreach ( $hatnch_failures['reasons'] as $hatnch_reason => $hatnch_count ) : ?>
+											<li><?php echo esc_html( self::failure_reason_label( $hatnch_reason ) . ': ' . number_format_i18n( $hatnch_count ) ); ?></li>
+										<?php endforeach; ?>
+									</ul>
+								<?php endif; ?>
+								<p class="description"><?php echo esc_html__( 'Counts only, with no visitor data. When Round Robin cannot update its rotation, visitors still reach a contact: the default contact if it is active, otherwise the first active contact.', 'hatnikotni-chat' ); ?></p>
+							</td>
+						</tr>
 					<tr>
 						<th scope="row"><?php echo esc_html__( 'Purpose-based routing', 'hatnikotni-chat' ); ?></th>
 						<td><label><input type="checkbox" name="purpose_routing_enabled" value="1" <?php checked( ! empty( $settings['purpose_routing_enabled'] ) ); ?>> <?php echo esc_html__( 'Enable the purpose chooser for the floating button', 'hatnikotni-chat' ); ?></label><p class="description"><?php echo esc_html__( 'When disabled, the existing global routing and button behavior remain in effect.', 'hatnikotni-chat' ); ?></p></td>
@@ -402,6 +431,21 @@ final class HATNCH_Admin {
 	 * @param string[] $allowed_roles Allowed role identifiers.
 	 * @return string
 	 */
+	/**
+	 * Human-readable label for a routing failure reason.
+	 */
+	private static function failure_reason_label( string $reason ): string {
+		$labels = array(
+			'lock_unavailable'    => __( 'Rotation lock unavailable', 'hatnikotni-chat' ),
+			'state_read_failed'   => __( 'Rotation state could not be read', 'hatnikotni-chat' ),
+			'state_write_failed'  => __( 'Rotation state could not be saved', 'hatnikotni-chat' ),
+			'state_verify_failed' => __( 'Saved rotation state did not verify', 'hatnikotni-chat' ),
+			'no_contact'          => __( 'No active contact available', 'hatnikotni-chat' ),
+		);
+
+		return $labels[ $reason ] ?? $reason;
+	}
+
 	/**
 	 * Truncates sanitized text to a character limit, multibyte-safe where available.
 	 */
