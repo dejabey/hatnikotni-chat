@@ -1,3 +1,19 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~14:30 MYT (0.1.29 provenance CONFIRMED; staging tests pending)
+
+> Supersedes the sections below where they conflict.
+
+- **Package provenance for 0.1.29: CONFIRMED.** The owner confirmed (14:29 MYT) that the file uploaded to staging at about 13:42 was the **inner** ZIP. Chain: `8a4a4e8` (PR merge ref; plugin source identical to `2361579`) → CI #916 (run for PR #9) → outer artifact `E20BE52F…aba4c9` (matches the GitHub digest) → inner `hatnikotni-chat-0.1.29.zip` `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440` (owner-uploaded).
+- **Duplicate-turn safeguards (owner asked how to stop them):** the duplicates (`8ea1b32`/`de6d383` this morning, `12a062b` at 13:43) ran in the same workspace and session, so the remote-HEAD check before pushing does not catch them. Claude cannot stop the platform from re-running a turn. Rules for any session:
+  1. At the start of every turn, run `git log --oneline -5` and read the top handoff section. If a commit or section exists for the request just received, report it and do not redo the work.
+  2. Before any WPVibe call, check the handoff for a read in the last 30 minutes and reuse it.
+  3. Keep writes idempotent: one handoff section per turn, and update it rather than adding a second one.
+  - Owner side: send each message once; if the app shows an error or keeps loading, wait a minute before resending; do not keep this chat open on two devices or tabs at once; do not edit-and-resend while a reply is still running. Report a duplicate with the thumbs-down button.
+
+## Immediate next action
+Owner runs "Ujian 0.1.29" (`docs/staging-test-plan.md`, 22 steps) and reports results. Claude then does one batched WPVibe read to cross-check events, cursor and the failure counter.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~14:20 MYT (0.1.29 on staging: artifact identified as CI #916)
 
 > Supersedes the 13:45 and both 13:55 sections below where they conflict.
