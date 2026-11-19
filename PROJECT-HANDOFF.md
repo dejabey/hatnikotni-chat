@@ -34,8 +34,10 @@
 ## Immediate next action
 
 0.1.27 staging gates (install, provenance, Plugin Check, Round Robin) are complete. Remaining before the owner's merge decision on PR #8:
-1. Manual browser matrix: consent/privacy accept, reject and withdraw; mobile layout; keyboard/focus/Escape; shortcode; WooCommerce pages; JS disabled.
-2. Decide whether the readme/POT WordPress.org clean-up goes in before merging or as 0.1.28.
+1. Manual browser matrix (21 steps; owner runs it).
+   - Checklist: the private Claude Sheet "Hatnikotni Chat 0.1.27 — Senarai Semak Ujian Pelayar (Staging)", https://claude.ai/artifact/PRxngfHf9Qq99CeaTDD6p7. It covers consent accept/reject/persist, UTM cookie before and after consent plus withdrawal, keyboard Tab/Enter/Escape focus, mobile, shortcode, WooCommerce, JS disabled, and the admin Analytics page.
+   - Analytics baseline before the matrix (WPVibe, 2026-11-19 ~01:30 UTC): `hatnch_events` total 49, max id 49, last event 2026-11-05 10:22:19. Claude verifies the event delta after the owner's run: expect +1 after step 4, none after step 6, and +1 with `utm_campaign=c0127` after step 9.
+2. **Decision (2026-11-19, delegated to Claude by the owner):** the readme.txt/POT WordPress.org clean-up goes into **0.1.28** together with the Round Robin fallback/observability work. Reason: `readme.txt` ships in the ZIP, so fixing it now would force another full staging re-verification of 0.1.27 for no runtime change. It blocks WordPress.org submission only, not the merge to `main`.
 
 ---
 
