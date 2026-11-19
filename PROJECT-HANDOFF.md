@@ -1,3 +1,16 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~16:35 MYT (0.1.30: Malay consent wording fix)
+
+> Supersedes the sections below where they conflict.
+
+- **The owner has not replied to the WordPress.org review email** (confirmed 16:17 MYT). The deadline is about 2026-12-27.
+- **iPhone/Safari test moved to 2026-11-20:** the owner does not have an iPhone and will borrow one.
+- **Staging finding (owner, 16:21 MYT):** the site uses **GTranslate** (client-side machine translation, MS/EN switcher). With EN selected, the Malay consent button "Terima" was shown as **"Thank you"**. The English text shown was machine-translated from Malay, not the plugin's English source.
+  - Fix in 0.1.30, approved by the owner: ms_MY "Accept" → **"Setuju"**; "Analytics accepted." → "Anda bersetuju dengan analitik.". A contract test guards it.
+  - Not done: marking the widget `translate="no"`. That would leave GTranslate-EN visitors seeing Malay. The longer-term option, if the owner wants exact English, is a multilingual plugin that switches the WordPress locale.
+- **Superseded artifact:** CI #937 (`8151a225…`, commit `82311cf`) is replaced by the next 0.1.30 build. Do not install #937.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~16:30 MYT (0.1.30: WordPress.org readiness)
 
 > Supersedes the sections below where they conflict.
