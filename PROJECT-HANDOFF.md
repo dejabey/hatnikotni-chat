@@ -1,3 +1,40 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~16:05 MYT (0.1.29 merged to main)
+
+> **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.
+
+## Where things stand
+- **`main` = Hatnikotni Chat 0.1.29.**
+  - PR #9 was merged on 2026-11-19 07:53:56 UTC as merge commit `53fcf40` (parents `4360ea3`, `b46fea4`). The owner approved at 15:53 MYT ("gabung"), after Claude's recommendation.
+  - The merge was locked to the reviewed head `b46fea4`. `main`'s tree equals that head's tree (`b157f7d`).
+  - Pre-merge checks:
+    - CI #933/#934 green on `b46fea4`.
+    - 22 files changed, no binaries, no secrets.
+    - Plugin source identical to the staging-tested build.
+  - CI **#935** on `main` (run `44483161744`) passed all 8 jobs.
+- **0.1.29 verification:**
+  - **Package provenance CONFIRMED:** CI #916 → outer `E20BE52F…` → inner `8AF6ABC9…DC36440` (uploaded by the owner).
+  - **Staging browser matrix CONFIRMED, 22/22:** desktop Chrome and a real Android phone (Brave). Cross-checked against events #54–#57.
+  - Round Robin HTTP check 6/6; no routing failures.
+  - Details are in the 15:40 section below.
+- **Not done, and none authorized:** no git tag, no GitHub release, no production deployment, no WordPress.org submission. Each needs separate explicit approval.
+- **Claude's recommendations for production (owner to decide):**
+  1. Test once on an iPhone (Safari/WebKit): steps 4, 6, 8, 12 and 14 of the Sheet. Only Chromium engines have been tested.
+  2. Install exactly the staging-tested inner ZIP (`8AF6ABC9…`, from CI #916). A new artifact built from `main` contains the same source but has a different hash, which would restart provenance.
+  3. If production uses page caching, clear it after installing and re-check the button and the consent card.
+- **Branch:** `dev/0.1.30` was created from `main` @ `53fcf40` with this handoff. No 0.1.30 scope is agreed. Deferred product question: a click log or engagement list (Claude recommends against raw per-click logs; revisit once there is real attributed data).
+
+## Duplicate executions: cause found
+- The owner explained (15:50 MYT) that they sometimes **edit a sent message and send it again**. The app then re-runs the turn, but GitHub, staging and WPVibe are not rolled back, so commits and WPVibe calls happen twice. This matches every duplicate seen on 2026-11-19 (`8ea1b32`/`de6d383`, `12a062b`, `96c8030`).
+- Agreed practice: do not edit sent messages; send a new short "Pembetulan: …" message instead.
+- Claude keeps the start-of-turn check: `git log -5` plus the top handoff section; if the work already exists, report it and do not redo it.
+
+## Owner working preferences (standing)
+- Give the direct GitHub Actions run link and that run's digest whenever an artifact is to be downloaded, together with the PowerShell SHA-256 check (`tests/verify-artifact.ps1`).
+- The WPVibe free plan has a daily limit: one batched read per check, and none for what the owner can see directly.
+- Staging checklists go in a Claude Sheet with the same columns as before (No, Keputusan, Bahagian, Langkah, Hasil dijangka, Catatan).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~15:40 MYT (0.1.29 staging acceptance: 22/22 PASS)
 
 > Supersedes the sections below where they conflict.
