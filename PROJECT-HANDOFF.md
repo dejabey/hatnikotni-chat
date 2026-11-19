@@ -2,7 +2,7 @@
 
 > Supersedes the sections below where they conflict.
 
-- **Staging browser matrix for 0.1.29: CONFIRMED (22/22 "Lulus").** The owner ran the steps 14:45–15:30 MYT, in a desktop Chrome Incognito window, with devtools device emulation for step 14 (Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN, revision 30). Claude cross-checked with **one** WPVibe `db query` (~15:35 MYT):
+- **Staging browser matrix for 0.1.29: CONFIRMED (22/22 "Lulus").** The owner ran the steps 14:45–15:30 MYT, in a desktop Chrome Incognito window; step 14 (mobile) on the owner's real phone in the Brave browser (owner correction, 15:33 MYT; the phone OS was not stated) (Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN, revision 30). Claude cross-checked with **one** WPVibe `db query` (~15:35 MYT):
   - **Analytics events, baseline 53:**
     - #54 14:53:23, contact 1, no UTM = step 8 (Accept).
     - Step 10 (Reject, 14:54): no event, as expected.
@@ -19,7 +19,7 @@
     - Lane cursors unchanged (`business_support=3`, `general_enquiries=1`).
   - **Failure counter:** `hatnch_routing_failures` absent. The admin shows "Tiada direkodkan." (owner's screen), which also confirms the Malay admin strings load.
   - **Settings restored after steps 15 and 18–21:** `button_show_label` true, `button_position` right, `greeting_enabled` false, delay 5. 17 keys, saved by the 0.1.29 form.
-- **What this does not prove:** real phones and Safari/iOS (only devtools emulation), screen readers, other themes, page caching (staging has `WP_CACHE=false`), or forced Round Robin failures on staging (covered only by the CI integration test).
+- **What this does not prove:** Safari, and other mobile browsers than Brave (on iOS every browser, Brave included, uses Safari's WebKit engine, so this is covered only if the phone is an iPhone), screen readers, other themes, page caching (staging has `WP_CACHE=false`), or forced Round Robin failures on staging (covered only by the CI integration test).
 - **Note:** the Sheet's Catatan column contains contact phone numbers typed by the owner. They are not copied into this repository.
 
 ## Immediate next action
