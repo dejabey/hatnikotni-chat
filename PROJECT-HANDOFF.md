@@ -20,9 +20,23 @@
   - Still missing: a `Contributors:` line, which needs the owner's WordPress.org username.
 - **Final 0.1.28 candidate:** CI #884 (push, run `44446934827`) and #885 passed all 8 jobs on `ed26d87`, including the attribution regression test and `msgfmt --check`. Artifact `hatnikotni-chat-0.1.28`, ID `14493841538`, 70,220 bytes, `sha256:9c3cab14ec62b69c80513f0d31484a8286b6938d2e6d89388f879e274e010254`. The earlier #880 artifact is superseded.
 
+- **0.1.28 on staging (WPVibe, 2026-11-19 ~11:22 MYT):**
+  - Version `0.1.28` active; installed `class-hatnch-campaign.php` contains the decode-before-sanitize fix (lines 116–125).
+  - The owner reports steps 7–10 passed; steps 7, 8 and 10 are browser-observable.
+  - Only one new event exists: #52 (11:20:03, contact 3, no UTM). It matches the owner's re-run of step 4, which had no UTM.
+  - **No event with `utm_campaign=c0127` exists yet**, so the attribution fix on staging is **PENDING** until a step-9 click is recorded.
+  - Package hashes for 0.1.28 have not been reported yet.
+- **Design decision (owner, 2026-11-19), for 0.1.29:**
+  - Concept **B** (round button + shield badge) is the base. Concept **C** (team greeting card) becomes an opt-in setting, off by default.
+  - Owner feedback: make the mobile consent card more compact, shorten Tolak/Terima, narrow the explanation. Revised in the private design canvas https://claude.ai/artifact/GzPqJ5guUP55XcZfhroKFQ: 232 px card, 32 px segmented control, one-line explanation.
+  - Measured issues that 0.1.29 addresses:
+    - White text on `#25D366` is 1.98:1 (fails WCAG AA).
+    - The current dark shield on dark backgrounds is 1.11:1.
+  - Note: the 32 px segmented buttons meet the WCAG 2.2 AA target size (24 px) but not the 44 px guideline.
+
 ## Immediate next action
 
-1. Owner installs the CI #884 artifact's inner ZIP on staging and reports both hashes.
+1. Owner repeats step 9 on 0.1.28: new Incognito window → UTM URL → Accept → click WhatsApp; note the time. Claude then verifies `utm_campaign=c0127`. The owner also reports the 0.1.28 package hashes.
 2. Owner repeats browser steps 7–10 and Plugin Check, and runs the RR HTTP check. Claude verifies that the new click event carries `utm_campaign=c0127`.
 
 ---
