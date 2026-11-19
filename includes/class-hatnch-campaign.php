@@ -113,9 +113,16 @@ final class HATNCH_Campaign {
 			return self::empty_attribution();
 		}
 
-		$encoded = sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NAME ] ) );
-		$decoded = rawurldecode( $encoded );
-		$data    = json_decode( $decoded, true );
+		// The cookie holds rawurlencode()d JSON. Decode before sanitizing: sanitize_text_field()
+		// strips percent-encoded octets and would destroy the payload. Each field is sanitized below.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Decoded and sanitized per field below.
+		$encoded = wp_unslash( $_COOKIE[ self::COOKIE_NAME ] );
+
+		if ( ! is_string( $encoded ) ) {
+			return self::empty_attribution();
+		}
+
+		$data = json_decode( rawurldecode( $encoded ), true );
 
 		if ( ! is_array( $data ) ) {
 			return self::empty_attribution();

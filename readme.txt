@@ -2,13 +2,17 @@
 Requires at least: 6.6
 Requires PHP: 8.1
 Tested up to: 7.1
-Stable tag: 0.1.27
+Stable tag: 0.1.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Lightweight WhatsApp contact routing with explicit visitor analytics choices and first-party campaign attribution.
 
 == Changelog ==
+
+= 0.1.28 =
+* Fix: UTM campaign attribution was never stored on WhatsApp click events. The attribution cookie was sanitized before it was decoded, which removed its percent-encoded content. The cookie is now decoded first and each field sanitized. Clicks recorded before this fix have no campaign data and cannot be recovered.
+* Add a WordPress-backed regression test for the full capture → cookie → click → stored-event path.
 
 = 0.1.27 =
 * Resolve all Plugin Check warnings: document the intentional direct database calls that serialize Round Robin routing (advisory lock and cache-bypassing cursor reads/writes) and the read-only admin notice flag. No routing, persistence or admin behavior changed.

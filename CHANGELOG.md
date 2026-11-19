@@ -1,3 +1,10 @@
+## 0.1.28 — Campaign attribution fix
+
+- **Fix:** UTM campaign attribution was never stored on click events, from its introduction in `5617257` (2026-09-23) through 0.1.27. `HATNCH_Campaign::get_attribution()` ran `sanitize_text_field()` on the cookie before `rawurldecode()`. `sanitize_text_field()` strips percent-encoded octets, so the JSON payload was destroyed and every event was stored with NULL UTM fields. The cookie is now decoded first and each field sanitized and length-limited, as before.
+- Found by the 0.1.27 staging browser matrix (step 9, 2026-11-19): event #51 had `utm_campaign` NULL while the `hatnch_campaign` cookie was present. All 51 staging events had NULL UTM fields.
+- Added `tests/campaign-attribution-integration.php`, a WordPress-backed CI test covering consented capture, the cookie round-trip as PHP and WordPress deliver it, the stored click event, malformed cookies and withdrawn consent.
+- Historical events cannot be repaired: the attribution was never stored.
+
 ## 0.1.27 — Plugin Check clean-up
 
 - Resolved all 10 Plugin Check warnings reported against 0.1.26 (9 in `class-hatnch-routing.php`, 1 in `class-hatnch-admin.php`) with narrowly scoped, justified `phpcs:ignore` comments. The direct database calls are required for the Round Robin advisory lock and cache-bypassing cursor persistence.
