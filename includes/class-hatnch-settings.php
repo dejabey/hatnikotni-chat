@@ -19,14 +19,19 @@ final class HATNCH_Settings {
 		add_option(
 			self::OPTION_KEY,
 			array(
-				'enabled'         => true,
-				'default_contact' => 0,
-				'default_message' => '',
-				'button_label'    => 'Contact Us',
-				'button_position' => 'right',
-				'show_desktop'    => true,
-				'show_mobile'     => true,
-				'routing_method'  => 'direct',
+				'enabled'           => true,
+				'default_contact'   => 0,
+				'default_message'   => '',
+				'button_label'      => 'Contact Us',
+				'button_show_label' => true,
+				'button_position'   => 'right',
+				'show_desktop'      => true,
+				'show_mobile'       => true,
+				'greeting_enabled'  => false,
+				'greeting_title'    => '',
+				'greeting_text'     => '',
+				'greeting_delay'    => 5,
+				'routing_method'    => 'direct',
 			)
 		);
 	}

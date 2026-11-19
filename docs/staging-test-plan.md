@@ -238,3 +238,45 @@ Production activation remains a separate approval step.
 - Step 9 re-test: event #53 (11:31:43) carries `utm_source=ujian`, `utm_medium=qa`, `utm_campaign=c0127`. This is the first attributed event on staging.
 - Round Robin HTTP check: 3, 1, 3, 1; 12 concurrent requests → 6/6; all `302` with `X-Redirect-By: Hatnikotni Chat`; cursor 1 → 1.
 - Package hash correlation for 0.1.28 is still pending.
+
+## Ujian 0.1.29 — concept B UI, greeting card, Round Robin fallback
+
+**Result (2026-11-19 14:45–15:30 MYT): 22/22 PASS (owner-run; checklist Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN), cross-checked by Claude with one WPVibe query. See the results section in `PROJECT-HANDOFF.md`.**
+
+Original plan: Install only the **inner** ZIP from the 0.1.29 CI artifact, after hashing the outer artifact against the recorded digest. Record the cursor before and after. Do not force lock failures on staging.
+
+Package and baseline
+1. Hash the outer artifact and the inner ZIP; compare with the CI digest in `PROJECT-HANDOFF.md`.
+2. After installation: version `0.1.29` active; contacts, routing method, cursor and analytics count unchanged (WPVibe, read-only).
+3. Plugin Check: no errors.
+
+Floating button (light page and a dark page or dark section, desktop and phone)
+4. Round green bubble with a dark WhatsApp glyph; label chip visible on desktop, hidden on a phone (≤480 px).
+5. Shield badge sits on the bubble's outer top corner and does not cover the label. Theme styles do not distort the button (no theme padding, borders or uppercase text).
+6. Settings → Button & message: untick "Show the label beside the button", save → chip gone, the button still has an accessible name (screen reader or devtools).
+7. Bottom-left position mirrors correctly (badge on the top-right corner).
+
+Consent card
+8. Fresh browser (no consent cookie): open the badge → neither Tolak nor Terima is selected; focus lands on Tolak.
+9. Terima → selected; status message; reload → still Terima. Click WhatsApp → one new analytics event.
+10. Tolak → selected; reload → still Tolak; click WhatsApp → no new event; the `hatnch_campaign` cookie is removed.
+11. Butiran shows the full explanation; Privacy Policy link opens.
+12. Escape and the × button both close the card and return focus to the badge.
+13. Repeat a UTM URL → Terima → click; event carries the UTM values (regression for 0.1.28).
+
+Keyboard and fallback
+14. Tab order: badge, then the WhatsApp button; focus rings visible on light and dark pages.
+15. JavaScript disabled: the WhatsApp button works; the badge does nothing; no card is visible.
+
+Greeting card (enable it only for this test, then restore the setting)
+16. Enable the greeting card (delay 5 s) → it appears once after about 5 s without moving focus; reload in the same tab → it does not appear again.
+17. CTA opens WhatsApp through the click endpoint (purpose routing off) or opens the purpose chooser (purpose routing on).
+18. × or Escape closes it. A new private window shows it again.
+19. Disable the greeting card again and confirm it no longer renders.
+
+Round Robin
+20. Run `tests/staging-rr-http-check.sh` from the owner's PC: sequential alternation and 12 concurrent → 6/6; all `302` with `X-Redirect-By: Hatnikotni Chat`.
+21. Routing tab → Routing failures shows "None recorded." (or explain any count).
+
+Translation
+22. With the site or user language set to Malay, skim the admin tabs (Setup, Routing, Contacts, Analytics Data Management) and the front-end card for wording that reads wrong.

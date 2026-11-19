@@ -11,6 +11,18 @@ final class HATNCH_Routing {
 
 	private const STATE_OPTION = 'hatnch_routing_state';
 
+	/** PII-free failure counter (counts and timestamps only). */
+	public const FAILURE_OPTION = 'hatnch_routing_failures';
+
+	/** Reasons that may be recorded. Anything else is ignored. */
+	public const FAILURE_REASONS = array(
+		'lock_unavailable',
+		'state_read_failed',
+		'state_write_failed',
+		'state_verify_failed',
+		'no_contact',
+	);
+
 	public function resolve(): ?array {
 		$method = HATNCH_Settings::get( 'routing_method', 'direct' );
 
@@ -88,7 +100,8 @@ final class HATNCH_Routing {
 		}
 
 		if ( 'round_robin' === $method ) {
-			return $this->resolve_round_robin_from_set( $eligible, 'hatnch_rr_' . $role, false );
+			// A lane that empties inside the lock falls back to global routing.
+			return $this->resolve_round_robin_from_set( $eligible, 'hatnch_rr_' . $role, false ) ?? $this->resolve();
 		}
 
 		$default_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
@@ -130,7 +143,12 @@ final class HATNCH_Routing {
 	/**
 	 * Serialize selection and cursor persistence for one routing lane.
 	 *
-	 * Lock failure fails closed. Requires MySQL/MariaDB advisory lock support.
+	 * Requires MySQL/MariaDB advisory lock support. When the lock, the cursor
+	 * read, the cursor write or the read-back verification fails, the visitor
+	 * is still routed: a fallback contact from the same eligible set is
+	 * returned without moving the cursor, the failure is counted and
+	 * `hatnch_routing_failure` fires. Null is returned only when no contact is
+	 * eligible.
 	 *
 	 * @param array  $contacts Active contacts eligible for this lane.
 	 * @param string $state_key Cursor option.
@@ -148,7 +166,7 @@ final class HATNCH_Routing {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- MySQL advisory lock; no WordPress API exists.
 		$acquired = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $lock_name ) );
 		if ( 1 !== (int) $acquired ) {
-			return null;
+			return $this->fallback( $contacts, 'lock_unavailable', $state_key );
 		}
 
 		try {
@@ -182,7 +200,7 @@ final class HATNCH_Routing {
 				ARRAY_A
 			);
 			if ( null === $state_row && '' !== $wpdb->last_error ) {
-				return null;
+				return $this->fallback( $contacts, 'state_read_failed', $state_key );
 			}
 			$state   = null !== $state_row
 				? maybe_unserialize( $state_row['option_value'] )
@@ -211,7 +229,7 @@ final class HATNCH_Routing {
 				)
 			);
 			if ( false === $write_result ) {
-				return null;
+				return $this->fallback( $contacts, 'state_write_failed', $state_key );
 			}
 
 			// Keep WordPress' option caches coherent after the direct database write.
@@ -233,7 +251,7 @@ final class HATNCH_Routing {
 				? ( is_array( $persisted ) ? absint( $persisted['last_contact_id'] ?? 0 ) : 0 )
 				: absint( $persisted );
 			if ( $persisted_id !== (int) $next['id'] ) {
-				return null;
+				return $this->fallback( $contacts, 'state_verify_failed', $state_key );
 			}
 			return $next;
 		} finally {
@@ -243,5 +261,137 @@ final class HATNCH_Routing {
 				do_action( 'hatnch_routing_lock_release_failed', $state_key, $release_result );
 			}
 		}
+	}
+
+	/**
+	 * Choose a safe contact when Round Robin bookkeeping fails.
+	 *
+	 * Prefers the configured default contact when it is in the eligible set,
+	 * otherwise the first eligible contact. The cursor is not touched, so normal
+	 * rotation resumes from where it was once the failure clears.
+	 *
+	 * @param array  $contacts  Eligible active contacts for the lane.
+	 * @param string $reason    One of self::FAILURE_REASONS.
+	 * @param string $state_key Cursor option of the lane.
+	 * @return array|null
+	 */
+	private function fallback( array $contacts, string $reason, string $state_key ): ?array {
+		$contacts = array_values( array_filter( $contacts, 'is_array' ) );
+		$lane     = self::STATE_OPTION === $state_key ? 'global' : substr( $state_key, strlen( 'hatnch_rr_' ) );
+
+		if ( empty( $contacts ) ) {
+			self::report_failure( $reason, $lane, 0 );
+			return null;
+		}
+
+		$chosen     = $contacts[0];
+		$default_id = absint( HATNCH_Settings::get( 'default_contact', 0 ) );
+		foreach ( $contacts as $contact ) {
+			$contact_id = (int) ( $contact['id'] ?? 0 );
+			if ( $default_id > 0 && $contact_id === $default_id ) {
+				$chosen = $contact;
+				break;
+			}
+		}
+
+		/**
+		 * Filters the fallback contact used when Round Robin bookkeeping fails.
+		 *
+		 * The returned contact must be one of the eligible contacts; anything else is ignored.
+		 *
+		 * @param array  $chosen   Proposed fallback contact.
+		 * @param array  $contacts Eligible active contacts.
+		 * @param string $reason   Failure reason.
+		 * @param string $lane     'global' or the purpose role.
+		 */
+		$filtered = apply_filters( 'hatnch_routing_fallback_contact', $chosen, $contacts, $reason, $lane );
+		if ( is_array( $filtered ) && isset( $filtered['id'] ) ) {
+			$filtered_id = (int) $filtered['id'];
+			foreach ( $contacts as $contact ) {
+				$contact_id = (int) ( $contact['id'] ?? 0 );
+				if ( $contact_id === $filtered_id ) {
+					$chosen = $contact;
+					break;
+				}
+			}
+		}
+
+		self::report_failure( $reason, $lane, (int) $chosen['id'] );
+		return $chosen;
+	}
+
+	/**
+	 * Count a routing failure and fire `hatnch_routing_failure`.
+	 *
+	 * Stores only counts per reason and two timestamps: no phone numbers,
+	 * names, IP addresses or request data. Increments are best effort and may
+	 * under-count when failures race or when the database itself is failing.
+	 *
+	 * @param string $reason              One of self::FAILURE_REASONS.
+	 * @param string $lane                'global' or a purpose role key.
+	 * @param int    $fallback_contact_id Contact used instead, or 0 when none.
+	 */
+	public static function report_failure( string $reason, string $lane = 'global', int $fallback_contact_id = 0 ): void {
+		if ( ! in_array( $reason, self::FAILURE_REASONS, true ) ) {
+			return;
+		}
+
+		$lane  = sanitize_key( $lane );
+		$state = get_option( self::FAILURE_OPTION, array() );
+		if ( ! is_array( $state ) ) {
+			$state = array();
+		}
+
+		$now     = time();
+		$reasons = isset( $state['reasons'] ) && is_array( $state['reasons'] ) ? $state['reasons'] : array();
+
+		$reasons[ $reason ] = absint( $reasons[ $reason ] ?? 0 ) + 1;
+
+		$state = array(
+			'total'    => absint( $state['total'] ?? 0 ) + 1,
+			'reasons'  => array_intersect_key( $reasons, array_flip( self::FAILURE_REASONS ) ),
+			'first_at' => absint( $state['first_at'] ?? 0 ) > 0 ? absint( $state['first_at'] ) : $now,
+			'last_at'  => $now,
+		);
+
+		if ( false === get_option( self::FAILURE_OPTION, false ) ) {
+			add_option( self::FAILURE_OPTION, $state, '', false );
+		} else {
+			update_option( self::FAILURE_OPTION, $state, false );
+		}
+
+		/**
+		 * Fires when routing could not use its normal path.
+		 *
+		 * @param string $reason              One of HATNCH_Routing::FAILURE_REASONS.
+		 * @param string $lane                'global' or the purpose role.
+		 * @param int    $fallback_contact_id Contact used instead, or 0 when the visitor got no contact.
+		 */
+		do_action( 'hatnch_routing_failure', $reason, $lane, $fallback_contact_id );
+	}
+
+	/**
+	 * Read the failure counter for display.
+	 *
+	 * @return array{total:int,reasons:array<string,int>,first_at:int,last_at:int}
+	 */
+	public static function failure_summary(): array {
+		$state = get_option( self::FAILURE_OPTION, array() );
+		$state = is_array( $state ) ? $state : array();
+
+		$reasons = array();
+		foreach ( self::FAILURE_REASONS as $reason ) {
+			$count = absint( $state['reasons'][ $reason ] ?? 0 );
+			if ( $count > 0 ) {
+				$reasons[ $reason ] = $count;
+			}
+		}
+
+		return array(
+			'total'    => absint( $state['total'] ?? 0 ),
+			'reasons'  => $reasons,
+			'first_at' => absint( $state['first_at'] ?? 0 ),
+			'last_at'  => absint( $state['last_at'] ?? 0 ),
+		);
 	}
 }

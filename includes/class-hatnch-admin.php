@@ -190,6 +190,7 @@ final class HATNCH_Admin {
 							<td>
 								<input id="hatnch-button-label" name="button_label" type="text" class="regular-text" maxlength="80" placeholder="<?php echo esc_attr__( 'Contact Us', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['button_label'] ?? 'Contact Us' ); ?>">
 								<p class="description"><?php echo esc_html__( 'Text visitors see on the WhatsApp button.', 'hatnikotni-chat' ); ?></p>
+								<p><label class="hatnch-toggle-label"><input type="checkbox" name="button_show_label" value="1" <?php checked( ! array_key_exists( 'button_show_label', $settings ) || ! empty( $settings['button_show_label'] ) ); ?>> <span><?php echo esc_html__( 'Show the label beside the button (hidden on small phones)', 'hatnikotni-chat' ); ?></span></label></p>
 							</td>
 						</tr>
 						<tr>
@@ -208,6 +209,32 @@ final class HATNCH_Admin {
 									<label class="hatnch-toggle-label"><input type="checkbox" name="show_desktop" value="1" <?php checked( ! empty( $settings['show_desktop'] ) ); ?>> <span><?php echo esc_html__( 'Desktop', 'hatnikotni-chat' ); ?></span></label>
 									<label class="hatnch-toggle-label"><input type="checkbox" name="show_mobile" value="1" <?php checked( ! empty( $settings['show_mobile'] ) ); ?>> <span><?php echo esc_html__( 'Mobile', 'hatnikotni-chat' ); ?></span></label>
 								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php echo esc_html__( 'Greeting card', 'hatnikotni-chat' ); ?></th>
+							<td>
+								<label class="hatnch-toggle-label"><input type="checkbox" name="greeting_enabled" value="1" <?php checked( ! empty( $settings['greeting_enabled'] ) ); ?>> <span><?php echo esc_html__( 'Show a greeting card above the button', 'hatnikotni-chat' ); ?></span></label>
+								<p class="description"><?php echo esc_html__( 'Off by default. The card appears once per browser session after the delay, and visitors can close it.', 'hatnikotni-chat' ); ?></p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-title"><?php echo esc_html__( 'Greeting title', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-title" name="greeting_title" type="text" class="regular-text" maxlength="60" placeholder="<?php echo esc_attr__( 'Got a question?', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['greeting_title'] ?? '' ); ?>">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-text"><?php echo esc_html__( 'Greeting text', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-text" name="greeting_text" type="text" class="large-text" maxlength="160" placeholder="<?php echo esc_attr__( 'Chat with our team on WhatsApp.', 'hatnikotni-chat' ); ?>" value="<?php echo esc_attr( $settings['greeting_text'] ?? '' ); ?>">
+								<p class="description"><?php echo esc_html__( 'Leave empty to use the translated default. Only state reply times you can keep.', 'hatnikotni-chat' ); ?></p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="hatnch-greeting-delay"><?php echo esc_html__( 'Greeting delay (seconds)', 'hatnikotni-chat' ); ?></label></th>
+							<td>
+								<input id="hatnch-greeting-delay" name="greeting_delay" type="number" class="small-text" min="0" max="60" step="1" value="<?php echo esc_attr( (string) ( $settings['greeting_delay'] ?? 5 ) ); ?>">
 							</td>
 						</tr>
 					</table>
@@ -231,6 +258,35 @@ final class HATNCH_Admin {
 									<option value="random" <?php selected( $settings['routing_method'] ?? 'direct', 'random' ); ?>><?php echo esc_html__( 'Random', 'hatnikotni-chat' ); ?></option>
 									<option value="round_robin" <?php selected( $settings['routing_method'] ?? 'direct', 'round_robin' ); ?>><?php echo esc_html__( 'Round robin', 'hatnikotni-chat' ); ?></option>
 								</select>
+							</td>
+						</tr>
+						<?php $hatnch_failures = HATNCH_Routing::failure_summary(); ?>
+						<tr>
+							<th scope="row"><?php echo esc_html__( 'Routing failures', 'hatnikotni-chat' ); ?></th>
+							<td>
+								<?php if ( 0 === $hatnch_failures['total'] ) : ?>
+									<p class="description"><?php echo esc_html__( 'None recorded.', 'hatnikotni-chat' ); ?></p>
+								<?php else : ?>
+									<p>
+										<?php
+										echo esc_html(
+											sprintf(
+												/* translators: 1: number of failures, 2: date and time of the first failure, 3: date and time of the latest failure. */
+												__( '%1$d recorded since %2$s. Latest: %3$s.', 'hatnikotni-chat' ),
+												$hatnch_failures['total'],
+												wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $hatnch_failures['first_at'] ),
+												wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $hatnch_failures['last_at'] )
+											)
+										);
+										?>
+									</p>
+									<ul class="hatnch-failure-list">
+										<?php foreach ( $hatnch_failures['reasons'] as $hatnch_reason => $hatnch_count ) : ?>
+											<li><?php echo esc_html( self::failure_reason_label( $hatnch_reason ) . ': ' . number_format_i18n( $hatnch_count ) ); ?></li>
+										<?php endforeach; ?>
+									</ul>
+								<?php endif; ?>
+								<p class="description"><?php echo esc_html__( 'Counts only, with no visitor data. When Round Robin cannot update its rotation, visitors still reach a contact: the default contact if it is active, otherwise the first active contact.', 'hatnikotni-chat' ); ?></p>
 							</td>
 						</tr>
 					<tr>
@@ -324,9 +380,14 @@ final class HATNCH_Admin {
 			'default_contact'         => $contact && 1 === (int) $contact['status'] ? $contact_id : 0,
 			'default_message'         => isset( $_POST['default_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['default_message'] ) ) : '',
 			'button_label'            => isset( $_POST['button_label'] ) ? sanitize_text_field( wp_unslash( $_POST['button_label'] ) ) : 'Contact Us',
+			'button_show_label'       => isset( $_POST['button_show_label'] ),
 			'button_position'         => isset( $_POST['button_position'] ) && 'left' === sanitize_key( wp_unslash( $_POST['button_position'] ) ) ? 'left' : 'right',
 			'show_desktop'            => isset( $_POST['show_desktop'] ),
 			'show_mobile'             => isset( $_POST['show_mobile'] ),
+			'greeting_enabled'        => isset( $_POST['greeting_enabled'] ),
+			'greeting_title'          => isset( $_POST['greeting_title'] ) ? self::limit_text( sanitize_text_field( wp_unslash( $_POST['greeting_title'] ) ), 60 ) : '',
+			'greeting_text'           => isset( $_POST['greeting_text'] ) ? self::limit_text( sanitize_text_field( wp_unslash( $_POST['greeting_text'] ) ), 160 ) : '',
+			'greeting_delay'          => isset( $_POST['greeting_delay'] ) ? min( 60, absint( $_POST['greeting_delay'] ) ) : 5,
 			'routing_method'          => $method,
 			'purpose_routing_enabled' => isset( $_POST['purpose_routing_enabled'] ),
 			'purpose_roles'           => array(),
@@ -370,6 +431,32 @@ final class HATNCH_Admin {
 	 * @param string[] $allowed_roles Allowed role identifiers.
 	 * @return string
 	 */
+	/**
+	 * Human-readable label for a routing failure reason.
+	 */
+	private static function failure_reason_label( string $reason ): string {
+		$labels = array(
+			'lock_unavailable'    => __( 'Rotation lock unavailable', 'hatnikotni-chat' ),
+			'state_read_failed'   => __( 'Rotation state could not be read', 'hatnikotni-chat' ),
+			'state_write_failed'  => __( 'Rotation state could not be saved', 'hatnikotni-chat' ),
+			'state_verify_failed' => __( 'Saved rotation state did not verify', 'hatnikotni-chat' ),
+			'no_contact'          => __( 'No active contact available', 'hatnikotni-chat' ),
+		);
+
+		return $labels[ $reason ] ?? $reason;
+	}
+
+	/**
+	 * Truncates sanitized text to a character limit, multibyte-safe where available.
+	 */
+	private static function limit_text( string $value, int $limit ): string {
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $value, 0, $limit, 'UTF-8' );
+		}
+
+		return substr( $value, 0, $limit );
+	}
+
 	private static function sanitize_purpose_role( $candidate, array $allowed_roles ): string {
 		if ( ! is_scalar( $candidate ) ) {
 			return 'general_enquiries';

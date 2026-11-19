@@ -33,7 +33,7 @@ jobs:
           set -eu
           find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
       - name: Check frontend JavaScript syntax
-        run: node --check assets/js/hatnikotni-chat-privacy.js
+        run: for f in assets/js/*.js; do node --check "$f"; done
       - name: Run skeleton contract
         run: bash tests/skeleton-contract.sh
       - name: Install development dependencies
@@ -271,6 +271,9 @@ jobs:
             exit 1
           fi
           echo "PASS: 12 concurrent Round Robin requests selected each active contact exactly 6 times."
+
+      - name: Run WordPress-backed Round Robin fallback test
+        run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/routing-fallback-integration.php"
 
       - name: Run WordPress-backed campaign attribution test
         run: php "$WP_CLI" --path="$WP_PATH" eval-file "$WP_PATH/wp-content/plugins/hatnikotni-chat/tests/campaign-attribution-integration.php"

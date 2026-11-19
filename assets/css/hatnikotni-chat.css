@@ -2,6 +2,16 @@
  * Hatnikotni Chat frontend styles.
  *
  * All frontend selectors use the hatnch- namespace.
+ *
+ * 0.1.29 "concept B": a round WhatsApp button with an optional label chip
+ * and a shield badge (44 px hit area) that opens a compact consent card.
+ *
+ * Contrast (WCAG 2.x, measured):
+ * - glyph #0b2e1a on #25d366: 7.46:1; on hover #1ebe5d: 6.04:1
+ *   (white on #25d366 was 1.98:1 and is no longer used);
+ * - badge: dark #13261b fill with a 2 px white ring, so it stays visible on
+ *   dark pages (white ring on #1e293b: 14.63:1; the old dark-only shield was 1.11:1);
+ * - label chip and card text: #13261b / #3d4a43 on white: 15.9:1 / 9.3:1.
  */
 
 .hatnch-button {
@@ -17,15 +27,16 @@
 	outline-offset: 3px;
 }
 
+/* Floating widget container. */
 .hatnch-widget {
+	align-items: flex-end;
 	bottom: 20px;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
-	gap: 8px;
+	gap: 12px;
+	max-width: min(360px, calc(100vw - 32px));
 	position: fixed;
 	z-index: 9999;
-	max-width: min(360px, calc(100vw - 32px));
 }
 
 .hatnch-widget--right {
@@ -33,227 +44,522 @@
 }
 
 .hatnch-widget--left {
-	left: 20px;
 	align-items: flex-start;
+	left: 20px;
 }
 
 .hatnch-widget__actions {
 	align-items: center;
 	display: flex;
-	gap: 8px;
-}
-
-.hatnch-floating {
 	position: relative;
-	z-index: 1;
-	background: #25d366;
-	border-radius: 999px;
-	box-shadow: 0 5px 18px rgba(15, 23, 42, .18);
-	color: #fff;
-	font-weight: 600;
-	padding: 12px 18px;
-	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
 
-.hatnch-floating:hover,
-.hatnch-floating:focus-visible {
-	background: #128c4a;
-	box-shadow: 0 7px 22px rgba(15, 23, 42, .22);
-	color: #fff;
+/*
+ * Primary action: transparent wrapper (link or, with purpose routing, a button)
+ * holding the optional label chip and the round bubble. Resets guard against
+ * theme styles for a and button elements.
+ */
+.hatnch-widget .hatnch-floating {
+	appearance: none;
+	background: transparent;
+	border: 0;
+	border-radius: 999px;
+	box-shadow: none;
+	color: #13261b;
+	cursor: pointer;
+	font: inherit;
+	gap: 16px;
+	letter-spacing: normal;
+	line-height: 1.2;
+	margin: 0;
+	min-height: 0;
+	padding: 0;
+	text-transform: none;
+}
+
+.hatnch-widget .hatnch-floating:hover,
+.hatnch-widget .hatnch-floating:focus,
+.hatnch-widget .hatnch-floating:active {
+	background: transparent;
+	box-shadow: none;
+	color: #13261b;
+}
+
+.hatnch-widget .hatnch-floating:focus-visible {
+	outline: none;
+}
+
+.hatnch-widget--left .hatnch-floating {
+	flex-direction: row-reverse;
+}
+
+.hatnch-floating__bubble {
+	align-items: center;
+	background: #25d366;
+	border-radius: 50%;
+	box-shadow: 0 6px 20px rgba(15, 23, 42, .22), 0 0 0 3px #fff;
+	box-sizing: border-box;
+	color: #0b2e1a;
+	display: inline-flex;
+	flex: 0 0 60px;
+	height: 60px;
+	justify-content: center;
+	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
+	width: 60px;
+}
+
+.hatnch-floating:hover .hatnch-floating__bubble {
+	background: #1ebe5d;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, .26), 0 0 0 3px #fff;
 	transform: translateY(-1px);
 }
 
-.hatnch-floating:active {
-	box-shadow: 0 4px 12px rgba(15, 23, 42, .18);
+.hatnch-floating:active .hatnch-floating__bubble {
 	transform: translateY(0);
 }
 
-.hatnch-button__icon {
-	fill: currentColor;
-	height: 22px;
-	width: 22px;
+/* White-dark-white focus ring: visibly different from the resting white ring on light and dark pages. */
+.hatnch-floating:focus-visible .hatnch-floating__bubble {
+	box-shadow: 0 0 0 3px #fff, 0 0 0 6px #13261b, 0 0 0 9px #fff;
 }
 
-.hatnch-privacy-toggle {
+.hatnch-floating .hatnch-button__icon {
+	fill: currentColor;
+	height: 28px;
+	width: 28px;
+}
+
+.hatnch-floating__label {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, .14);
+	color: #13261b;
+	font-size: 14px;
+	font-weight: 600;
+	max-width: 200px;
+	overflow: hidden;
+	padding: 9px 14px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hatnch-floating:hover .hatnch-floating__label {
+	box-shadow: 0 6px 18px rgba(15, 23, 42, .18);
+}
+
+.hatnch-floating:focus-visible .hatnch-floating__label {
+	box-shadow: 0 0 0 2px #13261b, 0 0 0 4px #fff;
+}
+
+/*
+ * Shield badge: a 44 px transparent hit area whose visible disc (28 px) sits on
+ * the bubble's outer corner. Right position: top-left of the bubble; left
+ * position: top-right. It is a DOM sibling of the link, never nested in it.
+ */
+.hatnch-widget .hatnch-privacy-toggle {
 	align-items: center;
+	appearance: none;
 	background: transparent;
 	border: 0;
-	border-radius: 0;
+	border-radius: 50%;
 	box-shadow: none;
-	color: #172033;
+	color: #fff;
 	cursor: pointer;
 	display: inline-flex;
-	flex: 0 0 48px;
-	height: 48px;
-	position: relative;
-	z-index: 0;
-	margin-right: -24px;
+	height: 44px;
 	justify-content: center;
+	margin: 0;
+	min-height: 0;
 	padding: 0;
-	transition: color .15s ease;
-	width: 48px;
+	position: absolute;
+	top: -16px;
+	width: 44px;
+	z-index: 2;
 }
-.hatnch-privacy-toggle:hover { color: #000; }
+
+.hatnch-widget--right .hatnch-privacy-toggle {
+	right: 32px;
+}
+
+.hatnch-widget--left .hatnch-privacy-toggle {
+	left: 32px;
+}
+
+.hatnch-widget .hatnch-privacy-toggle:hover,
+.hatnch-widget .hatnch-privacy-toggle:focus,
+.hatnch-widget .hatnch-privacy-toggle:active {
+	background: transparent;
+	box-shadow: none;
+	color: #fff;
+}
+
+.hatnch-privacy-toggle__disc {
+	align-items: center;
+	background: #13261b;
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 2px 6px rgba(15, 23, 42, .3);
+	box-sizing: border-box;
+	display: inline-flex;
+	height: 28px;
+	justify-content: center;
+	transition: background-color .15s ease;
+	width: 28px;
+}
+
+.hatnch-privacy-toggle:hover .hatnch-privacy-toggle__disc,
+.hatnch-privacy-toggle[aria-expanded="true"] .hatnch-privacy-toggle__disc {
+	background: #0f6b3a;
+}
 
 .hatnch-privacy-toggle__icon {
 	display: block;
 	fill: none;
-	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .45));
-	height: 22px;
+	height: 14px;
 	stroke: currentColor;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-width: 1.8;
-	width: 18px;
+	stroke-width: 2.4;
+	width: 14px;
 }
 
-.hatnch-privacy-toggle:focus-visible,
-.hatnch-privacy-panel a:focus-visible,
-.hatnch-privacy-read-more:focus-visible {
-	outline: 2px solid #2271b1;
-	outline-offset: 2px;
+.hatnch-widget .hatnch-privacy-toggle:focus-visible {
+	outline: none;
 }
 
+.hatnch-privacy-toggle:focus-visible .hatnch-privacy-toggle__disc {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px #13261b, 0 0 0 6px #fff;
+}
+
+/* Compact consent card. */
 .hatnch-privacy-panel {
 	background: #fff;
-	border: 1px solid #d8dee7;
-	border-radius: 10px;
-	box-shadow: 0 6px 20px rgba(15, 23, 42, .16);
+	border-radius: 14px;
+	box-shadow: 0 10px 28px rgba(15, 23, 42, .2), 0 0 0 1px rgba(15, 23, 42, .08);
 	box-sizing: border-box;
-	color: #243044;
-	margin-bottom: 0;
-	max-height: min(60vh, 240px);
+	color: #3d4a43;
+	font-size: 12px;
+	line-height: 1.4;
+	max-height: min(60vh, 320px);
 	overflow-y: auto;
-	padding: 7px 10px;
-	width: min(240px, calc(100vw - 24px));
+	padding: 12px 12px 10px;
+	text-align: left;
+	width: min(232px, calc(100vw - 24px));
 }
 
 .hatnch-privacy-panel[hidden] {
 	display: none;
 }
 
-.hatnch-privacy-links {
+.hatnch-privacy-panel p {
+	margin: 0;
+}
+
+.hatnch-privacy-panel__header {
 	align-items: center;
 	display: flex;
-	font-size: 11px;
-	justify-content: flex-start;
-	gap: 14px;
-	line-height: 1.3;
-	margin-top: 2px;
+	gap: 8px;
+	justify-content: space-between;
 }
 
-.hatnch-privacy-read-more {
+.hatnch-widget .hatnch-privacy-title {
+	color: #13261b;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: normal;
+	line-height: 1.3;
+	margin: 0;
+	padding: 0;
+	text-transform: none;
+}
+
+.hatnch-widget .hatnch-privacy-close {
+	align-items: center;
+	appearance: none;
 	background: transparent;
 	border: 0;
-	color: #243044;
+	border-radius: 8px;
+	box-shadow: none;
+	color: #4b5563;
 	cursor: pointer;
-	font: inherit;
+	display: inline-flex;
+	flex: 0 0 36px;
+	height: 36px;
+	justify-content: center;
+	margin: -10px -10px -10px 0;
+	min-height: 0;
 	padding: 0;
-	text-decoration: underline;
+	width: 36px;
 }
 
-.hatnch-privacy-read-more:hover {
-	color: #176b3a;
+.hatnch-widget .hatnch-privacy-close:hover {
+	background: #eef1ef;
+	color: #13261b;
 }
 
-.hatnch-privacy-explanation {
-	font-size: 11px !important;
-	line-height: 1.4 !important;
-	margin: 5px 0 0 !important;
-	text-align: left;
+.hatnch-privacy-close svg {
+	fill: none;
+	height: 14px;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-width: 2;
+	width: 14px;
+}
+
+.hatnch-widget .hatnch-privacy-summary {
+	margin-top: 6px;
 }
 
 .hatnch-privacy-consent {
 	align-items: center;
 	display: flex;
-	gap: 10px;
-	justify-content: center;
-	padding: 2px 0;
+	gap: 8px;
+	justify-content: space-between;
+	margin-top: 8px;
 }
 
-.hatnch-privacy-choice-label {
-	color: #243044;
-	font-size: 11px;
-	font-weight: 600;
-}
-
-.hatnch-privacy-switch {
+.hatnch-privacy-segmented {
+	background: #eef1ef;
+	border-radius: 10px;
 	display: inline-flex;
 	flex: 0 0 auto;
-	position: relative;
-	width: 42px;
-	height: 24px;
+	gap: 2px;
+	padding: 3px;
 }
 
-.hatnch-privacy-switch input {
-	height: 1px;
-	left: 0;
-	margin: 0;
-	opacity: 0;
-	position: absolute;
-	top: 0;
-	width: 1px;
-}
-.hatnch-privacy-switch-track {
-	background: #687386;
-	border: 1px solid #687386;
-	border-radius: 999px;
-	box-sizing: border-box;
+.hatnch-widget .hatnch-privacy-choice {
+	appearance: none;
+	background: transparent;
+	border: 0;
+	border-radius: 8px;
+	box-shadow: none;
+	color: #3d4a43;
 	cursor: pointer;
-	inset: 0;
-	position: absolute;
-	transition: background-color .15s ease, border-color .15s ease;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 500;
+	height: 32px;
+	letter-spacing: normal;
+	line-height: 32px;
+	margin: 0;
+	min-height: 0;
+	padding: 0 10px;
+	text-transform: none;
+	transition: background-color .15s ease, box-shadow .15s ease;
 }
 
-.hatnch-privacy-switch-track::before {
+.hatnch-widget .hatnch-privacy-choice:hover {
+	background: rgba(255, 255, 255, .6);
+	color: #13261b;
+}
+
+.hatnch-widget .hatnch-privacy-choice[aria-pressed="true"] {
 	background: #fff;
-	border-radius: 50%;
-	content: "";
-	height: 18px;
-	left: 2px;
-	position: absolute;
-	top: 2px;
-	transition: transform .15s ease;
-	width: 18px;
+	box-shadow: 0 1px 3px rgba(15, 23, 42, .18);
+	color: #13261b;
+	font-weight: 700;
 }
 
-.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track {
-	background: #176b3a;
-	border-color: #176b3a;
-}
-
-.hatnch-privacy-switch input:checked + .hatnch-privacy-switch-track::before {
-	transform: translateX(18px);
-}
-
-.hatnch-privacy-switch input:focus-visible + .hatnch-privacy-switch-track {
-	outline: 2px solid #2271b1;
-	outline-offset: 3px;
-}
-
-.hatnch-privacy-switch input:disabled + .hatnch-privacy-switch-track {
+.hatnch-widget .hatnch-privacy-choice:disabled {
 	cursor: not-allowed;
 	opacity: .6;
 }
 
-.hatnch-privacy-status {
-	font-size: 11px !important;
-	margin-bottom: 6px !important;
+.hatnch-privacy-links {
+	align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	font-size: 11px;
+	gap: 2px;
+	line-height: 1.3;
+	min-width: 0;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.hatnch-widget .hatnch-privacy-panel a,
+.hatnch-widget .hatnch-privacy-read-more {
+	color: #0f6b3a;
+	font-size: 11px;
+	text-decoration: underline;
+}
+
+.hatnch-widget .hatnch-privacy-read-more {
+	appearance: none;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	cursor: pointer;
+	font-family: inherit;
+	line-height: 1.3;
+	margin: 0;
+	min-height: 0;
+	padding: 0;
+	text-transform: none;
+}
+
+.hatnch-widget .hatnch-privacy-panel a:hover,
+.hatnch-widget .hatnch-privacy-read-more:hover {
+	color: #13261b;
+}
+
+.hatnch-privacy-choice:focus-visible,
+.hatnch-privacy-close:focus-visible,
+.hatnch-privacy-panel a:focus-visible,
+.hatnch-privacy-read-more:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.hatnch-widget .hatnch-privacy-explanation {
+	border-top: 1px solid #e5e9e6;
+	font-size: 11px;
+	margin-top: 8px;
+	padding-top: 6px;
+}
+
+.hatnch-widget .hatnch-privacy-status {
+	font-size: 11px;
+	margin-top: 6px;
 }
 
 .hatnch-privacy-status:empty {
 	display: none;
 }
 
-.hatnch-privacy-policy-link {
-	font-size: 10px;
-	text-decoration: underline;
+/*
+ * Optional greeting card (concept C, 0.1.29; off by default).
+ * CTA: white on #0f6b3a is 6.59:1 (hover #0b5a30). No presence indicator is
+ * shown: the plugin has no real availability data.
+ */
+.hatnch-greeting {
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(15, 23, 42, .18), 0 0 0 1px rgba(15, 23, 42, .06);
+	box-sizing: border-box;
+	color: #3d4a43;
+	display: flex;
+	flex-direction: column;
+	font-size: 13px;
+	gap: 6px;
+	line-height: 1.5;
+	padding: 14px 16px 16px;
+	text-align: left;
+	width: min(292px, calc(100vw - 32px));
 }
 
+.hatnch-greeting[hidden] {
+	display: none;
+}
+
+.hatnch-greeting__header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.hatnch-greeting__mark {
+	align-items: center;
+	background: #d7ecdf;
+	border-radius: 50%;
+	color: #0f6b3a;
+	display: inline-flex;
+	height: 34px;
+	justify-content: center;
+	width: 34px;
+}
+
+.hatnch-greeting__mark svg,
+.hatnch-greeting__close svg {
+	fill: none;
+	height: 16px;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 2;
+	width: 16px;
+}
+
+.hatnch-widget .hatnch-greeting__close {
+	align-items: center;
+	appearance: none;
+	background: transparent;
+	border: 0;
+	border-radius: 10px;
+	box-shadow: none;
+	color: #4b5563;
+	cursor: pointer;
+	display: inline-flex;
+	height: 44px;
+	justify-content: center;
+	margin: -8px -10px -8px 0;
+	min-height: 0;
+	padding: 0;
+	width: 44px;
+}
+
+.hatnch-widget .hatnch-greeting__close:hover {
+	background: #eef1ef;
+	color: #13261b;
+}
+
+.hatnch-widget .hatnch-greeting__title {
+	color: #13261b;
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: normal;
+	line-height: 1.3;
+	margin: 4px 0 0;
+	padding: 0;
+	text-transform: none;
+}
+
+.hatnch-widget .hatnch-greeting__text {
+	margin: 0 0 6px;
+}
+
+.hatnch-widget .hatnch-greeting__cta {
+	align-items: center;
+	appearance: none;
+	background: #0f6b3a;
+	border: 0;
+	border-radius: 10px;
+	box-shadow: none;
+	box-sizing: border-box;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	justify-content: center;
+	letter-spacing: normal;
+	margin: 0;
+	min-height: 44px;
+	padding: 10px 14px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: none;
+	width: 100%;
+}
+
+.hatnch-widget .hatnch-greeting__cta:hover,
+.hatnch-widget .hatnch-greeting__cta:focus {
+	background: #0b5a30;
+	color: #fff;
+}
+
+.hatnch-greeting__close:focus-visible,
+.hatnch-greeting__cta:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+/* Inline shortcode button. */
 .hatnch-inline {
 	background: #25d366;
 	border-radius: 6px;
-	color: #fff;
+	color: #0b2e1a;
 	font-weight: 600;
 	padding: 10px 16px;
 	transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
@@ -261,10 +567,14 @@
 
 .hatnch-inline:hover,
 .hatnch-inline:focus-visible {
-	background: #128c4a;
+	background: #1ebe5d;
 	box-shadow: 0 5px 14px rgba(15, 23, 42, .16);
-	color: #fff;
+	color: #0b2e1a;
 	transform: translateY(-1px);
+}
+
+.hatnch-inline:focus-visible {
+	outline-color: #13261b;
 }
 
 .hatnch-inline:active {
@@ -272,20 +582,7 @@
 	transform: translateY(0);
 }
 
-@media (max-width: 782px) {
-	.hatnch-widget {
-		bottom: 16px;
-	}
-
-	.hatnch-widget--right {
-		right: 12px;
-	}
-
-	.hatnch-widget--left {
-		left: 12px;
-	}
-}
-
+/* Visibility settings. */
 @media (min-width: 783px) {
 	.hatnch-hide-desktop {
 		display: none;
@@ -298,14 +595,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.hatnch-button {
-		transition: none;
-	}
-}
-
 /* Purpose chooser */
-.hatnch-purpose-panel{position:fixed;z-index:99998;right:24px;bottom:92px;width:min(340px,calc(100vw - 32px));padding:18px;background:#fff;color:#222;border:1px solid rgba(0,0,0,.12);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.hatnch-purpose-panel{position:fixed;z-index:99998;right:24px;bottom:96px;width:min(340px,calc(100vw - 32px));padding:18px;background:#fff;color:#222;border:1px solid rgba(0,0,0,.12);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
 .hatnch-purpose-panel[hidden]{display:none}
 .hatnch-purpose-panel__header{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hatnch-purpose-panel__header h2{font-size:18px;line-height:1.3;margin:0}
@@ -313,44 +604,6 @@
 .hatnch-purpose-option{display:block;margin:8px 0;padding:11px 12px;border:1px solid #ddd;border-radius:8px;color:inherit;text-decoration:none;font-weight:600}
 .hatnch-purpose-option:hover,.hatnch-purpose-option:focus{border-color:#25a85a;outline-offset:2px}
 .hatnch-purpose-note{font-size:12px;line-height:1.5;color:#555}
-@media (max-width:480px){.hatnch-purpose-panel{right:16px;bottom:84px}}
-
-/* Privacy control tucks behind the primary WhatsApp action while retaining a usable hit area. */
-.hatnch-widget--left .hatnch-privacy-toggle { margin-right: -24px; margin-left: 0; }
-.hatnch-widget--left .hatnch-floating { order: 2; }
-.hatnch-widget--left .hatnch-privacy-toggle { order: 1; }
-.hatnch-widget--right .hatnch-privacy-toggle { order: 1; }
-.hatnch-widget--right .hatnch-floating { order: 2; }
-@media (max-width: 480px) {
-  .hatnch-privacy-toggle { flex-basis: 40px; height: 40px; width: 40px; margin-right: -20px; }
-  .hatnch-widget--left .hatnch-privacy-toggle { margin-right: -20px; }
-}
-
-/* 0.1.23 visual refinement: keep the WhatsApp action clean and the privacy control legible. */
-.hatnch-floating {
-	border: 0 !important;
-	box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
-}
-.hatnch-floating:hover,
-.hatnch-floating:focus-visible {
-	border: 0 !important;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, .2);
-}
-.hatnch-privacy-toggle {
-	color: #111827;
-	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35));
-}
-.hatnch-privacy-toggle__icon {
-	height: 28px;
-	width: 25px;
-	stroke-width: 2.1;
-}
-.hatnch-privacy-toggle:hover { color: #000; }
-.hatnch-privacy-links {
-	gap: 10px;
-	justify-content: space-between;
-}
-.hatnch-privacy-explanation { max-width: 34ch; }
 .hatnch-purpose-panel {
 	box-sizing: border-box;
 	max-height: min(76dvh, 680px);
@@ -364,6 +617,21 @@
 }
 .hatnch-purpose-note { margin: 10px 0 0; }
 .hatnch-purpose-support { margin: 8px 0 0; overflow-wrap: anywhere; }
+
+@media (max-width: 782px) {
+	.hatnch-widget {
+		bottom: max(16px, env(safe-area-inset-bottom));
+	}
+
+	.hatnch-widget--right {
+		right: 16px;
+	}
+
+	.hatnch-widget--left {
+		left: 16px;
+	}
+}
+
 @media (max-width: 600px) {
 	.hatnch-purpose-panel {
 		left: 12px;
@@ -376,11 +644,40 @@
 	}
 	.hatnch-purpose-panel__header h2 { font-size: 20px; }
 	.hatnch-purpose-option { min-height: 48px; display: flex; align-items: center; }
-	.hatnch-widget { bottom: max(16px, env(safe-area-inset-bottom)); }
-	.hatnch-widget--right { right: 14px; }
-	.hatnch-widget--left { left: 14px; }
-	.hatnch-privacy-toggle__icon { height: 27px; width: 24px; }
 }
+
+/* Phones: smaller bubble; the label chip is hidden to keep content visible. */
+@media (max-width: 480px) {
+	.hatnch-floating__bubble {
+		flex-basis: 56px;
+		height: 56px;
+		width: 56px;
+	}
+
+	.hatnch-widget--right .hatnch-privacy-toggle {
+		right: 28px;
+	}
+
+	.hatnch-widget--left .hatnch-privacy-toggle {
+		left: 28px;
+	}
+
+	.hatnch-floating__label {
+		display: none;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
-	.hatnch-floating { transition: none; }
+	.hatnch-button,
+	.hatnch-floating__bubble,
+	.hatnch-privacy-toggle__disc,
+	.hatnch-privacy-choice {
+		transition: none;
+	}
+
+	.hatnch-floating:hover .hatnch-floating__bubble,
+	.hatnch-inline:hover,
+	.hatnch-inline:focus-visible {
+		transform: none;
+	}
 }

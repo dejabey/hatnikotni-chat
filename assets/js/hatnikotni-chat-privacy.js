@@ -107,29 +107,45 @@
 		}
 	}
 
+	function syncChoices(choices, value) {
+		choices.forEach(function (choice) {
+			choice.setAttribute('aria-pressed', choice.getAttribute('data-hatnch-consent') === value ? 'true' : 'false');
+		});
+	}
+
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('.hatnch-widget').forEach(function (widget) {
 			var toggle = widget.querySelector('.hatnch-privacy-toggle');
 			var panel = widget.querySelector('.hatnch-privacy-panel');
-			var consent = widget.querySelector('.hatnch-privacy-consent-input');
+			var choices = Array.prototype.slice.call(widget.querySelectorAll('.hatnch-privacy-consent-input'));
+			var closeButton = widget.querySelector('.hatnch-privacy-close');
 			var status = widget.querySelector('.hatnch-privacy-status');
 
-			if (!toggle || !panel || !consent) {
+			if (!toggle || !panel || !choices.length) {
 				return;
 			}
 
-			consent.checked = 'yes' === readConsent();
+			// No saved choice leaves both options unpressed: nothing is implied.
+			syncChoices(choices, readConsent());
 
 			toggle.addEventListener('click', function () {
 				var willOpen = panel.hidden;
 				if (willOpen) {
 					panel.hidden = false;
 					toggle.setAttribute('aria-expanded', 'true');
-					consent.focus();
+					var pressed = panel.querySelector('.hatnch-privacy-consent-input[aria-pressed="true"]');
+					(pressed || choices[0]).focus();
 				} else {
 					closePanel(panel, toggle);
 				}
 			});
+
+			if (closeButton) {
+				closeButton.addEventListener('click', function () {
+					closePanel(panel, toggle);
+					toggle.focus();
+				});
+			}
 
 			var readMore = widget.querySelector('.hatnch-privacy-read-more');
 			var explanation = widget.querySelector('.hatnch-privacy-explanation');
@@ -141,22 +157,32 @@
 				});
 			}
 
-			consent.addEventListener('change', function () {
-				if (consent.checked) {
-					writeConsent('yes');
-					requestCampaignCapture();
-					if (status) {
-						status.textContent = config.consentAccepted || 'Analytics accepted.';
-					}
-					return;
-				}
+			choices.forEach(function (choice) {
+				choice.addEventListener('click', function () {
+					var value = choice.getAttribute('data-hatnch-consent');
 
-				writeConsent('no');
-				clearCampaignCookie();
-				requestCampaignCookieClear();
-				if (status) {
-					status.textContent = config.consentRejected || 'Analytics rejected. WhatsApp remains available.';
-				}
+					if ('yes' === value) {
+						writeConsent('yes');
+						syncChoices(choices, 'yes');
+						requestCampaignCapture();
+						if (status) {
+							status.textContent = config.consentAccepted || 'Analytics accepted.';
+						}
+						return;
+					}
+
+					if ('no' !== value) {
+						return;
+					}
+
+					writeConsent('no');
+					syncChoices(choices, 'no');
+					clearCampaignCookie();
+					requestCampaignCookieClear();
+					if (status) {
+						status.textContent = config.consentRejected || 'Analytics rejected. WhatsApp remains available.';
+					}
+				});
 			});
 
 			document.addEventListener('keydown', function (event) {

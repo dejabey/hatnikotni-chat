@@ -1,9 +1,10 @@
 === Hatnikotni Chat ===
+Contributors: zaryl
 Tags: whatsapp, chat, contact, routing, analytics
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.28
+Stable tag: 0.1.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,10 +16,11 @@ Hatnikotni Chat is a focused WhatsApp enquiry-routing tool for WordPress sites. 
 
 Features include:
 
-* Floating WhatsApp button.
+* Floating round WhatsApp button with an optional label and a privacy badge.
+* Optional greeting card above the button (off by default).
 * Shortcode: [hatnikotni_chat]
 * Contact management with edit, activation controls and permanent deletion.
-* Direct, random and round-robin routing.
+* Direct, random and round-robin routing. If round-robin cannot update its rotation, visitors still reach an active contact and the failure is counted (counts only, no visitor data).
 * Explicit opt-in/opt-out controls for first-party WhatsApp click analytics.
 * UTM campaign attribution when analytics consent is granted.
 * 180-day analytics event retention.
@@ -29,7 +31,7 @@ The plugin does not require an external analytics service. The WhatsApp button w
 
 = Privacy =
 
-Hatnikotni Chat includes a small shield icon immediately to the left of the floating WhatsApp button. Selecting it opens a compact consent card where visitors can explicitly allow or reject optional analytics, read a short explanation, and open the site's WordPress Privacy Policy page when one is configured. The WhatsApp action remains available regardless of the choice.
+Hatnikotni Chat shows a small shield badge on the corner of the round floating WhatsApp button. Selecting it opens a compact consent card where visitors can explicitly reject or accept optional analytics, open a fuller explanation under Details, and open the site's WordPress Privacy Policy page when one is configured. The WhatsApp action remains available regardless of the choice.
 
 Analytics and campaign attribution remain disabled when no explicit allow choice exists. The visitor's choice is stored in a first-party cookie named hatnch_analytics_consent for up to 180 days. The site can integrate or override the consent signal through the hatnch_has_analytics_consent filter.
 
@@ -120,6 +122,14 @@ No. WooCommerce is a future optional integration and is not required by the core
 4. WhatsApp interaction analytics.
 
 == Changelog ==
+
+= 0.1.29 =
+* New look: a round WhatsApp button with an optional label and a shield badge for privacy choices. Text and icons now meet WCAG AA contrast (the previous white text on WhatsApp green did not).
+* Compact privacy card with Reject/Accept buttons. With no saved choice, neither option is shown as selected. The stored choice and its effect are unchanged.
+* Optional greeting card (off by default). It appears once per browser session after a delay and sets no cookies.
+* Fix: if round-robin could not lock or save its rotation, visitors were sent to the home page. They now reach the default contact, or the first active contact, and the failure is counted under Routing → Routing failures.
+* New hook `hatnch_routing_failure` and filter `hatnch_routing_fallback_contact`.
+* Malay translation complete.
 
 = 0.1.28 =
 * Fix: UTM campaign attribution was never stored on WhatsApp click events. The attribution cookie was sanitized before it was decoded, which removed its percent-encoded content. The cookie is now decoded first and each field sanitized. Clicks recorded before this fix have no campaign data and cannot be recovered.
@@ -233,6 +243,9 @@ No. WooCommerce is a future optional integration and is not required by the core
 * Added WordPress.org readiness documentation and readme.
 
 == Upgrade Notice ==
+
+= 0.1.29 =
+Redesigns the floating button and privacy card, and stops round-robin failures from sending visitors to the home page. Check the button on your theme on staging before production use.
 
 = 0.1.28 =
 Fixes UTM campaign attribution, which was not being stored on click events. Clicks recorded before this update have no campaign data. Test on staging before production use.

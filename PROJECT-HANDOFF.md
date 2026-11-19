@@ -1,3 +1,254 @@
+# CURRENT PROJECT STATE — 2026-11-19 ~15:40 MYT (0.1.29 staging acceptance: 22/22 PASS)
+
+> Supersedes the sections below where they conflict.
+
+- **Staging browser matrix for 0.1.29: CONFIRMED (22/22 "Lulus").** The owner ran the steps 14:45–15:30 MYT, in a desktop Chrome Incognito window; step 14 (mobile) on the owner's real **Android** phone in the Brave browser (Chromium-based; owner correction, 15:34 MYT) (Sheet https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN, revision 30). Claude cross-checked with **one** WPVibe `db query` (~15:35 MYT):
+  - **Analytics events, baseline 53:**
+    - #54 14:53:23, contact 1, no UTM = step 8 (Accept).
+    - Step 10 (Reject, 14:54): no event, as expected.
+    - #55 15:03:38, contact 1, `ujian/qa/c0129` = step 11 (UTM after Accept).
+    - #56 15:18:04, contact 3, `c0129`. Consistent with step 16 (JS disabled, in the same Incognito session that had accepted consent and held the campaign cookie).
+    - #57 15:19:34, contact 1, no UTM. Consistent with step 17 (shortcode click in a browser with consent).
+    - Step 20 (greeting CTA, new Incognito, no consent, 15:23): no event, as expected.
+    - Total 57. Every event came from a consented click; there is no event for any unconsented click.
+  - **Round Robin HTTP check (owner, 07:26:52–07:27:08 UTC):**
+    - Sequential: alternating (s1, s3 to one contact; s2, s4 to the other).
+    - 12 concurrent: 6 + 6.
+    - All 16 responses: `302` with `X-Redirect-By: Hatnikotni Chat`, `Cache-Control: no-cache, no-store`.
+    - Cursor before the script: 3, inferred from the step 20 click after #57. Cursor after: `last_contact_id=3`, read via WPVibe. The 16 requests left it unchanged, as expected for an even count.
+    - Lane cursors unchanged (`business_support=3`, `general_enquiries=1`).
+  - **Failure counter:** `hatnch_routing_failures` absent. The admin shows "Tiada direkodkan." (owner's screen), which also confirms the Malay admin strings load.
+  - **Settings restored after steps 15 and 18–21:** `button_show_label` true, `button_position` right, `greeting_enabled` false, delay 5. 17 keys, saved by the 0.1.29 form.
+- **What this does not prove:** iOS/Safari (WebKit) and Firefox; only Chromium-based browsers were tested (desktop Chrome, Android Brave), screen readers, other themes, page caching (staging has `WP_CACHE=false`), or forced Round Robin failures on staging (covered only by the CI integration test).
+- **Note:** the Sheet's Catatan column contains contact phone numbers typed by the owner. They are not copied into this repository.
+
+## Immediate next action
+Owner decision on PR #9 (0.1.29 → `main`): mark it ready for review and merge with a merge commit. Requires explicit approval. A merge does not tag, release or deploy to production; each of those needs separate approval.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~14:30 MYT (0.1.29 provenance CONFIRMED; staging tests pending)
+
+> Supersedes the sections below where they conflict.
+
+- **Package provenance for 0.1.29: CONFIRMED.** The owner confirmed (14:29 MYT) that the file uploaded to staging at about 13:42 was the **inner** ZIP. Chain: `8a4a4e8` (PR merge ref; plugin source identical to `2361579`) → CI #916 (run for PR #9) → outer artifact `E20BE52F…aba4c9` (matches the GitHub digest) → inner `hatnikotni-chat-0.1.29.zip` `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440` (owner-uploaded).
+- **Duplicate-turn safeguards (owner asked how to stop them):** the duplicates (`8ea1b32`/`de6d383` this morning, `12a062b` at 13:43) ran in the same workspace and session, so the remote-HEAD check before pushing does not catch them. Claude cannot stop the platform from re-running a turn. Rules for any session:
+  1. At the start of every turn, run `git log --oneline -5` and read the top handoff section. If a commit or section exists for the request just received, report it and do not redo the work.
+  2. Before any WPVibe call, check the handoff for a read in the last 30 minutes and reuse it.
+  3. Keep writes idempotent: one handoff section per turn, and update it rather than adding a second one.
+  - Owner side: send each message once; if the app shows an error or keeps loading, wait a minute before resending; do not keep this chat open on two devices or tabs at once; do not edit-and-resend while a reply is still running. Report a duplicate with the thumbs-down button.
+
+- **Checklist Sheet for "Ujian 0.1.29"** (private Claude Sheet, same layout as the 0.1.27 one): https://claude.ai/artifact/EVhkB38Ka39yFgjx4qyyDN. It has 22 rows; row 1 (package) is pre-filled "Lulus". Baseline: 53 events, cursor 1. Steps 15 and 18–21 change settings and tell the owner to restore them. The UTM test uses `utm_campaign=c0129`.
+
+## Immediate next action
+Owner runs "Ujian 0.1.29" (Sheet above; also `docs/staging-test-plan.md`) and reports results. Claude then does one batched WPVibe read to cross-check events, cursor and the failure counter.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~14:20 MYT (0.1.29 on staging: artifact identified as CI #916)
+
+> Supersedes the 13:45 and both 13:55 sections below where they conflict.
+
+- **Outer-artifact check (owner, 14:12 MYT):** the downloaded `hatnikotni-chat-0.1.29.zip` hashes to `E20BE52FA9385503FAC737113C8213454BBB0C2A89D57E1D1DB395B1D0ABA4C9`, so the check against CI #913 printed "GAGAL".
+- **Root cause:** the owner downloaded the artifact of **CI #916**, not #913. #916 is the `pull_request` run for the docs-only commit `8a4a4e8`: artifact ID `14502292000`, created 05:37:32 UTC, digest `sha256:e20be52f…aba4c9`, which matches exactly. Every docs commit on the branch triggers two runs and a new 0.1.29 artifact with its own digest (#913–#922). Claude named the candidate run but gave no direct link at the time, so a later run was easy to pick.
+- **Why the file is still valid:** `git diff 2361579 7e0838b -- hatnikotni-chat.php uninstall.php readme.txt assets includes languages` is empty, so all 0.1.29 artifacts contain identical plugin source. `main` (`4360ea3`) is an ancestor of `8a4a4e8`, so the PR merge ref used by #916 has the same tree.
+- **Provenance chain:** `8a4a4e8` (PR merge ref) → CI #916 → outer `E20BE52F…` (hash matched, tool-verified against the GitHub API digest) → inner `hatnikotni-chat-0.1.29.zip` `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440` (owner-reported). **CONFIRMED** once the owner confirms that this inner ZIP is the file uploaded at about 13:42; until then **PENDING**.
+- **Duplicate execution again:** commit `12a062b` (13:43:57 MYT) was made in this same workspace and session (reflog), from a duplicated execution of the 13:42 turn. It added `tests/verify-artifact.sh` (Git Bash; that turn reports a synthetic self-test) and the second "~13:55" section below. That duplicated turn also reports its own WPVibe read, so **probably two WPVibe calls were spent instead of one** on the post-install check. Both "~13:55" sections are kept as history; they agree on the state. Both verifiers are kept: `tests/verify-artifact.ps1` (PowerShell) and `tests/verify-artifact.sh` (Git Bash).
+- **Process fix:** give the direct run URL (`https://github.com/dejabey/hatnikotni-chat/actions/runs/<run id>`) together with the digest for that exact run. When docs commits have moved HEAD, either say which run to use or update the link to the latest run and its digest.
+
+## Immediate next action
+1. Owner confirms that the uploaded file was the inner ZIP `8AF6ABC9…`.
+2. Owner runs "Ujian 0.1.29" (`docs/staging-test-plan.md`).
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:55 MYT (0.1.29 installed on staging; testing pending)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Owner reports 0.1.29 installed on staging** (13:45 MYT). USER-REPORTED.
+  - **Inner ZIP (owner-reported, 14:08 MYT):** `hatnikotni-chat-0.1.29.zip`, SHA-256 `8AF6ABC919A19C602BB4A089EB90D6CBF66C792A39953DF58C57C5E95DC36440`, extracted from the downloaded artifact.
+  - Package provenance stays **PENDING** until two things are confirmed: (a) the outer-file check printed LULUS, i.e. the download equals the CI #913 digest `f85ad689…c501e`; (b) this inner ZIP is the file that was uploaded to staging.
+- **WPVibe read-only check (one `db query`, 2026-11-19 ~13:50 MYT):**
+  - WordPress's own update-check record lists `hatnikotni-chat/hatnikotni-chat.php` as **0.1.29**. This is indirect evidence of the installed header version.
+  - Data preserved: `hatnch_db_version` 1.2.0; contacts `1:active, 3:active, 5:inactive`; cursor `last_contact_id=1`; 53 events, last #53 at 11:31:43 (no events since the upgrade).
+  - `hatnch_settings` unchanged (12 keys; `round_robin`; purpose routing off). The new keys are absent, so the defaults apply: label chip **on**, greeting card **off**.
+  - `hatnch_routing_failures` absent, so no routing failures recorded.
+- **Owner working preferences (2026-11-19):**
+  1. When an artifact must be downloaded, give the **direct GitHub Actions run link**, e.g. https://github.com/dejabey/hatnikotni-chat/actions/runs/44465896794 (CI #913, 0.1.29 candidate). The artifact is at the bottom of that page under "Artifacts".
+  2. Provide the **SHA-256 verification command** every time. Script: `tests/verify-artifact.ps1` (PowerShell, built-in cmdlets only). Written but **not executed** by Claude: PowerShell is not available in the cloud workspace, and installing it there was not permitted.
+  3. The owner uses the **free WPVibe plan, which has a daily limit**. Batch reads into a single `db query` (UNION ALL) where possible, skip `list_sites` unless quota matters, and never spend calls on what the owner can see directly.
+
+## Immediate next action
+1. Owner runs `tests/verify-artifact.ps1` on the downloaded artifact and reports both hashes, then works through "Ujian 0.1.29" in `docs/staging-test-plan.md`.
+2. After the owner reports, Claude does one batched WPVibe read (events, cursor, failure counter) to cross-check.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:55 MYT (0.1.29 installed on staging; testing pending)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Owner reports (13:42 MYT) that 0.1.29 is installed on staging.** Hashes of the downloaded artifact and the inner ZIP are not reported yet, so **package provenance for 0.1.29: PENDING**.
+- **Post-install state (WPVibe, read-only, 2026-11-19 ~13:50 MYT):** plugin `0.1.29` active; `hatnch_db_version` 1.2.0; routing `round_robin`, purpose routing off; contacts unchanged (ID 1 and 3 active, ID 5 inactive with the 100×"R" role); cursor `last_contact_id=1`; lane cursors `business_support=3`, `general_enquiries=1` (unchanged); 53 analytics events (latest #53, 11:31:43); **no `hatnch_routing_failures` option** (no failure recorded). The saved settings predate 0.1.29, so `button_show_label` and the `greeting_*` keys are absent: the label shows (default on) and the greeting card is off, as designed.
+- **New helper `tests/verify-artifact.sh`:** checks the outer artifact's SHA-256 against the recorded digest, extracts the inner ZIP, and prints its SHA-256 and plugin version. Self-tested in the workspace with a synthetic artifact (match exits 0; mismatch exits 1 with "Do not install"). A PowerShell equivalent is in the chat answer of 2026-11-19 13:55 MYT and below.
+- **Owner instruction (2026-11-19 13:42 MYT), standing for this project:** whenever an artifact is to be downloaded, give the direct GitHub Actions run link (for example https://github.com/dejabey/hatnikotni-chat/actions/runs/44465896794 for the 0.1.29 candidate, CI #913; artifacts are at the bottom of the run page) together with the expected digest and the verification command.
+
+PowerShell (Windows) check, run in the Downloads folder:
+```powershell
+$expected = 'f85ad689b589c51ddf055de400e189faade95689b5c0724b44c74e1fab1989a7'
+$actual = (Get-FileHash .\hatnikotni-chat-0.1.29.zip -Algorithm SHA256).Hash.ToLower()
+if ($actual -eq $expected) { 'OK: matches CI #913' } else { "FAIL: $actual" }
+Expand-Archive .\hatnikotni-chat-0.1.29.zip -DestinationPath .\hatnch-0.1.29 -Force
+Get-FileHash .\hatnch-0.1.29\*.zip -Algorithm SHA256
+```
+
+## Immediate next action
+1. Owner reports both hashes and runs "Ujian 0.1.29" (`docs/staging-test-plan.md`).
+2. Claude cross-checks each consent step against the events table (read-only; 53 events now).
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:45 MYT (0.1.29 release candidate cut)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Version bumped to 0.1.29** on `dev/0.1.29`, with owner approval (2026-11-19 13:31 MYT: "ok jalan terus jika itu adalah langkah terbaik"). Updated: plugin header, `HATNCH_VERSION`, readme `Stable tag`, readme Description feature list, readme Changelog and Upgrade Notice, POT/PO `Project-Id-Version`, CHANGELOG heading.
+- **Staging test plan:** `docs/staging-test-plan.md` → "Ujian 0.1.29" (22 steps: package hash, button, consent card, keyboard/no-JS, greeting card, Round Robin, Malay wording).
+- **Candidate artifact (use this one):** commit `2361579`, CI **#913** (push, run `44465896794`, all 8 jobs green; #914 PR run also green). Artifact `hatnikotni-chat-0.1.29`, ID `14502725441`, 85,319 bytes, `sha256:f85ad689b589c51ddf055de400e189faade95689b5c0724b44c74e1fab1989a7`. The #914 artifact (`1746a61a…`) differs only by ZIP timestamps; do not use it. Later documentation-only commits do not change the plugin package contents, but their CI artifacts will have other digests: always install the #913 artifact.
+  - Package contents (from the CI build log, 40 entries): plugin PHP, assets incl. `hatnikotni-chat-greeting.js`, `languages/` with the `msgfmt --check`-compiled `hatnikotni-chat-ms_MY.mo`; no `tests/`, `docs/` or vendor files.
+  - Claude could not download the artifact from the cloud workspace (GitHub's blob storage is blocked here), so the inner ZIP hash is not yet recorded. The owner should report both hashes after downloading.
+- **Not authorized:** merge of PR #9, tag, GitHub release, production deployment, WordPress.org submission. Installing on staging is the owner's action and changes staging; Claude does not install it.
+
+## Immediate next action
+1. Owner downloads the 0.1.29 artifact, verifies the digest, installs the inner ZIP on staging and runs "Ujian 0.1.29".
+2. Claude cross-checks read-only via WPVibe (version, cursor, analytics events, failure counter) after the owner reports.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:35 MYT (0.1.29 scope items 1–4 implemented)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **Malay translation complete:** `hatnikotni-chat-ms_MY.po` has 226/226 strings translated (was 128/98). Placeholder parity checked by script; the delete-all confirmation keeps the literal `DELETE` token (contract-guarded). Translations were written by Claude and have **not** been reviewed by a native speaker; the owner should skim the admin screens in Malay during staging testing.
+- **`Contributors: zaryl`** added to `readme.txt`. The owner supplied the username on 2026-11-19 13:21 MYT; Claude confirmed that https://profiles.wordpress.org/zaryl/ exists (joined June 2009). Contract-guarded.
+- **0.1.29 scope status:** items 1 (concept B, owner-accepted look; concept C opt-in), 2 (Round Robin fallback), 3 (translation) and 4 (Contributors) are implemented. Item 5 (click log) stays deferred by product decision.
+- **Still required before any release:** bump the version to 0.1.29 (plugin header, `HATNCH_VERSION`, `Stable tag`, POT/PO `Project-Id-Version`, CHANGELOG heading, readme changelog and upgrade notice), CI on the bumped HEAD, then staging installation and the browser matrix for the new UI. Each step after CI needs the owner's approval.
+
+## Immediate next action
+1. Confirm CI on the pushed HEAD.
+2. Ask the owner whether to cut the 0.1.29 release candidate (version bump + candidate artifact) for staging testing.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:20 MYT (0.1.29 in development: Round Robin fallback)
+
+> Supersedes the earlier 2026-11-19 sections below where they conflict.
+
+- **0.1.29 scope item 2 (Round Robin fallback and observability) implemented.** See CHANGELOG `0.1.29` → "Round Robin fallback and observability".
+  - Lock timeout, cursor read failure, cursor write failure and read-back mismatch now return a fallback contact (active default, else first eligible). The cursor is not moved; the failure is counted in `hatnch_routing_failures` (counts and timestamps only) and `hatnch_routing_failure` fires. The click endpoint counts `no_contact` before its home-page redirect. Admin: Routing → Routing failures.
+  - Purpose lane emptied inside the lock now falls back to global routing.
+- **Test-first evidence:** `7c603eb` added `tests/routing-fallback-integration.php` and a CI step without the fix. CI #907 (push, run `44463298104`) and #908 **failed** in the WordPress lifecycle job with `FAIL: Lock timeout still returned no contact (visitor would be sent to the home page).` about 5 s after the concurrency test, which shows the second-connection lock really forced the timeout. The fix commit follows; check its CI.
+- **Not covered by tests:** read, write and verify failures are not forced in CI (no safe way to make MySQL fail those statements on demand). They share the same `fallback()` path as the lock case and are covered by contract greps only.
+- **Staging:** PENDING. Do not try to force a lock failure on staging without explicit authorization. The safe check is the admin "Routing failures" row (expected: "None recorded.") plus the existing HTTP check script.
+- **Remaining 0.1.29 scope:** the 98 remaining Malay strings and the `Contributors:` line (owner's WordPress.org username).
+
+## Immediate next action
+1. Confirm CI is green on the fix commit (the fallback test must pass).
+2. Translate the remaining 98 Malay strings.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~13:30 MYT (0.1.29 in development: concept B accepted, concept C added)
+
+> Supersedes the 12:40 section below where they conflict.
+
+- **Owner accepted the concept B look** on 2026-11-19 12:59 MYT ("ok saya terima"), from the headless-Chrome preview of commit `a065190`. This is a design acceptance only; staging runtime is still **PENDING**.
+- **Concept C (greeting card) implemented, opt-in, off by default.** See CHANGELOG `0.1.29` → "Greeting card". Settings: `greeting_enabled` (false), `greeting_title`, `greeting_text` (empty = translated defaults), `greeting_delay` (0–60 s, default 5).
+  - Departures from the canvas, decided by Claude and reported to the owner: no "Dalam talian" (online) dot, because the plugin has no availability data and the dot would be false; no staff-initial avatars (a contacts query on every page and public staff names); no in-card privacy link (the badge remains).
+  - The default text makes no reply-time promise. The canvas placeholder "[MASA BALASAN]" is left for the owner to write in the setting.
+- **Evidence (workspace; not runtime):** contract tests PASS, including new guards (default off, rendered hidden, sessionStorage only, no cookie, no presence claim); PHPCS 0/0; `node --check` on all JS. Headless Chrome (stubbed WordPress render, served over local HTTP): hidden at t=0, shown after a 1 s delay with focus untouched; the close button hides it and returns focus to the WhatsApp button; it stays hidden after reload in the same session; with purpose routing the CTA opens the chooser (focus on its Close button); if the privacy panel is opened before the delay, the card never appears; Escape hides it; at 390 px width the card is 292 px wide.
+- **Remaining 0.1.29 scope:** Round Robin fallback and observability (next), the remaining 98 Malay strings, the `Contributors:` line (owner's WordPress.org username needed).
+
+## Immediate next action
+1. Check CI on the pushed HEAD.
+2. Start the Round Robin fallback: replace the silent `wp_safe_redirect( home_url( '/' ) )` on lock/verify failure with a safe fallback contact, a PII-free failure counter and a failure action hook, with tests.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 ~12:40 MYT (0.1.29 in development: concept B front end)
+
+> Read [CLAUDE.md](CLAUDE.md) and [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md) first. This section supersedes the next one where they conflict.
+
+- **Branch / PR:** `dev/0.1.29`, PR #9 → `main` (open, not merged). Plugin header is still **0.1.28**. The version bump to 0.1.29 happens only when the release candidate is cut.
+- **Done in this checkpoint: 0.1.29 scope item 1 (concept B button), except concept C.** See CHANGELOG `0.1.29`. Files: `assets/css/hatnikotni-chat.css` (rewritten floating/consent sections), `assets/js/hatnikotni-chat-privacy.js` (segmented choices, close button, focus), `includes/class-hatnch-whatsapp.php` (markup), `includes/class-hatnch-settings.php` and `includes/class-hatnch-admin.php` (new `button_show_label`, default on), POT/ms_MY.po, `tests/skeleton-contract.sh`, `readme.txt`, `docs/architecture.md`.
+- **Design decisions made without asking (owner may redirect):**
+  - Consent card width **232 px**, as the handoff states. The design canvas artboard "MobileB" still draws 190 px; the handoff value was treated as authoritative.
+  - The label chip is **hidden below 481 px** (matches MobileB, which has no chip). The setting turns it off everywhere.
+  - "Read More" became **"Details"** ("Butiran"), as agreed for the full text.
+  - With no saved choice, **neither** Reject nor Accept is pressed. The old switch rendered "off", which looked like a rejection. The stored cookie is unchanged.
+  - The inline shortcode button also gets dark text (same 1.98:1 failure).
+- **Evidence (cloud workspace; NOT runtime acceptance):**
+  - `tests/skeleton-contract.sh` PASS. The new guards fail against the 0.1.28 CSS (white-on-green regex matches the old file).
+  - PHPCS (`phpcs.xml.dist`, WPCS cloned from GitHub because Packagist is blocked here): 0 errors, 0 warnings on the changed PHP files. `node --check` OK. POT via WP-CLI 2.12.0 `make-pot`; PO compiled with polib as a sanity check (no `msgfmt` here; CI runs `msgfmt --check`).
+  - Headless Chrome on a stubbed render of `render_floating_button()`: geometry matches the canvas (bubble 60 px / 56 px on phones; badge hit area 44 px at -16 px offset; disc 28 px; card 232 px; choices 32 px high; no overlap between chip and badge hit area), both positions, light and dark pages, purpose-routing variant. Keyboard: Tab order badge → WhatsApp; opening focuses the choice; Escape and close return focus to the badge. Cookie `yes`/`no` written and restored after reload (served over local HTTP).
+  - Does **not** prove: real themes, real WordPress output, mobile Safari, screen readers, or caching. Staging: **PENDING**.
+- **Not started:** concept C (opt-in greeting card), Round Robin fallback/observability, the remaining 98 Malay strings, the `Contributors:` line (needs the owner's WordPress.org username).
+- **Concurrent-write note:** `1e9aa2f` (docs, 11:59 MYT) landed on `dev/0.1.29` after this checkpoint's work began; it was fast-forwarded before committing. Always fetch and compare HEAD before pushing.
+
+## Immediate next action
+1. Check CI on the pushed HEAD of PR #9 (all 8 jobs).
+2. Owner review of the concept B look (screenshots in chat). If accepted, continue with concept C (opt-in, off by default), then the Round Robin fallback.
+3. Staging test of concept B only after a candidate ZIP is built and the owner authorises installing it.
+
+---
+
+# CURRENT PROJECT STATE — 2026-11-19 12:00 MYT (0.1.28 merged to main; next: 0.1.29)
+
+> **Start here in a new session.** Read [CLAUDE.md](CLAUDE.md), then [AI-DEVELOPMENT-PROTOCOL.md](AI-DEVELOPMENT-PROTOCOL.md), then this section. Older sections below are history.
+
+## Where things stand
+- **`main` = Hatnikotni Chat 0.1.28.**
+  - PR #8 was merged on 2026-11-19 03:48 UTC as merge commit `4360ea3`, after owner approval ("if every angle has been checked and it is the best path, go ahead") and Claude's pre-merge checks.
+  - `main`'s tree equals the verified PR head `de6d383` (tree `2b3352f`).
+  - CI #898 on `main` passed.
+- **0.1.28 verification, all on staging.perlis.xyz:**
+  - Package provenance **CONFIRMED**: `ed26d87` → CI #884 artifact `9c3cab14…0254` (hash matched by the owner) → inner ZIP `4B7331F8…5BA5`, which the owner uploaded.
+  - Plugin Check: no errors (owner-reported).
+  - Round Robin HTTP check, twice: 3,1,3,1 and 12 concurrent → 6/6; cursor 1→1.
+  - Campaign attribution **CONFIRMED**: event #53 carries `utm_campaign=c0127`.
+  - Browser matrix: 21/21 after the fix.
+- **Not done, and none authorized:** no git tag, no GitHub release, no production deployment, no WordPress.org submission. Each needs separate explicit approval.
+- **PRs:** #1–#7 closed as superseded; #8 merged. The active development branch is **`dev/0.1.29`** (from `main` @ `4360ea3`).
+- **Process note (corrected 2026-11-19 12:05 MYT):** `8ea1b32` (11:35) and `de6d383` (11:44) were first attributed to a separate Claude session. That was wrong: both carry this same session's trailer (`session_018NR6…`), and the project has had only one Claude chat since 2026-11-10. They were a duplicate execution of the same turn within this session, coinciding with the owner's messages at 11:35 and 11:45. The content was consistent and nothing conflicted. Mitigation: always `git pull` and re-check HEAD before writing, and lock merges to an explicit head SHA (done for PR #8).
+- **CI minutes:** the repository is **public**, and this repository's workflow uses only standard `ubuntu-latest` runners, which GitHub bills at zero for public repositories. The owner's 2,000-minute free quota (resets 1 Dec) applies to private repositories. CI kept running normally on 2026-11-19 (#884–#898). If runs ever queue with a billing message, stop and tell the owner instead of retrying.
+
+## 0.1.29 scope (agreed with the owner)
+1. **Front-end redesign: concept B.** A round WhatsApp button with a shield badge (44 px hit area) and an optional label chip.
+   - Concept **C** (team greeting card) as an opt-in setting, off by default.
+   - Compact mobile consent card: about 232 px wide; Tolak/Terima segmented control 32 px high; one-line explanation; the full text stays behind "Butiran".
+   - Design canvas (private): https://claude.ai/artifact/GzPqJ5guUP55XcZfhroKFQ (artboards 0, A, B, C, and an interactive mobile B).
+   - Fix the measured contrast failures: white text on `#25D366` is 1.98:1; the dark shield on dark backgrounds is 1.11:1. Keep the plugin's own WhatsApp icon; the mockups use a generic glyph.
+   - Keep keyboard behaviour (Tab, Enter, Escape focus return), JS-off fallback and consent semantics unchanged.
+2. **Round Robin fallback and observability.** Today, a lock or verify failure silently redirects to the home page. Add a safe fallback (for example, the first active contact), a PII-free failure counter, and a failure action hook. Tests are required.
+3. **Malay translation** of the 99 untranslated strings in `languages/hatnikotni-chat-ms_MY.po`.
+4. **`Contributors:` line in `readme.txt`**: needs the owner's WordPress.org username. Ask; never invent one.
+5. **Product question, deferred:** the owner asked about a click log/engagement list. Claude recommended against raw per-click logs for privacy and suggested revisiting after a few weeks of real attributed data.
+
+## Staging baseline (WPVibe, 2026-11-19)
+- WordPress 7.1.4, PHP 8.4.27, LiteSpeed.
+- `WP_CACHE=false`; default object cache, no drop-in.
+- Routing `round_robin`; purpose routing off.
+- Active contacts: ID 1 and ID 3. ID 5 is inactive; its role field holds leftover 100×"R" test data, which can be cleaned only with approval.
+- Cursor `last_contact_id=1`.
+- Analytics: 53 events; #53 is the first with UTM data.
+- Tools:
+  - `tests/staging-rr-http-check.sh` runs from the owner's PC (Git Bash). The cloud workspace cannot reach staging.
+  - Browser checklist: private Claude Sheet https://claude.ai/artifact/PRxngfHf9Qq99CeaTDD6p7.
+  - Installing a CI artifact: upload the **inner** ZIP. The outer artifact ZIP is a wrapper that WordPress reports as empty.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 10:30 MYT (candidate 0.1.28)
 
 > Supersedes the 0.1.27 section below where they conflict.

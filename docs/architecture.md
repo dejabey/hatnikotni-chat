@@ -16,13 +16,15 @@
 
 1. Global floating WhatsApp button.
 2. Shortcode: [hatnikotni_chat].
-3. Small shield-shaped privacy icon immediately left of the floating WhatsApp button; it opens a compact consent card.
+3. Shield badge on the round floating WhatsApp button (concept B, 0.1.29): a 28 px disc inside a 44 px hit area, a separate button that precedes the WhatsApp action in DOM and Tab order; it opens a compact consent card. An optional label chip (`button_show_label`, default on, hidden below 481 px) sits beside the bubble.
 
 The WhatsApp action remains a normal link to the public WordPress admin-post.php action. The handler resolves a contact, records a click only when analytics consent is available, then redirects to https://wa.me/<number>. The privacy panel uses a small local JavaScript file; no external JavaScript or analytics service is required.
 
 ## Privacy and consent
 
-The global floating widget exposes a small shield-shaped privacy icon. Selecting it opens a compact consent card with a Reject/Accept switch, a Privacy Policy link when configured, and a Read More disclosure. The expanded explanation uses justified text and the card uses compact horizontal padding.
+The global floating widget exposes a shield badge. Selecting it opens a compact consent card (232 px; since 0.1.29) with a title, a one-line summary, a Reject/Accept segmented control (`button` elements with `aria-pressed`, `data-hatnch-consent="no|yes"`; neither pressed when no choice is saved), a Privacy Policy link when configured, a Details disclosure for the full explanation, and a close button. Escape and the close button return focus to the badge. The stored value is still the `hatnch_analytics_consent` cookie (`yes`/`no`).
+
+Optional greeting card (concept C, 0.1.29, setting `greeting_enabled`, default off): a hidden `<section id="hatnch-greeting">` inside the widget, revealed by `assets/js/hatnikotni-chat-greeting.js` (enqueued only when enabled) once per browser session after `greeting_delay` seconds. State is a single `sessionStorage` flag; no cookie, no analytics, no focus change. Its CTA links to the same click endpoint, or with purpose routing opens the purpose chooser.
 
 The native UI stores the explicit choice in the first-party hatnch_analytics_consent cookie for up to 180 days. The value is yes only after the visitor selects Accept. A no value or missing cookie means analytics remains disabled. Visitors can reopen the card and change their choice. The WhatsApp link itself is never gated by this choice.
 
@@ -74,3 +76,7 @@ Supported parameters: utm_source, utm_medium, utm_campaign, utm_term and utm_con
 ## WordPress.org readiness
 
 The plugin uses GPL-compatible licensing, WordPress-native APIs, prefixed declarations/storage, consent-aware analytics and a clean release workflow. GitHub Actions build #578 passed PHP 8.1–8.5 validation and production packaging on 2026-10-02 (artifact ID `11238198052`, SHA-256 `044709b0e37fd1155460daf44339d513e790c90a2b6106ab76c896de29efa760`). PHP/JavaScript runtime source is unchanged from #549, but the packaged `readme.txt` description changed; package contents are therefore not identical. The user reported successful consent/analytics/campaign-cookie runtime tests on the active 0.1.8 staging installation, but the exact installed ZIP has not been correlated to a CI artifact. On 2026-10-02, the user supplied a staging Plugin Check screenshot showing “Checks complete. No errors found.” with Error and Warning selected and AI Analysis unchecked. The screenshot does not identify the installed plugin build, so package correlation remains pending. See `docs/wordpress-org-readiness.md` and `docs/staging-test-plan.md`.
+
+## Round Robin failure handling (0.1.29)
+
+`HATNCH_Routing::resolve_round_robin_from_set()` serializes selection with a MySQL advisory lock (5 s timeout), reads the cursor directly from `wp_options`, upserts it and reads it back. Any of those four steps can fail. Since 0.1.29 each failure returns a fallback contact from the eligible set (the active default contact, else the first), leaves the cursor untouched, increments the PII-free `hatnch_routing_failures` counter and fires `hatnch_routing_failure`. Null is returned only when no contact is eligible; the click endpoint then counts `no_contact` and redirects to the home page as before.
