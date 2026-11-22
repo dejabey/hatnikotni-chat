@@ -1,3 +1,18 @@
+# CURRENT PROJECT STATE — 2026-11-22 ~11:20 MYT (WordPress.org update submitted)
+
+> Supersedes the sections below where they conflict.
+
+- **WordPress.org:** the owner uploaded the 0.1.30 update on the "Add your plugin" page and replied in the 2026-09-27 review thread on **2026-11-22, about 11:14 MYT** (owner-reported). The file was the production inner ZIP `80E45498…` (CI #942), as instructed; the owner did not state the hash separately. The reply used the approved draft.
+  - Next: wait for the volunteer reviewer. A status request is reasonable only after about 2026-12-22.
+  - Any reviewer feedback goes on a new branch with a new version.
+- **Open items:**
+  1. PR #10 (0.1.30 → `main`): draft, awaiting the owner's merge approval.
+  2. The CKR contract update block was handed to the owner on 2026-11-22.
+  3. Production runtime check at launch.
+  4. 0.1.31 offset settings (not started).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-22 ~11:10 MYT (0.1.30 installed on production, pre-launch)
 
 > Supersedes the sections below where they conflict.

@@ -1,4 +1,4 @@
-# Draft reply to the WordPress.org review thread (not sent)
+# Reply to the WordPress.org review thread (sent by the owner, 2026-11-22 ~11:14 MYT)
 
 Send only after (1) the owner approves it and (2) the 0.1.30 ZIP has been uploaded on the "Add your plugin" page as `zaryl`. Reply in the **same email thread**.
 

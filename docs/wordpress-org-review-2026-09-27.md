@@ -4,7 +4,7 @@ Source: the owner's copy of the email "[WordPress Plugin Directory] Review in Pr
 
 - **Review ID:** `AUTOPREREVIEW COM hatnikotni-chat/zaryl/27Sep26/T1 27Sep26/4.3 (P0TDX376260HGN)`
 - **File reviewed:** `hatnikotni-chat-0.1.0.zip`. Slug: `hatnikotni-chat` (it cannot be changed after approval; keep it).
-- **Status:** pended. No reply has been sent yet, per the repository record; the owner should confirm.
+- **Status:** pended until 2026-11-22. **Update uploaded and reply sent by the owner on 2026-11-22, about 11:14 MYT** (owner-reported). The file is the 0.1.30 inner ZIP (expected `80E45498…`, from CI #942, as instructed). The reply text is `docs/wordpress-org-reply-draft.md`. Now waiting for the reviewer; do not ask for status before about 2026-12-22 (one month).
 - **Deadline:** "If you believe there is a requirement you cannot accomplish and choose not to make changes, your plugin submission will be rejected after three months." From 2026-09-27, that is about **2026-12-27**.
 
 ## How to respond (from the email)
