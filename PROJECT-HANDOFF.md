@@ -1,3 +1,17 @@
+# CURRENT PROJECT STATE — 2026-11-22 ~11:10 MYT (0.1.30 installed on production, pre-launch)
+
+> Supersedes the sections below where they conflict.
+
+- **Production install (owner, 2026-11-22 ~11:00 MYT; site not launched yet).** The owner downloaded from CI **#942** (`pull_request` run `44494126815` for commit `3e7adda`), not #939.
+  - Outer artifact `FD0CE94D…4C1331` matches #942's digest: the owner's check printed "LULUS".
+  - Inner ZIP `hatnikotni-chat-0.1.30.zip` SHA-256 `80E454983E4458457BD1693335AE844C9B6D33FBF3F88BDDEE5A0778E8149555`, installed on production (owner-reported).
+  - **Same plugin as the staging-tested build:** `git diff c3297c8 3e7adda` over every packaged path (`hatnikotni-chat.php uninstall.php readme.txt assets includes languages`) is empty. Only `PROJECT-HANDOFF.md` and two `docs/` files changed. ZIP hashes differ only because each CI build stamps new file times.
+  - **Package provenance (production): CONFIRMED.** **Production runtime acceptance: PENDING** (no production check yet; launch pending).
+- **WordPress.org upload:** use either the #942 inner ZIP (`80E45498…`, now on production) or the #939 inner ZIP (`0DCA652B…`). The content is identical; the owner was advised to use one file for both.
+- **CKR contract (`contracts/hatnikotni-chat.md`, CKR main) is out of date.** It names `hkc_has_analytics_consent` and `hkc_campaign`; the source uses `hatnch_has_analytics_consent` and `hatnch_campaign`. A full replacement text verified against source at `3e7adda` was handed to the owner as a "KEMAS KINI CKR DIPERLUKAN" block on 2026-11-22. Claude does not write to CKR.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-22 ~10:55 MYT (decision: submit 0.1.30 to WordPress.org now)
 
 > Supersedes the sections below where they conflict.
