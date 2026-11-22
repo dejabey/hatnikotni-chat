@@ -1,3 +1,20 @@
+# CURRENT PROJECT STATE — 2026-11-22 ~10:55 MYT (decision: submit 0.1.30 to WordPress.org now)
+
+> Supersedes the sections below where they conflict.
+
+- **iPhone Safari (WebKit): CONFIRMED (owner-reported, 2026-11-22).** All Sheet steps passed on staging (0.1.30). With this, all target engines are covered (desktop Chrome, Android Brave, iPhone Safari).
+- **Owner question about mobile vs desktop:** on phones with WhatsApp installed, tapping the button opens the WhatsApp app directly; on a computer, a WhatsApp page lets the visitor choose Desktop or Web. This is expected. The plugin redirects to the official `https://wa.me/<number>` click-to-chat link (`class-hatnch-whatsapp.php`), and the operating system or WhatsApp decides what opens. The click is recorded before the redirect in both cases.
+- **Production:** **not launched yet** (owner, 2026-11-22). Nothing to install there now. When it launches, use the 0.1.30 inner ZIP `0DCA652B…` (CI #939).
+- **Decision (owner, 10:50 MYT):** submit 0.1.30 to WordPress.org first; no further code before the reply.
+  - Upload the inner ZIP from **CI #939** (`0DCA652B…`). Later documentation-only commits on `dev/0.1.30` create newer artifacts; do **not** use those for the upload.
+  - Send the reply in `docs/wordpress-org-reply-draft.md`, in the same thread, before about 2026-12-27.
+- **Planned for 0.1.31 (after the upload and reply):** settings for the floating button's offset from the bottom and side, separately for desktop and mobile. Reason: a theme's back-to-top button in one corner plus another widget in the other leaves no free corner. Implementation idea: CSS custom properties set from settings. Not started.
+
+## Immediate next action
+Owner: upload the CI #939 inner ZIP on https://wordpress.org/plugins/developers/add/ (logged in as `zaryl`), then reply in the 2026-09-27 email thread. Report back so the submission date can be recorded.
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-19 ~17:30 MYT (0.1.30 on staging; WordPress.org reply drafted)
 
 > Supersedes the sections below where they conflict.
