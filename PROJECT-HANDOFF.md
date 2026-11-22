@@ -1,3 +1,22 @@
+# CURRENT PROJECT STATE — 2026-11-22 ~11:30 MYT (0.1.30 merged to main)
+
+> **Start here in a new session.** Read CLAUDE.md, then AI-DEVELOPMENT-PROTOCOL.md, then this section.
+
+- **`main` = 0.1.30.** PR #10 was merged with the owner's approval ("gabung PR 10", 11:17 MYT).
+  - Merge commit `87b7856` (parents `53fcf40`, `813a6c4`), locked to the reviewed head. `main`'s tree equals `813a6c4`'s.
+  - CI #947/#948 green on the head; CI **#949** on `main` (run `44980044237`) green.
+  - No tag, release or deployment was made by the merge.
+- **Installed:**
+  - staging: 0.1.30 (CI #939 inner `0DCA652B…`);
+  - production (not launched yet): 0.1.30 (CI #942 inner `80E45498…`).
+  - Same plugin source in both.
+- **WordPress.org:** the owner uploaded the CI #942 inner ZIP and replied in the review thread on 2026-11-22 (~11:14 MYT); confirmed at 11:17 MYT. Waiting for the reviewer.
+- **CKR:** a contract update block (`contracts/hatnikotni-chat.md`, version 0.2.0, verified from source) was given to the owner; it goes through the Projects Manager project.
+- **Next development: `dev/0.1.31`** (created from `main` @ `87b7856`). Scope: settings for the floating widget's offset from the bottom and side, desktop and mobile. Reason: a theme's back-to-top button and other corner widgets can leave no free corner.
+- **Open:** production runtime check at launch (PENDING).
+
+---
+
 # CURRENT PROJECT STATE — 2026-11-22 ~11:20 MYT (WordPress.org update submitted)
 
 > Supersedes the sections below where they conflict.
