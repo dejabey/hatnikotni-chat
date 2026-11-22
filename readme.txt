@@ -4,7 +4,7 @@ Tags: whatsapp, chat, contact, routing, analytics
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.29
+Stable tag: 0.1.30
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,16 @@ Extension modules must perform their own capability checks, nonce validation, in
 
 Purpose routing currently provides a configurable route map for the built-in purpose IDs. Registering a custom visitor purpose alone does not add custom admin mapping controls or a form workflow. Extensions supplying new purposes must also provide a valid role route and any required UI/configuration independently.
 
+== External services ==
+
+This plugin connects visitors to WhatsApp, a messaging service provided by WhatsApp LLC.
+
+* What and when: only when a visitor clicks the floating WhatsApp button, the greeting card button or the [hatnikotni_chat] shortcode button. The click goes to the site's own admin-post.php endpoint, which then redirects the visitor's browser to https://wa.me/.
+* What is sent: the WhatsApp number of the contact chosen by the site's routing settings, and the optional pre-filled message configured by the site owner (or the message for the topic the visitor chose), as part of the wa.me address. The visitor's browser makes this request, so WhatsApp also receives the usual browser request data, such as the IP address. The plugin itself sends nothing to WhatsApp from the server, and nothing is sent if the visitor does not click.
+* Analytics are not shared with WhatsApp or any other service: they stay in the site's WordPress database.
+* WhatsApp Terms of Service: https://www.whatsapp.com/legal/terms-of-service
+* WhatsApp Privacy Policy: https://www.whatsapp.com/legal/privacy-policy
+
 == Installation ==
 
 1. Install and activate Hatnikotni Chat.
@@ -122,6 +132,9 @@ No. WooCommerce is a future optional integration and is not required by the core
 4. WhatsApp interaction analytics.
 
 == Changelog ==
+
+= 0.1.30 =
+* Documentation: added an "External services" section describing when visitors are sent to WhatsApp, what is included, and links to WhatsApp's terms and privacy policy. No code changes.
 
 = 0.1.29 =
 * New look: a round WhatsApp button with an optional label and a shield badge for privacy choices. Text and icons now meet WCAG AA contrast (the previous white text on WhatsApp green did not).
